@@ -1,0 +1,349 @@
+/* Custom Swiper styles integrated with our design system */
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+@import 'swiper/css/autoplay';
+@import 'swiper/css/effect-fade';
+
+/* Base swiper container styling */
+.custom-swiper {
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.custom-swiper .swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+/* Navigation buttons styling */
+.custom-swiper-button-prev,
+.custom-swiper-button-next {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    color: #6366f1 !important;
+    font-size: 16px !important;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.custom-swiper-button-prev:hover,
+.custom-swiper-button-next:hover {
+    background: #6366f1;
+    color: white !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.custom-swiper-button-prev::after,
+.custom-swiper-button-next::after {
+    font-size: 16px !important;
+    font-weight: 600;
+}
+
+/* Pagination styling */
+.custom-swiper .swiper-pagination {
+    bottom: 20px !important;
+}
+
+.custom-swiper .swiper-pagination-bullet {
+    width: 12px !important;
+    height: 12px !important;
+    background: rgba(255, 255, 255, 0.5) !important;
+    border: 2px solid rgba(99, 102, 241, 0.3);
+    opacity: 1 !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.custom-swiper .swiper-pagination-bullet-active {
+    background: #6366f1 !important;
+    border-color: #6366f1;
+    transform: scale(1.2);
+}
+
+/* Hero swiper specific styles */
+.hero-swiper {
+    height: 100vh;
+    width: 100%;
+}
+
+.hero-swiper .swiper-slide {
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+/* Removed the ::before overlay that was covering content */
+
+.hero-swiper .slide-content {
+    position: relative;
+    z-index: 10;
+    color: white;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 32px;
+    text-align: center;
+}
+
+/* Testimonial swiper styles */
+.testimonial-swiper {
+    padding: 24px 0 60px 0;
+}
+
+.testimonial-swiper .swiper-slide {
+    background: transparent;
+    height: auto;
+}
+
+.testimonial-card {
+    background: white;
+    border-radius: 12px;
+    padding: 32px 24px;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
+    border-color: #6366f1;
+}
+
+/* Faculty swiper styles */
+.faculty-swiper {
+    padding: 24px 0 60px 0;
+}
+
+.faculty-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid #e5e5e5;
+}
+
+.faculty-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.faculty-image {
+    width: 100%;
+    height: 200px;
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #737373;
+    font-size: 14px;
+}
+
+/* Facilities swiper styles */
+.facilities-swiper {
+    padding: 24px 0 60px 0;
+}
+
+.facility-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid #e5e5e5;
+    height: 100%;
+}
+
+.facility-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.facility-image {
+    width: 100%;
+    height: 180px;
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #737373;
+    font-size: 14px;
+}
+
+/* Gallery swiper styles */
+.gallery-swiper {
+    padding: 24px 0 60px 0;
+}
+
+.gallery-swiper .swiper-slide {
+    background: transparent;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.gallery-image {
+    width: 100%;
+    height: 250px;
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #737373;
+    font-size: 14px;
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gallery-image:hover {
+    transform: scale(1.05);
+}
+
+/* Activities swiper styles */
+.activities-swiper {
+    padding: 24px 0 60px 0;
+}
+
+.activity-card {
+    background: white;
+    border-radius: 8px;
+    padding: 24px;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.activity-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
+    border-color: #6366f1;
+}
+
+.activity-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+
+/* Academic swiper styles */
+.academic-swiper {
+    padding: 24px 0 60px 0;
+}
+
+.academic-card {
+    background: white;
+    border-radius: 8px;
+    padding: 32px 24px;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.academic-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.academic-card:hover::before {
+    transform: scaleX(1);
+}
+
+.academic-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
+    border-color: #6366f1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .custom-swiper-button-prev,
+    .custom-swiper-button-next {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 14px !important;
+    }
+
+    .custom-swiper .swiper-pagination-bullet {
+        width: 10px !important;
+        height: 10px !important;
+    }
+
+    .hero-swiper .slide-content {
+        padding: 0 20px;
+    }
+
+    .testimonial-card,
+    .academic-card {
+        padding: 24px 20px;
+    }
+
+    .activity-card {
+        padding: 20px;
+    }
+}
+
+/* Dark mode support (future-ready) */
+@media (prefers-color-scheme: dark) {
+    .custom-swiper-button-prev,
+    .custom-swiper-button-next {
+        background: rgba(38, 38, 38, 0.9);
+        border-color: rgba(99, 102, 241, 0.3);
+        color: #8b5cf6 !important;
+    }
+
+    .testimonial-card,
+    .faculty-card,
+    .facility-card,
+    .activity-card,
+    .academic-card {
+        background: #262626;
+        border-color: #404040;
+        color: #fafafa;
+    }
+}
