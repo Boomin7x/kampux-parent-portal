@@ -14,6 +14,8 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useIsAuthenticated } from '../../pages/Auth/_hooks/useAuth';
+import AuthenticatedUserDisplay from './AuthenticatedUserDisplay';
 
 // Navigation item interface
 interface NavItem {
@@ -46,6 +48,7 @@ export const Navigation: React.FC<NavigationProps> = ({
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const navigate = useNavigate();
+    const isAuthenticated = useIsAuthenticated();
 
     const [mobileOpen, setMobileOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
@@ -113,7 +116,8 @@ export const Navigation: React.FC<NavigationProps> = ({
                             width: 32,
                             height: 32,
                             borderRadius: 1,
-                            background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                            background:
+                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -166,7 +170,11 @@ export const Navigation: React.FC<NavigationProps> = ({
                 </Typography>
                 <List sx={{ p: 0 }}>
                     {navItems.map((item, index) => (
-                        <ListItem key={item.label} disablePadding sx={{ mb: 1 }}>
+                        <ListItem
+                            key={item.label}
+                            disablePadding
+                            sx={{ mb: 1 }}
+                        >
                             <ListItemButton
                                 onClick={() => handleNavClick(item.href)}
                                 sx={{
@@ -175,7 +183,8 @@ export const Navigation: React.FC<NavigationProps> = ({
                                     borderRadius: 1,
                                     transition: 'all 0.2s ease',
                                     '&:hover': {
-                                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                                        backgroundColor:
+                                            'rgba(255, 255, 255, 0.05)',
                                         transform: 'translateX(8px)',
                                     },
                                 }}
@@ -193,30 +202,39 @@ export const Navigation: React.FC<NavigationProps> = ({
                     ))}
                 </List>
 
-                {/* Portal Button */}
+                {/* Authentication Display */}
                 <Box sx={{ mt: 6 }}>
-                    <Button
-                        fullWidth
-                        onClick={handlePortalClick}
-                        sx={{
-                            py: 2,
-                            background: 'rgba(99, 102, 241, 0.1)',
-                            backdropFilter: 'blur(10px)',
-                            border: '1px solid rgba(99, 102, 241, 0.3)',
-                            borderRadius: 1,
-                            color: '#6366f1',
-                            fontWeight: 600,
-                            fontSize: '0.875rem',
-                            textTransform: 'none',
-                            '&:hover': {
-                                background: 'rgba(99, 102, 241, 0.2)',
-                                borderColor: '#6366f1',
-                                transform: 'translateY(-2px)',
-                            },
-                        }}
-                    >
-                        Access Portal
-                    </Button>
+                    {isAuthenticated ? (
+                        <Box sx={{ px: 2 }}>
+                            <AuthenticatedUserDisplay
+                                transparent={false}
+                                scrolled={true}
+                            />
+                        </Box>
+                    ) : (
+                        <Button
+                            fullWidth
+                            onClick={handlePortalClick}
+                            sx={{
+                                py: 2,
+                                background: 'rgba(99, 102, 241, 0.1)',
+                                backdropFilter: 'blur(10px)',
+                                border: '1px solid rgba(99, 102, 241, 0.3)',
+                                borderRadius: 1,
+                                color: '#6366f1',
+                                fontWeight: 600,
+                                fontSize: '0.875rem',
+                                textTransform: 'none',
+                                '&:hover': {
+                                    background: 'rgba(99, 102, 241, 0.2)',
+                                    borderColor: '#6366f1',
+                                    transform: 'translateY(-2px)',
+                                },
+                            }}
+                        >
+                            Access Portal
+                        </Button>
+                    )}
                 </Box>
             </Box>
         </Box>
@@ -239,10 +257,9 @@ export const Navigation: React.FC<NavigationProps> = ({
                             ? 'rgba(26, 26, 26, 0.02)'
                             : 'rgba(255, 255, 255, 0.98)',
                     backdropFilter: scrolled ? 'blur(20px)' : 'blur(5px)',
-                    borderBottom:
-                        scrolled
-                            ? '1px solid rgba(99, 102, 241, 0.08)'
-                            : 'none',
+                    borderBottom: scrolled
+                        ? '1px solid rgba(99, 102, 241, 0.08)'
+                        : 'none',
                     transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                 }}
             >
@@ -315,7 +332,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                                 gap: 1,
                             }}
                         >
-                            {navItems.map((item) => (
+                            {navItems.map(item => (
                                 <Button
                                     key={item.label}
                                     onClick={() => handleNavClick(item.href)}
@@ -351,53 +368,61 @@ export const Navigation: React.FC<NavigationProps> = ({
                                 </Button>
                             ))}
 
-                            {/* Portal Button */}
-                            <Button
-                                onClick={handlePortalClick}
-                                sx={{
-                                    ml: 3,
-                                    px: 4,
-                                    py: 1.5,
-                                    fontWeight: 600,
-                                    fontSize: '0.875rem',
-                                    borderRadius: 1,
-                                    textTransform: 'none',
-                                    background:
-                                        transparent && !scrolled
-                                            ? 'rgba(255, 255, 255, 0.1)'
-                                            : 'rgba(99, 102, 241, 0.1)',
-                                    backdropFilter: 'blur(10px)',
-                                    border:
-                                        transparent && !scrolled
-                                            ? '1px solid rgba(255, 255, 255, 0.2)'
-                                            : '1px solid rgba(99, 102, 241, 0.2)',
-                                    color:
-                                        transparent && !scrolled
-                                            ? 'white'
-                                            : '#6366f1',
-                                    transition:
-                                        'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                    '&:hover': {
-                                        background:
-                                            transparent && !scrolled
-                                                ? 'rgba(255, 255, 255, 0.2)'
-                                                : '#6366f1',
-                                        color:
-                                            transparent && !scrolled
-                                                ? 'white'
-                                                : 'white',
-                                        borderColor:
-                                            transparent && !scrolled
-                                                ? 'rgba(255, 255, 255, 0.4)'
-                                                : '#6366f1',
-                                        transform: 'translateY(-2px)',
-                                        boxShadow:
-                                            '0 4px 12px rgba(99, 102, 241, 0.3)',
-                                    },
-                                }}
-                            >
-                                Portal
-                            </Button>
+                            {/* Authentication Display */}
+                            <Box sx={{ ml: 3 }}>
+                                {isAuthenticated ? (
+                                    <AuthenticatedUserDisplay
+                                        transparent={transparent}
+                                        scrolled={scrolled}
+                                    />
+                                ) : (
+                                    <Button
+                                        onClick={handlePortalClick}
+                                        sx={{
+                                            px: 4,
+                                            py: 1.5,
+                                            fontWeight: 600,
+                                            fontSize: '0.875rem',
+                                            borderRadius: 1,
+                                            textTransform: 'none',
+                                            background:
+                                                transparent && !scrolled
+                                                    ? 'rgba(255, 255, 255, 0.1)'
+                                                    : 'rgba(99, 102, 241, 0.1)',
+                                            backdropFilter: 'blur(10px)',
+                                            border:
+                                                transparent && !scrolled
+                                                    ? '1px solid rgba(255, 255, 255, 0.2)'
+                                                    : '1px solid rgba(99, 102, 241, 0.2)',
+                                            color:
+                                                transparent && !scrolled
+                                                    ? 'white'
+                                                    : '#6366f1',
+                                            transition:
+                                                'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                            '&:hover': {
+                                                background:
+                                                    transparent && !scrolled
+                                                        ? 'rgba(255, 255, 255, 0.2)'
+                                                        : '#6366f1',
+                                                color:
+                                                    transparent && !scrolled
+                                                        ? 'white'
+                                                        : 'white',
+                                                borderColor:
+                                                    transparent && !scrolled
+                                                        ? 'rgba(255, 255, 255, 0.4)'
+                                                        : '#6366f1',
+                                                transform: 'translateY(-2px)',
+                                                boxShadow:
+                                                    '0 4px 12px rgba(99, 102, 241, 0.3)',
+                                            },
+                                        }}
+                                    >
+                                        Portal
+                                    </Button>
+                                )}
+                            </Box>
                         </Box>
                     )}
 

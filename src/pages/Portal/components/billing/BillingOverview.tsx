@@ -1,303 +1,170 @@
 import {
+    Assignment as AssignmentIcon,
     AccountBalance as BillingIcon,
-    CheckCircle as CheckIcon,
     DirectionsBus as BusIcon,
+    CheckCircle as CheckIcon,
     Download as DownloadIcon,
     Error as ErrorIcon,
     Payment as PaymentIcon,
     Person as PersonIcon,
-    Refresh as RefreshIcon,
     Schedule as ScheduleIcon,
+    School as SchoolIcon,
     Visibility as ViewIcon,
     Warning as WarningIcon,
 } from '@mui/icons-material';
 import {
-    Avatar,
     Box,
     Button,
     Chip,
+    Divider,
     Grid,
-    IconButton,
     LinearProgress,
     Tab,
     Tabs,
     Typography,
-    useTheme,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { BillingOverview as BillingOverviewType } from '../../../../types/billing.types';
-import type { Student } from '../../../../types/student.types';
+import { useGetSelectedStudentBillings } from '../../_hooks/useParentWithStore';
+import type { Billing, Student } from '../../_service/parentService';
 
 interface BillingOverviewProps {
     selectedStudent: Student | null;
     className?: string;
 }
 
-// Mock billing data
-const mockBillingData: BillingOverviewType = {
-    studentId: 'student1',
-    totalBalance: 15500.0,
-    overallStatus: 'partial',
-    tuitionFees: {
-        id: 'tuition_2024_term1',
-        term: 'Term 1',
-        academicYear: '2024-2025',
-        totalAmount: 12000.0,
-        paidAmount: 8000.0,
-        remainingAmount: 4000.0,
-        dueDate: '2025-02-15T23:59:59Z',
-        status: 'partial',
-        installments: [
-            {
-                id: 'inst_1',
-                installmentNumber: 1,
-                amount: 4000.0,
-                dueDate: '2024-09-15T23:59:59Z',
-                paidDate: '2024-09-10T10:30:00Z',
-                status: 'paid',
-                paymentMethod: 'bank_transfer',
-                referenceNumber: 'TXN123456789',
-            },
-            {
-                id: 'inst_2',
-                installmentNumber: 2,
-                amount: 4000.0,
-                dueDate: '2024-12-15T23:59:59Z',
-                paidDate: '2024-12-14T14:20:00Z',
-                status: 'paid',
-                paymentMethod: 'bank_transfer',
-                referenceNumber: 'TXN987654321',
-            },
-            {
-                id: 'inst_3',
-                installmentNumber: 3,
-                amount: 4000.0,
-                dueDate: '2025-02-15T23:59:59Z',
-                status: 'pending',
-            },
-        ],
-    },
-    transportationFees: {
-        id: 'transport_2024',
-        routeName: 'Route A - Central District',
-        pickupLocation: '123 Main Street',
-        dropoffLocation: 'Excellence Academy',
-        monthlyRate: 150.0,
-        totalAmount: 1500.0,
-        paidAmount: 750.0,
-        remainingAmount: 750.0,
-        dueDate: '2025-01-31T23:59:59Z',
-        status: 'partial',
-        isActive: true,
-    },
-    uniformFees: {
-        id: 'uniform_2024',
-        items: [
-            {
-                id: 'uni_1',
-                name: 'Sports Jersey',
-                type: 'sports_attire',
-                quantity: 2,
-                unitPrice: 45.0,
-                totalPrice: 90.0,
-                size: 'M',
-                description: 'Blue and white sports jersey',
-            },
-            {
-                id: 'uni_2',
-                name: 'PE Shorts',
-                type: 'sports_attire',
-                quantity: 2,
-                unitPrice: 25.0,
-                totalPrice: 50.0,
-                size: 'M',
-                description: 'Navy blue PE shorts',
-            },
-            {
-                id: 'uni_3',
-                name: 'Science Textbook',
-                type: 'books',
-                quantity: 1,
-                unitPrice: 85.0,
-                totalPrice: 85.0,
-                description: 'Grade 10 Physics Textbook',
-            },
-        ],
-        totalAmount: 225.0,
-        paidAmount: 225.0,
-        remainingAmount: 0.0,
-        status: 'paid',
-        lastOrderDate: '2024-08-20T00:00:00Z',
-    },
-    miscellaneousFees: [
-        {
-            id: 'misc_1',
-            name: 'Science Lab Equipment',
-            description: 'Chemistry lab materials and equipment usage fee',
-            category: 'equipment',
-            amount: 75.0,
-            paidAmount: 0.0,
-            remainingAmount: 75.0,
-            dueDate: '2025-01-30T23:59:59Z',
-            status: 'pending',
-            isOptional: false,
-        },
-    ],
-    paymentHistory: [
-        {
-            id: 'pay_1',
-            amount: 4000.0,
-            paymentDate: '2024-12-14T14:20:00Z',
-            paymentMethod: 'bank_transfer',
-            referenceNumber: 'TXN987654321',
-            feeCategory: 'tuition',
-            feeItemId: 'inst_2',
-            description: 'Tuition Fee - Term 1, Installment 2',
-            status: 'completed',
-        },
-        {
-            id: 'pay_2',
-            amount: 225.0,
-            paymentDate: '2024-08-25T11:15:00Z',
-            paymentMethod: 'card',
-            referenceNumber: 'TXN555444333',
-            feeCategory: 'uniform',
-            feeItemId: 'uniform_2024',
-            description: 'Sports Attire and Textbooks',
-            status: 'completed',
-        },
-        {
-            id: 'pay_3',
-            amount: 750.0,
-            paymentDate: '2024-09-01T09:30:00Z',
-            paymentMethod: 'bank_transfer',
-            referenceNumber: 'TXN111222333',
-            feeCategory: 'transportation',
-            feeItemId: 'transport_2024',
-            description: 'Transportation Fee - Sep-Dec 2024',
-            status: 'completed',
-        },
-    ],
-    upcomingDueDates: [
-        {
-            id: 'due_1',
-            feeType: 'tuition',
-            feeItemId: 'inst_3',
-            description: 'Tuition Fee - Term 1, Installment 3',
-            amount: 4000.0,
-            dueDate: '2025-02-15T23:59:59Z',
-            priority: 'high',
-            daysUntilDue: 22,
-            isOverdue: false,
-        },
-        {
-            id: 'due_2',
-            feeType: 'transportation',
-            feeItemId: 'transport_2024',
-            description: 'Transportation Fee - Jan-Apr 2025',
-            amount: 750.0,
-            dueDate: '2025-01-31T23:59:59Z',
-            priority: 'medium',
-            daysUntilDue: 7,
-            isOverdue: false,
-        },
-        {
-            id: 'due_3',
-            feeType: 'miscellaneous',
-            feeItemId: 'misc_1',
-            description: 'Science Lab Equipment Fee',
-            amount: 75.0,
-            dueDate: '2025-01-30T23:59:59Z',
-            priority: 'low',
-            daysUntilDue: 6,
-            isOverdue: false,
-        },
-    ],
-    lastUpdated: '2025-01-24T15:30:00Z',
+// Helper function to check if payment is overdue
+const isPaymentOverdue = (dueDate: string): boolean => {
+    return new Date(dueDate) < new Date();
+};
+
+// Helper function to calculate days until due
+const getDaysUntilDue = (dueDate: string): number => {
+    const due = new Date(dueDate);
+    const now = new Date();
+    return Math.ceil((due.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+};
+
+// Helper function to get fee category icon
+const getFeeIcon = (billing: Billing) => {
+    if (billing.isRegistration) return <AssignmentIcon sx={{ fontSize: 16 }} />;
+    if (billing.isTransport) return <BusIcon sx={{ fontSize: 16 }} />;
+    if (billing.isArticle) return <SchoolIcon sx={{ fontSize: 16 }} />;
+    return <BillingIcon sx={{ fontSize: 16 }} />;
+};
+
+// Helper function to get fee category name
+const getFeeCategoryName = (billing: Billing): string => {
+    if (billing.isRegistration) return 'Registration';
+    if (billing.isTransport) return 'Transportation';
+    if (billing.isArticle) return 'School Supplies';
+    if (billing.amountSchoolFees && billing.amountSchoolFees > 0)
+        return 'School Fees';
+    return 'Other Fees';
 };
 
 export const BillingOverview: React.FC<BillingOverviewProps> = ({
     selectedStudent,
     className = '',
 }) => {
-    const theme = useTheme();
     const navigate = useNavigate();
-    const [billingData, setBillingData] = useState<BillingOverviewType | null>(
-        null
-    );
-    const [isLoading, setIsLoading] = useState(true);
     const [activeTab, setActiveTab] = useState(0);
 
-    useEffect(() => {
-        if (selectedStudent) {
-            setIsLoading(true);
-            const timeoutId = setTimeout(() => {
-                setBillingData(mockBillingData);
-                setIsLoading(false);
-            }, 600);
-            return () => clearTimeout(timeoutId);
-        } else {
-            setBillingData(null);
+    // Fetch billing data using the API hook
+    const {
+        data: billingData,
+        isLoading,
+        error: billingError,
+    } = useGetSelectedStudentBillings();
+
+    // Calculate billing totals and categorize data
+    const { totals, overdue, dueSoon, paid } = useMemo(() => {
+        if (!billingData || billingData.length === 0) {
+            return {
+                totals: { total: 0, paid: 0, outstanding: 0, overdue: 0 },
+                overdue: [],
+                dueSoon: [],
+                paid: [],
+            };
         }
-    }, [selectedStudent]);
+
+        const totals = {
+            total: billingData.reduce((sum, item) => sum + item.amount, 0),
+            paid: billingData.reduce((sum, item) => sum + item.amountPaid, 0),
+            outstanding: billingData.reduce(
+                (sum, item) => sum + item.unpaidAmount,
+                0
+            ),
+            overdue: 0,
+        };
+
+        const overdue = billingData.filter(
+            item =>
+                item.unpaidAmount > 0 && isPaymentOverdue(item.billingDueDate)
+        );
+
+        const dueSoon = billingData.filter(item => {
+            if (item.unpaidAmount <= 0) return false;
+            const days = getDaysUntilDue(item.billingDueDate);
+            return days > 0 && days <= 14;
+        });
+
+        const paid = billingData.filter(item => item.amountPaid > 0);
+
+        totals.overdue = overdue.reduce(
+            (sum, item) => sum + item.unpaidAmount,
+            0
+        );
+
+        return { totals, overdue, dueSoon, paid };
+    }, [billingData]);
 
     const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString();
+        return new Date(dateString).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+        });
     };
 
-    const formatCurrency = (amount: number) => {
-        return `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+    const formatCurrency = (
+        amount: number,
+        currency: string = 'XAF',
+        locale: string = 'fr-FR'
+    ): string => {
+        return new Intl.NumberFormat(locale, {
+            style: 'currency',
+            currency,
+            maximumFractionDigits: 2,
+        }).format(amount);
     };
 
-
-    // Helper functions to categorize billing data
-    const getOverduePayments = () => {
-        if (!billingData) return [];
-        return billingData.upcomingDueDates.filter(payment => payment.isOverdue);
-    };
-
-    const getDueSoonPayments = () => {
-        if (!billingData) return [];
-        return billingData.upcomingDueDates.filter(
-            payment => !payment.isOverdue && payment.daysUntilDue <= 14
+    // Handle error state
+    if (billingError) {
+        return (
+            <Box
+                className={className}
+                sx={{
+                    p: 2,
+                    textAlign: 'center',
+                    backgroundColor: 'background.paper',
+                    borderRadius: 1,
+                    border: '1px solid',
+                    borderColor: 'error.main',
+                }}
+            >
+                <ErrorIcon sx={{ fontSize: 32, color: 'error.main', mb: 1 }} />
+                <Typography variant="subtitle2" color="error" sx={{ mb: 0.5 }}>
+                    Failed to load billing data
+                </Typography>
+                <Typography variant="caption" color="text.secondary">
+                    {billingError.message || 'An unexpected error occurred'}
+                </Typography>
+            </Box>
         );
-    };
+    }
 
-    const getRecentPayments = () => {
-        if (!billingData) return [];
-        return billingData.paymentHistory.slice(0, 5);
-    };
-
-    const getFuturePayments = () => {
-        if (!billingData) return [];
-        return billingData.upcomingDueDates.filter(
-            payment => !payment.isOverdue && payment.daysUntilDue > 14
-        );
-    };
-
-    const calculateTotals = () => {
-        if (!billingData) return { paid: 0, outstanding: 0, overdue: 0, total: 0 };
-
-        const paid = billingData.tuitionFees.paidAmount +
-            (billingData.transportationFees?.paidAmount || 0) +
-            billingData.uniformFees.paidAmount;
-
-        const outstanding = billingData.tuitionFees.remainingAmount +
-            (billingData.transportationFees?.remainingAmount || 0) +
-            billingData.uniformFees.remainingAmount +
-            billingData.miscellaneousFees.reduce((sum, fee) => sum + fee.remainingAmount, 0);
-
-        const overdue = getOverduePayments().reduce((sum, payment) => sum + payment.amount, 0);
-
-        return {
-            paid,
-            outstanding,
-            overdue,
-            total: paid + outstanding
-        };
-    };
-
+    // If no student selected
     if (!selectedStudent) {
         return (
             <Box
@@ -307,19 +174,22 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                     textAlign: 'center',
                     backgroundColor: 'background.paper',
                     borderRadius: 1,
-                    border: 1,
-                    borderColor: 'grey.200',
+                    border: '1px solid',
+                    borderColor: 'divider',
                 }}
             >
-                <PersonIcon sx={{ fontSize: 32, color: 'text.disabled', mb: 1 }} />
-                <Typography variant="body2" color="text.secondary">
+                <PersonIcon
+                    sx={{ fontSize: 32, color: 'text.disabled', mb: 1 }}
+                />
+                <Typography variant="subtitle2" color="text.secondary">
                     Select a student to view billing information
                 </Typography>
             </Box>
         );
     }
 
-    if (isLoading || !billingData) {
+    // Loading state
+    if (isLoading) {
         return (
             <Box
                 className={className}
@@ -328,11 +198,11 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                     textAlign: 'center',
                     backgroundColor: 'background.paper',
                     borderRadius: 1,
-                    border: 1,
-                    borderColor: 'grey.200',
+                    border: '1px solid',
+                    borderColor: 'divider',
                 }}
             >
-                <LinearProgress sx={{ mb: 1.5, width: '160px', mx: 'auto' }} />
+                <LinearProgress sx={{ mb: 1, width: '160px', mx: 'auto' }} />
                 <Typography variant="caption" color="text.secondary">
                     Loading billing data...
                 </Typography>
@@ -340,259 +210,597 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
         );
     }
 
-    const totals = calculateTotals();
-    const overduePayments = getOverduePayments();
-    const dueSoonPayments = getDueSoonPayments();
-    const recentPayments = getRecentPayments();
-    const futurePayments = getFuturePayments();
+    // No data state
+    if (!billingData || billingData.length === 0) {
+        return (
+            <Box
+                className={className}
+                sx={{
+                    p: 2,
+                    textAlign: 'center',
+                    backgroundColor: 'warning.50',
+                    borderRadius: 1,
+                    border: '1px solid',
+                    borderColor: 'warning.main',
+                }}
+            >
+                <WarningIcon
+                    sx={{ fontSize: 32, color: 'warning.main', mb: 1 }}
+                />
+                <Typography
+                    variant="subtitle2"
+                    color="warning.main"
+                    sx={{ mb: 0.5 }}
+                >
+                    No billing data available
+                </Typography>
+                <Typography variant="caption" color="text.secondary">
+                    No billing information found for this student.
+                </Typography>
+            </Box>
+        );
+    }
 
     return (
         <Box className={className}>
-            {/* Header - Billing At a Glance */}
+            {/* Header - Compact Student Billing Overview */}
             <Box
                 sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
+                    p: 2,
                     mb: 2,
-                    py: 1.5,
-                    px: 2,
                     backgroundColor: 'background.paper',
                     borderRadius: 1,
-                    border: 1,
-                    borderColor: 'grey.200',
+                    border: '1px solid',
+                    borderColor: 'divider',
                 }}
             >
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                    <BillingIcon sx={{ fontSize: 18, color: 'primary.main' }} />
-                    <Box>
-                        <Typography variant="subtitle2" sx={{ fontWeight: 600, lineHeight: 1.2 }}>
-                            {selectedStudent.fullName}'s Billing Status
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Box
+                        sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}
+                    >
+                        <BillingIcon
+                            sx={{ fontSize: 18, color: 'primary.main' }}
+                        />
+                        <Box>
+                            <Typography
+                                variant="subtitle2"
+                                sx={{ fontWeight: 600, lineHeight: 1.2 }}
+                            >
+                                {selectedStudent.firstName}{' '}
+                                {selectedStudent.lastName}'s Billing
+                            </Typography>
+                            <Typography
+                                variant="caption"
+                                color="text.secondary"
+                            >
+                                {selectedStudent.schoolYearClassName} •{' '}
+                                {selectedStudent.schoolYearName}
+                            </Typography>
+                        </Box>
+                    </Box>
+                    <Box sx={{ textAlign: 'right' }}>
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                fontWeight: 600,
+                                color: 'primary.main',
+                                lineHeight: 1.1,
+                            }}
+                        >
+                            {formatCurrency(totals.outstanding)}
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
-                            {overduePayments.length > 0 ? (
-                                <span style={{ color: theme.palette.error.main }}>
-                                    {overduePayments.length} overdue •
-                                </span>
-                            ) : null}
-                            {dueSoonPayments.length} due soon • {formatCurrency(totals.outstanding)} remaining
+                            Outstanding
                         </Typography>
                     </Box>
                 </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.6875rem' }}>
-                        Updated {formatDate(billingData.lastUpdated)}
-                    </Typography>
-                    <IconButton size="small" sx={{ p: 0.5 }}>
-                        <RefreshIcon sx={{ fontSize: 14 }} />
-                    </IconButton>
-                </Box>
+
+                {/* Status Chips */}
+                {(overdue.length > 0 || dueSoon.length > 0) && (
+                    <Box sx={{ display: 'flex', gap: 1, mt: 1.5 }}>
+                        {overdue.length > 0 && (
+                            <Chip
+                                label={`${overdue.length} Overdue`}
+                                color="error"
+                                size="small"
+                                sx={{ fontSize: '0.6875rem', height: 20 }}
+                            />
+                        )}
+                        {dueSoon.length > 0 && (
+                            <Chip
+                                label={`${dueSoon.length} Due Soon`}
+                                color="warning"
+                                size="small"
+                                sx={{ fontSize: '0.6875rem', height: 20 }}
+                            />
+                        )}
+                    </Box>
+                )}
             </Box>
 
-            {/* Key Metrics - 4 Critical Areas */}
+            {/* Compact Metrics Grid */}
             <Grid container spacing={1.5} sx={{ mb: 2 }}>
-                {/* Overdue Payments */}
-                <Grid size={{ xs: 6, sm: 3 }}>
+                <Grid size={{ xs: 6, md: 3 }}>
                     <Box
                         sx={{
                             p: 1.5,
-                            backgroundColor: overduePayments.length > 0 ? 'error.50' : 'background.paper',
+                            backgroundColor:
+                                overdue.length > 0
+                                    ? 'error.50'
+                                    : 'background.paper',
                             borderRadius: 1,
-                            border: 1,
-                            borderColor: overduePayments.length > 0 ? 'error.main' : 'grey.200',
+                            border: '1px solid',
+                            borderColor:
+                                overdue.length > 0 ? 'error.main' : 'divider',
+                            textAlign: 'center',
                         }}
                     >
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mb: 0.5 }}>
-                            <ErrorIcon sx={{ fontSize: 14, color: 'error.main' }} />
-                            <Typography variant="caption" sx={{ fontWeight: 600, fontSize: '0.6875rem' }}>
-                                OVERDUE
+                        <ErrorIcon
+                            sx={{
+                                fontSize: 20,
+                                color:
+                                    overdue.length > 0
+                                        ? 'error.main'
+                                        : 'text.disabled',
+                                mb: 0.5,
+                            }}
+                        />
+                        <Typography
+                            variant="subtitle1"
+                            sx={{ fontWeight: 600, lineHeight: 1.1 }}
+                        >
+                            {overdue.length}
+                        </Typography>
+                        <Typography variant="caption" color="text.secondary">
+                            Overdue
+                        </Typography>
+                        {overdue.length > 0 && (
+                            <Typography
+                                variant="caption"
+                                color="error.main"
+                                sx={{ display: 'block', fontWeight: 600 }}
+                            >
+                                {formatCurrency(
+                                    overdue.reduce(
+                                        (sum, item) => sum + item.unpaidAmount,
+                                        0
+                                    )
+                                )}
                             </Typography>
-                        </Box>
-                        <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'error.main' }}>
-                            {overduePayments.length}
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.625rem' }}>
-                            {formatCurrency(overduePayments.reduce((sum, p) => sum + p.amount, 0))}
-                        </Typography>
+                        )}
                     </Box>
                 </Grid>
 
-                {/* Due Soon Payments */}
-                <Grid size={{ xs: 6, sm: 3 }}>
+                <Grid size={{ xs: 6, md: 3 }}>
                     <Box
                         sx={{
                             p: 1.5,
-                            backgroundColor: dueSoonPayments.length > 0 ? 'warning.50' : 'background.paper',
+                            backgroundColor:
+                                dueSoon.length > 0
+                                    ? 'warning.50'
+                                    : 'background.paper',
                             borderRadius: 1,
-                            border: 1,
-                            borderColor: dueSoonPayments.length > 0 ? 'warning.main' : 'grey.200',
+                            border: '1px solid',
+                            borderColor:
+                                dueSoon.length > 0 ? 'warning.main' : 'divider',
+                            textAlign: 'center',
                         }}
                     >
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mb: 0.5 }}>
-                            <WarningIcon sx={{ fontSize: 14, color: 'warning.main' }} />
-                            <Typography variant="caption" sx={{ fontWeight: 600, fontSize: '0.6875rem' }}>
-                                DUE SOON
+                        <ScheduleIcon
+                            sx={{
+                                fontSize: 20,
+                                color:
+                                    dueSoon.length > 0
+                                        ? 'warning.main'
+                                        : 'text.disabled',
+                                mb: 0.5,
+                            }}
+                        />
+                        <Typography
+                            variant="subtitle1"
+                            sx={{ fontWeight: 600, lineHeight: 1.1 }}
+                        >
+                            {dueSoon.length}
+                        </Typography>
+                        <Typography variant="caption" color="text.secondary">
+                            Due Soon
+                        </Typography>
+                        {dueSoon.length > 0 && (
+                            <Typography
+                                variant="caption"
+                                color="warning.main"
+                                sx={{ display: 'block', fontWeight: 600 }}
+                            >
+                                {formatCurrency(
+                                    dueSoon.reduce(
+                                        (sum, item) => sum + item.unpaidAmount,
+                                        0
+                                    )
+                                )}
                             </Typography>
-                        </Box>
-                        <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'warning.main' }}>
-                            {dueSoonPayments.length}
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.625rem' }}>
-                            {formatCurrency(dueSoonPayments.reduce((sum, p) => sum + p.amount, 0))}
-                        </Typography>
+                        )}
                     </Box>
                 </Grid>
 
-                {/* Paid On Time */}
-                <Grid size={{ xs: 6, sm: 3 }}>
+                <Grid size={{ xs: 6, md: 3 }}>
                     <Box
                         sx={{
                             p: 1.5,
-                            backgroundColor: 'background.paper',
+                            backgroundColor: 'success.50',
                             borderRadius: 1,
-                            border: 1,
-                            borderColor: 'grey.200',
+                            border: '1px solid',
+                            borderColor: 'success.main',
+                            textAlign: 'center',
                         }}
                     >
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mb: 0.5 }}>
-                            <CheckIcon sx={{ fontSize: 14, color: 'success.main' }} />
-                            <Typography variant="caption" sx={{ fontWeight: 600, fontSize: '0.6875rem' }}>
-                                PAID
-                            </Typography>
-                        </Box>
-                        <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'success.main' }}>
+                        <CheckIcon
+                            sx={{
+                                fontSize: 20,
+                                color: 'success.main',
+                                mb: 0.5,
+                            }}
+                        />
+                        <Typography
+                            variant="subtitle1"
+                            sx={{
+                                fontWeight: 600,
+                                lineHeight: 1.1,
+                                color: 'success.main',
+                            }}
+                        >
                             {formatCurrency(totals.paid)}
                         </Typography>
-                        <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.625rem' }}>
-                            {recentPayments.length} transactions
+                        <Typography variant="caption" color="text.secondary">
+                            Paid
                         </Typography>
                     </Box>
                 </Grid>
 
-                {/* Total Outstanding */}
-                <Grid size={{ xs: 6, sm: 3 }}>
+                <Grid size={{ xs: 6, md: 3 }}>
                     <Box
                         sx={{
                             p: 1.5,
                             backgroundColor: 'primary.50',
                             borderRadius: 1,
-                            border: 1,
+                            border: '1px solid',
                             borderColor: 'primary.main',
+                            textAlign: 'center',
                         }}
                     >
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mb: 0.5 }}>
-                            <PaymentIcon sx={{ fontSize: 14, color: 'primary.main' }} />
-                            <Typography variant="caption" sx={{ fontWeight: 600, fontSize: '0.6875rem' }}>
-                                TOTAL
-                            </Typography>
-                        </Box>
-                        <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'primary.main' }}>
-                            {formatCurrency(totals.outstanding)}
+                        <PaymentIcon
+                            sx={{
+                                fontSize: 20,
+                                color: 'primary.main',
+                                mb: 0.5,
+                            }}
+                        />
+                        <Typography
+                            variant="subtitle1"
+                            sx={{
+                                fontWeight: 600,
+                                lineHeight: 1.1,
+                                color: 'primary.main',
+                            }}
+                        >
+                            {formatCurrency(totals.total)}
                         </Typography>
-                        <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.625rem' }}>
-                            outstanding
+                        <Typography variant="caption" color="text.secondary">
+                            Total
                         </Typography>
                     </Box>
                 </Grid>
             </Grid>
 
-            {/* Status-Based Payment Organization */}
-            <Box sx={{ backgroundColor: 'background.paper', borderRadius: 1, border: 1, borderColor: 'grey.200', mb: 2 }}>
-                <Tabs
-                    value={activeTab}
-                    onChange={(_, newValue) => setActiveTab(newValue)}
-                    sx={{
-                        borderBottom: 1,
-                        borderColor: 'divider',
-                        '& .MuiTab-root': {
-                            fontSize: '0.75rem',
-                            minHeight: 40,
-                            textTransform: 'none',
-                        },
-                    }}
-                >
-                    <Tab
-                        label={
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                                <ErrorIcon sx={{ fontSize: 14 }} />
-                                Overdue ({overduePayments.length})
-                            </Box>
-                        }
-                    />
-                    <Tab
-                        label={
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                                <ScheduleIcon sx={{ fontSize: 14 }} />
-                                Due Soon ({dueSoonPayments.length})
-                            </Box>
-                        }
-                    />
-                    <Tab
-                        label={
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                                <CheckIcon sx={{ fontSize: 14 }} />
-                                Paid ({recentPayments.length})
-                            </Box>
-                        }
-                    />
-                    <Tab
-                        label={
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                                <ViewIcon sx={{ fontSize: 14 }} />
-                                All Fees
-                            </Box>
-                        }
-                    />
-                </Tabs>
+            {/* Billing Details - Compact Layout */}
+            <Box
+                sx={{
+                    backgroundColor: 'background.paper',
+                    borderRadius: 1,
+                    border: '1px solid',
+                    borderColor: 'divider',
+                }}
+            >
+                <Box sx={{ px: 2, pt: 2, pb: 1 }}>
+                    <Typography
+                        variant="subtitle2"
+                        sx={{ fontWeight: 600, mb: 1.5 }}
+                    >
+                        Billing Details
+                    </Typography>
+                    <Tabs
+                        value={activeTab}
+                        onChange={(_, newValue) => setActiveTab(newValue)}
+                        sx={{
+                            minHeight: 'auto',
+                            '& .MuiTab-root': {
+                                fontSize: '0.75rem',
+                                minHeight: 32,
+                                textTransform: 'none',
+                                py: 0.5,
+                            },
+                        }}
+                    >
+                        <Tab label={`All (${billingData.length})`} />
+                        <Tab label={`Overdue (${overdue.length})`} />
+                        <Tab label={`Due Soon (${dueSoon.length})`} />
+                        <Tab label={`Paid (${paid.length})`} />
+                    </Tabs>
+                </Box>
+
+                <Divider />
 
                 <Box sx={{ p: 2 }}>
-                    {/* Overdue Tab */}
+                    {/* All Items Tab */}
                     {activeTab === 0 && (
-                        <Box>
-                            {overduePayments.length > 0 ? (
-                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                                    {overduePayments.map((payment) => (
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: 1,
+                            }}
+                        >
+                            {billingData.map(billing => (
+                                <Box
+                                    key={billing.id}
+                                    sx={{
+                                        p: 1.5,
+                                        backgroundColor:
+                                            billing.unpaidAmount > 0
+                                                ? isPaymentOverdue(
+                                                      billing.billingDueDate
+                                                  )
+                                                    ? 'error.50'
+                                                    : getDaysUntilDue(
+                                                            billing.billingDueDate
+                                                        ) <= 14
+                                                      ? 'warning.50'
+                                                      : 'background.paper'
+                                                : 'success.50',
+                                        borderRadius: 1,
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                    }}
+                                >
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'flex-start',
+                                        }}
+                                    >
                                         <Box
-                                            key={payment.id}
                                             sx={{
                                                 display: 'flex',
-                                                justifyContent: 'space-between',
-                                                alignItems: 'center',
+                                                alignItems: 'flex-start',
+                                                gap: 1.5,
+                                            }}
+                                        >
+                                            {getFeeIcon(billing)}
+                                            <Box>
+                                                <Typography
+                                                    variant="body2"
+                                                    sx={{
+                                                        fontWeight: 600,
+                                                        lineHeight: 1.2,
+                                                    }}
+                                                >
+                                                    {billing.billingTypeName}
+                                                </Typography>
+                                                <Typography
+                                                    variant="caption"
+                                                    color="text.secondary"
+                                                >
+                                                    {getFeeCategoryName(
+                                                        billing
+                                                    )}
+                                                </Typography>
+                                                {billing.deliveryDescription && (
+                                                    <Typography
+                                                        variant="caption"
+                                                        color="text.secondary"
+                                                        sx={{
+                                                            display: 'block',
+                                                        }}
+                                                    >
+                                                        {
+                                                            billing.deliveryDescription
+                                                        }
+                                                    </Typography>
+                                                )}
+                                            </Box>
+                                        </Box>
+                                        <Box sx={{ textAlign: 'right' }}>
+                                            <Typography
+                                                variant="subtitle2"
+                                                sx={{
+                                                    fontWeight: 600,
+                                                    lineHeight: 1.1,
+                                                }}
+                                            >
+                                                {formatCurrency(billing.amount)}
+                                            </Typography>
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    gap: 0.5,
+                                                    mt: 0.5,
+                                                    justifyContent: 'flex-end',
+                                                }}
+                                            >
+                                                <Chip
+                                                    label={formatCurrency(
+                                                        billing.amountPaid
+                                                    )}
+                                                    color={
+                                                        billing.amountPaid > 0
+                                                            ? 'success'
+                                                            : 'default'
+                                                    }
+                                                    size="small"
+                                                    sx={{
+                                                        fontSize: '0.625rem',
+                                                        height: 16,
+                                                    }}
+                                                />
+                                                {billing.unpaidAmount > 0 && (
+                                                    <Chip
+                                                        label={formatCurrency(
+                                                            billing.unpaidAmount
+                                                        )}
+                                                        color={
+                                                            isPaymentOverdue(
+                                                                billing.billingDueDate
+                                                            )
+                                                                ? 'error'
+                                                                : 'warning'
+                                                        }
+                                                        size="small"
+                                                        sx={{
+                                                            fontSize:
+                                                                '0.625rem',
+                                                            height: 16,
+                                                        }}
+                                                    />
+                                                )}
+                                            </Box>
+                                            <Typography
+                                                variant="caption"
+                                                color="text.secondary"
+                                            >
+                                                Due:{' '}
+                                                {formatDate(
+                                                    billing.billingDueDate
+                                                )}
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                </Box>
+                            ))}
+                        </Box>
+                    )}
+
+                    {/* Overdue Tab */}
+                    {activeTab === 1 && (
+                        <Box>
+                            {overdue.length > 0 ? (
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: 1,
+                                    }}
+                                >
+                                    {overdue.map(billing => (
+                                        <Box
+                                            key={billing.id}
+                                            sx={{
                                                 p: 1.5,
                                                 backgroundColor: 'error.50',
                                                 borderRadius: 1,
-                                                border: 1,
+                                                border: '1px solid',
                                                 borderColor: 'error.main',
                                             }}
                                         >
-                                            <Box>
-                                                <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                                                    {payment.description}
-                                                </Typography>
-                                                <Typography variant="caption" color="error.main">
-                                                    Due: {formatDate(payment.dueDate)} ({Math.abs(payment.daysUntilDue)} days overdue)
-                                                </Typography>
-                                            </Box>
-                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                                <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'error.main' }}>
-                                                    {formatCurrency(payment.amount)}
-                                                </Typography>
-                                                <Button
-                                                    size="small"
-                                                    color="error"
-                                                    sx={{ fontSize: '0.75rem', minHeight: 28 }}
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    justifyContent:
+                                                        'space-between',
+                                                    alignItems: 'center',
+                                                }}
+                                            >
+                                                <Box
+                                                    sx={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        gap: 1.5,
+                                                    }}
                                                 >
-                                                    Pay Now
-                                                </Button>
+                                                    <ErrorIcon
+                                                        sx={{
+                                                            color: 'error.main',
+                                                            fontSize: 16,
+                                                        }}
+                                                    />
+                                                    <Box>
+                                                        <Typography
+                                                            variant="body2"
+                                                            sx={{
+                                                                fontWeight: 600,
+                                                            }}
+                                                        >
+                                                            {
+                                                                billing.billingTypeName
+                                                            }
+                                                        </Typography>
+                                                        <Typography
+                                                            variant="caption"
+                                                            color="error.main"
+                                                        >
+                                                            Due:{' '}
+                                                            {formatDate(
+                                                                billing.billingDueDate
+                                                            )}
+                                                            (
+                                                            {Math.abs(
+                                                                getDaysUntilDue(
+                                                                    billing.billingDueDate
+                                                                )
+                                                            )}{' '}
+                                                            days overdue)
+                                                        </Typography>
+                                                    </Box>
+                                                </Box>
+                                                <Box
+                                                    sx={{ textAlign: 'right' }}
+                                                >
+                                                    <Typography
+                                                        variant="subtitle2"
+                                                        color="error.main"
+                                                        sx={{ fontWeight: 600 }}
+                                                    >
+                                                        {formatCurrency(
+                                                            billing.unpaidAmount
+                                                        )}
+                                                    </Typography>
+                                                    <Button
+                                                        size="small"
+                                                        variant="contained"
+                                                        color="error"
+                                                        sx={{
+                                                            mt: 0.5,
+                                                            fontSize:
+                                                                '0.6875rem',
+                                                        }}
+                                                    >
+                                                        Pay Now
+                                                    </Button>
+                                                </Box>
                                             </Box>
                                         </Box>
                                     ))}
                                 </Box>
                             ) : (
                                 <Box sx={{ textAlign: 'center', py: 3 }}>
-                                    <CheckIcon sx={{ fontSize: 32, color: 'success.main', mb: 1 }} />
-                                    <Typography variant="body2" color="text.secondary">
-                                        No overdue payments. Great job staying on track!
+                                    <CheckIcon
+                                        sx={{
+                                            fontSize: 32,
+                                            color: 'success.main',
+                                            mb: 1,
+                                        }}
+                                    />
+                                    <Typography
+                                        variant="body2"
+                                        color="text.secondary"
+                                    >
+                                        No overdue payments. Great job staying
+                                        on track!
                                     </Typography>
                                 </Box>
                             )}
@@ -600,57 +808,117 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                     )}
 
                     {/* Due Soon Tab */}
-                    {activeTab === 1 && (
+                    {activeTab === 2 && (
                         <Box>
-                            {dueSoonPayments.length > 0 ? (
-                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                                    {dueSoonPayments.map((payment) => (
+                            {dueSoon.length > 0 ? (
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: 1,
+                                    }}
+                                >
+                                    {dueSoon.map(billing => (
                                         <Box
-                                            key={payment.id}
+                                            key={billing.id}
                                             sx={{
-                                                display: 'flex',
-                                                justifyContent: 'space-between',
-                                                alignItems: 'center',
                                                 p: 1.5,
                                                 backgroundColor: 'warning.50',
                                                 borderRadius: 1,
-                                                border: 1,
+                                                border: '1px solid',
                                                 borderColor: 'warning.main',
                                             }}
                                         >
-                                            <Box>
-                                                <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                                                    {payment.description}
-                                                </Typography>
-                                                <Typography variant="caption" color="warning.main">
-                                                    Due: {formatDate(payment.dueDate)} ({payment.daysUntilDue} days)
-                                                </Typography>
-                                            </Box>
-                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                                <Chip
-                                                    label={payment.priority}
-                                                    size="small"
-                                                    color={payment.priority === 'high' ? 'error' : 'warning'}
-                                                    sx={{ fontSize: '0.625rem', height: 18 }}
-                                                />
-                                                <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'warning.main' }}>
-                                                    {formatCurrency(payment.amount)}
-                                                </Typography>
-                                                <Button
-                                                    size="small"
-                                                    color="warning"
-                                                    sx={{ fontSize: '0.75rem', minHeight: 28 }}
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    justifyContent:
+                                                        'space-between',
+                                                    alignItems: 'center',
+                                                }}
+                                            >
+                                                <Box
+                                                    sx={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        gap: 1.5,
+                                                    }}
                                                 >
-                                                    Pay Now
-                                                </Button>
+                                                    <WarningIcon
+                                                        sx={{
+                                                            color: 'warning.main',
+                                                            fontSize: 16,
+                                                        }}
+                                                    />
+                                                    <Box>
+                                                        <Typography
+                                                            variant="body2"
+                                                            sx={{
+                                                                fontWeight: 600,
+                                                            }}
+                                                        >
+                                                            {
+                                                                billing.billingTypeName
+                                                            }
+                                                        </Typography>
+                                                        <Typography
+                                                            variant="caption"
+                                                            color="warning.main"
+                                                        >
+                                                            Due:{' '}
+                                                            {formatDate(
+                                                                billing.billingDueDate
+                                                            )}
+                                                            (
+                                                            {getDaysUntilDue(
+                                                                billing.billingDueDate
+                                                            )}{' '}
+                                                            days)
+                                                        </Typography>
+                                                    </Box>
+                                                </Box>
+                                                <Box
+                                                    sx={{ textAlign: 'right' }}
+                                                >
+                                                    <Typography
+                                                        variant="subtitle2"
+                                                        color="warning.main"
+                                                        sx={{ fontWeight: 600 }}
+                                                    >
+                                                        {formatCurrency(
+                                                            billing.unpaidAmount
+                                                        )}
+                                                    </Typography>
+                                                    <Button
+                                                        size="small"
+                                                        variant="contained"
+                                                        color="warning"
+                                                        sx={{
+                                                            mt: 0.5,
+                                                            fontSize:
+                                                                '0.6875rem',
+                                                        }}
+                                                    >
+                                                        Pay Now
+                                                    </Button>
+                                                </Box>
                                             </Box>
                                         </Box>
                                     ))}
                                 </Box>
                             ) : (
                                 <Box sx={{ textAlign: 'center', py: 3 }}>
-                                    <ScheduleIcon sx={{ fontSize: 32, color: 'info.main', mb: 1 }} />
-                                    <Typography variant="body2" color="text.secondary">
+                                    <ScheduleIcon
+                                        sx={{
+                                            fontSize: 32,
+                                            color: 'info.main',
+                                            mb: 1,
+                                        }}
+                                    />
+                                    <Typography
+                                        variant="body2"
+                                        color="text.secondary"
+                                    >
                                         No payments due in the next 14 days.
                                     </Typography>
                                 </Box>
@@ -658,148 +926,156 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                         </Box>
                     )}
 
-                    {/* Paid Tab */}
-                    {activeTab === 2 && (
+                    {/* Paid Items Tab */}
+                    {activeTab === 3 && (
                         <Box>
-                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                                {recentPayments.map((payment) => (
-                                    <Box
-                                        key={payment.id}
-                                        sx={{
-                                            display: 'flex',
-                                            justifyContent: 'space-between',
-                                            alignItems: 'center',
-                                            p: 1.5,
-                                            backgroundColor: 'grey.50',
-                                            borderRadius: 1,
-                                            border: 1,
-                                            borderColor: 'grey.200',
-                                        }}
-                                    >
-                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                                            <Avatar
+                            {paid.length > 0 ? (
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: 1,
+                                    }}
+                                >
+                                    {paid.map(billing => (
+                                        <Box
+                                            key={billing.id}
+                                            sx={{
+                                                p: 1.5,
+                                                backgroundColor: 'success.50',
+                                                borderRadius: 1,
+                                                border: '1px solid',
+                                                borderColor: 'success.main',
+                                            }}
+                                        >
+                                            <Box
                                                 sx={{
-                                                    backgroundColor: 'success.100',
-                                                    color: 'success.main',
-                                                    width: 24,
-                                                    height: 24,
+                                                    display: 'flex',
+                                                    justifyContent:
+                                                        'space-between',
+                                                    alignItems: 'center',
                                                 }}
                                             >
-                                                <CheckIcon sx={{ fontSize: 12 }} />
-                                            </Avatar>
-                                            <Box>
-                                                <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                                                    {payment.description}
-                                                </Typography>
-                                                <Typography variant="caption" color="text.secondary">
-                                                    {formatDate(payment.paymentDate)} • {payment.paymentMethod.replace('_', ' ').toUpperCase()}
-                                                </Typography>
+                                                <Box
+                                                    sx={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        gap: 1.5,
+                                                    }}
+                                                >
+                                                    <CheckIcon
+                                                        sx={{
+                                                            color: 'success.main',
+                                                            fontSize: 16,
+                                                        }}
+                                                    />
+                                                    <Box>
+                                                        <Typography
+                                                            variant="body2"
+                                                            sx={{
+                                                                fontWeight: 600,
+                                                            }}
+                                                        >
+                                                            {
+                                                                billing.billingTypeName
+                                                            }
+                                                        </Typography>
+                                                        <Typography
+                                                            variant="caption"
+                                                            color="text.secondary"
+                                                        >
+                                                            Due:{' '}
+                                                            {formatDate(
+                                                                billing.billingDueDate
+                                                            )}
+                                                        </Typography>
+                                                    </Box>
+                                                </Box>
+                                                <Box
+                                                    sx={{ textAlign: 'right' }}
+                                                >
+                                                    <Typography
+                                                        variant="subtitle2"
+                                                        color="success.main"
+                                                        sx={{ fontWeight: 600 }}
+                                                    >
+                                                        {formatCurrency(
+                                                            billing.amountPaid
+                                                        )}
+                                                    </Typography>
+                                                    <Typography
+                                                        variant="caption"
+                                                        color="text.secondary"
+                                                    >
+                                                        Paid
+                                                    </Typography>
+                                                    {billing.unpaidAmount >
+                                                        0 && (
+                                                        <Typography
+                                                            variant="caption"
+                                                            color="warning.main"
+                                                            sx={{
+                                                                display:
+                                                                    'block',
+                                                            }}
+                                                        >
+                                                            {formatCurrency(
+                                                                billing.unpaidAmount
+                                                            )}{' '}
+                                                            remaining
+                                                        </Typography>
+                                                    )}
+                                                </Box>
                                             </Box>
                                         </Box>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                            <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'success.main' }}>
-                                                {formatCurrency(payment.amount)}
-                                            </Typography>
-                                            <Button
-                                                size="small"
-                                                startIcon={<DownloadIcon sx={{ fontSize: 12 }} />}
-                                                sx={{ fontSize: '0.625rem', minHeight: 24 }}
-                                            >
-                                                Receipt
-                                            </Button>
-                                        </Box>
-                                    </Box>
-                                ))}
-                            </Box>
-                        </Box>
-                    )}
-
-                    {/* All Fees Tab */}
-                    {activeTab === 3 && (
-                        <Grid container spacing={1.5}>
-                            {/* Tuition */}
-                            <Grid size={{ xs: 12, sm: 6 }}>
-                                <Box sx={{ p: 1.5, backgroundColor: 'primary.50', borderRadius: 1 }}>
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                                        <BillingIcon sx={{ fontSize: 16, color: 'primary.main' }} />
-                                        <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                                            Tuition - {billingData.tuitionFees.term}
-                                        </Typography>
-                                    </Box>
-                                    <Typography variant="body2">
-                                        {formatCurrency(billingData.tuitionFees.paidAmount)} of {formatCurrency(billingData.tuitionFees.totalAmount)} paid
-                                    </Typography>
-                                    <Typography variant="caption" color="text.secondary">
-                                        Remaining: {formatCurrency(billingData.tuitionFees.remainingAmount)}
+                                    ))}
+                                </Box>
+                            ) : (
+                                <Box sx={{ textAlign: 'center', py: 3 }}>
+                                    <PaymentIcon
+                                        sx={{
+                                            fontSize: 32,
+                                            color: 'text.disabled',
+                                            mb: 1,
+                                        }}
+                                    />
+                                    <Typography
+                                        variant="body2"
+                                        color="text.secondary"
+                                    >
+                                        No payments have been made yet.
                                     </Typography>
                                 </Box>
-                            </Grid>
-
-                            {/* Transportation */}
-                            {billingData.transportationFees && (
-                                <Grid size={{ xs: 12, sm: 6 }}>
-                                    <Box sx={{ p: 1.5, backgroundColor: 'info.50', borderRadius: 1 }}>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                                            <BusIcon sx={{ fontSize: 16, color: 'info.main' }} />
-                                            <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                                                Transportation
-                                            </Typography>
-                                        </Box>
-                                        <Typography variant="body2">
-                                            {billingData.transportationFees.routeName}
-                                        </Typography>
-                                        <Typography variant="caption" color="text.secondary">
-                                            Remaining: {formatCurrency(billingData.transportationFees.remainingAmount)}
-                                        </Typography>
-                                    </Box>
-                                </Grid>
                             )}
-
-                            {/* Miscellaneous Fees */}
-                            {billingData.miscellaneousFees.map((fee) => (
-                                <Grid size={{ xs: 12, sm: 6 }} key={fee.id}>
-                                    <Box sx={{ p: 1.5, backgroundColor: 'grey.50', borderRadius: 1 }}>
-                                        <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 0.5 }}>
-                                            {fee.name}
-                                        </Typography>
-                                        <Typography variant="body2">{fee.description}</Typography>
-                                        <Typography variant="caption" color="text.secondary">
-                                            Amount: {formatCurrency(fee.amount)}
-                                        </Typography>
-                                    </Box>
-                                </Grid>
-                            ))}
-                        </Grid>
+                        </Box>
                     )}
                 </Box>
             </Box>
 
-            {/* Quick Actions */}
-            <Box sx={{ display: 'flex', gap: 1 }}>
+            {/* Compact Action Bar */}
+            <Box sx={{ display: 'flex', gap: 1, mt: 2 }}>
                 <Button
                     variant="contained"
-                    size="small"
                     onClick={() => navigate('/portal/billing/payments')}
+                    disabled={totals.outstanding === 0}
                     sx={{ fontSize: '0.75rem' }}
                 >
                     Make Payment
                 </Button>
                 <Button
                     variant="outlined"
-                    size="small"
                     startIcon={<DownloadIcon sx={{ fontSize: 14 }} />}
                     sx={{ fontSize: '0.75rem' }}
                 >
-                    Download Statement
+                    Statement
                 </Button>
                 <Button
                     variant="outlined"
-                    size="small"
                     startIcon={<ViewIcon sx={{ fontSize: 14 }} />}
-                    onClick={() => navigate('/portal/billing/payments')}
+                    onClick={() => navigate('/portal/billing/history')}
                     sx={{ fontSize: '0.75rem' }}
                 >
-                    Payment History
+                    History
                 </Button>
             </Box>
         </Box>

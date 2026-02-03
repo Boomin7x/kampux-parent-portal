@@ -1,34 +1,23 @@
 import {
-    Assignment as AssignmentIcon,
-    CheckCircle as CompletedIcon,
-    Download as DownloadIcon,
-    Star as ExcellentIcon,
-    ExpandMore as ExpandMoreIcon,
-    Grade as GradeIcon,
-    Refresh as RefreshIcon,
+    CalendarToday as CalendarIcon,
     Assessment as ResultsIcon,
-    TrendingDown as TrendingDownIcon,
-    TrendingFlat as TrendingFlatIcon,
-    TrendingUp as TrendingUpIcon,
+    BarChart as SummaryIcon,
+    NavigateBefore as PreviousIcon,
+    NavigateNext as NextIcon,
+    Timeline as TimelineIcon,
+    Close as CloseIcon,
+    TrendingUp as TrendIcon,
 } from '@mui/icons-material';
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    alpha,
-    Avatar,
     Box,
-    Button,
-    Card,
-    CardContent,
     Chip,
-    Divider,
+    Container,
+    Dialog,
+    DialogContent,
+    DialogTitle,
     Grid,
     IconButton,
     LinearProgress,
-    List,
-    ListItem,
-    ListItemText,
     Paper,
     Tab,
     Table,
@@ -39,1928 +28,2420 @@ import {
     TableRow,
     Tabs,
     Typography,
-    useTheme,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import type { AcademicResultsOverview } from '../../../../types/results.types';
 import type { Student } from '../../../../types/student.types';
 
 interface ResultsOverviewProps {
     selectedStudent: Student | null;
-    className?: string;
 }
 
-interface TabPanelProps {
+// Report Card Data Structure
+interface SubjectResult {
+    id: string;
+    subject: string;
+    subjectCode: string;
+    coefficient: number;
+    firstTest: { average: number; total: number };
+    secondTest: { average: number; total: number };
+    thirdTerm: { average: number; total: number; position: number };
+    grade: string;
+    teacher: string;
+    group: 'Science' | 'Arts' | 'Languages' | 'Others';
+}
+
+interface GroupSummary {
+    groupName: string;
+    totalMarks: number;
+    groupAverage: number;
+    groupPosition: number;
+}
+
+interface SequenceAssessment {
+    id: string;
+    sequenceNumber: number;
+    termNumber: number;
+    academicYear: string;
+    assessmentPeriod: string;
+    startDate: string;
+    endDate: string;
+    isCompleted: boolean;
+    isCurrent: boolean;
+    subjects: {
+        subjectId: string;
+        subject: string;
+        subjectCode: string;
+        marksObtained: number;
+        totalMarks: number;
+        percentage: number;
+        grade: string;
+        position: number;
+        teacher: string;
+        group: string;
+    }[];
+    overallPerformance: {
+        totalMarks: number;
+        obtainedMarks: number;
+        averagePercentage: number;
+        grade: string;
+        position: number;
+        totalStudents: number;
+    };
+}
+
+interface TermReport {
+    termName: string;
+    academicYear: string;
+    subjects: SubjectResult[];
+    groupSummaries: GroupSummary[];
+    overallSummary: {
+        firstTermAverage: number;
+        secondTermAverage: number;
+        thirdTermAverage: number;
+        annualAverage: number;
+        classPosition: number;
+        totalStudents: number;
+        bestAverage: number;
+        worstAverage: number;
+    };
+    discipline: {
+        totalAbsences: number;
+        suspensions: number;
+        punishments: number;
+        warnings: number;
+        remarks: string;
+    };
+    sequences: SequenceAssessment[];
+}
+
+// Mock Sequence Data
+const mockSequenceData: SequenceAssessment[] = [
+    {
+        id: 'seq1_term1',
+        sequenceNumber: 1,
+        termNumber: 1,
+        academicYear: '2023/2024',
+        assessmentPeriod: 'First Sequence - First Term',
+        startDate: '2023-09-01',
+        endDate: '2023-09-30',
+        isCompleted: true,
+        isCurrent: false,
+        subjects: [
+            {
+                subjectId: 'math',
+                subject: 'Mathematics',
+                subjectCode: 'MATH',
+                marksObtained: 75,
+                totalMarks: 100,
+                percentage: 75,
+                grade: 'B',
+                position: 18,
+                teacher: 'Dr. Johnson',
+                group: 'Science',
+            },
+            {
+                subjectId: 'english',
+                subject: 'English Language',
+                subjectCode: 'ENG',
+                marksObtained: 88,
+                totalMarks: 100,
+                percentage: 88,
+                grade: 'A-',
+                position: 5,
+                teacher: 'Ms. Davis',
+                group: 'Languages',
+            },
+        ],
+        overallPerformance: {
+            totalMarks: 600,
+            obtainedMarks: 456,
+            averagePercentage: 76.0,
+            grade: 'B',
+            position: 15,
+            totalStudents: 42,
+        },
+    },
+    {
+        id: 'seq2_term1',
+        sequenceNumber: 2,
+        termNumber: 1,
+        academicYear: '2023/2024',
+        assessmentPeriod: 'Second Sequence - First Term',
+        startDate: '2023-10-01',
+        endDate: '2023-10-31',
+        isCompleted: true,
+        isCurrent: false,
+        subjects: [
+            {
+                subjectId: 'math',
+                subject: 'Mathematics',
+                subjectCode: 'MATH',
+                marksObtained: 82,
+                totalMarks: 100,
+                percentage: 82,
+                grade: 'B+',
+                position: 12,
+                teacher: 'Dr. Johnson',
+                group: 'Science',
+            },
+            {
+                subjectId: 'english',
+                subject: 'English Language',
+                subjectCode: 'ENG',
+                marksObtained: 91,
+                totalMarks: 100,
+                percentage: 91,
+                grade: 'A',
+                position: 3,
+                teacher: 'Ms. Davis',
+                group: 'Languages',
+            },
+        ],
+        overallPerformance: {
+            totalMarks: 600,
+            obtainedMarks: 498,
+            averagePercentage: 83.0,
+            grade: 'B+',
+            position: 10,
+            totalStudents: 42,
+        },
+    },
+    {
+        id: 'seq1_term2',
+        sequenceNumber: 1,
+        termNumber: 2,
+        academicYear: '2023/2024',
+        assessmentPeriod: 'First Sequence - Second Term',
+        startDate: '2024-01-08',
+        endDate: '2024-01-31',
+        isCompleted: true,
+        isCurrent: false,
+        subjects: [
+            {
+                subjectId: 'math',
+                subject: 'Mathematics',
+                subjectCode: 'MATH',
+                marksObtained: 85,
+                totalMarks: 100,
+                percentage: 85,
+                grade: 'A-',
+                position: 8,
+                teacher: 'Dr. Johnson',
+                group: 'Science',
+            },
+            {
+                subjectId: 'english',
+                subject: 'English Language',
+                subjectCode: 'ENG',
+                marksObtained: 89,
+                totalMarks: 100,
+                percentage: 89,
+                grade: 'A',
+                position: 4,
+                teacher: 'Ms. Davis',
+                group: 'Languages',
+            },
+        ],
+        overallPerformance: {
+            totalMarks: 600,
+            obtainedMarks: 510,
+            averagePercentage: 85.0,
+            grade: 'A-',
+            position: 8,
+            totalStudents: 42,
+        },
+    },
+    {
+        id: 'seq2_term2',
+        sequenceNumber: 2,
+        termNumber: 2,
+        academicYear: '2023/2024',
+        assessmentPeriod: 'Second Sequence - Second Term',
+        startDate: '2024-02-01',
+        endDate: '2024-02-28',
+        isCompleted: true,
+        isCurrent: true,
+        subjects: [
+            {
+                subjectId: 'math',
+                subject: 'Mathematics',
+                subjectCode: 'MATH',
+                marksObtained: 88,
+                totalMarks: 100,
+                percentage: 88,
+                grade: 'A-',
+                position: 6,
+                teacher: 'Dr. Johnson',
+                group: 'Science',
+            },
+            {
+                subjectId: 'english',
+                subject: 'English Language',
+                subjectCode: 'ENG',
+                marksObtained: 93,
+                totalMarks: 100,
+                percentage: 93,
+                grade: 'A',
+                position: 2,
+                teacher: 'Ms. Davis',
+                group: 'Languages',
+            },
+        ],
+        overallPerformance: {
+            totalMarks: 600,
+            obtainedMarks: 528,
+            averagePercentage: 88.0,
+            grade: 'A-',
+            position: 5,
+            totalStudents: 42,
+        },
+    },
+    {
+        id: 'seq1_term3',
+        sequenceNumber: 1,
+        termNumber: 3,
+        academicYear: '2023/2024',
+        assessmentPeriod: 'First Sequence - Third Term',
+        startDate: '2024-04-01',
+        endDate: '2024-04-30',
+        isCompleted: false,
+        isCurrent: false,
+        subjects: [],
+        overallPerformance: {
+            totalMarks: 600,
+            obtainedMarks: 0,
+            averagePercentage: 0,
+            grade: '-',
+            position: 0,
+            totalStudents: 42,
+        },
+    },
+];
+
+// Mock Report Card Data
+const mockReportCardData: TermReport = {
+    termName: 'Third Term',
+    academicYear: '2023/2024',
+    sequences: mockSequenceData,
+    subjects: [
+        {
+            id: 'math',
+            subject: 'Mathematics',
+            subjectCode: 'MATH',
+            coefficient: 4,
+            firstTest: { average: 85, total: 100 },
+            secondTest: { average: 78, total: 100 },
+            thirdTerm: { average: 82, total: 100, position: 12 },
+            grade: 'B+',
+            teacher: 'Dr. Johnson',
+            group: 'Science',
+        },
+        {
+            id: 'chemistry',
+            subject: 'Chemistry',
+            subjectCode: 'CHEM',
+            coefficient: 3,
+            firstTest: { average: 78, total: 100 },
+            secondTest: { average: 80, total: 100 },
+            thirdTerm: { average: 79, total: 100, position: 8 },
+            grade: 'B',
+            teacher: 'Prof. Smith',
+            group: 'Science',
+        },
+        {
+            id: 'biology',
+            subject: 'Biology',
+            subjectCode: 'BIO',
+            coefficient: 3,
+            firstTest: { average: 88, total: 100 },
+            secondTest: { average: 85, total: 100 },
+            thirdTerm: { average: 87, total: 100, position: 5 },
+            grade: 'A-',
+            teacher: 'Dr. Wilson',
+            group: 'Science',
+        },
+        {
+            id: 'physics',
+            subject: 'Physics',
+            subjectCode: 'PHY',
+            coefficient: 4,
+            firstTest: { average: 75, total: 100 },
+            secondTest: { average: 82, total: 100 },
+            thirdTerm: { average: 79, total: 100, position: 15 },
+            grade: 'B',
+            teacher: 'Mr. Brown',
+            group: 'Science',
+        },
+        {
+            id: 'english',
+            subject: 'English Language',
+            subjectCode: 'ENG',
+            coefficient: 3,
+            firstTest: { average: 92, total: 100 },
+            secondTest: { average: 89, total: 100 },
+            thirdTerm: { average: 91, total: 100, position: 3 },
+            grade: 'A',
+            teacher: 'Ms. Davis',
+            group: 'Languages',
+        },
+        {
+            id: 'french',
+            subject: 'French Language',
+            subjectCode: 'FRE',
+            coefficient: 2,
+            firstTest: { average: 68, total: 100 },
+            secondTest: { average: 72, total: 100 },
+            thirdTerm: { average: 70, total: 100, position: 18 },
+            grade: 'C+',
+            teacher: 'Mme. Martin',
+            group: 'Languages',
+        },
+        {
+            id: 'history',
+            subject: 'History',
+            subjectCode: 'HIS',
+            coefficient: 2,
+            firstTest: { average: 85, total: 100 },
+            secondTest: { average: 78, total: 100 },
+            thirdTerm: { average: 82, total: 100, position: 9 },
+            grade: 'B+',
+            teacher: 'Mr. Clark',
+            group: 'Arts',
+        },
+        {
+            id: 'geography',
+            subject: 'Geography',
+            subjectCode: 'GEO',
+            coefficient: 2,
+            firstTest: { average: 80, total: 100 },
+            secondTest: { average: 77, total: 100 },
+            thirdTerm: { average: 79, total: 100, position: 11 },
+            grade: 'B',
+            teacher: 'Ms. Taylor',
+            group: 'Arts',
+        },
+        {
+            id: 'pe',
+            subject: 'Physical Education',
+            subjectCode: 'PE',
+            coefficient: 1,
+            firstTest: { average: 95, total: 100 },
+            secondTest: { average: 92, total: 100 },
+            thirdTerm: { average: 94, total: 100, position: 2 },
+            grade: 'A',
+            teacher: 'Coach Wilson',
+            group: 'Others',
+        },
+        {
+            id: 'religious',
+            subject: 'Religious Studies',
+            subjectCode: 'REL',
+            coefficient: 1,
+            firstTest: { average: 88, total: 100 },
+            secondTest: { average: 85, total: 100 },
+            thirdTerm: { average: 87, total: 100, position: 6 },
+            grade: 'A-',
+            teacher: 'Fr. Joseph',
+            group: 'Others',
+        },
+    ],
+    groupSummaries: [
+        {
+            groupName: 'Science Group Results',
+            totalMarks: 1400,
+            groupAverage: 81.8,
+            groupPosition: 8,
+        },
+        {
+            groupName: 'Arts Group Results',
+            totalMarks: 400,
+            groupAverage: 80.5,
+            groupPosition: 10,
+        },
+        {
+            groupName: 'Languages Group Results',
+            totalMarks: 500,
+            groupAverage: 80.6,
+            groupPosition: 12,
+        },
+        {
+            groupName: 'Others Group Results',
+            totalMarks: 200,
+            groupAverage: 90.5,
+            groupPosition: 4,
+        },
+    ],
+    overallSummary: {
+        firstTermAverage: 78.5,
+        secondTermAverage: 80.2,
+        thirdTermAverage: 81.2,
+        annualAverage: 79.97,
+        classPosition: 9,
+        totalStudents: 42,
+        bestAverage: 95.2,
+        worstAverage: 45.8,
+    },
+    discipline: {
+        totalAbsences: 3,
+        suspensions: 0,
+        punishments: 0,
+        warnings: 1,
+        remarks: 'Good behavior overall. Excellent participation in class.',
+    },
+};
+
+// Helper functions for grade calculation
+const getGradeColor = (percentage: number): string => {
+    if (percentage >= 90) return '#10b981'; // Green
+    if (percentage >= 80) return '#3b82f6'; // Blue
+    if (percentage >= 70) return '#f59e0b'; // Orange
+    if (percentage >= 60) return '#8b5cf6'; // Purple
+    return '#ef4444'; // Red
+};
+
+const getGradeBackground = (percentage: number): string => {
+    if (percentage >= 90) return 'rgba(16, 185, 129, 0.1)';
+    if (percentage >= 80) return 'rgba(59, 130, 246, 0.1)';
+    if (percentage >= 70) return 'rgba(245, 158, 11, 0.1)';
+    if (percentage >= 60) return 'rgba(139, 92, 246, 0.1)';
+    return 'rgba(239, 68, 68, 0.1)';
+};
+
+// Tab Panel Component
+function TabPanel(props: {
     children?: React.ReactNode;
     index: number;
     value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
-
+}) {
+    const { children, value, index } = props;
     return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`results-tabpanel-${index}`}
-            aria-labelledby={`results-tab-${index}`}
-            {...other}
-        >
-            {value === index && <Box sx={{ py: 3 }}>{children}</Box>}
+        <div role="tabpanel" hidden={value !== index}>
+            {value === index && <Box>{children}</Box>}
         </div>
     );
 }
 
-// Mock academic results data
-const mockResultsData: AcademicResultsOverview = {
-    studentId: 'student1',
-    currentTerm: 'Term 1',
-    academicYear: '2024-2025',
-    overallPerformance: {
-        currentGPA: 3.7,
-        currentGrade: 'B+',
-        classRank: 8,
-        totalStudentsInClass: 45,
-        overallPercentage: 87.2,
-        gradeStatus: 'good',
-        termCompletion: 75,
-        assessmentCompletion: 85,
-    },
-    subjectResults: [
-        {
-            id: 'sub_1',
-            subject: 'Mathematics',
-            subjectCode: 'MATH10',
-            teacher: {
-                id: 'teacher_1',
-                name: 'Ms. Rodriguez',
-                title: 'Senior Mathematics Teacher',
-                subject: 'Mathematics',
-                department: 'Mathematics Department',
-                email: 'mrodriguez@excellenceacademy.edu',
-                qualifications: ['M.Sc. Mathematics', 'B.Ed.'],
-                experienceYears: 12,
-            },
-            currentGrade: 'A-',
-            currentPercentage: 91.5,
-            creditHours: 4,
-            gradePoints: 3.7,
-            classAverage: 78.5,
-            highestMark: 95.0,
-            lowestMark: 45.0,
-            studentRank: 3,
-            totalStudents: 45,
-            assessments: [
-                {
-                    id: 'assess_1',
-                    name: 'Chapter 7 Quiz',
-                    type: 'quiz',
-                    date: '2025-01-15T10:00:00Z',
-                    marksObtained: 27,
-                    totalMarks: 30,
-                    percentage: 90,
-                    grade: 'A-',
-                    weight: 15,
-                    feedback: 'Excellent understanding of concepts',
-                    status: 'graded',
-                },
-                {
-                    id: 'assess_2',
-                    name: 'Algebra Assignment',
-                    type: 'assignment',
-                    date: '2025-01-10T00:00:00Z',
-                    marksObtained: 48,
-                    totalMarks: 50,
-                    percentage: 96,
-                    grade: 'A',
-                    weight: 20,
-                    feedback: 'Clear working shown throughout',
-                    status: 'graded',
-                },
-            ],
-            attendance: {
-                totalClasses: 40,
-                classesAttended: 38,
-                attendancePercentage: 95,
-                lastClassDate: '2025-01-23T09:00:00Z',
-            },
-            status: 'active',
-            lastAssessmentDate: '2025-01-15T10:00:00Z',
-        },
-        {
-            id: 'sub_2',
-            subject: 'Physics',
-            subjectCode: 'PHYS10',
-            teacher: {
-                id: 'teacher_2',
-                name: 'Dr. Thompson',
-                title: 'Physics Teacher',
-                subject: 'Physics',
-                department: 'Science Department',
-                email: 'dthompson@excellenceacademy.edu',
-                qualifications: ['Ph.D. Physics', 'M.Sc. Physics'],
-                experienceYears: 15,
-            },
-            currentGrade: 'B+',
-            currentPercentage: 87.2,
-            creditHours: 4,
-            gradePoints: 3.3,
-            classAverage: 75.8,
-            highestMark: 92.0,
-            lowestMark: 42.0,
-            studentRank: 7,
-            totalStudents: 45,
-            assessments: [
-                {
-                    id: 'assess_3',
-                    name: 'Mechanics Test',
-                    type: 'test',
-                    date: '2025-01-12T14:00:00Z',
-                    marksObtained: 74,
-                    totalMarks: 80,
-                    percentage: 92.5,
-                    grade: 'A',
-                    weight: 25,
-                    status: 'graded',
-                },
-            ],
-            attendance: {
-                totalClasses: 35,
-                classesAttended: 34,
-                attendancePercentage: 97,
-                lastClassDate: '2025-01-22T14:00:00Z',
-            },
-            status: 'active',
-            lastAssessmentDate: '2025-01-12T14:00:00Z',
-        },
-        {
-            id: 'sub_3',
-            subject: 'English',
-            subjectCode: 'ENG10',
-            teacher: {
-                id: 'teacher_3',
-                name: 'Ms. Davis',
-                title: 'English Teacher',
-                subject: 'English',
-                department: 'Languages Department',
-                email: 'mdavis@excellenceacademy.edu',
-                qualifications: ['M.A. English Literature', 'B.Ed.'],
-                experienceYears: 8,
-            },
-            currentGrade: 'A',
-            currentPercentage: 94.8,
-            creditHours: 4,
-            gradePoints: 4.0,
-            classAverage: 82.1,
-            highestMark: 96.0,
-            lowestMark: 55.0,
-            studentRank: 2,
-            totalStudents: 45,
-            assessments: [
-                {
-                    id: 'assess_4',
-                    name: 'Essay - Character Analysis',
-                    type: 'assignment',
-                    date: '2025-01-08T00:00:00Z',
-                    marksObtained: 95,
-                    totalMarks: 100,
-                    percentage: 95,
-                    grade: 'A',
-                    weight: 30,
-                    feedback: 'Outstanding analysis and writing',
-                    status: 'graded',
-                },
-            ],
-            attendance: {
-                totalClasses: 30,
-                classesAttended: 30,
-                attendancePercentage: 100,
-                lastClassDate: '2025-01-23T11:00:00Z',
-            },
-            status: 'active',
-            lastAssessmentDate: '2025-01-08T00:00:00Z',
-        },
-    ],
-    sequentialAssessments: [
-        {
-            id: 'seq_1',
-            sequenceNumber: 1,
-            assessmentPeriod: 'Weeks 1-4',
-            startDate: '2024-09-01T00:00:00Z',
-            endDate: '2024-09-28T23:59:59Z',
-            subjects: [
-                {
-                    subject: 'Mathematics',
-                    teacher: 'Ms. Rodriguez',
-                    marksObtained: 85,
-                    totalMarks: 100,
-                    percentage: 85,
-                    grade: 'B+',
-                    assessmentType: 'test',
-                    assessmentDate: '2024-09-25T10:00:00Z',
-                    comments: 'Good understanding of basic concepts',
-                },
-                {
-                    subject: 'Physics',
-                    teacher: 'Dr. Thompson',
-                    marksObtained: 78,
-                    totalMarks: 100,
-                    percentage: 78,
-                    grade: 'B',
-                    assessmentType: 'practical',
-                    assessmentDate: '2024-09-26T14:00:00Z',
-                    comments: 'Needs improvement in practical skills',
-                },
-                {
-                    subject: 'English',
-                    teacher: 'Ms. Davis',
-                    marksObtained: 92,
-                    totalMarks: 100,
-                    percentage: 92,
-                    grade: 'A',
-                    assessmentType: 'assignment',
-                    assessmentDate: '2024-09-24T00:00:00Z',
-                    comments: 'Excellent writing and comprehension',
-                },
-            ],
-            overallPerformance: {
-                averagePercentage: 85,
-                totalMarks: 300,
-                obtainedMarks: 255,
-                grade: 'B+',
-                rank: 12,
-            },
-            teacherComments: [
-                'Shows consistent effort',
-                'Good improvement in weaker subjects',
-            ],
-            status: 'completed',
-        },
-        {
-            id: 'seq_2',
-            sequenceNumber: 2,
-            assessmentPeriod: 'Weeks 5-8',
-            startDate: '2024-09-29T00:00:00Z',
-            endDate: '2024-10-26T23:59:59Z',
-            subjects: [
-                {
-                    subject: 'Mathematics',
-                    teacher: 'Ms. Rodriguez',
-                    marksObtained: 91,
-                    totalMarks: 100,
-                    percentage: 91,
-                    grade: 'A-',
-                    assessmentType: 'test',
-                    assessmentDate: '2024-10-23T10:00:00Z',
-                    comments: 'Significant improvement shown',
-                },
-                {
-                    subject: 'Physics',
-                    teacher: 'Dr. Thompson',
-                    marksObtained: 84,
-                    totalMarks: 100,
-                    percentage: 84,
-                    grade: 'B+',
-                    assessmentType: 'test',
-                    assessmentDate: '2024-10-24T14:00:00Z',
-                    comments: 'Better grasp of theoretical concepts',
-                },
-                {
-                    subject: 'English',
-                    teacher: 'Ms. Davis',
-                    marksObtained: 96,
-                    totalMarks: 100,
-                    percentage: 96,
-                    grade: 'A',
-                    assessmentType: 'project',
-                    assessmentDate: '2024-10-22T00:00:00Z',
-                    comments: 'Outstanding creative project',
-                },
-            ],
-            overallPerformance: {
-                averagePercentage: 90.3,
-                totalMarks: 300,
-                obtainedMarks: 271,
-                grade: 'A-',
-                rank: 8,
-            },
-            teacherComments: [
-                'Excellent progress in all subjects',
-                'Showing leadership qualities',
-            ],
-            status: 'completed',
-        },
-    ],
-    termReports: [
-        {
-            id: 'term_1',
-            term: 'Term 1',
-            academicYear: '2024-2025',
-            startDate: '2024-09-01T00:00:00Z',
-            endDate: '2024-12-20T23:59:59Z',
-            subjects: [
-                {
-                    subject: 'Mathematics',
-                    subjectCode: 'MATH10',
-                    teacher: {
-                        id: 'teacher_1',
-                        name: 'Ms. Rodriguez',
-                        title: 'Senior Mathematics Teacher',
-                        subject: 'Mathematics',
-                        department: 'Mathematics Department',
-                        email: 'mrodriguez@excellenceacademy.edu',
-                        qualifications: ['M.Sc. Mathematics', 'B.Ed.'],
-                        experienceYears: 12,
-                    },
-                    continuousAssessment: 85,
-                    midtermExam: 88,
-                    finalExam: 92,
-                    totalMarks: 100,
-                    obtainedMarks: 91,
-                    percentage: 91,
-                    grade: 'A-',
-                    gradePoints: 3.7,
-                    position: 3,
-                    highestInClass: 95,
-                    classAverage: 78.5,
-                    teacherComments: 'Excellent progress and understanding',
-                    effortGrade: 'A',
-                    conductGrade: 'A',
-                },
-            ],
-            overallSummary: {
-                totalMarks: 800,
-                obtainedMarks: 698,
-                percentage: 87.25,
-                gpa: 3.7,
-                grade: 'B+',
-                rank: 8,
-                totalStudents: 45,
-            },
-            attendance: {
-                totalDays: 75,
-                daysPresent: 72,
-                daysAbsent: 3,
-                attendancePercentage: 96,
-            },
-            conduct: {
-                punctuality: 'A',
-                discipline: 'A',
-                cooperation: 'A',
-                leadership: 'B',
-                initiative: 'B',
-                overallConduct: 'A',
-                comments: 'Well-behaved and respectful student',
-            },
-            extracurricular: [
-                {
-                    activity: 'Mathematics Club',
-                    participation: 'excellent',
-                    achievements: ['Regional Math Olympiad - Bronze Medal'],
-                    position: 'Member',
-                    comments: 'Active participant in club activities',
-                },
-                {
-                    activity: 'School Debate Team',
-                    participation: 'good',
-                    position: 'Junior Member',
-                    comments: 'Shows potential in public speaking',
-                },
-            ],
-            principalComments:
-                'Emma shows excellent academic potential and is a well-rounded student. Continue the good work.',
-            classTeacherComments:
-                'Consistently performs well across all subjects. Shows good leadership qualities and helps peers.',
-            nextTermBegins: '2025-01-06T00:00:00Z',
-            isPromoted: true,
-            status: 'published',
-            publishedDate: '2024-12-22T10:00:00Z',
-        },
-    ],
-    teacherComments: [
-        {
-            id: 'comment_1',
-            teacherId: 'teacher_1',
-            teacherName: 'Ms. Rodriguez',
-            subject: 'Mathematics',
-            commentType: 'praise',
-            comment:
-                'Emma has shown remarkable improvement in her problem-solving skills.',
-            date: '2025-01-20T15:30:00Z',
-            isPrivate: false,
-        },
-        {
-            id: 'comment_2',
-            teacherId: 'teacher_3',
-            teacherName: 'Ms. Davis',
-            subject: 'English',
-            commentType: 'improvement',
-            comment:
-                'Consider expanding vocabulary through additional reading.',
-            date: '2025-01-18T11:15:00Z',
-            isPrivate: false,
-        },
-    ],
-    performanceTrends: [
-        {
-            subject: 'Mathematics',
-            trend: 'improving',
-            trendValue: 15.2,
-            dataPoints: [
-                { period: 'Sep', percentage: 78, grade: 'B' },
-                { period: 'Oct', percentage: 84, grade: 'B+' },
-                { period: 'Nov', percentage: 88, grade: 'B+' },
-                { period: 'Dec', percentage: 91, grade: 'A-' },
-            ],
-            recommendation: 'Continue current study methods',
-        },
-        {
-            subject: 'Physics',
-            trend: 'improving',
-            trendValue: 8.7,
-            dataPoints: [
-                { period: 'Sep', percentage: 75, grade: 'B' },
-                { period: 'Oct', percentage: 79, grade: 'B' },
-                { period: 'Nov', percentage: 83, grade: 'B+' },
-                { period: 'Dec', percentage: 87, grade: 'B+' },
-            ],
-            recommendation: 'Focus on practical applications',
-        },
-        {
-            subject: 'English',
-            trend: 'stable',
-            trendValue: 2.1,
-            dataPoints: [
-                { period: 'Sep', percentage: 92, grade: 'A-' },
-                { period: 'Oct', percentage: 94, grade: 'A' },
-                { period: 'Nov', percentage: 93, grade: 'A-' },
-                { period: 'Dec', percentage: 95, grade: 'A' },
-            ],
-            recommendation: 'Maintain current performance',
-        },
-    ],
-    lastUpdated: '2025-01-24T16:30:00Z',
-};
-
 export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
     selectedStudent,
-    className = '',
 }) => {
-    const theme = useTheme();
-    const navigate = useNavigate();
-    const [resultsData, setResultsData] =
-        useState<AcademicResultsOverview | null>(null);
+    const [reportData, setReportData] = useState<TermReport | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [tabValue, setTabValue] = useState(0);
+    const [currentSequenceIndex, setCurrentSequenceIndex] = useState(0);
+    const [sequences] = useState<SequenceAssessment[]>(mockSequenceData);
+    const [selectedSubject, setSelectedSubject] = useState<any | null>(null);
+    const [isSubjectModalOpen, setIsSubjectModalOpen] = useState(false);
 
     useEffect(() => {
+        let mounted = true;
+
         if (selectedStudent) {
-            setIsLoading(true);
-            setTimeout(() => {
-                setResultsData(mockResultsData);
-                setIsLoading(false);
-            }, 1000);
+            const loadData = async () => {
+                if (mounted) {
+                    setIsLoading(true);
+                    // Simulate async data loading
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    if (mounted) {
+                        setReportData(mockReportCardData);
+                        setIsLoading(false);
+                    }
+                }
+            };
+
+            loadData();
         }
+
+        return () => {
+            mounted = false;
+        };
     }, [selectedStudent]);
 
-    const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString();
-    };
+    // Find current sequence index on load
+    React.useEffect(() => {
+        if (sequences.length > 0) {
+            const currentIndex = sequences.findIndex(seq => seq.isCurrent);
+            setCurrentSequenceIndex(currentIndex >= 0 ? currentIndex : sequences.length - 1);
+        }
+    }, [sequences]);
 
-    const getGradeColor = (percentage: number) => {
-        if (percentage >= 90) return theme.palette.success.main;
-        if (percentage >= 80) return theme.palette.info.main;
-        if (percentage >= 70) return theme.palette.warning.main;
-        return theme.palette.error.main;
-    };
+    const currentSequence = sequences[currentSequenceIndex];
 
-    const getTrendIcon = (trend: string, trendValue: number) => {
-        const color =
-            trend === 'improving'
-                ? theme.palette.success.main
-                : trend === 'declining'
-                  ? theme.palette.error.main
-                  : theme.palette.text.secondary;
-
-        switch (trend) {
-            case 'improving':
-                return <TrendingUpIcon sx={{ color, fontSize: 16 }} />;
-            case 'declining':
-                return <TrendingDownIcon sx={{ color, fontSize: 16 }} />;
-            default:
-                return <TrendingFlatIcon sx={{ color, fontSize: 16 }} />;
+    const handlePreviousSequence = () => {
+        if (currentSequenceIndex > 0) {
+            setCurrentSequenceIndex(currentSequenceIndex - 1);
         }
     };
 
-    const getGradeStatusColor = (status: string) => {
-        switch (status) {
-            case 'excellent':
-                return theme.palette.success.main;
-            case 'good':
-                return theme.palette.info.main;
-            case 'satisfactory':
-                return theme.palette.warning.main;
-            default:
-                return theme.palette.error.main;
+    const handleNextSequence = () => {
+        if (currentSequenceIndex < sequences.length - 1) {
+            setCurrentSequenceIndex(currentSequenceIndex + 1);
         }
     };
 
-    const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
         setTabValue(newValue);
     };
 
-    if (!selectedStudent) {
+    const handleSubjectClick = (subject: any) => {
+        setSelectedSubject(subject);
+        setIsSubjectModalOpen(true);
+    };
+
+    const handleSubjectModalClose = () => {
+        setIsSubjectModalOpen(false);
+        setSelectedSubject(null);
+    };
+
+    if (isLoading || !reportData || !selectedStudent) {
         return (
-            <Card className={className}>
-                <CardContent>
-                    <Box sx={{ textAlign: 'center', py: 4 }}>
-                        <ResultsIcon
-                            sx={{ fontSize: 64, color: 'text.disabled', mb: 2 }}
-                        />
-                        <Typography variant="h6" color="text.secondary">
-                            Select a student to view academic results
-                        </Typography>
-                    </Box>
-                </CardContent>
-            </Card>
+            <Box sx={{ p: 3, textAlign: 'center' }}>
+                <Typography variant="body2" color="text.secondary">
+                    Loading academic results...
+                </Typography>
+            </Box>
         );
     }
 
-    if (isLoading || !resultsData) {
-        return (
-            <Card className={className}>
-                <CardContent>
-                    <Box sx={{ textAlign: 'center', py: 4 }}>
-                        <LinearProgress sx={{ mb: 2 }} />
-                        <Typography variant="body2" color="text.secondary">
-                            Loading academic results...
-                        </Typography>
-                    </Box>
-                </CardContent>
-            </Card>
-        );
-    }
+    // Group subjects by category
+    const subjectsByGroup = reportData.subjects.reduce(
+        (acc, subject) => {
+            if (!acc[subject.group]) {
+                acc[subject.group] = [];
+            }
+            acc[subject.group].push(subject);
+            return acc;
+        },
+        {} as Record<string, SubjectResult[]>
+    );
 
     return (
-        <Box className={className}>
-            {/* Header */}
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    mb: 3,
-                }}
-            >
-                <Typography variant="h4" sx={{ fontWeight: 600 }}>
+        <Box>
+            {/* Header with student info */}
+            <Box sx={{ mb: 2 }}>
+                <Typography
+                    variant="h6"
+                    sx={{
+                        fontWeight: 600,
+                        fontSize: '1rem',
+                        color: 'text.primary',
+                        mb: 0.5,
+                    }}
+                >
                     Academic Results
                 </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Typography variant="caption" color="text.secondary">
-                        Last updated: {formatDate(resultsData.lastUpdated)}
-                    </Typography>
-                    <IconButton size="small">
-                        <RefreshIcon />
-                    </IconButton>
-                </Box>
+                <Typography
+                    variant="body2"
+                    sx={{
+                        color: 'text.secondary',
+                        fontSize: '0.8125rem',
+                    }}
+                >
+                    {selectedStudent.fullName} • Grade {selectedStudent.grade}
+                </Typography>
             </Box>
 
-            {/* Overall Performance Summary */}
-            <Grid container spacing={3} sx={{ mb: 3 }}>
-                <Grid size={{ xs: 12, md: 3 }}>
-                    <Card>
-                        <CardContent>
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    mb: 1,
-                                }}
-                            >
-                                <GradeIcon
-                                    sx={{
-                                        color: getGradeStatusColor(
-                                            resultsData.overallPerformance
-                                                .gradeStatus
-                                        ),
-                                        mr: 1,
-                                    }}
-                                />
-                                <Typography
-                                    variant="subtitle2"
-                                    color="text.secondary"
-                                >
-                                    Current GPA
-                                </Typography>
-                            </Box>
-                            <Typography variant="h4" sx={{ fontWeight: 600 }}>
-                                {resultsData.overallPerformance.currentGPA.toFixed(
-                                    1
-                                )}
-                            </Typography>
-                            <Typography
-                                variant="caption"
-                                color="text.secondary"
-                            >
-                                Grade:{' '}
-                                {resultsData.overallPerformance.currentGrade}
-                            </Typography>
-                        </CardContent>
-                    </Card>
-                </Grid>
-
-                <Grid size={{ xs: 12, md: 3 }}>
-                    <Card>
-                        <CardContent>
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    mb: 1,
-                                }}
-                            >
-                                <ExcellentIcon
-                                    sx={{ color: 'warning.main', mr: 1 }}
-                                />
-                                <Typography
-                                    variant="subtitle2"
-                                    color="text.secondary"
-                                >
-                                    Class Rank
-                                </Typography>
-                            </Box>
-                            <Typography variant="h4" sx={{ fontWeight: 600 }}>
-                                {resultsData.overallPerformance.classRank}
-                            </Typography>
-                            <Typography
-                                variant="caption"
-                                color="text.secondary"
-                            >
-                                of{' '}
-                                {
-                                    resultsData.overallPerformance
-                                        .totalStudentsInClass
-                                }{' '}
-                                students
-                            </Typography>
-                        </CardContent>
-                    </Card>
-                </Grid>
-
-                <Grid size={{ xs: 12, md: 3 }}>
-                    <Card>
-                        <CardContent>
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    mb: 1,
-                                }}
-                            >
-                                <CompletedIcon
-                                    sx={{ color: 'success.main', mr: 1 }}
-                                />
-                                <Typography
-                                    variant="subtitle2"
-                                    color="text.secondary"
-                                >
-                                    Overall Percentage
-                                </Typography>
-                            </Box>
-                            <Typography variant="h4" sx={{ fontWeight: 600 }}>
-                                {resultsData.overallPerformance.overallPercentage.toFixed(
-                                    1
-                                )}
-                                %
-                            </Typography>
-                        </CardContent>
-                    </Card>
-                </Grid>
-
-                <Grid size={{ xs: 12, md: 3 }}>
-                    <Card>
-                        <CardContent>
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    mb: 1,
-                                }}
-                            >
-                                <AssignmentIcon
-                                    sx={{ color: 'info.main', mr: 1 }}
-                                />
-                                <Typography
-                                    variant="subtitle2"
-                                    color="text.secondary"
-                                >
-                                    Assessment Progress
-                                </Typography>
-                            </Box>
-                            <Typography variant="h4" sx={{ fontWeight: 600 }}>
-                                {
-                                    resultsData.overallPerformance
-                                        .assessmentCompletion
-                                }
-                                %
-                            </Typography>
-                            <LinearProgress
-                                variant="determinate"
-                                value={
-                                    resultsData.overallPerformance
-                                        .assessmentCompletion
-                                }
-                                sx={{ mt: 1 }}
-                            />
-                        </CardContent>
-                    </Card>
-                </Grid>
-            </Grid>
-
             {/* Tabs */}
-            <Card>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Paper
+                elevation={0}
+                sx={{
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    borderRadius: 1,
+                    overflow: 'hidden',
+                }}
+            >
+                <Box sx={{ borderBottom: '1px solid', borderColor: 'divider' }}>
                     <Tabs
                         value={tabValue}
                         onChange={handleTabChange}
-                        sx={{ px: 2 }}
+                        sx={{ px: 1 }}
                     >
-                        <Tab label="Subject Performance" />
-                        <Tab label="Sequential Assessments" />
-                        <Tab label="Term Reports" />
-                        <Tab label="Performance Trends" />
+                        <Tab
+                            icon={<ResultsIcon sx={{ fontSize: 16 }} />}
+                            label="Current Term Report"
+                            iconPosition="start"
+                            sx={{
+                                minHeight: 48,
+                                fontSize: '0.8125rem',
+                                textTransform: 'none',
+                            }}
+                        />
+                        <Tab
+                            icon={<CalendarIcon sx={{ fontSize: 16 }} />}
+                            label="Sequential Reports"
+                            iconPosition="start"
+                            sx={{
+                                minHeight: 48,
+                                fontSize: '0.8125rem',
+                                textTransform: 'none',
+                            }}
+                        />
+                        <Tab
+                            icon={<SummaryIcon sx={{ fontSize: 16 }} />}
+                            label="Annual Summary"
+                            iconPosition="start"
+                            sx={{
+                                minHeight: 48,
+                                fontSize: '0.8125rem',
+                                textTransform: 'none',
+                            }}
+                        />
                     </Tabs>
                 </Box>
 
-                {/* Subject Performance Tab */}
+                {/* Current Term Report Tab */}
                 <TabPanel value={tabValue} index={0}>
-                    <Box sx={{ px: 2, pb: 2 }}>
-                        <Grid container spacing={3}>
-                            {resultsData.subjectResults.map(subject => (
-                                <Grid size={{ xs: 12, lg: 6 }} key={subject.id}>
-                                    <Card variant="outlined">
-                                        <CardContent>
+                    <Box sx={{ p: 1.5 }}>
+                        {/* Report Header */}
+                        <Box
+                            sx={{
+                                textAlign: 'center',
+                                mb: 3,
+                                p: 2,
+                                bgcolor: 'primary.50',
+                                borderRadius: 1,
+                            }}
+                        >
+                            <Typography
+                                variant="h6"
+                                sx={{
+                                    fontWeight: 700,
+                                    mb: 0.5,
+                                    fontSize: '1.125rem',
+                                }}
+                            >
+                                {reportData.termName.toUpperCase()} REPORT CARD
+                            </Typography>
+                            <Typography
+                                variant="subtitle2"
+                                sx={{ fontWeight: 600, fontSize: '0.875rem' }}
+                            >
+                                ACADEMIC YEAR {reportData.academicYear}
+                            </Typography>
+                        </Box>
+
+                        {/* Student Information */}
+                        <Box
+                            sx={{
+                                display: 'grid',
+                                gridTemplateColumns:
+                                    'repeat(auto-fit, minmax(200px, 1fr))',
+                                gap: 2,
+                                mb: 3,
+                                p: 1.5,
+                                bgcolor: 'background.paper',
+                                border: '1px solid',
+                                borderColor: 'divider',
+                                borderRadius: 1,
+                            }}
+                        >
+                            <Box>
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        fontWeight: 600,
+                                        color: 'text.secondary',
+                                    }}
+                                >
+                                    Class:
+                                </Typography>
+                                <Typography
+                                    variant="body2"
+                                    sx={{ fontWeight: 500 }}
+                                >
+                                    Form {selectedStudent.grade}
+                                </Typography>
+                            </Box>
+                            <Box>
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        fontWeight: 600,
+                                        color: 'text.secondary',
+                                    }}
+                                >
+                                    Surname & Name:
+                                </Typography>
+                                <Typography
+                                    variant="body2"
+                                    sx={{ fontWeight: 500 }}
+                                >
+                                    {selectedStudent.fullName}
+                                </Typography>
+                            </Box>
+                            <Box>
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        fontWeight: 600,
+                                        color: 'text.secondary',
+                                    }}
+                                >
+                                    Number on roll:
+                                </Typography>
+                                <Typography
+                                    variant="body2"
+                                    sx={{ fontWeight: 500 }}
+                                >
+                                    {'N/A'}
+                                </Typography>
+                            </Box>
+                        </Box>
+
+                        {/* Subject Results Table */}
+                        {Object.entries(subjectsByGroup).map(
+                            ([groupName, subjects]) => (
+                                <Box key={groupName} sx={{ mb: 3 }}>
+                                    {/* Group Header */}
+                                    <Typography
+                                        variant="subtitle2"
+                                        sx={{
+                                            fontWeight: 700,
+                                            mb: 1,
+                                            fontSize: '0.875rem',
+                                            color: 'primary.main',
+                                        }}
+                                    >
+                                        {groupName} Group Results
+                                    </Typography>
+
+                                    <TableContainer
+                                        component={Paper}
+                                        elevation={0}
+                                        sx={{
+                                            border: '1px solid',
+                                            borderColor: 'divider',
+                                            borderRadius: 1,
+                                            mb: 2,
+                                        }}
+                                    >
+                                        <Table size="small">
+                                            <TableHead>
+                                                <TableRow
+                                                    sx={{ bgcolor: 'grey.50' }}
+                                                >
+                                                    <TableCell
+                                                        sx={{
+                                                            fontWeight: 700,
+                                                            fontSize: '0.75rem',
+                                                            p: 1,
+                                                        }}
+                                                    >
+                                                        Subject
+                                                    </TableCell>
+                                                    <TableCell
+                                                        sx={{
+                                                            fontWeight: 700,
+                                                            fontSize: '0.75rem',
+                                                            p: 1,
+                                                        }}
+                                                    >
+                                                        Coef.
+                                                    </TableCell>
+                                                    <TableCell
+                                                        align="center"
+                                                        sx={{
+                                                            fontWeight: 700,
+                                                            fontSize: '0.75rem',
+                                                            p: 1,
+                                                        }}
+                                                    >
+                                                        1st Test
+                                                    </TableCell>
+                                                    <TableCell
+                                                        align="center"
+                                                        sx={{
+                                                            fontWeight: 700,
+                                                            fontSize: '0.75rem',
+                                                            p: 1,
+                                                        }}
+                                                    >
+                                                        2nd Test
+                                                    </TableCell>
+                                                    <TableCell
+                                                        align="center"
+                                                        sx={{
+                                                            fontWeight: 700,
+                                                            fontSize: '0.75rem',
+                                                            p: 1,
+                                                        }}
+                                                    >
+                                                        3rd Term
+                                                    </TableCell>
+                                                    <TableCell
+                                                        align="center"
+                                                        sx={{
+                                                            fontWeight: 700,
+                                                            fontSize: '0.75rem',
+                                                            p: 1,
+                                                        }}
+                                                    >
+                                                        Grade
+                                                    </TableCell>
+                                                    <TableCell
+                                                        sx={{
+                                                            fontWeight: 700,
+                                                            fontSize: '0.75rem',
+                                                            p: 1,
+                                                        }}
+                                                    >
+                                                        Teacher
+                                                    </TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {subjects.map(subject => (
+                                                    <TableRow
+                                                        key={subject.id}
+                                                        sx={{
+                                                            '&:hover': {
+                                                                bgcolor:
+                                                                    'action.hover',
+                                                            },
+                                                        }}
+                                                    >
+                                                        <TableCell
+                                                            sx={{ p: 1 }}
+                                                        >
+                                                            <Typography
+                                                                variant="body2"
+                                                                sx={{
+                                                                    fontWeight: 600,
+                                                                    fontSize:
+                                                                        '0.8125rem',
+                                                                }}
+                                                            >
+                                                                {
+                                                                    subject.subject
+                                                                }
+                                                            </Typography>
+                                                            <Typography
+                                                                variant="caption"
+                                                                color="text.secondary"
+                                                                sx={{
+                                                                    fontSize:
+                                                                        '0.75rem',
+                                                                }}
+                                                            >
+                                                                {
+                                                                    subject.subjectCode
+                                                                }
+                                                            </Typography>
+                                                        </TableCell>
+                                                        <TableCell
+                                                            align="center"
+                                                            sx={{ p: 1 }}
+                                                        >
+                                                            <Typography
+                                                                variant="body2"
+                                                                sx={{
+                                                                    fontSize:
+                                                                        '0.8125rem',
+                                                                }}
+                                                            >
+                                                                {
+                                                                    subject.coefficient
+                                                                }
+                                                            </Typography>
+                                                        </TableCell>
+                                                        <TableCell
+                                                            align="center"
+                                                            sx={{ p: 1 }}
+                                                        >
+                                                            <Box>
+                                                                <Typography
+                                                                    variant="body2"
+                                                                    sx={{
+                                                                        fontSize:
+                                                                            '0.8125rem',
+                                                                    }}
+                                                                >
+                                                                    Ave.{' '}
+                                                                    {
+                                                                        subject
+                                                                            .firstTest
+                                                                            .average
+                                                                    }
+                                                                </Typography>
+                                                                <Typography
+                                                                    variant="caption"
+                                                                    color="text.secondary"
+                                                                    sx={{
+                                                                        fontSize:
+                                                                            '0.75rem',
+                                                                    }}
+                                                                >
+                                                                    Total{' '}
+                                                                    {
+                                                                        subject
+                                                                            .firstTest
+                                                                            .total
+                                                                    }
+                                                                </Typography>
+                                                            </Box>
+                                                        </TableCell>
+                                                        <TableCell
+                                                            align="center"
+                                                            sx={{ p: 1 }}
+                                                        >
+                                                            <Box>
+                                                                <Typography
+                                                                    variant="body2"
+                                                                    sx={{
+                                                                        fontSize:
+                                                                            '0.8125rem',
+                                                                    }}
+                                                                >
+                                                                    Ave.{' '}
+                                                                    {
+                                                                        subject
+                                                                            .secondTest
+                                                                            .average
+                                                                    }
+                                                                </Typography>
+                                                                <Typography
+                                                                    variant="caption"
+                                                                    color="text.secondary"
+                                                                    sx={{
+                                                                        fontSize:
+                                                                            '0.75rem',
+                                                                    }}
+                                                                >
+                                                                    Total{' '}
+                                                                    {
+                                                                        subject
+                                                                            .secondTest
+                                                                            .total
+                                                                    }
+                                                                </Typography>
+                                                            </Box>
+                                                        </TableCell>
+                                                        <TableCell
+                                                            align="center"
+                                                            sx={{ p: 1 }}
+                                                        >
+                                                            <Box>
+                                                                <Typography
+                                                                    variant="body2"
+                                                                    sx={{
+                                                                        fontSize:
+                                                                            '0.8125rem',
+                                                                    }}
+                                                                >
+                                                                    Ave.{' '}
+                                                                    {
+                                                                        subject
+                                                                            .thirdTerm
+                                                                            .average
+                                                                    }
+                                                                </Typography>
+                                                                <Typography
+                                                                    variant="caption"
+                                                                    color="text.secondary"
+                                                                    sx={{
+                                                                        fontSize:
+                                                                            '0.75rem',
+                                                                    }}
+                                                                >
+                                                                    Pos.{' '}
+                                                                    {
+                                                                        subject
+                                                                            .thirdTerm
+                                                                            .position
+                                                                    }
+                                                                </Typography>
+                                                            </Box>
+                                                        </TableCell>
+                                                        <TableCell
+                                                            align="center"
+                                                            sx={{ p: 1 }}
+                                                        >
+                                                            <Chip
+                                                                label={
+                                                                    subject.grade
+                                                                }
+                                                                size="small"
+                                                                sx={{
+                                                                    bgcolor:
+                                                                        getGradeBackground(
+                                                                            subject
+                                                                                .thirdTerm
+                                                                                .average
+                                                                        ),
+                                                                    color: getGradeColor(
+                                                                        subject
+                                                                            .thirdTerm
+                                                                            .average
+                                                                    ),
+                                                                    fontWeight: 600,
+                                                                    fontSize:
+                                                                        '0.75rem',
+                                                                }}
+                                                            />
+                                                        </TableCell>
+                                                        <TableCell
+                                                            sx={{ p: 1 }}
+                                                        >
+                                                            <Typography
+                                                                variant="body2"
+                                                                sx={{
+                                                                    fontSize:
+                                                                        '0.8125rem',
+                                                                }}
+                                                            >
+                                                                {
+                                                                    subject.teacher
+                                                                }
+                                                            </Typography>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+
+                                    {/* Group Summary */}
+                                    <Box
+                                        sx={{
+                                            p: 1,
+                                            bgcolor: 'background.default',
+                                            borderRadius: 0.5,
+                                            border: '1px solid',
+                                            borderColor: 'divider',
+                                        }}
+                                    >
+                                        {reportData.groupSummaries.find(g =>
+                                            g.groupName.includes(groupName)
+                                        ) && (
+                                            <Typography
+                                                variant="caption"
+                                                sx={{ fontSize: '0.75rem' }}
+                                            >
+                                                Group total Marks:{' '}
+                                                {
+                                                    reportData.groupSummaries.find(
+                                                        g =>
+                                                            g.groupName.includes(
+                                                                groupName
+                                                            )
+                                                    )!.totalMarks
+                                                }{' '}
+                                                • Group Ave:{' '}
+                                                {
+                                                    reportData.groupSummaries.find(
+                                                        g =>
+                                                            g.groupName.includes(
+                                                                groupName
+                                                            )
+                                                    )!.groupAverage
+                                                }{' '}
+                                                • Group position:{' '}
+                                                {
+                                                    reportData.groupSummaries.find(
+                                                        g =>
+                                                            g.groupName.includes(
+                                                                groupName
+                                                            )
+                                                    )!.groupPosition
+                                                }
+                                            </Typography>
+                                        )}
+                                    </Box>
+                                </Box>
+                            )
+                        )}
+
+                        {/* Overall Summary */}
+                        <Box
+                            sx={{
+                                mt: 3,
+                                p: 2,
+                                bgcolor: 'primary.50',
+                                borderRadius: 1,
+                                border: '1px solid',
+                                borderColor: 'primary.200',
+                            }}
+                        >
+                            <Typography
+                                variant="subtitle2"
+                                sx={{
+                                    fontWeight: 700,
+                                    mb: 2,
+                                    fontSize: '0.875rem',
+                                }}
+                            >
+                                Others Results
+                            </Typography>
+
+                            <Box
+                                sx={{
+                                    display: 'grid',
+                                    gridTemplateColumns:
+                                        'repeat(auto-fit, minmax(150px, 1fr))',
+                                    gap: 2,
+                                    mb: 2,
+                                }}
+                            >
+                                <Box>
+                                    <Typography
+                                        variant="caption"
+                                        sx={{
+                                            fontWeight: 600,
+                                            color: 'text.secondary',
+                                        }}
+                                    >
+                                        1st Term Ave.:
+                                    </Typography>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{ fontWeight: 600 }}
+                                    >
+                                        {
+                                            reportData.overallSummary
+                                                .firstTermAverage
+                                        }
+                                    </Typography>
+                                </Box>
+                                <Box>
+                                    <Typography
+                                        variant="caption"
+                                        sx={{
+                                            fontWeight: 600,
+                                            color: 'text.secondary',
+                                        }}
+                                    >
+                                        2nd Term Ave.:
+                                    </Typography>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{ fontWeight: 600 }}
+                                    >
+                                        {
+                                            reportData.overallSummary
+                                                .secondTermAverage
+                                        }
+                                    </Typography>
+                                </Box>
+                                <Box>
+                                    <Typography
+                                        variant="caption"
+                                        sx={{
+                                            fontWeight: 600,
+                                            color: 'text.secondary',
+                                        }}
+                                    >
+                                        3rd Term Ave.:
+                                    </Typography>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{ fontWeight: 600 }}
+                                    >
+                                        {
+                                            reportData.overallSummary
+                                                .thirdTermAverage
+                                        }
+                                    </Typography>
+                                </Box>
+                                <Box>
+                                    <Typography
+                                        variant="caption"
+                                        sx={{
+                                            fontWeight: 600,
+                                            color: 'text.secondary',
+                                        }}
+                                    >
+                                        Annual Ave.:
+                                    </Typography>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{ fontWeight: 600 }}
+                                    >
+                                        {
+                                            reportData.overallSummary
+                                                .annualAverage
+                                        }
+                                    </Typography>
+                                </Box>
+                                <Box>
+                                    <Typography
+                                        variant="caption"
+                                        sx={{
+                                            fontWeight: 600,
+                                            color: 'text.secondary',
+                                        }}
+                                    >
+                                        Position:
+                                    </Typography>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{ fontWeight: 600 }}
+                                    >
+                                        {
+                                            reportData.overallSummary
+                                                .classPosition
+                                        }
+                                        /
+                                        {
+                                            reportData.overallSummary
+                                                .totalStudents
+                                        }
+                                    </Typography>
+                                </Box>
+                            </Box>
+
+                            <Box
+                                sx={{
+                                    display: 'grid',
+                                    gridTemplateColumns:
+                                        'repeat(auto-fit, minmax(150px, 1fr))',
+                                    gap: 2,
+                                }}
+                            >
+                                <Box>
+                                    <Typography
+                                        variant="caption"
+                                        sx={{
+                                            fontWeight: 600,
+                                            color: 'text.secondary',
+                                        }}
+                                    >
+                                        Best Ave.:
+                                    </Typography>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{ fontWeight: 600 }}
+                                    >
+                                        {reportData.overallSummary.bestAverage}
+                                    </Typography>
+                                </Box>
+                                <Box>
+                                    <Typography
+                                        variant="caption"
+                                        sx={{
+                                            fontWeight: 600,
+                                            color: 'text.secondary',
+                                        }}
+                                    >
+                                        Worst Ave.:
+                                    </Typography>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{ fontWeight: 600 }}
+                                    >
+                                        {reportData.overallSummary.worstAverage}
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </Box>
+
+                        {/* Discipline Section */}
+                        <Box
+                            sx={{
+                                mt: 3,
+                                p: 2,
+                                bgcolor: 'background.paper',
+                                borderRadius: 1,
+                                border: '1px solid',
+                                borderColor: 'divider',
+                            }}
+                        >
+                            <Typography
+                                variant="subtitle2"
+                                sx={{
+                                    fontWeight: 700,
+                                    mb: 2,
+                                    textAlign: 'center',
+                                    fontSize: '0.875rem',
+                                }}
+                            >
+                                DISCIPLINE
+                            </Typography>
+
+                            <Box
+                                sx={{
+                                    display: 'grid',
+                                    gridTemplateColumns:
+                                        'repeat(auto-fit, minmax(120px, 1fr))',
+                                    gap: 2,
+                                    mb: 2,
+                                }}
+                            >
+                                <Box
+                                    sx={{
+                                        textAlign: 'center',
+                                        p: 1,
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                    }}
+                                >
+                                    <Typography
+                                        variant="caption"
+                                        sx={{ fontWeight: 600 }}
+                                    >
+                                        Total Abs:
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        {reportData.discipline.totalAbsences}
+                                    </Typography>
+                                </Box>
+                                <Box
+                                    sx={{
+                                        textAlign: 'center',
+                                        p: 1,
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                    }}
+                                >
+                                    <Typography
+                                        variant="caption"
+                                        sx={{ fontWeight: 600 }}
+                                    >
+                                        Suspensions:
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        {reportData.discipline.suspensions}
+                                    </Typography>
+                                </Box>
+                                <Box
+                                    sx={{
+                                        textAlign: 'center',
+                                        p: 1,
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                    }}
+                                >
+                                    <Typography
+                                        variant="caption"
+                                        sx={{ fontWeight: 600 }}
+                                    >
+                                        Punishments:
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        {reportData.discipline.punishments}
+                                    </Typography>
+                                </Box>
+                                <Box
+                                    sx={{
+                                        textAlign: 'center',
+                                        p: 1,
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                    }}
+                                >
+                                    <Typography
+                                        variant="caption"
+                                        sx={{ fontWeight: 600 }}
+                                    >
+                                        Warning:
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        {reportData.discipline.warnings}
+                                    </Typography>
+                                </Box>
+                            </Box>
+                            <Box
+                                sx={{
+                                    p: 1,
+                                    border: '1px solid',
+                                    borderColor: 'divider',
+                                    borderRadius: 0.5,
+                                }}
+                            >
+                                <Typography
+                                    variant="caption"
+                                    sx={{ fontWeight: 600 }}
+                                >
+                                    Remark:
+                                </Typography>
+                                <Typography
+                                    variant="body2"
+                                    sx={{ fontSize: '0.8125rem', mt: 0.5 }}
+                                >
+                                    {reportData.discipline.remarks}
+                                </Typography>
+                            </Box>
+                        </Box>
+                    </Box>
+                </TabPanel>
+
+                {/* Sequential Reports Tab */}
+                <TabPanel value={tabValue} index={1}>
+                    <Box sx={{ p: 1.5 }}>
+                        {/* Sequence Navigation */}
+                        <Box sx={{ mb: 3 }}>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between',
+                                    mb: 2,
+                                    p: 2,
+                                    bgcolor: 'primary.50',
+                                    borderRadius: 1,
+                                    border: '1px solid',
+                                    borderColor: 'primary.200',
+                                }}
+                            >
+                                <IconButton
+                                    size="small"
+                                    onClick={handlePreviousSequence}
+                                    disabled={currentSequenceIndex === 0}
+                                    sx={{
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                        borderRadius: 0.5,
+                                        bgcolor: 'background.paper',
+                                    }}
+                                >
+                                    <PreviousIcon sx={{ fontSize: 16 }} />
+                                </IconButton>
+
+                                <Box sx={{ textAlign: 'center', flex: 1, mx: 2 }}>
+                                    <Typography
+                                        variant="subtitle1"
+                                        sx={{
+                                            fontWeight: 700,
+                                            fontSize: '1rem',
+                                            mb: 0.5,
+                                        }}
+                                    >
+                                        {currentSequence?.assessmentPeriod || 'No Data'}
+                                    </Typography>
+                                    <Typography
+                                        variant="caption"
+                                        sx={{
+                                            fontSize: '0.75rem',
+                                            color: 'text.secondary',
+                                        }}
+                                    >
+                                        Sequence {currentSequenceIndex + 1} of {sequences.length} • Term {currentSequence?.termNumber || 'N/A'} • {currentSequence?.academicYear}
+                                    </Typography>
+                                </Box>
+
+                                <IconButton
+                                    size="small"
+                                    onClick={handleNextSequence}
+                                    disabled={currentSequenceIndex === sequences.length - 1}
+                                    sx={{
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                        borderRadius: 0.5,
+                                        bgcolor: 'background.paper',
+                                    }}
+                                >
+                                    <NextIcon sx={{ fontSize: 16 }} />
+                                </IconButton>
+                            </Box>
+
+                            {/* Progress Timeline */}
+                            <Box sx={{ mb: 2 }}>
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        fontSize: '0.75rem',
+                                        fontWeight: 600,
+                                        mb: 1,
+                                        display: 'block',
+                                    }}
+                                >
+                                    Sequence Progress
+                                </Typography>
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                    {sequences.map((seq, index) => (
+                                        <Box
+                                            key={seq.id}
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                flex: 1,
+                                            }}
+                                        >
                                             <Box
                                                 sx={{
+                                                    width: 20,
+                                                    height: 20,
+                                                    borderRadius: '50%',
+                                                    bgcolor: seq.isCompleted
+                                                        ? 'success.main'
+                                                        : seq.isCurrent
+                                                        ? 'primary.main'
+                                                        : 'grey.300',
+                                                    color: 'white',
                                                     display: 'flex',
-                                                    justifyContent:
-                                                        'space-between',
-                                                    alignItems: 'flex-start',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    fontSize: '0.75rem',
+                                                    fontWeight: 600,
+                                                    border: index === currentSequenceIndex ? '2px solid' : 'none',
+                                                    borderColor: index === currentSequenceIndex ? 'warning.main' : 'none',
+                                                }}
+                                            >
+                                                {seq.sequenceNumber}
+                                            </Box>
+                                            {index < sequences.length - 1 && (
+                                                <Box
+                                                    sx={{
+                                                        flex: 1,
+                                                        height: 2,
+                                                        bgcolor: seq.isCompleted ? 'success.main' : 'grey.300',
+                                                        mx: 0.5,
+                                                    }}
+                                                />
+                                            )}
+                                        </Box>
+                                    ))}
+                                </Box>
+                            </Box>
+                        </Box>
+
+                        {/* Sequence Details */}
+                        {currentSequence ? (
+                            <>
+                                {/* Status Banner */}
+                                <Box
+                                    sx={{
+                                        p: 1.5,
+                                        mb: 3,
+                                        borderRadius: 1,
+                                        bgcolor: currentSequence.isCompleted
+                                            ? 'success.50'
+                                            : currentSequence.isCurrent
+                                            ? 'warning.50'
+                                            : 'grey.50',
+                                        border: '1px solid',
+                                        borderColor: currentSequence.isCompleted
+                                            ? 'success.200'
+                                            : currentSequence.isCurrent
+                                            ? 'warning.200'
+                                            : 'grey.200',
+                                    }}
+                                >
+                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                        <TimelineIcon
+                                            sx={{
+                                                fontSize: 20,
+                                                color: currentSequence.isCompleted
+                                                    ? 'success.main'
+                                                    : currentSequence.isCurrent
+                                                    ? 'warning.main'
+                                                    : 'grey.500',
+                                            }}
+                                        />
+                                        <Box>
+                                            <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.8125rem' }}>
+                                                {currentSequence.isCompleted
+                                                    ? 'Completed Assessment'
+                                                    : currentSequence.isCurrent
+                                                    ? 'Current Assessment Period'
+                                                    : 'Upcoming Assessment'}
+                                            </Typography>
+                                            <Typography variant="caption" sx={{ fontSize: '0.75rem', color: 'text.secondary' }}>
+                                                {new Date(currentSequence.startDate).toLocaleDateString()} - {new Date(currentSequence.endDate).toLocaleDateString()}
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                </Box>
+
+                                {currentSequence.isCompleted ? (
+                                    <>
+                                        {/* Overall Performance */}
+                                        <Box
+                                            sx={{
+                                                mb: 3,
+                                                p: 2,
+                                                bgcolor: 'primary.50',
+                                                borderRadius: 1,
+                                                border: '1px solid',
+                                                borderColor: 'primary.200',
+                                            }}
+                                        >
+                                            <Typography
+                                                variant="subtitle2"
+                                                sx={{
+                                                    fontWeight: 700,
                                                     mb: 2,
+                                                    fontSize: '0.875rem',
+                                                }}
+                                            >
+                                                Overall Performance
+                                            </Typography>
+                                            <Box
+                                                sx={{
+                                                    display: 'grid',
+                                                    gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+                                                    gap: 2,
                                                 }}
                                             >
                                                 <Box>
-                                                    <Typography
-                                                        variant="h6"
-                                                        sx={{ fontWeight: 600 }}
-                                                    >
-                                                        {subject.subject}
+                                                    <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>
+                                                        Total Marks:
                                                     </Typography>
-                                                    <Typography
-                                                        variant="caption"
-                                                        color="text.secondary"
-                                                    >
-                                                        {subject.subjectCode} •{' '}
-                                                        {subject.teacher.name}
+                                                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                                                        {currentSequence.overallPerformance.obtainedMarks}/{currentSequence.overallPerformance.totalMarks}
                                                     </Typography>
                                                 </Box>
-                                                <Avatar
-                                                    sx={{
-                                                        backgroundColor:
-                                                            getGradeColor(
-                                                                subject.currentPercentage
-                                                            ),
-                                                        color: 'white',
-                                                        width: 56,
-                                                        height: 56,
-                                                        fontSize: '1.1rem',
-                                                        fontWeight: 600,
-                                                    }}
-                                                >
-                                                    {subject.currentGrade}
-                                                </Avatar>
+                                                <Box>
+                                                    <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>
+                                                        Average:
+                                                    </Typography>
+                                                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                                                        {currentSequence.overallPerformance.averagePercentage}%
+                                                    </Typography>
+                                                </Box>
+                                                <Box>
+                                                    <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>
+                                                        Grade:
+                                                    </Typography>
+                                                    <Chip
+                                                        label={currentSequence.overallPerformance.grade}
+                                                        size="small"
+                                                        sx={{
+                                                            bgcolor: getGradeBackground(currentSequence.overallPerformance.averagePercentage),
+                                                            color: getGradeColor(currentSequence.overallPerformance.averagePercentage),
+                                                            fontWeight: 600,
+                                                            fontSize: '0.75rem',
+                                                        }}
+                                                    />
+                                                </Box>
+                                                <Box>
+                                                    <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>
+                                                        Position:
+                                                    </Typography>
+                                                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                                                        {currentSequence.overallPerformance.position}/{currentSequence.overallPerformance.totalStudents}
+                                                    </Typography>
+                                                </Box>
                                             </Box>
-
-                                            <Grid container spacing={2}>
-                                                <Grid size={{ xs: 6 }}>
-                                                    <Typography
-                                                        variant="body2"
-                                                        color="text.secondary"
-                                                    >
-                                                        Current Score:
-                                                    </Typography>
-                                                    <Typography
-                                                        variant="subtitle1"
-                                                        sx={{ fontWeight: 600 }}
-                                                    >
-                                                        {subject.currentPercentage.toFixed(
-                                                            1
-                                                        )}
-                                                        %
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid size={{ xs: 6 }}>
-                                                    <Typography
-                                                        variant="body2"
-                                                        color="text.secondary"
-                                                    >
-                                                        Class Rank:
-                                                    </Typography>
-                                                    <Typography
-                                                        variant="subtitle1"
-                                                        sx={{ fontWeight: 600 }}
-                                                    >
-                                                        {subject.studentRank} of{' '}
-                                                        {subject.totalStudents}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid size={{ xs: 6 }}>
-                                                    <Typography
-                                                        variant="body2"
-                                                        color="text.secondary"
-                                                    >
-                                                        Class Average:
-                                                    </Typography>
-                                                    <Typography
-                                                        variant="subtitle1"
-                                                        sx={{ fontWeight: 600 }}
-                                                    >
-                                                        {subject.classAverage.toFixed(
-                                                            1
-                                                        )}
-                                                        %
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid size={{ xs: 6 }}>
-                                                    <Typography
-                                                        variant="body2"
-                                                        color="text.secondary"
-                                                    >
-                                                        Attendance:
-                                                    </Typography>
-                                                    <Typography
-                                                        variant="subtitle1"
-                                                        sx={{ fontWeight: 600 }}
-                                                    >
-                                                        {
-                                                            subject.attendance
-                                                                .attendancePercentage
-                                                        }
-                                                        %
-                                                    </Typography>
-                                                </Grid>
-                                            </Grid>
-
-                                            <Accordion sx={{ mt: 2 }}>
-                                                <AccordionSummary
-                                                    expandIcon={
-                                                        <ExpandMoreIcon />
-                                                    }
-                                                >
-                                                    <Typography
-                                                        variant="subtitle2"
-                                                        sx={{ fontWeight: 600 }}
-                                                    >
-                                                        Recent Assessments (
-                                                        {
-                                                            subject.assessments
-                                                                .length
-                                                        }
-                                                        )
-                                                    </Typography>
-                                                </AccordionSummary>
-                                                <AccordionDetails>
-                                                    <List sx={{ p: 0 }}>
-                                                        {subject.assessments.map(
-                                                            (
-                                                                assessment,
-                                                                index
-                                                            ) => (
-                                                                <React.Fragment
-                                                                    key={
-                                                                        assessment.id
-                                                                    }
-                                                                >
-                                                                    <ListItem
-                                                                        sx={{
-                                                                            px: 0,
-                                                                        }}
-                                                                    >
-                                                                        <ListItemText
-                                                                            primary={
-                                                                                <Box
-                                                                                    sx={{
-                                                                                        display:
-                                                                                            'flex',
-                                                                                        justifyContent:
-                                                                                            'space-between',
-                                                                                        alignItems:
-                                                                                            'center',
-                                                                                    }}
-                                                                                >
-                                                                                    <Typography
-                                                                                        variant="subtitle2"
-                                                                                        sx={{
-                                                                                            fontWeight: 600,
-                                                                                        }}
-                                                                                    >
-                                                                                        {
-                                                                                            assessment.name
-                                                                                        }
-                                                                                    </Typography>
-                                                                                    <Chip
-                                                                                        label={
-                                                                                            assessment.grade
-                                                                                        }
-                                                                                        size="small"
-                                                                                        sx={{
-                                                                                            backgroundColor:
-                                                                                                alpha(
-                                                                                                    getGradeColor(
-                                                                                                        assessment.percentage
-                                                                                                    ),
-                                                                                                    0.1
-                                                                                                ),
-                                                                                            color: getGradeColor(
-                                                                                                assessment.percentage
-                                                                                            ),
-                                                                                            fontWeight: 600,
-                                                                                        }}
-                                                                                    />
-                                                                                </Box>
-                                                                            }
-                                                                            secondary={
-                                                                                <Box>
-                                                                                    <Typography
-                                                                                        variant="caption"
-                                                                                        color="text.secondary"
-                                                                                    >
-                                                                                        {
-                                                                                            assessment.marksObtained
-                                                                                        }
-
-                                                                                        /
-                                                                                        {
-                                                                                            assessment.totalMarks
-                                                                                        }{' '}
-                                                                                        (
-                                                                                        {
-                                                                                            assessment.percentage
-                                                                                        }
-                                                                                        %)
-                                                                                        •
-                                                                                        {assessment.type.toUpperCase()}{' '}
-                                                                                        •
-                                                                                        Weight:{' '}
-                                                                                        {
-                                                                                            assessment.weight
-                                                                                        }
-
-                                                                                        %
-                                                                                    </Typography>
-                                                                                    <Typography
-                                                                                        variant="caption"
-                                                                                        display="block"
-                                                                                        color="text.secondary"
-                                                                                    >
-                                                                                        {formatDate(
-                                                                                            assessment.date
-                                                                                        )}
-                                                                                    </Typography>
-                                                                                    {assessment.feedback && (
-                                                                                        <Typography
-                                                                                            variant="caption"
-                                                                                            display="block"
-                                                                                            sx={{
-                                                                                                fontStyle:
-                                                                                                    'italic',
-                                                                                                mt: 0.5,
-                                                                                            }}
-                                                                                        >
-                                                                                            "
-                                                                                            {
-                                                                                                assessment.feedback
-                                                                                            }
-
-                                                                                            "
-                                                                                        </Typography>
-                                                                                    )}
-                                                                                </Box>
-                                                                            }
-                                                                        />
-                                                                    </ListItem>
-                                                                    {index <
-                                                                        subject
-                                                                            .assessments
-                                                                            .length -
-                                                                            1 && (
-                                                                        <Divider />
-                                                                    )}
-                                                                </React.Fragment>
-                                                            )
-                                                        )}
-                                                    </List>
-                                                </AccordionDetails>
-                                            </Accordion>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                            ))}
-                        </Grid>
-                    </Box>
-                </TabPanel>
-
-                {/* Sequential Assessments Tab */}
-                <TabPanel value={tabValue} index={1}>
-                    <Box sx={{ px: 2, pb: 2 }}>
-                        <Grid container spacing={3}>
-                            {resultsData.sequentialAssessments.map(
-                                assessment => (
-                                    <Grid size={{ xs: 12 }} key={assessment.id}>
-                                        <Card variant="outlined">
-                                            <CardContent>
-                                                <Box
-                                                    sx={{
-                                                        display: 'flex',
-                                                        justifyContent:
-                                                            'space-between',
-                                                        alignItems: 'center',
-                                                        mb: 2,
-                                                    }}
-                                                >
-                                                    <Box>
-                                                        <Typography
-                                                            variant="h6"
-                                                            sx={{
-                                                                fontWeight: 600,
-                                                            }}
-                                                        >
-                                                            Sequential
-                                                            Assessment{' '}
-                                                            {
-                                                                assessment.sequenceNumber
-                                                            }
-                                                        </Typography>
-                                                        <Typography
-                                                            variant="caption"
-                                                            color="text.secondary"
-                                                        >
-                                                            {
-                                                                assessment.assessmentPeriod
-                                                            }{' '}
-                                                            •{' '}
-                                                            {formatDate(
-                                                                assessment.startDate
-                                                            )}{' '}
-                                                            -{' '}
-                                                            {formatDate(
-                                                                assessment.endDate
-                                                            )}
-                                                        </Typography>
-                                                    </Box>
-                                                    <Box
-                                                        sx={{
-                                                            textAlign: 'right',
-                                                        }}
-                                                    >
-                                                        <Chip
-                                                            label={
-                                                                assessment
-                                                                    .overallPerformance
-                                                                    .grade
-                                                            }
-                                                            sx={{
-                                                                backgroundColor:
-                                                                    alpha(
-                                                                        getGradeColor(
-                                                                            assessment
-                                                                                .overallPerformance
-                                                                                .averagePercentage
-                                                                        ),
-                                                                        0.1
-                                                                    ),
-                                                                color: getGradeColor(
-                                                                    assessment
-                                                                        .overallPerformance
-                                                                        .averagePercentage
-                                                                ),
-                                                                fontWeight: 600,
-                                                                fontSize:
-                                                                    '1rem',
-                                                                mb: 1,
-                                                            }}
-                                                        />
-                                                        <Typography
-                                                            variant="caption"
-                                                            display="block"
-                                                            color="text.secondary"
-                                                        >
-                                                            Rank:{' '}
-                                                            {
-                                                                assessment
-                                                                    .overallPerformance
-                                                                    .rank
-                                                            }
-                                                        </Typography>
-                                                    </Box>
-                                                </Box>
-
-                                                <TableContainer
-                                                    component={Paper}
-                                                    variant="outlined"
-                                                >
-                                                    <Table size="small">
-                                                        <TableHead>
-                                                            <TableRow>
-                                                                <TableCell>
-                                                                    Subject
-                                                                </TableCell>
-                                                                <TableCell>
-                                                                    Teacher
-                                                                </TableCell>
-                                                                <TableCell align="center">
-                                                                    Marks
-                                                                </TableCell>
-                                                                <TableCell align="center">
-                                                                    Grade
-                                                                </TableCell>
-                                                                <TableCell>
-                                                                    Type
-                                                                </TableCell>
-                                                                <TableCell>
-                                                                    Comments
-                                                                </TableCell>
-                                                            </TableRow>
-                                                        </TableHead>
-                                                        <TableBody>
-                                                            {assessment.subjects.map(
-                                                                subject => (
-                                                                    <TableRow
-                                                                        key={`${assessment.id}-${subject.subject}`}
-                                                                    >
-                                                                        <TableCell
-                                                                            sx={{
-                                                                                fontWeight: 600,
-                                                                            }}
-                                                                        >
-                                                                            {
-                                                                                subject.subject
-                                                                            }
-                                                                        </TableCell>
-                                                                        <TableCell>
-                                                                            {
-                                                                                subject.teacher
-                                                                            }
-                                                                        </TableCell>
-                                                                        <TableCell align="center">
-                                                                            {
-                                                                                subject.marksObtained
-                                                                            }
-                                                                            /
-                                                                            {
-                                                                                subject.totalMarks
-                                                                            }{' '}
-                                                                            (
-                                                                            {
-                                                                                subject.percentage
-                                                                            }
-                                                                            %)
-                                                                        </TableCell>
-                                                                        <TableCell align="center">
-                                                                            <Chip
-                                                                                label={
-                                                                                    subject.grade
-                                                                                }
-                                                                                size="small"
-                                                                                sx={{
-                                                                                    backgroundColor:
-                                                                                        alpha(
-                                                                                            getGradeColor(
-                                                                                                subject.percentage
-                                                                                            ),
-                                                                                            0.1
-                                                                                        ),
-                                                                                    color: getGradeColor(
-                                                                                        subject.percentage
-                                                                                    ),
-                                                                                }}
-                                                                            />
-                                                                        </TableCell>
-                                                                        <TableCell>
-                                                                            <Typography variant="caption">
-                                                                                {subject.assessmentType
-                                                                                    .replace(
-                                                                                        '_',
-                                                                                        ' '
-                                                                                    )
-                                                                                    .toUpperCase()}
-                                                                            </Typography>
-                                                                        </TableCell>
-                                                                        <TableCell>
-                                                                            <Typography variant="caption">
-                                                                                {
-                                                                                    subject.comments
-                                                                                }
-                                                                            </Typography>
-                                                                        </TableCell>
-                                                                    </TableRow>
-                                                                )
-                                                            )}
-                                                        </TableBody>
-                                                    </Table>
-                                                </TableContainer>
-
-                                                <Box
-                                                    sx={{
-                                                        mt: 2,
-                                                        p: 2,
-                                                        backgroundColor: alpha(
-                                                            theme.palette
-                                                                .primary.main,
-                                                            0.05
-                                                        ),
-                                                        borderRadius: 1,
-                                                    }}
-                                                >
-                                                    <Typography
-                                                        variant="subtitle2"
-                                                        sx={{
-                                                            fontWeight: 600,
-                                                            mb: 1,
-                                                        }}
-                                                    >
-                                                        Overall Performance:
-                                                    </Typography>
-                                                    <Typography variant="body2">
-                                                        Average:{' '}
-                                                        {
-                                                            assessment
-                                                                .overallPerformance
-                                                                .averagePercentage
-                                                        }
-                                                        % • Total:{' '}
-                                                        {
-                                                            assessment
-                                                                .overallPerformance
-                                                                .obtainedMarks
-                                                        }
-                                                        /
-                                                        {
-                                                            assessment
-                                                                .overallPerformance
-                                                                .totalMarks
-                                                        }
-                                                    </Typography>
-                                                    {assessment.teacherComments
-                                                        .length > 0 && (
-                                                        <Box sx={{ mt: 1 }}>
-                                                            <Typography
-                                                                variant="subtitle2"
-                                                                sx={{
-                                                                    fontWeight: 600,
-                                                                    mb: 0.5,
-                                                                }}
-                                                            >
-                                                                Teacher
-                                                                Comments:
-                                                            </Typography>
-                                                            {assessment.teacherComments.map(
-                                                                (
-                                                                    comment,
-                                                                    index
-                                                                ) => (
-                                                                    <Typography
-                                                                        key={
-                                                                            index
-                                                                        }
-                                                                        variant="body2"
-                                                                        sx={{
-                                                                            fontStyle:
-                                                                                'italic',
-                                                                        }}
-                                                                    >
-                                                                        •{' '}
-                                                                        {
-                                                                            comment
-                                                                        }
-                                                                    </Typography>
-                                                                )
-                                                            )}
-                                                        </Box>
-                                                    )}
-                                                </Box>
-                                            </CardContent>
-                                        </Card>
-                                    </Grid>
-                                )
-                            )}
-                        </Grid>
-                    </Box>
-                </TabPanel>
-
-                {/* Term Reports Tab */}
-                <TabPanel value={tabValue} index={2}>
-                    <Box sx={{ px: 2, pb: 2 }}>
-                        {resultsData.termReports.map(report => (
-                            <Card
-                                key={report.id}
-                                variant="outlined"
-                                sx={{ mb: 3 }}
-                            >
-                                <CardContent>
-                                    <Box
-                                        sx={{
-                                            display: 'flex',
-                                            justifyContent: 'space-between',
-                                            alignItems: 'center',
-                                            mb: 3,
-                                        }}
-                                    >
-                                        <Box>
-                                            <Typography
-                                                variant="h5"
-                                                sx={{ fontWeight: 600 }}
-                                            >
-                                                {report.term} Report -{' '}
-                                                {report.academicYear}
-                                            </Typography>
-                                            <Typography
-                                                variant="caption"
-                                                color="text.secondary"
-                                            >
-                                                {formatDate(report.startDate)} -{' '}
-                                                {formatDate(report.endDate)}
-                                            </Typography>
                                         </Box>
-                                        <Box sx={{ display: 'flex', gap: 2 }}>
-                                            <Button
-                                                variant="outlined"
-                                                startIcon={<DownloadIcon />}
-                                                size="small"
-                                            >
-                                                Download Report
-                                            </Button>
-                                            <Chip
-                                                label={report.status.toUpperCase()}
-                                                color={
-                                                    report.status ===
-                                                    'published'
-                                                        ? 'success'
-                                                        : 'warning'
-                                                }
-                                            />
-                                        </Box>
-                                    </Box>
 
-                                    <Grid container spacing={3}>
-                                        {/* Overall Summary */}
-                                        <Grid size={{ xs: 12, md: 6 }}>
-                                            <Card variant="outlined">
-                                                <CardContent>
-                                                    <Typography
-                                                        variant="h6"
-                                                        sx={{
-                                                            fontWeight: 600,
-                                                            mb: 2,
-                                                        }}
-                                                    >
-                                                        Overall Summary
-                                                    </Typography>
-                                                    <Grid container spacing={2}>
-                                                        <Grid size={{ xs: 6 }}>
-                                                            <Typography
-                                                                variant="body2"
-                                                                color="text.secondary"
-                                                            >
-                                                                GPA:
-                                                            </Typography>
-                                                            <Typography
-                                                                variant="h6"
-                                                                sx={{
-                                                                    fontWeight: 600,
-                                                                }}
-                                                            >
-                                                                {
-                                                                    report
-                                                                        .overallSummary
-                                                                        .gpa
-                                                                }
-                                                            </Typography>
-                                                        </Grid>
-                                                        <Grid size={{ xs: 6 }}>
-                                                            <Typography
-                                                                variant="body2"
-                                                                color="text.secondary"
-                                                            >
-                                                                Grade:
-                                                            </Typography>
-                                                            <Typography
-                                                                variant="h6"
-                                                                sx={{
-                                                                    fontWeight: 600,
-                                                                }}
-                                                            >
-                                                                {
-                                                                    report
-                                                                        .overallSummary
-                                                                        .grade
-                                                                }
-                                                            </Typography>
-                                                        </Grid>
-                                                        <Grid size={{ xs: 6 }}>
-                                                            <Typography
-                                                                variant="body2"
-                                                                color="text.secondary"
-                                                            >
-                                                                Percentage:
-                                                            </Typography>
-                                                            <Typography
-                                                                variant="subtitle1"
-                                                                sx={{
-                                                                    fontWeight: 600,
-                                                                }}
-                                                            >
-                                                                {
-                                                                    report
-                                                                        .overallSummary
-                                                                        .percentage
-                                                                }
-                                                                %
-                                                            </Typography>
-                                                        </Grid>
-                                                        <Grid size={{ xs: 6 }}>
-                                                            <Typography
-                                                                variant="body2"
-                                                                color="text.secondary"
-                                                            >
-                                                                Class Rank:
-                                                            </Typography>
-                                                            <Typography
-                                                                variant="subtitle1"
-                                                                sx={{
-                                                                    fontWeight: 600,
-                                                                }}
-                                                            >
-                                                                {
-                                                                    report
-                                                                        .overallSummary
-                                                                        .rank
-                                                                }{' '}
-                                                                of{' '}
-                                                                {
-                                                                    report
-                                                                        .overallSummary
-                                                                        .totalStudents
-                                                                }
-                                                            </Typography>
-                                                        </Grid>
-                                                    </Grid>
-                                                </CardContent>
-                                            </Card>
-                                        </Grid>
-
-                                        {/* Attendance Summary */}
-                                        <Grid size={{ xs: 12, md: 6 }}>
-                                            <Card variant="outlined">
-                                                <CardContent>
-                                                    <Typography
-                                                        variant="h6"
-                                                        sx={{
-                                                            fontWeight: 600,
-                                                            mb: 2,
-                                                        }}
-                                                    >
-                                                        Attendance Summary
-                                                    </Typography>
-                                                    <Grid container spacing={2}>
-                                                        <Grid size={{ xs: 6 }}>
-                                                            <Typography
-                                                                variant="body2"
-                                                                color="text.secondary"
-                                                            >
-                                                                Total Days:
-                                                            </Typography>
-                                                            <Typography
-                                                                variant="subtitle1"
-                                                                sx={{
-                                                                    fontWeight: 600,
-                                                                }}
-                                                            >
-                                                                {
-                                                                    report
-                                                                        .attendance
-                                                                        .totalDays
-                                                                }
-                                                            </Typography>
-                                                        </Grid>
-                                                        <Grid size={{ xs: 6 }}>
-                                                            <Typography
-                                                                variant="body2"
-                                                                color="text.secondary"
-                                                            >
-                                                                Present:
-                                                            </Typography>
-                                                            <Typography
-                                                                variant="subtitle1"
-                                                                sx={{
-                                                                    fontWeight: 600,
-                                                                }}
-                                                            >
-                                                                {
-                                                                    report
-                                                                        .attendance
-                                                                        .daysPresent
-                                                                }
-                                                            </Typography>
-                                                        </Grid>
-                                                        <Grid size={{ xs: 6 }}>
-                                                            <Typography
-                                                                variant="body2"
-                                                                color="text.secondary"
-                                                            >
-                                                                Absent:
-                                                            </Typography>
-                                                            <Typography
-                                                                variant="subtitle1"
-                                                                sx={{
-                                                                    fontWeight: 600,
-                                                                }}
-                                                            >
-                                                                {
-                                                                    report
-                                                                        .attendance
-                                                                        .daysAbsent
-                                                                }
-                                                            </Typography>
-                                                        </Grid>
-                                                        <Grid size={{ xs: 6 }}>
-                                                            <Typography
-                                                                variant="body2"
-                                                                color="text.secondary"
-                                                            >
-                                                                Percentage:
-                                                            </Typography>
-                                                            <Typography
-                                                                variant="subtitle1"
-                                                                sx={{
-                                                                    fontWeight: 600,
-                                                                }}
-                                                            >
-                                                                {
-                                                                    report
-                                                                        .attendance
-                                                                        .attendancePercentage
-                                                                }
-                                                                %
-                                                            </Typography>
-                                                        </Grid>
-                                                    </Grid>
-                                                </CardContent>
-                                            </Card>
-                                        </Grid>
-
-                                        {/* Comments */}
-                                        <Grid size={{ xs: 12 }}>
-                                            <Card variant="outlined">
-                                                <CardContent>
-                                                    <Typography
-                                                        variant="h6"
-                                                        sx={{
-                                                            fontWeight: 600,
-                                                            mb: 2,
-                                                        }}
-                                                    >
-                                                        Comments & Feedback
-                                                    </Typography>
-                                                    <Grid container spacing={2}>
-                                                        <Grid
-                                                            size={{
-                                                                xs: 12,
-                                                                md: 6,
-                                                            }}
-                                                        >
-                                                            <Typography
-                                                                variant="subtitle2"
-                                                                sx={{
-                                                                    fontWeight: 600,
-                                                                    mb: 1,
-                                                                }}
-                                                            >
-                                                                Class Teacher
-                                                                Comments:
-                                                            </Typography>
-                                                            <Typography
-                                                                variant="body2"
-                                                                sx={{
-                                                                    fontStyle:
-                                                                        'italic',
-                                                                }}
-                                                            >
-                                                                "
-                                                                {
-                                                                    report.classTeacherComments
-                                                                }
-                                                                "
-                                                            </Typography>
-                                                        </Grid>
-                                                        <Grid
-                                                            size={{
-                                                                xs: 12,
-                                                                md: 6,
-                                                            }}
-                                                        >
-                                                            <Typography
-                                                                variant="subtitle2"
-                                                                sx={{
-                                                                    fontWeight: 600,
-                                                                    mb: 1,
-                                                                }}
-                                                            >
-                                                                Principal
-                                                                Comments:
-                                                            </Typography>
-                                                            <Typography
-                                                                variant="body2"
-                                                                sx={{
-                                                                    fontStyle:
-                                                                        'italic',
-                                                                }}
-                                                            >
-                                                                "
-                                                                {
-                                                                    report.principalComments
-                                                                }
-                                                                "
-                                                            </Typography>
-                                                        </Grid>
-                                                    </Grid>
-
-                                                    {report.extracurricular
-                                                        .length > 0 && (
-                                                        <Box sx={{ mt: 2 }}>
-                                                            <Typography
-                                                                variant="subtitle2"
-                                                                sx={{
-                                                                    fontWeight: 600,
-                                                                    mb: 1,
-                                                                }}
-                                                            >
-                                                                Extracurricular
-                                                                Activities:
-                                                            </Typography>
-                                                            <List dense>
-                                                                {report.extracurricular.map(
-                                                                    (
-                                                                        activity,
-                                                                        index
-                                                                    ) => (
-                                                                        <ListItem
-                                                                            key={
-                                                                                index
-                                                                            }
-                                                                            sx={{
-                                                                                px: 0,
-                                                                            }}
-                                                                        >
-                                                                            <ListItemText
-                                                                                primary={
-                                                                                    <Box
-                                                                                        sx={{
-                                                                                            display:
-                                                                                                'flex',
-                                                                                            alignItems:
-                                                                                                'center',
-                                                                                            gap: 1,
-                                                                                        }}
-                                                                                    >
-                                                                                        <Typography
-                                                                                            variant="subtitle2"
-                                                                                            sx={{
-                                                                                                fontWeight: 600,
-                                                                                            }}
-                                                                                        >
-                                                                                            {
-                                                                                                activity.activity
-                                                                                            }
-                                                                                        </Typography>
-                                                                                        <Chip
-                                                                                            label={
-                                                                                                activity.participation
-                                                                                            }
-                                                                                            size="small"
-                                                                                            color={
-                                                                                                activity.participation ===
-                                                                                                'excellent'
-                                                                                                    ? 'success'
-                                                                                                    : 'default'
-                                                                                            }
-                                                                                        />
-                                                                                        {activity.position && (
-                                                                                            <Typography
-                                                                                                variant="caption"
-                                                                                                color="text.secondary"
-                                                                                            >
-                                                                                                (
-                                                                                                {
-                                                                                                    activity.position
-                                                                                                }
-
-                                                                                                )
-                                                                                            </Typography>
-                                                                                        )}
-                                                                                    </Box>
-                                                                                }
-                                                                                secondary={
-                                                                                    activity.comments
-                                                                                }
-                                                                            />
-                                                                        </ListItem>
-                                                                    )
-                                                                )}
-                                                            </List>
-                                                        </Box>
-                                                    )}
-                                                </CardContent>
-                                            </Card>
-                                        </Grid>
-                                    </Grid>
-                                </CardContent>
-                            </Card>
-                        ))}
-                    </Box>
-                </TabPanel>
-
-                {/* Performance Trends Tab */}
-                <TabPanel value={tabValue} index={3}>
-                    <Box sx={{ px: 2, pb: 2 }}>
-                        <Grid container spacing={3}>
-                            {resultsData.performanceTrends.map(trend => (
-                                <Grid
-                                    size={{ xs: 12, md: 6 }}
-                                    key={trend.subject}
-                                >
-                                    <Card variant="outlined">
-                                        <CardContent>
-                                            <Box
+                                        {/* Subject Results */}
+                                        <Box sx={{ mb: 3 }}>
+                                            <Typography
+                                                variant="subtitle2"
                                                 sx={{
-                                                    display: 'flex',
-                                                    justifyContent:
-                                                        'space-between',
-                                                    alignItems: 'center',
+                                                    fontWeight: 700,
                                                     mb: 2,
+                                                    fontSize: '0.875rem',
+                                                    color: 'primary.main',
                                                 }}
                                             >
-                                                <Typography
-                                                    variant="h6"
-                                                    sx={{ fontWeight: 600 }}
-                                                >
-                                                    {trend.subject}
-                                                </Typography>
-                                                <Box
-                                                    sx={{
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        gap: 1,
-                                                    }}
-                                                >
-                                                    {getTrendIcon(
-                                                        trend.trend,
-                                                        trend.trendValue
-                                                    )}
-                                                    <Typography
-                                                        variant="caption"
-                                                        sx={{
-                                                            color:
-                                                                trend.trend ===
-                                                                'improving'
-                                                                    ? 'success.main'
-                                                                    : trend.trend ===
-                                                                        'declining'
-                                                                      ? 'error.main'
-                                                                      : 'text.secondary',
-                                                            fontWeight: 600,
-                                                        }}
-                                                    >
-                                                        {trend.trend ===
-                                                        'improving'
-                                                            ? '+'
-                                                            : ''}
-                                                        {trend.trendValue.toFixed(
-                                                            1
-                                                        )}
-                                                        %
-                                                    </Typography>
-                                                </Box>
-                                            </Box>
+                                                Subject Results
+                                            </Typography>
 
                                             <TableContainer
                                                 component={Paper}
-                                                variant="outlined"
-                                                sx={{ mb: 2 }}
+                                                elevation={0}
+                                                sx={{
+                                                    border: '1px solid',
+                                                    borderColor: 'divider',
+                                                    borderRadius: 1,
+                                                }}
                                             >
                                                 <Table size="small">
                                                     <TableHead>
-                                                        <TableRow>
-                                                            <TableCell>
-                                                                Period
-                                                            </TableCell>
-                                                            <TableCell align="center">
-                                                                Percentage
-                                                            </TableCell>
-                                                            <TableCell align="center">
-                                                                Grade
-                                                            </TableCell>
+                                                        <TableRow sx={{ bgcolor: 'grey.50' }}>
+                                                            <TableCell sx={{ fontWeight: 700, fontSize: '0.75rem', p: 1 }}>Subject</TableCell>
+                                                            <TableCell align="center" sx={{ fontWeight: 700, fontSize: '0.75rem', p: 1 }}>Marks</TableCell>
+                                                            <TableCell align="center" sx={{ fontWeight: 700, fontSize: '0.75rem', p: 1 }}>Percentage</TableCell>
+                                                            <TableCell align="center" sx={{ fontWeight: 700, fontSize: '0.75rem', p: 1 }}>Grade</TableCell>
+                                                            <TableCell align="center" sx={{ fontWeight: 700, fontSize: '0.75rem', p: 1 }}>Position</TableCell>
+                                                            <TableCell sx={{ fontWeight: 700, fontSize: '0.75rem', p: 1 }}>Teacher</TableCell>
                                                         </TableRow>
                                                     </TableHead>
                                                     <TableBody>
-                                                        {trend.dataPoints.map(
-                                                            point => (
-                                                                <TableRow
-                                                                    key={
-                                                                        point.period
-                                                                    }
-                                                                >
-                                                                    <TableCell
+                                                        {currentSequence.subjects.map(subject => (
+                                                            <TableRow
+                                                                key={subject.subjectId}
+                                                                onClick={() => handleSubjectClick(subject)}
+                                                                sx={{
+                                                                    '&:hover': { bgcolor: 'action.hover' },
+                                                                    cursor: 'pointer'
+                                                                }}
+                                                            >
+                                                                <TableCell sx={{ p: 1 }}>
+                                                                    <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.8125rem' }}>
+                                                                        {subject.subject}
+                                                                    </Typography>
+                                                                    <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
+                                                                        {subject.subjectCode}
+                                                                    </Typography>
+                                                                </TableCell>
+                                                                <TableCell align="center" sx={{ p: 1 }}>
+                                                                    <Typography variant="body2" sx={{ fontSize: '0.8125rem' }}>
+                                                                        {subject.marksObtained}/{subject.totalMarks}
+                                                                    </Typography>
+                                                                </TableCell>
+                                                                <TableCell align="center" sx={{ p: 1 }}>
+                                                                    <Typography variant="body2" sx={{ fontSize: '0.8125rem', fontWeight: 600 }}>
+                                                                        {subject.percentage}%
+                                                                    </Typography>
+                                                                </TableCell>
+                                                                <TableCell align="center" sx={{ p: 1 }}>
+                                                                    <Chip
+                                                                        label={subject.grade}
+                                                                        size="small"
                                                                         sx={{
+                                                                            bgcolor: getGradeBackground(subject.percentage),
+                                                                            color: getGradeColor(subject.percentage),
                                                                             fontWeight: 600,
+                                                                            fontSize: '0.75rem',
                                                                         }}
-                                                                    >
-                                                                        {
-                                                                            point.period
-                                                                        }
-                                                                    </TableCell>
-                                                                    <TableCell align="center">
-                                                                        {
-                                                                            point.percentage
-                                                                        }
-                                                                        %
-                                                                    </TableCell>
-                                                                    <TableCell align="center">
-                                                                        <Chip
-                                                                            label={
-                                                                                point.grade
-                                                                            }
-                                                                            size="small"
-                                                                            sx={{
-                                                                                backgroundColor:
-                                                                                    alpha(
-                                                                                        getGradeColor(
-                                                                                            point.percentage
-                                                                                        ),
-                                                                                        0.1
-                                                                                    ),
-                                                                                color: getGradeColor(
-                                                                                    point.percentage
-                                                                                ),
-                                                                            }}
-                                                                        />
-                                                                    </TableCell>
-                                                                </TableRow>
-                                                            )
-                                                        )}
+                                                                    />
+                                                                </TableCell>
+                                                                <TableCell align="center" sx={{ p: 1 }}>
+                                                                    <Typography variant="body2" sx={{ fontSize: '0.8125rem' }}>
+                                                                        {subject.position}
+                                                                    </Typography>
+                                                                </TableCell>
+                                                                <TableCell sx={{ p: 1 }}>
+                                                                    <Typography variant="body2" sx={{ fontSize: '0.8125rem' }}>
+                                                                        {subject.teacher}
+                                                                    </Typography>
+                                                                </TableCell>
+                                                            </TableRow>
+                                                        ))}
                                                     </TableBody>
                                                 </Table>
                                             </TableContainer>
-
-                                            {trend.recommendation && (
-                                                <Box
-                                                    sx={{
-                                                        p: 2,
-                                                        backgroundColor: alpha(
-                                                            theme.palette.info
-                                                                .main,
-                                                            0.05
-                                                        ),
-                                                        borderRadius: 1,
-                                                    }}
-                                                >
-                                                    <Typography
-                                                        variant="subtitle2"
-                                                        sx={{
-                                                            fontWeight: 600,
-                                                            mb: 0.5,
-                                                        }}
-                                                    >
-                                                        Recommendation:
-                                                    </Typography>
-                                                    <Typography
-                                                        variant="body2"
-                                                        color="text.secondary"
-                                                    >
-                                                        {trend.recommendation}
-                                                    </Typography>
-                                                </Box>
-                                            )}
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                            ))}
-                        </Grid>
+                                        </Box>
+                                    </>
+                                ) : (
+                                    <Box
+                                        sx={{
+                                            p: 3,
+                                            textAlign: 'center',
+                                            border: '2px dashed',
+                                            borderColor: 'grey.300',
+                                            borderRadius: 1,
+                                            bgcolor: 'grey.50',
+                                        }}
+                                    >
+                                        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                                            {currentSequence.isCurrent
+                                                ? 'Assessment in Progress'
+                                                : 'Assessment Not Yet Started'}
+                                        </Typography>
+                                        <Typography variant="caption" color="text.secondary">
+                                            Results will be available after the assessment period ends.
+                                        </Typography>
+                                    </Box>
+                                )}
+                            </>
+                        ) : (
+                            <Box sx={{ p: 3, textAlign: 'center' }}>
+                                <Typography variant="body2" color="text.secondary">
+                                    No sequence data available.
+                                </Typography>
+                            </Box>
+                        )}
                     </Box>
                 </TabPanel>
-            </Card>
+
+                {/* Annual Summary Tab */}
+                <TabPanel value={tabValue} index={2}>
+                    <Box sx={{ p: 1.5 }}>
+                        {/* Annual Header */}
+                        <Box
+                            sx={{
+                                textAlign: 'center',
+                                mb: 3,
+                                p: 2,
+                                bgcolor: 'success.50',
+                                borderRadius: 1,
+                                border: '1px solid',
+                                borderColor: 'success.200',
+                            }}
+                        >
+                            <Typography
+                                variant="h6"
+                                sx={{
+                                    fontWeight: 700,
+                                    mb: 0.5,
+                                    fontSize: '1.125rem',
+                                }}
+                            >
+                                ANNUAL ACADEMIC SUMMARY
+                            </Typography>
+                            <Typography
+                                variant="subtitle2"
+                                sx={{ fontWeight: 600, fontSize: '0.875rem' }}
+                            >
+                                {reportData.academicYear} • Complete Academic Performance
+                            </Typography>
+                        </Box>
+
+                        {/* Year-long Performance Trends */}
+                        <Box sx={{ mb: 3 }}>
+                            <Typography
+                                variant="subtitle2"
+                                sx={{
+                                    fontWeight: 700,
+                                    mb: 2,
+                                    fontSize: '0.875rem',
+                                    color: 'primary.main',
+                                }}
+                            >
+                                Performance Trends Across Terms
+                            </Typography>
+
+                            <Box
+                                sx={{
+                                    display: 'grid',
+                                    gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+                                    gap: 2,
+                                    mb: 2,
+                                }}
+                            >
+                                <Box
+                                    sx={{
+                                        p: 1.5,
+                                        borderRadius: 1,
+                                        bgcolor: 'primary.50',
+                                        border: '1px solid',
+                                        borderColor: 'primary.100',
+                                        textAlign: 'center',
+                                    }}
+                                >
+                                    <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>
+                                        First Term Average
+                                    </Typography>
+                                    <Typography variant="h6" sx={{ fontWeight: 700, fontSize: '1.25rem' }}>
+                                        {reportData.overallSummary.firstTermAverage}%
+                                    </Typography>
+                                    <LinearProgress
+                                        variant="determinate"
+                                        value={reportData.overallSummary.firstTermAverage}
+                                        sx={{ mt: 0.5, height: 4, borderRadius: 2 }}
+                                    />
+                                </Box>
+
+                                <Box
+                                    sx={{
+                                        p: 1.5,
+                                        borderRadius: 1,
+                                        bgcolor: 'warning.50',
+                                        border: '1px solid',
+                                        borderColor: 'warning.100',
+                                        textAlign: 'center',
+                                    }}
+                                >
+                                    <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>
+                                        Second Term Average
+                                    </Typography>
+                                    <Typography variant="h6" sx={{ fontWeight: 700, fontSize: '1.25rem' }}>
+                                        {reportData.overallSummary.secondTermAverage}%
+                                    </Typography>
+                                    <LinearProgress
+                                        variant="determinate"
+                                        value={reportData.overallSummary.secondTermAverage}
+                                        sx={{ mt: 0.5, height: 4, borderRadius: 2 }}
+                                        color="warning"
+                                    />
+                                </Box>
+
+                                <Box
+                                    sx={{
+                                        p: 1.5,
+                                        borderRadius: 1,
+                                        bgcolor: 'success.50',
+                                        border: '1px solid',
+                                        borderColor: 'success.100',
+                                        textAlign: 'center',
+                                    }}
+                                >
+                                    <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>
+                                        Third Term Average
+                                    </Typography>
+                                    <Typography variant="h6" sx={{ fontWeight: 700, fontSize: '1.25rem' }}>
+                                        {reportData.overallSummary.thirdTermAverage}%
+                                    </Typography>
+                                    <LinearProgress
+                                        variant="determinate"
+                                        value={reportData.overallSummary.thirdTermAverage}
+                                        sx={{ mt: 0.5, height: 4, borderRadius: 2 }}
+                                        color="success"
+                                    />
+                                </Box>
+
+                                <Box
+                                    sx={{
+                                        p: 1.5,
+                                        borderRadius: 1,
+                                        bgcolor: 'info.50',
+                                        border: '1px solid',
+                                        borderColor: 'info.100',
+                                        textAlign: 'center',
+                                    }}
+                                >
+                                    <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>
+                                        Annual Average
+                                    </Typography>
+                                    <Typography variant="h6" sx={{ fontWeight: 700, fontSize: '1.25rem' }}>
+                                        {reportData.overallSummary.annualAverage}%
+                                    </Typography>
+                                    <LinearProgress
+                                        variant="determinate"
+                                        value={reportData.overallSummary.annualAverage}
+                                        sx={{ mt: 0.5, height: 4, borderRadius: 2 }}
+                                        color="info"
+                                    />
+                                </Box>
+                            </Box>
+                        </Box>
+
+                        {/* Subject Performance Analysis */}
+                        <Box sx={{ mb: 3 }}>
+                            <Typography
+                                variant="subtitle2"
+                                sx={{
+                                    fontWeight: 700,
+                                    mb: 2,
+                                    fontSize: '0.875rem',
+                                    color: 'primary.main',
+                                }}
+                            >
+                                Subject Performance Analysis
+                            </Typography>
+
+                            {Object.entries(subjectsByGroup).map(([groupName, subjects]) => (
+                                <Box key={groupName} sx={{ mb: 2 }}>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{
+                                            fontWeight: 600,
+                                            mb: 1,
+                                            fontSize: '0.8125rem',
+                                            color: 'secondary.main',
+                                        }}
+                                    >
+                                        {groupName} Group
+                                    </Typography>
+
+                                    <Box
+                                        sx={{
+                                            display: 'grid',
+                                            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+                                            gap: 1.5,
+                                        }}
+                                    >
+                                        {subjects.map(subject => (
+                                            <Box
+                                                key={subject.id}
+                                                sx={{
+                                                    p: 1.5,
+                                                    border: '1px solid',
+                                                    borderColor: 'divider',
+                                                    borderRadius: 1,
+                                                    bgcolor: 'background.paper',
+                                                    '&:hover': { bgcolor: 'action.hover' },
+                                                }}
+                                            >
+                                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+                                                    <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.8125rem' }}>
+                                                        {subject.subject}
+                                                    </Typography>
+                                                    <Chip
+                                                        label={subject.grade}
+                                                        size="small"
+                                                        sx={{
+                                                            bgcolor: getGradeBackground(subject.thirdTerm.average),
+                                                            color: getGradeColor(subject.thirdTerm.average),
+                                                            fontWeight: 600,
+                                                            fontSize: '0.6875rem',
+                                                        }}
+                                                    />
+                                                </Box>
+                                                <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
+                                                    Current Term: {subject.thirdTerm.average}% • Position: {subject.thirdTerm.position}
+                                                </Typography>
+                                                <LinearProgress
+                                                    variant="determinate"
+                                                    value={subject.thirdTerm.average}
+                                                    sx={{
+                                                        mt: 0.5,
+                                                        height: 3,
+                                                        borderRadius: 1.5,
+                                                        bgcolor: 'grey.200',
+                                                        '& .MuiLinearProgress-bar': {
+                                                            bgcolor: getGradeColor(subject.thirdTerm.average),
+                                                        },
+                                                    }}
+                                                />
+                                            </Box>
+                                        ))}
+                                    </Box>
+                                </Box>
+                            ))}
+                        </Box>
+
+                        {/* Class Standing & Recognition */}
+                        <Box
+                            sx={{
+                                p: 2,
+                                bgcolor: 'primary.50',
+                                borderRadius: 1,
+                                border: '1px solid',
+                                borderColor: 'primary.200',
+                                mb: 3,
+                            }}
+                        >
+                            <Typography
+                                variant="subtitle2"
+                                sx={{
+                                    fontWeight: 700,
+                                    mb: 2,
+                                    fontSize: '0.875rem',
+                                }}
+                            >
+                                Class Standing & Academic Recognition
+                            </Typography>
+
+                            <Box
+                                sx={{
+                                    display: 'grid',
+                                    gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
+                                    gap: 2,
+                                }}
+                            >
+                                <Box sx={{ textAlign: 'center', p: 1 }}>
+                                    <Typography variant="h4" sx={{ fontWeight: 700, color: 'primary.main' }}>
+                                        #{reportData.overallSummary.classPosition}
+                                    </Typography>
+                                    <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>
+                                        Out of {reportData.overallSummary.totalStudents} Students
+                                    </Typography>
+                                </Box>
+                                <Box sx={{ textAlign: 'center', p: 1 }}>
+                                    <Typography variant="h4" sx={{ fontWeight: 700, color: 'success.main' }}>
+                                        {reportData.overallSummary.bestAverage}%
+                                    </Typography>
+                                    <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>
+                                        Best Term Average
+                                    </Typography>
+                                </Box>
+                                <Box sx={{ textAlign: 'center', p: 1 }}>
+                                    <Typography
+                                        variant="h4"
+                                        sx={{
+                                            fontWeight: 700,
+                                            color: reportData.overallSummary.annualAverage >= 85 ? 'success.main' : reportData.overallSummary.annualAverage >= 70 ? 'warning.main' : 'error.main',
+                                        }}
+                                    >
+                                        {reportData.overallSummary.annualAverage >= 85
+                                            ? 'EXCELLENT'
+                                            : reportData.overallSummary.annualAverage >= 70
+                                            ? 'GOOD'
+                                            : 'NEEDS IMPROVEMENT'}
+                                    </Typography>
+                                    <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>
+                                        Overall Rating
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </Box>
+
+                        {/* Academic Progress Summary */}
+                        <Box
+                            sx={{
+                                p: 2,
+                                bgcolor: 'background.paper',
+                                borderRadius: 1,
+                                border: '1px solid',
+                                borderColor: 'divider',
+                            }}
+                        >
+                            <Typography
+                                variant="subtitle2"
+                                sx={{
+                                    fontWeight: 700,
+                                    mb: 2,
+                                    fontSize: '0.875rem',
+                                    textAlign: 'center',
+                                }}
+                            >
+                                Academic Progress Summary
+                            </Typography>
+
+                            <Box sx={{ textAlign: 'center' }}>
+                                <Typography variant="body2" sx={{ fontSize: '0.8125rem', lineHeight: 1.6, color: 'text.secondary' }}>
+                                    Based on {sequences.filter(s => s.isCompleted).length} completed assessments across {reportData.academicYear}, this student has demonstrated
+                                    {reportData.overallSummary.annualAverage >= 85
+                                        ? ' excellent academic performance with consistent high achievements.'
+                                        : reportData.overallSummary.annualAverage >= 70
+                                        ? ' good academic progress with room for continued improvement.'
+                                        : ' academic challenges that require additional support and focus.'}
+                                    {' '}The student currently ranks #{reportData.overallSummary.classPosition} in a class of {reportData.overallSummary.totalStudents} students.
+                                </Typography>
+                            </Box>
+                        </Box>
+                    </Box>
+                </TabPanel>
+            </Paper>
+
+            {/* Subject Detail Modal */}
+            <Dialog
+                open={isSubjectModalOpen}
+                onClose={handleSubjectModalClose}
+                maxWidth="md"
+                fullWidth
+                PaperProps={{
+                    sx: {
+                        boxShadow: 'none',
+                        border: '1px solid',
+                        borderColor: 'divider'
+                    }
+                }}
+            >
+                <DialogTitle
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        borderBottom: 1,
+                        borderColor: 'divider',
+                        pb: 2
+                    }}
+                >
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                        <TrendIcon sx={{ color: 'primary.main', fontSize: '1.5rem' }} />
+                        <Box>
+                            <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                                {selectedSubject?.subject || 'Subject Details'}
+                            </Typography>
+                            <Typography variant="caption" color="text.secondary">
+                                {selectedSubject?.subjectCode} • {selectedSubject?.teacher}
+                            </Typography>
+                        </Box>
+                    </Box>
+                    <IconButton onClick={handleSubjectModalClose} size="small">
+                        <CloseIcon />
+                    </IconButton>
+                </DialogTitle>
+
+                <DialogContent sx={{ p: 3 }}>
+                    {selectedSubject && (
+                        <Grid container spacing={3}>
+                            {/* Performance Summary */}
+                            <Grid size={{ xs: 12 }}>
+                                <Paper
+                                    sx={{
+                                        p: 3,
+                                        background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
+                                        border: 1,
+                                        borderColor: 'primary.200',
+                                        boxShadow: 'none',
+                                    }}
+                                >
+                                    <Typography
+                                        variant="subtitle1"
+                                        sx={{ fontWeight: 700, mb: 2, color: 'primary.main' }}
+                                    >
+                                        Performance Overview
+                                    </Typography>
+
+                                    <Grid container spacing={2}>
+                                        <Grid size={{ xs: 6, sm: 3 }}>
+                                            <Box sx={{ textAlign: 'center' }}>
+                                                <Chip
+                                                    label={selectedSubject.grade}
+                                                    sx={{
+                                                        fontSize: '1rem',
+                                                        fontWeight: 700,
+                                                        mb: 1,
+                                                        bgcolor: getGradeBackground(selectedSubject.percentage),
+                                                        color: getGradeColor(selectedSubject.percentage),
+                                                    }}
+                                                />
+                                                <Typography variant="caption" display="block" color="text.secondary">
+                                                    Grade
+                                                </Typography>
+                                            </Box>
+                                        </Grid>
+
+                                        <Grid size={{ xs: 6, sm: 3 }}>
+                                            <Box sx={{ textAlign: 'center' }}>
+                                                <Typography variant="h5" sx={{ fontWeight: 700, color: 'primary.main' }}>
+                                                    {selectedSubject.percentage}%
+                                                </Typography>
+                                                <Typography variant="caption" display="block" color="text.secondary">
+                                                    Percentage
+                                                </Typography>
+                                            </Box>
+                                        </Grid>
+
+                                        <Grid size={{ xs: 6, sm: 3 }}>
+                                            <Box sx={{ textAlign: 'center' }}>
+                                                <Typography variant="h5" sx={{ fontWeight: 700, color: 'text.primary' }}>
+                                                    {selectedSubject.marksObtained}/{selectedSubject.totalMarks}
+                                                </Typography>
+                                                <Typography variant="caption" display="block" color="text.secondary">
+                                                    Marks
+                                                </Typography>
+                                            </Box>
+                                        </Grid>
+
+                                        <Grid size={{ xs: 6, sm: 3 }}>
+                                            <Box sx={{ textAlign: 'center' }}>
+                                                <Typography variant="h5" sx={{ fontWeight: 700, color: 'warning.main' }}>
+                                                    #{selectedSubject.position}
+                                                </Typography>
+                                                <Typography variant="caption" display="block" color="text.secondary">
+                                                    Position
+                                                </Typography>
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
+                                </Paper>
+                            </Grid>
+
+                            {/* Performance Progress */}
+                            <Grid size={{ xs: 12 }}>
+                                <Paper sx={{ p: 3, boxShadow: 'none', border: '1px solid', borderColor: 'divider' }}>
+                                    <Typography
+                                        variant="subtitle1"
+                                        sx={{ fontWeight: 700, mb: 3 }}
+                                    >
+                                        Progress Visualization
+                                    </Typography>
+
+                                    <LinearProgress
+                                        variant="determinate"
+                                        value={selectedSubject.percentage}
+                                        sx={{
+                                            height: 12,
+                                            borderRadius: 6,
+                                            backgroundColor: 'grey.200',
+                                            mb: 1,
+                                            '& .MuiLinearProgress-bar': {
+                                                borderRadius: 6,
+                                                background: `linear-gradient(90deg, ${getGradeColor(selectedSubject.percentage)}, ${getGradeColor(selectedSubject.percentage)}cc)`,
+                                            },
+                                        }}
+                                    />
+
+                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1 }}>
+                                        <Typography variant="caption" color="text.secondary">
+                                            0%
+                                        </Typography>
+                                        <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600 }}>
+                                            {selectedSubject.percentage}%
+                                        </Typography>
+                                        <Typography variant="caption" color="text.secondary">
+                                            100%
+                                        </Typography>
+                                    </Box>
+                                </Paper>
+                            </Grid>
+
+                            {/* Performance Analysis */}
+                            <Grid size={{ xs: 12, md: 6 }}>
+                                <Paper sx={{ p: 3, height: '100%', boxShadow: 'none', border: '1px solid', borderColor: 'divider' }}>
+                                    <Typography
+                                        variant="subtitle1"
+                                        sx={{ fontWeight: 700, mb: 2 }}
+                                    >
+                                        Detailed Breakdown
+                                    </Typography>
+
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                p: 2,
+                                                bgcolor: 'grey.50',
+                                                borderRadius: 1,
+                                            }}
+                                        >
+                                            <Typography variant="body2" color="text.secondary">
+                                                Subject Code
+                                            </Typography>
+                                            <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                                                {selectedSubject.subjectCode}
+                                            </Typography>
+                                        </Box>
+
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                p: 2,
+                                                bgcolor: 'grey.50',
+                                                borderRadius: 1,
+                                            }}
+                                        >
+                                            <Typography variant="body2" color="text.secondary">
+                                                Teacher
+                                            </Typography>
+                                            <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                                                {selectedSubject.teacher}
+                                            </Typography>
+                                        </Box>
+
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                p: 2,
+                                                bgcolor: 'grey.50',
+                                                borderRadius: 1,
+                                            }}
+                                        >
+                                            <Typography variant="body2" color="text.secondary">
+                                                Total Students
+                                            </Typography>
+                                            <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                                                {selectedSubject.totalStudents || 'N/A'}
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                </Paper>
+                            </Grid>
+
+                            {/* Performance Comments */}
+                            <Grid size={{ xs: 12, md: 6 }}>
+                                <Paper sx={{ p: 3, height: '100%', boxShadow: 'none', border: '1px solid', borderColor: 'divider' }}>
+                                    <Typography
+                                        variant="subtitle1"
+                                        sx={{ fontWeight: 700, mb: 2 }}
+                                    >
+                                        Performance Summary
+                                    </Typography>
+
+                                    <Typography variant="body2" sx={{ lineHeight: 1.6, color: 'text.secondary', mb: 2 }}>
+                                        {selectedSubject.percentage >= 80
+                                            ? `Excellent performance in ${selectedSubject.subject}. The student demonstrates a strong understanding of the subject matter and consistently achieves high marks.`
+                                            : selectedSubject.percentage >= 70
+                                            ? `Good performance in ${selectedSubject.subject}. The student shows solid understanding with room for improvement in some areas.`
+                                            : selectedSubject.percentage >= 60
+                                            ? `Satisfactory performance in ${selectedSubject.subject}. Additional focus and practice recommended to strengthen understanding.`
+                                            : `Performance in ${selectedSubject.subject} needs improvement. Extra attention and support required to meet academic standards.`}
+                                    </Typography>
+
+                                    <Box
+                                        sx={{
+                                            p: 2,
+                                            bgcolor: selectedSubject.percentage >= 70 ? 'success.50' : selectedSubject.percentage >= 60 ? 'warning.50' : 'error.50',
+                                            borderRadius: 1,
+                                            border: 1,
+                                            borderColor: selectedSubject.percentage >= 70 ? 'success.200' : selectedSubject.percentage >= 60 ? 'warning.200' : 'error.200',
+                                        }}
+                                    >
+                                        <Typography variant="caption" sx={{ fontWeight: 600 }}>
+                                            {selectedSubject.percentage >= 70 ? 'Strengths' : 'Areas for Improvement'}
+                                        </Typography>
+                                        <Typography variant="body2" sx={{ fontSize: '0.8125rem', mt: 0.5 }}>
+                                            {selectedSubject.percentage >= 70
+                                                ? 'Consistent performance and good grasp of concepts.'
+                                                : 'Focus on fundamental concepts and regular practice required.'}
+                                        </Typography>
+                                    </Box>
+                                </Paper>
+                            </Grid>
+                        </Grid>
+                    )}
+                </DialogContent>
+            </Dialog>
         </Box>
     );
 };

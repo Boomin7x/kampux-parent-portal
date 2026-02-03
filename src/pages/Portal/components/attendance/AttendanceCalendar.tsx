@@ -1,14 +1,15 @@
 import {
+    Cancel as AbsentIcon,
     CalendarToday as CalendarIcon,
     CalendarMonth as CalendarViewIcon,
+    ChevronLeft,
+    ChevronRight,
+    ExitToApp as EarlyDismissalIcon,
+    CheckCircle as PresentIcon,
     Schedule as ScheduleIcon,
     TableView as TableViewIcon,
-    Schedule as TimetableIcon,
-    CheckCircle as PresentIcon,
     AccessTime as TardyIcon,
-    Cancel as AbsentIcon,
-    ExitToApp as EarlyDismissalIcon,
-    TrendingUp as TrendIcon,
+    Schedule as TimetableIcon,
 } from '@mui/icons-material';
 import {
     Box,
@@ -18,6 +19,7 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
+    IconButton,
     List,
     ListItem,
     ListItemText,
@@ -33,12 +35,17 @@ import {
     Typography,
     useTheme,
 } from '@mui/material';
-import React, { useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import type { Student } from '../../../../types/student.types';
 import { WeeklyTimetable } from './WeeklyTimetable';
 
 // Types for attendance tracking
-type AttendanceStatus = 'present' | 'absent' | 'late' | 'early_dismissal' | 'not_yet';
+type AttendanceStatus =
+    | 'present'
+    | 'absent'
+    | 'late'
+    | 'early_dismissal'
+    | 'not_yet';
 
 interface PeriodAttendance {
     subject: string;
@@ -68,9 +75,7 @@ function TabPanel(props: TabPanelProps) {
             aria-labelledby={`attendance-tab-${index}`}
             {...other}
         >
-            {value === index && (
-                <Box>{children}</Box>
-            )}
+            {value === index && <Box>{children}</Box>}
         </div>
     );
 }
@@ -85,19 +90,29 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
     const theme = useTheme();
     const [tabValue, setTabValue] = useState(0);
     const [selectedDay, setSelectedDay] = useState(null);
-    const [selectedPeriod, setSelectedPeriod] = useState<PeriodAttendance | null>(null);
+    const [selectedPeriod, setSelectedPeriod] =
+        useState<PeriodAttendance | null>(null);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [periodDialogOpen, setPeriodDialogOpen] = useState(false);
+
+    // Navigation states
+    const [currentDate, setCurrentDate] = useState(new Date());
+    const [weekOffset, setWeekOffset] = useState(0);
 
     const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
         setTabValue(newValue);
     };
 
-    // Mock weekly attendance data
+    // Mock weekly attendance data - generates data for the current week offset
     const weeklyAttendanceData = useMemo(() => {
         const periods = [
-            '08:00 - 08:45', '08:50 - 09:35', '09:40 - 10:25',
-            '10:45 - 11:30', '11:35 - 12:20', '13:15 - 14:00', '14:05 - 14:50'
+            '08:00 - 08:45',
+            '08:50 - 09:35',
+            '09:40 - 10:25',
+            '10:45 - 11:30',
+            '11:35 - 12:20',
+            '13:15 - 14:00',
+            '14:05 - 14:50',
         ];
 
         const subjects = [
@@ -110,27 +125,66 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
             { name: 'Art', teacher: 'Mr. Garcia', room: 'Art Studio' },
         ];
 
+        // Get the actual dates for the current week offset
+        const today = new Date();
+        const startOfWeek = new Date(today);
+        startOfWeek.setDate(
+            today.getDate() - today.getDay() + 1 + weekOffset * 7
+        ); // Start from Monday
+
+        const weekDates = [];
+        const weekDays = [
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+        ];
+
+        for (let i = 0; i < 5; i++) {
+            const date = new Date(startOfWeek);
+            date.setDate(startOfWeek.getDate() + i);
+            weekDates.push(date);
+        }
+
         const weekData: Record<string, PeriodAttendance[]> = {};
-        const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+        const currentTime = new Date();
 
         weekDays.forEach((day, dayIndex) => {
+            const dayDate = weekDates[dayIndex];
             weekData[day] = periods.map((period, periodIndex) => {
                 const subject = subjects[periodIndex];
-                const isBreakTime = subject.name === 'Break' || subject.name === 'Lunch';
+                const isBreakTime =
+                    subject.name === 'Break' || subject.name === 'Lunch';
 
-                // Generate realistic attendance status
+                // Generate realistic attendance status based on week offset and time
                 let status: AttendanceStatus = 'present';
-                const random = Math.random();
+
+                // Create a deterministic "random" based on week offset, day, and period
+                const seed = weekOffset * 1000 + dayIndex * 100 + periodIndex;
+                const pseudoRandom = (Math.sin(seed) + 1) / 2;
 
                 if (!isBreakTime) {
-                    if (dayIndex >= 3 && periodIndex >= 5) { // Future periods
+                    // Check if this period has happened yet
+                    const [hours, minutes] = period
+                        .split(' - ')[0]
+                        .split(':')
+                        .map(Number);
+                    const periodDateTime = new Date(dayDate);
+                    periodDateTime.setHours(hours, minutes, 0, 0);
+
+                    if (periodDateTime > currentTime) {
+                        // Future period
                         status = 'not_yet';
-                    } else if (random < 0.1) {
-                        status = 'late';
-                    } else if (random < 0.05) {
-                        status = 'absent';
-                    } else if (random < 0.02) {
-                        status = 'early_dismissal';
+                    } else {
+                        // Past period - generate attendance based on deterministic random
+                        if (pseudoRandom < 0.1) {
+                            status = 'late';
+                        } else if (pseudoRandom < 0.05) {
+                            status = 'absent';
+                        } else if (pseudoRandom < 0.02) {
+                            status = 'early_dismissal';
+                        }
                     }
                 }
 
@@ -141,44 +195,50 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                     startTime: period.split(' - ')[0],
                     endTime: period.split(' - ')[1],
                     status: isBreakTime ? 'present' : status,
-                    notes: status === 'late' ? 'Arrived 10 minutes late' :
-                           status === 'absent' ? 'Doctor appointment' : undefined,
+                    notes:
+                        status === 'late'
+                            ? 'Arrived 10 minutes late'
+                            : status === 'absent'
+                              ? 'Doctor appointment'
+                              : undefined,
                 };
             });
         });
 
         return weekData;
-    }, []);
+    }, [weekOffset]);
 
     const getCurrentDayOfWeek = () => {
-        const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
-        return today;
-    };
+        const today = new Date();
 
-    const getCurrentTime = () => {
-        return new Date().getHours() * 60 + new Date().getMinutes();
+        // Check if today falls within the displayed week
+        const todayDate = new Date();
+        todayDate.setHours(0, 0, 0, 0);
+
+        const startOfWeek = new Date(today);
+        startOfWeek.setDate(
+            today.getDate() - today.getDay() + 1 + weekOffset * 7
+        );
+        startOfWeek.setHours(0, 0, 0, 0);
+
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 4);
+        endOfWeek.setHours(23, 59, 59, 999);
+
+        if (todayDate >= startOfWeek && todayDate <= endOfWeek) {
+            return today.toLocaleDateString('en-US', { weekday: 'long' });
+        }
+
+        return null; // Today is not in the current week view
     };
 
     const isPeriodDisabled = (day: string, periodIndex: number) => {
-        const today = getCurrentDayOfWeek();
-        const currentTime = getCurrentTime();
         const period = weeklyAttendanceData[day]?.[periodIndex];
-
         if (!period) return true;
 
-        const [hours, minutes] = period.startTime.split(':').map(Number);
-        const periodStartMinutes = hours * 60 + minutes;
-
-        // If it's a future day, disable
-        const dayIndex = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].indexOf(day);
-        const todayIndex = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].indexOf(today);
-
-        if (dayIndex > todayIndex) return true;
-
-        // If it's today, disable future periods
-        if (day === today && currentTime < periodStartMinutes) return true;
-
-        return false;
+        // Simply check if the period status is 'not_yet' since we now
+        // calculate this properly in the weeklyAttendanceData generation
+        return period.status === 'not_yet';
     };
 
     const getStatusColor = (status: AttendanceStatus | string) => {
@@ -198,7 +258,10 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
         }
     };
 
-    const getStatusIcon = (status: AttendanceStatus | string, size: number = 14) => {
+    const getStatusIcon = (
+        status: AttendanceStatus | string,
+        size: number = 14
+    ) => {
         switch (status) {
             case 'present':
                 return <PresentIcon sx={{ fontSize: size, color: 'white' }} />;
@@ -207,7 +270,11 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
             case 'absent':
                 return <AbsentIcon sx={{ fontSize: size, color: 'white' }} />;
             case 'early_dismissal':
-                return <EarlyDismissalIcon sx={{ fontSize: size, color: 'white' }} />;
+                return (
+                    <EarlyDismissalIcon
+                        sx={{ fontSize: size, color: 'white' }}
+                    />
+                );
             default:
                 return null;
         }
@@ -237,7 +304,6 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
 
     // Monthly calendar data
     const generateMonthlyData = () => {
-        const currentDate = new Date();
         const year = currentDate.getFullYear();
         const month = currentDate.getMonth();
 
@@ -261,10 +327,16 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
             const dayOfWeek = date.getDay();
             const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
             const isToday = date.toDateString() === new Date().toDateString();
-            const isPastDay = date < new Date().setHours(0, 0, 0, 0);
+            const isPastDay = date.getTime() < new Date().setHours(0, 0, 0, 0);
 
             // Generate realistic attendance status for school days
-            let status: 'present' | 'absent' | 'late' | 'early_dismissal' | 'no_school' | 'future' = 'future';
+            let status:
+                | 'present'
+                | 'absent'
+                | 'late'
+                | 'early_dismissal'
+                | 'no_school'
+                | 'future' = 'future';
 
             if (isWeekend) {
                 status = 'no_school';
@@ -283,20 +355,65 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                 isToday,
                 isPastDay,
                 status,
-                attendanceRate: status === 'present' ? 100 : status === 'late' || status === 'early_dismissal' ? 85 : 0
+                attendanceRate:
+                    status === 'present'
+                        ? 100
+                        : status === 'late' || status === 'early_dismissal'
+                          ? 85
+                          : 0,
             });
         }
 
         return days;
     };
 
-    const monthlyData = useMemo(generateMonthlyData, []);
+    const monthlyData = useMemo(() => generateMonthlyData(), [currentDate]);
 
-    const currentDate = new Date();
     const monthName = currentDate.toLocaleDateString('en-US', {
         month: 'long',
-        year: 'numeric'
+        year: 'numeric',
     });
+
+    // Navigation handlers
+    const handlePrevMonth = () => {
+        setCurrentDate(prev => {
+            const newDate = new Date(prev);
+            newDate.setMonth(prev.getMonth() - 1);
+            return newDate;
+        });
+    };
+
+    const handleNextMonth = () => {
+        setCurrentDate(prev => {
+            const newDate = new Date(prev);
+            newDate.setMonth(prev.getMonth() + 1);
+            return newDate;
+        });
+    };
+
+    const handlePrevWeek = () => {
+        setWeekOffset(prev => prev - 1);
+    };
+
+    const handleNextWeek = () => {
+        setWeekOffset(prev => prev + 1);
+    };
+
+    const getWeekDateRange = () => {
+        const today = new Date();
+        const startOfWeek = new Date(today);
+        startOfWeek.setDate(
+            today.getDate() - today.getDay() + 1 + weekOffset * 7
+        ); // Start from Monday
+        const endOfWeek = new Date(startOfWeek);
+        endOfWeek.setDate(startOfWeek.getDate() + 4); // End on Friday
+
+        return {
+            start: startOfWeek,
+            end: endOfWeek,
+            display: `${startOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${endOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`,
+        };
+    };
 
     const handleDayClick = (dayData: any) => {
         if (dayData && (dayData.isPastDay || dayData.isToday)) {
@@ -304,7 +421,6 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
             setDialogOpen(true);
         }
     };
-
 
     if (!selectedStudent) {
         return (
@@ -361,7 +477,11 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                 }}
             >
                 <Box sx={{ borderBottom: '1px solid', borderColor: 'divider' }}>
-                    <Tabs value={tabValue} onChange={handleTabChange} sx={{ px: 1 }}>
+                    <Tabs
+                        value={tabValue}
+                        onChange={handleTabChange}
+                        sx={{ px: 1 }}
+                    >
                         <Tab
                             icon={<CalendarViewIcon sx={{ fontSize: 16 }} />}
                             label="Monthly Calendar"
@@ -398,22 +518,77 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                 {/* Monthly Calendar Tab */}
                 <TabPanel value={tabValue} index={0}>
                     <Box sx={{ p: 2 }}>
-                        {/* Monthly Stats */}
-                        <Box sx={{ mb: 3 }}>
+                        {/* Month Navigation */}
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                mb: 2,
+                            }}
+                        >
                             <Typography
                                 variant="subtitle2"
                                 sx={{
                                     fontWeight: 600,
-                                    mb: 1.5,
                                     fontSize: '0.875rem',
+                                    color: 'text.primary',
                                 }}
                             >
-                                {monthName} Overview
+                                Monthly Overview
                             </Typography>
                             <Box
                                 sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 1,
+                                }}
+                            >
+                                <IconButton
+                                    size="small"
+                                    onClick={handlePrevMonth}
+                                    sx={{
+                                        p: 0.5,
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                        borderRadius: 0.5,
+                                    }}
+                                >
+                                    <ChevronLeft sx={{ fontSize: 16 }} />
+                                </IconButton>
+                                <Typography
+                                    variant="body2"
+                                    sx={{
+                                        fontWeight: 600,
+                                        minWidth: 140,
+                                        textAlign: 'center',
+                                        fontSize: '0.8125rem',
+                                    }}
+                                >
+                                    {monthName}
+                                </Typography>
+                                <IconButton
+                                    size="small"
+                                    onClick={handleNextMonth}
+                                    sx={{
+                                        p: 0.5,
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                        borderRadius: 0.5,
+                                    }}
+                                >
+                                    <ChevronRight sx={{ fontSize: 16 }} />
+                                </IconButton>
+                            </Box>
+                        </Box>
+
+                        {/* Monthly Stats */}
+                        <Box sx={{ mb: 3 }}>
+                            <Box
+                                sx={{
                                     display: 'grid',
-                                    gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+                                    gridTemplateColumns:
+                                        'repeat(auto-fit, minmax(120px, 1fr))',
                                     gap: 1.5,
                                 }}
                             >
@@ -429,12 +604,23 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                         gap: 1,
                                     }}
                                 >
-                                    <CalendarIcon sx={{ color: 'primary.main', fontSize: 16 }} />
+                                    <CalendarIcon
+                                        sx={{
+                                            color: 'primary.main',
+                                            fontSize: 16,
+                                        }}
+                                    />
                                     <Box>
-                                        <Typography variant="caption" sx={{ fontWeight: 600 }}>
+                                        <Typography
+                                            variant="caption"
+                                            sx={{ fontWeight: 600 }}
+                                        >
                                             Attendance Rate
                                         </Typography>
-                                        <Typography variant="h6" sx={{ fontSize: '1rem' }}>
+                                        <Typography
+                                            variant="h6"
+                                            sx={{ fontSize: '1rem' }}
+                                        >
                                             94.2%
                                         </Typography>
                                     </Box>
@@ -451,12 +637,23 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                         gap: 1,
                                     }}
                                 >
-                                    <PresentIcon sx={{ color: 'success.main', fontSize: 16 }} />
+                                    <PresentIcon
+                                        sx={{
+                                            color: 'success.main',
+                                            fontSize: 16,
+                                        }}
+                                    />
                                     <Box>
-                                        <Typography variant="caption" sx={{ fontWeight: 600 }}>
+                                        <Typography
+                                            variant="caption"
+                                            sx={{ fontWeight: 600 }}
+                                        >
                                             Days Present
                                         </Typography>
-                                        <Typography variant="h6" sx={{ fontSize: '1rem' }}>
+                                        <Typography
+                                            variant="h6"
+                                            sx={{ fontSize: '1rem' }}
+                                        >
                                             18
                                         </Typography>
                                     </Box>
@@ -473,12 +670,23 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                         gap: 1,
                                     }}
                                 >
-                                    <TardyIcon sx={{ color: 'warning.main', fontSize: 16 }} />
+                                    <TardyIcon
+                                        sx={{
+                                            color: 'warning.main',
+                                            fontSize: 16,
+                                        }}
+                                    />
                                     <Box>
-                                        <Typography variant="caption" sx={{ fontWeight: 600 }}>
+                                        <Typography
+                                            variant="caption"
+                                            sx={{ fontWeight: 600 }}
+                                        >
                                             Late Days
                                         </Typography>
-                                        <Typography variant="h6" sx={{ fontSize: '1rem' }}>
+                                        <Typography
+                                            variant="h6"
+                                            sx={{ fontSize: '1rem' }}
+                                        >
                                             1
                                         </Typography>
                                     </Box>
@@ -495,12 +703,23 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                         gap: 1,
                                     }}
                                 >
-                                    <AbsentIcon sx={{ color: 'error.main', fontSize: 16 }} />
+                                    <AbsentIcon
+                                        sx={{
+                                            color: 'error.main',
+                                            fontSize: 16,
+                                        }}
+                                    />
                                     <Box>
-                                        <Typography variant="caption" sx={{ fontWeight: 600 }}>
+                                        <Typography
+                                            variant="caption"
+                                            sx={{ fontWeight: 600 }}
+                                        >
                                             Absent Days
                                         </Typography>
-                                        <Typography variant="h6" sx={{ fontSize: '1rem' }}>
+                                        <Typography
+                                            variant="h6"
+                                            sx={{ fontSize: '1rem' }}
+                                        >
                                             0
                                         </Typography>
                                     </Box>
@@ -548,7 +767,15 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                     backgroundColor: 'background.default',
                                 }}
                             >
-                                {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
+                                {[
+                                    'Sun',
+                                    'Mon',
+                                    'Tue',
+                                    'Wed',
+                                    'Thu',
+                                    'Fri',
+                                    'Sat',
+                                ].map(day => (
                                     <Box
                                         key={day}
                                         sx={{
@@ -556,7 +783,9 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                             textAlign: 'center',
                                             borderRight: '1px solid',
                                             borderColor: 'divider',
-                                            '&:last-child': { borderRight: 'none' },
+                                            '&:last-child': {
+                                                borderRight: 'none',
+                                            },
                                         }}
                                     >
                                         <Typography
@@ -590,54 +819,72 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                                     borderRight: '1px solid',
                                                     borderBottom: '1px solid',
                                                     borderColor: 'divider',
-                                                    '&:nth-of-type(7n)': { borderRight: 'none' },
+                                                    '&:nth-of-type(7n)': {
+                                                        borderRight: 'none',
+                                                    },
                                                 }}
                                             />
                                         );
                                     }
 
-                                    const isClickable = dayData.isPastDay || dayData.isToday;
-                                    const statusColor = getStatusColor(dayData.status);
+                                    const isClickable =
+                                        dayData.isPastDay || dayData.isToday;
+                                    const statusColor = getStatusColor(
+                                        dayData.status
+                                    );
 
                                     return (
                                         <Box
                                             key={dayData.day}
-                                            onClick={() => isClickable && handleDayClick(dayData)}
+                                            onClick={() =>
+                                                isClickable &&
+                                                handleDayClick(dayData)
+                                            }
                                             sx={{
                                                 borderRight: '1px solid',
                                                 borderBottom: '1px solid',
                                                 borderColor: 'divider',
                                                 minHeight: 80,
                                                 p: 0.5,
-                                                cursor: isClickable ? 'pointer' : 'default',
+                                                cursor: isClickable
+                                                    ? 'pointer'
+                                                    : 'default',
                                                 position: 'relative',
                                                 backgroundColor: dayData.isToday
                                                     ? 'primary.50'
                                                     : dayData.isWeekend
-                                                    ? 'background.default'
-                                                    : 'background.paper',
+                                                      ? 'background.default'
+                                                      : 'background.paper',
                                                 '&:hover': isClickable
                                                     ? {
-                                                        backgroundColor: dayData.isToday
-                                                            ? 'primary.100'
-                                                            : 'action.hover',
-                                                    }
+                                                          backgroundColor:
+                                                              dayData.isToday
+                                                                  ? 'primary.100'
+                                                                  : 'action.hover',
+                                                      }
                                                     : {},
-                                                '&:nth-of-type(7n)': { borderRight: 'none' },
-                                                opacity: dayData.status === 'future' ? 0.6 : 1,
+                                                '&:nth-of-type(7n)': {
+                                                    borderRight: 'none',
+                                                },
+                                                opacity:
+                                                    dayData.status === 'future'
+                                                        ? 0.6
+                                                        : 1,
                                             }}
                                         >
                                             {/* Day Number */}
                                             <Typography
                                                 variant="caption"
                                                 sx={{
-                                                    fontWeight: dayData.isToday ? 700 : 500,
+                                                    fontWeight: dayData.isToday
+                                                        ? 700
+                                                        : 500,
                                                     fontSize: '0.875rem',
                                                     color: dayData.isToday
                                                         ? 'primary.main'
                                                         : dayData.isWeekend
-                                                        ? 'text.secondary'
-                                                        : 'text.primary',
+                                                          ? 'text.secondary'
+                                                          : 'text.primary',
                                                     display: 'block',
                                                 }}
                                             >
@@ -654,40 +901,52 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                                         width: 6,
                                                         height: 6,
                                                         borderRadius: '50%',
-                                                        backgroundColor: 'primary.main',
+                                                        backgroundColor:
+                                                            'primary.main',
                                                     }}
                                                 />
                                             )}
 
                                             {/* Attendance Status Indicator */}
-                                            {!dayData.isWeekend && dayData.status !== 'future' && (
-                                                <Box
-                                                    sx={{
-                                                        position: 'absolute',
-                                                        bottom: 4,
-                                                        left: 4,
-                                                        right: 4,
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        justifyContent: 'center',
-                                                        gap: 0.5,
-                                                    }}
-                                                >
+                                            {!dayData.isWeekend &&
+                                                dayData.status !== 'future' && (
                                                     <Box
                                                         sx={{
-                                                            width: 16,
-                                                            height: 16,
-                                                            borderRadius: '50%',
-                                                            backgroundColor: statusColor,
+                                                            position:
+                                                                'absolute',
+                                                            bottom: 4,
+                                                            left: 4,
+                                                            right: 4,
                                                             display: 'flex',
-                                                            alignItems: 'center',
-                                                            justifyContent: 'center',
+                                                            alignItems:
+                                                                'center',
+                                                            justifyContent:
+                                                                'center',
+                                                            gap: 0.5,
                                                         }}
                                                     >
-                                                        {getStatusIcon(dayData.status, 12)}
+                                                        <Box
+                                                            sx={{
+                                                                width: 16,
+                                                                height: 16,
+                                                                borderRadius:
+                                                                    '50%',
+                                                                backgroundColor:
+                                                                    statusColor,
+                                                                display: 'flex',
+                                                                alignItems:
+                                                                    'center',
+                                                                justifyContent:
+                                                                    'center',
+                                                            }}
+                                                        >
+                                                            {getStatusIcon(
+                                                                dayData.status,
+                                                                12
+                                                            )}
+                                                        </Box>
                                                     </Box>
-                                                </Box>
-                                            )}
+                                                )}
 
                                             {/* Weekend or No School Indicator */}
                                             {dayData.isWeekend && (
@@ -733,11 +992,27 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                 }}
                             >
                                 {[
-                                    { label: 'Present', color: '#10b981', icon: <PresentIcon /> },
-                                    { label: 'Late', color: '#f59e0b', icon: <TardyIcon /> },
-                                    { label: 'Absent', color: '#ef4444', icon: <AbsentIcon /> },
-                                    { label: 'Early Out', color: '#8b5cf6', icon: <EarlyDismissalIcon /> },
-                                ].map((item) => (
+                                    {
+                                        label: 'Present',
+                                        color: '#10b981',
+                                        icon: <PresentIcon />,
+                                    },
+                                    {
+                                        label: 'Late',
+                                        color: '#f59e0b',
+                                        icon: <TardyIcon />,
+                                    },
+                                    {
+                                        label: 'Absent',
+                                        color: '#ef4444',
+                                        icon: <AbsentIcon />,
+                                    },
+                                    {
+                                        label: 'Early Out',
+                                        color: '#8b5cf6',
+                                        icon: <EarlyDismissalIcon />,
+                                    },
+                                ].map(item => (
                                     <Box
                                         key={item.label}
                                         sx={{
@@ -758,12 +1033,18 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                             }}
                                         >
                                             {React.cloneElement(item.icon, {
-                                                sx: { fontSize: 8, color: 'white' },
+                                                sx: {
+                                                    fontSize: 8,
+                                                    color: 'white',
+                                                },
                                             })}
                                         </Box>
                                         <Typography
                                             variant="caption"
-                                            sx={{ fontSize: '0.6875rem', color: 'text.secondary' }}
+                                            sx={{
+                                                fontSize: '0.6875rem',
+                                                color: 'text.secondary',
+                                            }}
                                         >
                                             {item.label}
                                         </Typography>
@@ -776,28 +1057,162 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
 
                 {/* Weekly Timetable Tab (Classes Only) */}
                 <TabPanel value={tabValue} index={1}>
-                    <WeeklyTimetable selectedStudent={selectedStudent} />
+                    <Box sx={{ p: 2 }}>
+                        {/* Week Navigation */}
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                mb: 2,
+                            }}
+                        >
+                            <Typography
+                                variant="subtitle2"
+                                sx={{
+                                    fontWeight: 600,
+                                    fontSize: '0.875rem',
+                                    color: 'text.primary',
+                                }}
+                            >
+                                Weekly Timetable
+                            </Typography>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 1,
+                                }}
+                            >
+                                <IconButton
+                                    size="small"
+                                    onClick={handlePrevWeek}
+                                    sx={{
+                                        p: 0.5,
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                        borderRadius: 0.5,
+                                    }}
+                                >
+                                    <ChevronLeft sx={{ fontSize: 16 }} />
+                                </IconButton>
+                                <Typography
+                                    variant="body2"
+                                    sx={{
+                                        fontWeight: 600,
+                                        minWidth: 200,
+                                        textAlign: 'center',
+                                        fontSize: '0.8125rem',
+                                    }}
+                                >
+                                    {getWeekDateRange().display}
+                                </Typography>
+                                <IconButton
+                                    size="small"
+                                    onClick={handleNextWeek}
+                                    sx={{
+                                        p: 0.5,
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                        borderRadius: 0.5,
+                                    }}
+                                >
+                                    <ChevronRight sx={{ fontSize: 16 }} />
+                                </IconButton>
+                            </Box>
+                        </Box>
+                        <WeeklyTimetable
+                            selectedStudent={selectedStudent}
+                            weekOffset={weekOffset}
+                        />
+                    </Box>
                 </TabPanel>
 
                 {/* Period Attendance Tab */}
                 <TabPanel value={tabValue} index={2}>
                     <Box sx={{ p: 2 }}>
-                        {/* Weekly Stats */}
-                        <Box sx={{ mb: 3 }}>
+                        {/* Week Navigation */}
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                mb: 2,
+                            }}
+                        >
                             <Typography
                                 variant="subtitle2"
                                 sx={{
                                     fontWeight: 600,
-                                    mb: 1.5,
                                     fontSize: '0.875rem',
+                                    color: 'text.primary',
                                 }}
                             >
-                                Weekly Attendance Summary
+                                Period Attendance
+                            </Typography>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 1,
+                                }}
+                            >
+                                <IconButton
+                                    size="small"
+                                    onClick={handlePrevWeek}
+                                    sx={{
+                                        p: 0.5,
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                        borderRadius: 0.5,
+                                    }}
+                                >
+                                    <ChevronLeft sx={{ fontSize: 16 }} />
+                                </IconButton>
+                                <Typography
+                                    variant="body2"
+                                    sx={{
+                                        fontWeight: 600,
+                                        minWidth: 200,
+                                        textAlign: 'center',
+                                        fontSize: '0.8125rem',
+                                    }}
+                                >
+                                    {getWeekDateRange().display}
+                                </Typography>
+                                <IconButton
+                                    size="small"
+                                    onClick={handleNextWeek}
+                                    sx={{
+                                        p: 0.5,
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                        borderRadius: 0.5,
+                                    }}
+                                >
+                                    <ChevronRight sx={{ fontSize: 16 }} />
+                                </IconButton>
+                            </Box>
+                        </Box>
+
+                        {/* Weekly Stats */}
+                        <Box sx={{ mb: 3 }}>
+                            <Typography
+                                variant="body2"
+                                sx={{
+                                    fontWeight: 500,
+                                    mb: 1.5,
+                                    fontSize: '0.8125rem',
+                                    color: 'text.secondary',
+                                }}
+                            >
+                                Weekly Summary
                             </Typography>
                             <Box
                                 sx={{
                                     display: 'grid',
-                                    gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+                                    gridTemplateColumns:
+                                        'repeat(auto-fit, minmax(120px, 1fr))',
                                     gap: 1.5,
                                 }}
                             >
@@ -813,12 +1228,23 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                         gap: 1,
                                     }}
                                 >
-                                    <PresentIcon sx={{ color: 'success.main', fontSize: 16 }} />
+                                    <PresentIcon
+                                        sx={{
+                                            color: 'success.main',
+                                            fontSize: 16,
+                                        }}
+                                    />
                                     <Box>
-                                        <Typography variant="caption" sx={{ fontWeight: 600 }}>
+                                        <Typography
+                                            variant="caption"
+                                            sx={{ fontWeight: 600 }}
+                                        >
                                             Present
                                         </Typography>
-                                        <Typography variant="h6" sx={{ fontSize: '1rem' }}>
+                                        <Typography
+                                            variant="h6"
+                                            sx={{ fontSize: '1rem' }}
+                                        >
                                             28
                                         </Typography>
                                     </Box>
@@ -835,12 +1261,23 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                         gap: 1,
                                     }}
                                 >
-                                    <TardyIcon sx={{ color: 'warning.main', fontSize: 16 }} />
+                                    <TardyIcon
+                                        sx={{
+                                            color: 'warning.main',
+                                            fontSize: 16,
+                                        }}
+                                    />
                                     <Box>
-                                        <Typography variant="caption" sx={{ fontWeight: 600 }}>
+                                        <Typography
+                                            variant="caption"
+                                            sx={{ fontWeight: 600 }}
+                                        >
                                             Late
                                         </Typography>
-                                        <Typography variant="h6" sx={{ fontSize: '1rem' }}>
+                                        <Typography
+                                            variant="h6"
+                                            sx={{ fontSize: '1rem' }}
+                                        >
                                             2
                                         </Typography>
                                     </Box>
@@ -857,12 +1294,23 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                         gap: 1,
                                     }}
                                 >
-                                    <AbsentIcon sx={{ color: 'error.main', fontSize: 16 }} />
+                                    <AbsentIcon
+                                        sx={{
+                                            color: 'error.main',
+                                            fontSize: 16,
+                                        }}
+                                    />
                                     <Box>
-                                        <Typography variant="caption" sx={{ fontWeight: 600 }}>
+                                        <Typography
+                                            variant="caption"
+                                            sx={{ fontWeight: 600 }}
+                                        >
                                             Absent
                                         </Typography>
-                                        <Typography variant="h6" sx={{ fontSize: '1rem' }}>
+                                        <Typography
+                                            variant="h6"
+                                            sx={{ fontSize: '1rem' }}
+                                        >
                                             1
                                         </Typography>
                                     </Box>
@@ -883,11 +1331,26 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                             <Table size="small" sx={{ minWidth: 600 }}>
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell sx={{ fontWeight: 600, fontSize: '0.75rem' }}>
+                                        <TableCell
+                                            sx={{
+                                                fontWeight: 600,
+                                                fontSize: '0.75rem',
+                                            }}
+                                        >
                                             Period
                                         </TableCell>
-                                        {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].map(day => {
-                                            const isToday = day === getCurrentDayOfWeek();
+                                        {[
+                                            'Monday',
+                                            'Tuesday',
+                                            'Wednesday',
+                                            'Thursday',
+                                            'Friday',
+                                        ].map(day => {
+                                            const currentDay =
+                                                getCurrentDayOfWeek();
+                                            const isToday =
+                                                currentDay &&
+                                                day === currentDay;
                                             return (
                                                 <TableCell
                                                     key={day}
@@ -895,10 +1358,15 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                                     sx={{
                                                         fontWeight: 600,
                                                         fontSize: '0.75rem',
-                                                        backgroundColor: isToday ? 'primary.100' : 'inherit',
-                                                        borderRight: '1px solid',
+                                                        backgroundColor: isToday
+                                                            ? 'primary.100'
+                                                            : 'inherit',
+                                                        borderRight:
+                                                            '1px solid',
                                                         borderColor: 'divider',
-                                                        color: isToday ? 'primary.main' : 'inherit',
+                                                        color: isToday
+                                                            ? 'primary.main'
+                                                            : 'inherit',
                                                         position: 'relative',
                                                     }}
                                                 >
@@ -906,13 +1374,16 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                                     {isToday && (
                                                         <Box
                                                             sx={{
-                                                                position: 'absolute',
+                                                                position:
+                                                                    'absolute',
                                                                 top: 2,
                                                                 right: 2,
                                                                 width: 6,
                                                                 height: 6,
-                                                                borderRadius: '50%',
-                                                                backgroundColor: 'primary.main',
+                                                                borderRadius:
+                                                                    '50%',
+                                                                backgroundColor:
+                                                                    'primary.main',
                                                             }}
                                                         />
                                                     )}
@@ -922,167 +1393,247 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {Array.from({ length: 7 }, (_, periodIndex) => (
-                                        <TableRow key={periodIndex}>
-                                            <TableCell
-                                                sx={{
-                                                    fontWeight: 500,
-                                                    fontSize: '0.75rem',
-                                                    backgroundColor: 'background.default',
-                                                    borderRight: '1px solid',
-                                                    borderColor: 'divider',
-                                                    verticalAlign: 'top',
-                                                    minWidth: 80,
-                                                }}
-                                            >
-                                                Period {periodIndex + 1}
-                                            </TableCell>
-                                            {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'].map(day => {
-                                                const period = weeklyAttendanceData[day]?.[periodIndex];
-                                                const isCurrentDay = day === getCurrentDayOfWeek();
-                                                const isDisabled = isPeriodDisabled(day, periodIndex);
-                                                const isBreak = period?.subject === 'Break' || period?.subject === 'Lunch';
+                                    {Array.from(
+                                        { length: 7 },
+                                        (_, periodIndex) => (
+                                            <TableRow key={periodIndex}>
+                                                <TableCell
+                                                    sx={{
+                                                        fontWeight: 500,
+                                                        fontSize: '0.75rem',
+                                                        backgroundColor:
+                                                            'background.default',
+                                                        borderRight:
+                                                            '1px solid',
+                                                        borderColor: 'divider',
+                                                        verticalAlign: 'top',
+                                                        minWidth: 80,
+                                                    }}
+                                                >
+                                                    Period {periodIndex + 1}
+                                                </TableCell>
+                                                {[
+                                                    'Monday',
+                                                    'Tuesday',
+                                                    'Wednesday',
+                                                    'Thursday',
+                                                    'Friday',
+                                                ].map(day => {
+                                                    const period =
+                                                        weeklyAttendanceData[
+                                                            day
+                                                        ]?.[periodIndex];
+                                                    const currentDay =
+                                                        getCurrentDayOfWeek();
+                                                    const isCurrentDay =
+                                                        currentDay &&
+                                                        day === currentDay;
+                                                    const isDisabled =
+                                                        isPeriodDisabled(
+                                                            day,
+                                                            periodIndex
+                                                        );
+                                                    const isBreak =
+                                                        period?.subject ===
+                                                            'Break' ||
+                                                        period?.subject ===
+                                                            'Lunch';
 
-                                                if (!period) {
+                                                    if (!period) {
+                                                        return (
+                                                            <TableCell
+                                                                key={`${day}-${periodIndex}`}
+                                                                sx={{
+                                                                    border: '1px solid',
+                                                                    borderColor:
+                                                                        'divider',
+                                                                }}
+                                                            />
+                                                        );
+                                                    }
+
+                                                    const statusColor =
+                                                        getStatusColor(
+                                                            period.status
+                                                        );
+
                                                     return (
                                                         <TableCell
                                                             key={`${day}-${periodIndex}`}
-                                                            sx={{ border: '1px solid', borderColor: 'divider' }}
-                                                        />
-                                                    );
-                                                }
-
-                                                const statusColor = getStatusColor(period.status);
-
-                                                return (
-                                                    <TableCell
-                                                        key={`${day}-${periodIndex}`}
-                                                        onClick={() => !isDisabled && !isBreak && handlePeriodClick(period)}
-                                                        sx={{
-                                                            p: 0.5,
-                                                            border: '1px solid',
-                                                            borderColor: 'divider',
-                                                            minHeight: 48,
-                                                            backgroundColor: isDisabled
-                                                                ? 'action.disabledBackground'
-                                                                : isCurrentDay && !isBreak
-                                                                ? `${statusColor}08`
-                                                                : 'background.paper',
-                                                            cursor: !isDisabled && !isBreak ? 'pointer' : 'default',
-                                                            opacity: isDisabled ? 0.5 : 1,
-                                                            '&:hover': !isDisabled && !isBreak
-                                                                ? {
-                                                                    backgroundColor: `${statusColor}15`,
-                                                                }
-                                                                : {},
-                                                            ...(isCurrentDay &&
+                                                            onClick={() =>
                                                                 !isDisabled &&
-                                                                !isBreak && {
-                                                                    borderLeft: `3px solid ${statusColor}`,
-                                                                }),
-                                                        }}
-                                                    >
-                                                        <Box
+                                                                !isBreak &&
+                                                                handlePeriodClick(
+                                                                    period
+                                                                )
+                                                            }
                                                             sx={{
-                                                                display: 'flex',
-                                                                flexDirection: 'column',
-                                                                gap: 0.25,
-                                                                minHeight: 40,
-                                                                justifyContent: 'center',
+                                                                p: 0.5,
+                                                                border: '1px solid',
+                                                                borderColor:
+                                                                    'divider',
+                                                                minHeight: 48,
+                                                                backgroundColor:
+                                                                    isDisabled
+                                                                        ? 'action.disabledBackground'
+                                                                        : isCurrentDay &&
+                                                                            !isBreak
+                                                                          ? `${statusColor}08`
+                                                                          : 'background.paper',
+                                                                cursor:
+                                                                    !isDisabled &&
+                                                                    !isBreak
+                                                                        ? 'pointer'
+                                                                        : 'default',
+                                                                opacity:
+                                                                    isDisabled
+                                                                        ? 0.5
+                                                                        : 1,
+                                                                '&:hover':
+                                                                    !isDisabled &&
+                                                                    !isBreak
+                                                                        ? {
+                                                                              backgroundColor: `${statusColor}15`,
+                                                                          }
+                                                                        : {},
+                                                                ...(isCurrentDay &&
+                                                                    !isDisabled &&
+                                                                    !isBreak && {
+                                                                        borderLeft: `3px solid ${statusColor}`,
+                                                                    }),
                                                             }}
                                                         >
-                                                            {!isBreak && (
-                                                                <>
-                                                                    <Box
-                                                                        sx={{
-                                                                            display: 'flex',
-                                                                            alignItems: 'center',
-                                                                            gap: 0.5,
-                                                                            mb: 0.25,
-                                                                        }}
-                                                                    >
+                                                            <Box
+                                                                sx={{
+                                                                    display:
+                                                                        'flex',
+                                                                    flexDirection:
+                                                                        'column',
+                                                                    gap: 0.25,
+                                                                    minHeight: 40,
+                                                                    justifyContent:
+                                                                        'center',
+                                                                }}
+                                                            >
+                                                                {!isBreak && (
+                                                                    <>
+                                                                        <Box
+                                                                            sx={{
+                                                                                display:
+                                                                                    'flex',
+                                                                                alignItems:
+                                                                                    'center',
+                                                                                gap: 0.5,
+                                                                                mb: 0.25,
+                                                                            }}
+                                                                        >
+                                                                            <Typography
+                                                                                variant="caption"
+                                                                                sx={{
+                                                                                    fontWeight: 600,
+                                                                                    fontSize:
+                                                                                        '0.6875rem',
+                                                                                    lineHeight: 1,
+                                                                                    color: isCurrentDay
+                                                                                        ? statusColor
+                                                                                        : 'text.primary',
+                                                                                    flex: 1,
+                                                                                }}
+                                                                            >
+                                                                                {
+                                                                                    period.subject
+                                                                                }
+                                                                            </Typography>
+                                                                            {!isDisabled && (
+                                                                                <Box
+                                                                                    sx={{
+                                                                                        width: 14,
+                                                                                        height: 14,
+                                                                                        borderRadius:
+                                                                                            '50%',
+                                                                                        backgroundColor:
+                                                                                            statusColor,
+                                                                                        display:
+                                                                                            'flex',
+                                                                                        alignItems:
+                                                                                            'center',
+                                                                                        justifyContent:
+                                                                                            'center',
+                                                                                    }}
+                                                                                >
+                                                                                    {getStatusIcon(
+                                                                                        period.status
+                                                                                    )}
+                                                                                </Box>
+                                                                            )}
+                                                                        </Box>
                                                                         <Typography
                                                                             variant="caption"
                                                                             sx={{
-                                                                                fontWeight: 600,
-                                                                                fontSize: '0.6875rem',
+                                                                                fontSize:
+                                                                                    '0.625rem',
+                                                                                color: 'text.secondary',
                                                                                 lineHeight: 1,
-                                                                                color: isCurrentDay
-                                                                                    ? statusColor
-                                                                                    : 'text.primary',
-                                                                                flex: 1,
                                                                             }}
                                                                         >
-                                                                            {period.subject}
+                                                                            {
+                                                                                period.teacher
+                                                                            }
                                                                         </Typography>
-                                                                        {!isDisabled && (
-                                                                            <Box
-                                                                                sx={{
-                                                                                    width: 14,
-                                                                                    height: 14,
-                                                                                    borderRadius: '50%',
-                                                                                    backgroundColor: statusColor,
-                                                                                    display: 'flex',
-                                                                                    alignItems: 'center',
-                                                                                    justifyContent: 'center',
-                                                                                }}
-                                                                            >
-                                                                                {getStatusIcon(period.status)}
-                                                                            </Box>
-                                                                        )}
-                                                                    </Box>
+                                                                        <Typography
+                                                                            variant="caption"
+                                                                            sx={{
+                                                                                fontSize:
+                                                                                    '0.625rem',
+                                                                                color: 'text.secondary',
+                                                                                lineHeight: 1,
+                                                                            }}
+                                                                        >
+                                                                            {
+                                                                                period.room
+                                                                            }
+                                                                        </Typography>
+                                                                    </>
+                                                                )}
+                                                                {isBreak && (
                                                                     <Typography
                                                                         variant="caption"
                                                                         sx={{
-                                                                            fontSize: '0.625rem',
+                                                                            fontSize:
+                                                                                '0.6875rem',
                                                                             color: 'text.secondary',
-                                                                            lineHeight: 1,
+                                                                            textAlign:
+                                                                                'center',
                                                                         }}
                                                                     >
-                                                                        {period.teacher}
+                                                                        {
+                                                                            period.subject
+                                                                        }
                                                                     </Typography>
-                                                                    <Typography
-                                                                        variant="caption"
-                                                                        sx={{
-                                                                            fontSize: '0.625rem',
-                                                                            color: 'text.secondary',
-                                                                            lineHeight: 1,
-                                                                        }}
-                                                                    >
-                                                                        {period.room}
-                                                                    </Typography>
-                                                                </>
-                                                            )}
-                                                            {isBreak && (
-                                                                <Typography
-                                                                    variant="caption"
-                                                                    sx={{
-                                                                        fontSize: '0.6875rem',
-                                                                        color: 'text.secondary',
-                                                                        textAlign: 'center',
-                                                                    }}
-                                                                >
-                                                                    {period.subject}
-                                                                </Typography>
-                                                            )}
-                                                            {isDisabled && !isBreak && (
-                                                                <Typography
-                                                                    variant="caption"
-                                                                    sx={{
-                                                                        fontSize: '0.625rem',
-                                                                        color: 'text.secondary',
-                                                                        textAlign: 'center',
-                                                                    }}
-                                                                >
-                                                                    Not Yet
-                                                                </Typography>
-                                                            )}
-                                                        </Box>
-                                                    </TableCell>
-                                                );
-                                            })}
-                                        </TableRow>
-                                    ))}
+                                                                )}
+                                                                {isDisabled &&
+                                                                    !isBreak && (
+                                                                        <Typography
+                                                                            variant="caption"
+                                                                            sx={{
+                                                                                fontSize:
+                                                                                    '0.625rem',
+                                                                                color: 'text.secondary',
+                                                                                textAlign:
+                                                                                    'center',
+                                                                            }}
+                                                                        >
+                                                                            Not
+                                                                            Yet
+                                                                        </Typography>
+                                                                    )}
+                                                            </Box>
+                                                        </TableCell>
+                                                    );
+                                                })}
+                                            </TableRow>
+                                        )
+                                    )}
                                 </TableBody>
                             </Table>
                         </TableContainer>
@@ -1099,15 +1650,29 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                     fullWidth
                 >
                     <DialogTitle>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <CalendarIcon sx={{ fontSize: 20, color: 'primary.main' }} />
-                            <Typography variant="h6">Daily Attendance Details</Typography>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 1,
+                            }}
+                        >
+                            <CalendarIcon
+                                sx={{ fontSize: 20, color: 'primary.main' }}
+                            />
+                            <Typography variant="h6">
+                                Daily Attendance Details
+                            </Typography>
                         </Box>
                     </DialogTitle>
                     <DialogContent>
                         <Typography
                             variant="subtitle2"
-                            sx={{ fontWeight: 600, mb: 2, fontSize: '0.875rem' }}
+                            sx={{
+                                fontWeight: 600,
+                                mb: 2,
+                                fontSize: '0.875rem',
+                            }}
                         >
                             {selectedDay.date?.toLocaleDateString('en-US', {
                                 weekday: 'long',
@@ -1119,13 +1684,22 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
 
                         <List sx={{ py: 0 }}>
                             <ListItem sx={{ px: 0, py: 1 }}>
-                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mr: 2 }}>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 1,
+                                        mr: 2,
+                                    }}
+                                >
                                     <Box
                                         sx={{
                                             width: 24,
                                             height: 24,
                                             borderRadius: '50%',
-                                            backgroundColor: getStatusColor(selectedDay.status),
+                                            backgroundColor: getStatusColor(
+                                                selectedDay.status
+                                            ),
                                             display: 'flex',
                                             alignItems: 'center',
                                             justifyContent: 'center',
@@ -1137,10 +1711,16 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                 <ListItemText
                                     primary="Overall Status"
                                     secondary={
-                                        selectedDay.status === 'present' ? 'Present' :
-                                        selectedDay.status === 'late' ? 'Late Arrival' :
-                                        selectedDay.status === 'absent' ? 'Absent' :
-                                        selectedDay.status === 'early_dismissal' ? 'Early Dismissal' : 'Unknown'
+                                        selectedDay.status === 'present'
+                                            ? 'Present'
+                                            : selectedDay.status === 'late'
+                                              ? 'Late Arrival'
+                                              : selectedDay.status === 'absent'
+                                                ? 'Absent'
+                                                : selectedDay.status ===
+                                                    'early_dismissal'
+                                                  ? 'Early Dismissal'
+                                                  : 'Unknown'
                                     }
                                     sx={{
                                         '& .MuiListItemText-primary': {
@@ -1157,8 +1737,13 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                             <ListItem sx={{ px: 0, py: 1 }}>
                                 <ListItemText
                                     primary="Time In"
-                                    secondary={selectedDay.status === 'present' ? '8:00 AM' :
-                                              selectedDay.status === 'late' ? '8:15 AM' : 'N/A'}
+                                    secondary={
+                                        selectedDay.status === 'present'
+                                            ? '8:00 AM'
+                                            : selectedDay.status === 'late'
+                                              ? '8:15 AM'
+                                              : 'N/A'
+                                    }
                                     sx={{
                                         '& .MuiListItemText-primary': {
                                             fontSize: '0.8125rem',
@@ -1174,8 +1759,13 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                             <ListItem sx={{ px: 0, py: 1 }}>
                                 <ListItemText
                                     primary="Time Out"
-                                    secondary={selectedDay.status === 'early_dismissal' ? '2:30 PM' :
-                                              selectedDay.status === 'absent' ? 'N/A' : '3:15 PM'}
+                                    secondary={
+                                        selectedDay.status === 'early_dismissal'
+                                            ? '2:30 PM'
+                                            : selectedDay.status === 'absent'
+                                              ? 'N/A'
+                                              : '3:15 PM'
+                                    }
                                     sx={{
                                         '& .MuiListItemText-primary': {
                                             fontSize: '0.8125rem',
@@ -1191,8 +1781,13 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                             <ListItem sx={{ px: 0, py: 1 }}>
                                 <ListItemText
                                     primary="Periods Present"
-                                    secondary={`${selectedDay.attendanceRate === 100 ? '7/7' :
-                                               selectedDay.attendanceRate === 85 ? '6/7' : '0/7'}`}
+                                    secondary={`${
+                                        selectedDay.attendanceRate === 100
+                                            ? '7/7'
+                                            : selectedDay.attendanceRate === 85
+                                              ? '6/7'
+                                              : '0/7'
+                                    }`}
                                     sx={{
                                         '& .MuiListItemText-primary': {
                                             fontSize: '0.8125rem',
@@ -1236,7 +1831,9 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                         </List>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={() => setDialogOpen(false)}>Close</Button>
+                        <Button onClick={() => setDialogOpen(false)}>
+                            Close
+                        </Button>
                     </DialogActions>
                 </Dialog>
             )}
@@ -1249,28 +1846,52 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                     fullWidth
                 >
                     <DialogTitle>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <ScheduleIcon sx={{ fontSize: 20, color: 'primary.main' }} />
-                            <Typography variant="h6">Period Attendance Details</Typography>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 1,
+                            }}
+                        >
+                            <ScheduleIcon
+                                sx={{ fontSize: 20, color: 'primary.main' }}
+                            />
+                            <Typography variant="h6">
+                                Period Attendance Details
+                            </Typography>
                         </Box>
                     </DialogTitle>
                     <DialogContent>
                         <Typography
                             variant="subtitle2"
-                            sx={{ fontWeight: 600, mb: 2, fontSize: '0.875rem' }}
+                            sx={{
+                                fontWeight: 600,
+                                mb: 2,
+                                fontSize: '0.875rem',
+                            }}
                         >
-                            {selectedPeriod.subject} ({selectedPeriod.startTime} - {selectedPeriod.endTime})
+                            {selectedPeriod.subject} ({selectedPeriod.startTime}{' '}
+                            - {selectedPeriod.endTime})
                         </Typography>
 
                         <List sx={{ py: 0 }}>
                             <ListItem sx={{ px: 0, py: 1 }}>
-                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mr: 2 }}>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 1,
+                                        mr: 2,
+                                    }}
+                                >
                                     <Box
                                         sx={{
                                             width: 24,
                                             height: 24,
                                             borderRadius: '50%',
-                                            backgroundColor: getStatusColor(selectedPeriod.status),
+                                            backgroundColor: getStatusColor(
+                                                selectedPeriod.status
+                                            ),
                                             display: 'flex',
                                             alignItems: 'center',
                                             justifyContent: 'center',
@@ -1281,7 +1902,9 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                 </Box>
                                 <ListItemText
                                     primary="Status"
-                                    secondary={getStatusLabel(selectedPeriod.status)}
+                                    secondary={getStatusLabel(
+                                        selectedPeriod.status
+                                    )}
                                     sx={{
                                         '& .MuiListItemText-primary': {
                                             fontSize: '0.8125rem',
@@ -1344,7 +1967,8 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                 </ListItem>
                             )}
 
-                            {(selectedPeriod.status === 'absent' || selectedPeriod.status === 'late') && (
+                            {(selectedPeriod.status === 'absent' ||
+                                selectedPeriod.status === 'late') && (
                                 <ListItem sx={{ px: 0, py: 1 }}>
                                     <Chip
                                         label="Requires Parent Contact"
@@ -1357,7 +1981,9 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                         </List>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={() => setPeriodDialogOpen(false)}>Close</Button>
+                        <Button onClick={() => setPeriodDialogOpen(false)}>
+                            Close
+                        </Button>
                     </DialogActions>
                 </Dialog>
             )}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, {
     AxiosError,
     type AxiosInstance,
@@ -8,7 +9,7 @@ import axios, {
 
 // Base API configuration
 const API_BASE_URL =
-    import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api';
+    import.meta.env.VITE_API_BASE_URL || 'https://kampux-api.univ-soft.com';
 const API_TIMEOUT = 30000; // 30 seconds
 
 // Request ID generator for debugging and request tracking
@@ -69,10 +70,10 @@ export const tokenManager = {
     },
 };
 
-// Create the main Axios instance
-const createApiClient = (): AxiosInstance => {
+// Create specialized API clients for different endpoints
+const createApiClient = (baseURL?: string): AxiosInstance => {
     const client = axios.create({
-        baseURL: API_BASE_URL,
+        baseURL: baseURL || API_BASE_URL,
         timeout: API_TIMEOUT,
         headers: {
             'Content-Type': 'application/json',
@@ -179,11 +180,11 @@ const createApiClient = (): AxiosInstance => {
 
             // Create structured error
             const apiError = new ApiError(
-                (error.response?.data as {message:string})?.message ||
+                (error.response?.data as { message: string })?.message ||
                     error.message ||
                     'An error occurred',
                 error.response?.status || 500,
-                (error.response?.data as {code :string})?.code,
+                (error.response?.data as { code: string })?.code,
                 requestId
             );
 
@@ -194,8 +195,10 @@ const createApiClient = (): AxiosInstance => {
     return client;
 };
 
-// Main API client instance
+// Main API client instances
 export const apiClient = createApiClient();
+export const authApiClient = createApiClient(`${API_BASE_URL}/api/identity`);
+export const parentApiClient = createApiClient(`${API_BASE_URL}/public-api/parent/v1`);
 
 // Utility functions for common HTTP methods
 export const api = {

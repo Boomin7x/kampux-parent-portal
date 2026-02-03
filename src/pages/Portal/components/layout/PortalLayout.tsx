@@ -1,22 +1,12 @@
-import {
-    Badge,
-    Logout as LogoutIcon,
-    Menu as MenuIcon,
-    Notifications as NotificationIcon,
-    Settings as SettingsIcon,
-} from '@mui/icons-material';
+import { Feedback, Menu as MenuIcon } from '@mui/icons-material';
 import {
     AppBar,
     Avatar,
     Box,
+    Button,
     CssBaseline,
-    Divider,
     Drawer,
     IconButton,
-    ListItemIcon,
-    ListItemText,
-    Menu,
-    MenuItem,
     Toolbar,
     Typography,
     useMediaQuery,
@@ -24,7 +14,9 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useUserProfile } from '../../../Auth/_hooks/useAuth';
 import { NotificationCenter } from '../communication/NotificationCenter';
+import UserDisplay from '../user/UserDisplay';
 import { PortalSidebar } from './PortalSidebar';
 
 interface PortalLayoutProps {
@@ -45,42 +37,19 @@ export const PortalLayout: React.FC<PortalLayoutProps> = ({
     currentStudent,
 }) => {
     const theme = useTheme();
-    const navigate = useNavigate();
     const isMobile = useMediaQuery(theme.breakpoints.down(MOBILE_BREAKPOINT));
+    const userProfile = useUserProfile();
+    const navigate = useNavigate();
 
     const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
-    const [accountMenuAnchor, setAccountMenuAnchor] =
-        useState<null | HTMLElement>(null);
     const [notificationsOpen, setNotificationsOpen] = useState(false);
-
-    // Mock user data - replace with actual auth context
-    const currentUser = {
-        name: 'Sarah Johnson',
-        email: 'sarah.johnson@email.com',
-        avatar: undefined,
-    };
 
     const handleSidebarToggle = () => {
         setSidebarOpen(!sidebarOpen);
     };
 
-    const handleAccountMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-        setAccountMenuAnchor(event.currentTarget);
-    };
-
-    const handleAccountMenuClose = () => {
-        setAccountMenuAnchor(null);
-    };
-
-    const handleLogout = () => {
-        // Implement logout logic
-        navigate('/auth');
-        handleAccountMenuClose();
-    };
-
-    const handleSettings = () => {
-        navigate('/portal/settings');
-        handleAccountMenuClose();
+    const handleComplaintClick = () => {
+        navigate('/portal/complaints');
     };
 
     const unreadNotifications = 3; // Mock notification count
@@ -171,7 +140,8 @@ export const PortalLayout: React.FC<PortalLayoutProps> = ({
                                     fontSize: '0.75rem',
                                 }}
                             >
-                                Excellence Academy
+                                {userProfile?.applicationSetup?.companyName ||
+                                    'Excellence Academy'}
                             </Typography>
                         </Box>
                     </Box>
@@ -187,8 +157,7 @@ export const PortalLayout: React.FC<PortalLayoutProps> = ({
                                 px: 1,
                                 py: 0.5,
                                 borderRadius: 1,
-                                backgroundColor:
-                                    theme.palette.primary.main + '06',
+                                backgroundColor: `${theme.palette.primary.main}06`,
                                 border: `1px solid ${theme.palette.primary.main}12`,
                                 minWidth: 0,
                                 maxWidth: 180,
@@ -252,7 +221,7 @@ export const PortalLayout: React.FC<PortalLayoutProps> = ({
                         }}
                     >
                         {/* Quick Alert Count */}
-                        {unreadNotifications > 0 && (
+                        {/* {unreadNotifications > 0 && (
                             <Box
                                 sx={{
                                     display: { xs: 'none', lg: 'flex' },
@@ -275,10 +244,10 @@ export const PortalLayout: React.FC<PortalLayoutProps> = ({
                                     {unreadNotifications} alerts
                                 </Typography>
                             </Box>
-                        )}
+                        )} */}
 
                         {/* Notification Button */}
-                        <IconButton
+                        {/* <IconButton
                             size="small"
                             onClick={() => setNotificationsOpen(true)}
                             sx={{
@@ -306,32 +275,45 @@ export const PortalLayout: React.FC<PortalLayoutProps> = ({
                             >
                                 <NotificationIcon sx={{ fontSize: 14 }} />
                             </Badge>
-                        </IconButton>
+                        </IconButton> */}
 
-                        {/* User Menu */}
-                        <IconButton
+                        {/* Complaint Button */}
+                        <Button
+                            onClick={handleComplaintClick}
                             size="small"
-                            onClick={handleAccountMenuOpen}
                             sx={{
-                                color: 'text.secondary',
-                                p: 0.5,
+                                px: 1,
+                                py: 0.5,
+                                mr: 0.5,
+                                minWidth: 'auto',
                                 borderRadius: 1,
-                                '&:hover': { backgroundColor: 'action.hover' },
+                                backgroundColor: 'transparent',
+                                border: '1px solid',
+                                borderColor: 'divider',
+                                color: 'text.secondary',
+                                fontSize: '0.6875rem',
+                                fontWeight: 500,
+                                textTransform: 'none',
+                                transition: 'all 0.2s ease',
+                                '&:hover': {
+                                    backgroundColor: 'error.50',
+                                    borderColor: 'error.main',
+                                    color: 'error.main',
+                                },
                             }}
                         >
-                            <Avatar
-                                src={currentUser.avatar}
+                            <Feedback sx={{ fontSize: 12, mr: 0.5 }} />
+                            <Box
                                 sx={{
-                                    width: 20,
-                                    height: 20,
-                                    backgroundColor: 'secondary.main',
-                                    fontSize: '0.5625rem',
-                                    border: `1px solid ${theme.palette.divider}`,
+                                    display: { xs: 'none', sm: 'block' },
                                 }}
                             >
-                                {currentUser?.name?.charAt(0)}
-                            </Avatar>
-                        </IconButton>
+                                Plainte
+                            </Box>
+                        </Button>
+
+                        {/* User Menu */}
+                        <UserDisplay />
                     </Box>
                 </Toolbar>
             </AppBar>
@@ -401,50 +383,6 @@ export const PortalLayout: React.FC<PortalLayoutProps> = ({
                 <Toolbar /> {/* Spacer for app bar */}
                 <Box sx={{ flexGrow: 1, p: 2 }}>{children}</Box>
             </Box>
-
-            {/* Account Menu */}
-            <Menu
-                anchorEl={accountMenuAnchor}
-                open={Boolean(accountMenuAnchor)}
-                onClose={handleAccountMenuClose}
-                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                PaperProps={{
-                    sx: {
-                        minWidth: 180,
-                        mt: 0.5,
-                    },
-                }}
-            >
-                <Box sx={{ px: 1.5, py: 0.75 }}>
-                    <Typography
-                        variant="caption"
-                        sx={{ fontWeight: 600, display: 'block' }}
-                    >
-                        {currentUser.name}
-                    </Typography>
-                    <Typography
-                        variant="caption"
-                        color="text.secondary"
-                        sx={{ fontSize: '0.6875rem' }}
-                    >
-                        {currentUser.email}
-                    </Typography>
-                </Box>
-                <Divider />
-                <MenuItem onClick={handleSettings}>
-                    <ListItemIcon>
-                        <SettingsIcon fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText primary="Settings" />
-                </MenuItem>
-                <MenuItem onClick={handleLogout}>
-                    <ListItemIcon>
-                        <LogoutIcon fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText primary="Logout" />
-                </MenuItem>
-            </Menu>
 
             {/* Notification Center */}
             <NotificationCenter

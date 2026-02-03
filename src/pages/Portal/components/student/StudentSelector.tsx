@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
+import { SwapHoriz as SwitchIcon } from '@mui/icons-material';
 import {
-    Box,
+    alpha,
     Avatar,
-    Typography,
+    Box,
     Button,
-    Menu,
-    MenuItem,
+    Card,
+    CardContent,
+    Chip,
+    IconButton,
     ListItemIcon,
     ListItemText,
-    Chip,
+    Menu,
+    MenuItem,
+    Typography,
     useTheme,
-    alpha,
-    IconButton,
 } from '@mui/material';
-import {
-    ExpandMore as ExpandIcon,
-    SwapHoriz as SwitchIcon,
-} from '@mui/icons-material';
+import React, { useState } from 'react';
 import type { Student } from '../../../../types/student.types';
 
 interface StudentSelectorProps {
@@ -80,7 +79,9 @@ export const StudentSelector: React.FC<StudentSelectorProps> = ({
         handleMenuClose();
     };
 
-    const getStudentStats = (studentId: string): StudentQuickStats | undefined => {
+    const getStudentStats = (
+        studentId: string
+    ): StudentQuickStats | undefined => {
         return mockQuickStats.find(stats => stats.studentId === studentId);
     };
 
@@ -95,6 +96,7 @@ export const StudentSelector: React.FC<StudentSelectorProps> = ({
         if (rate >= 90) return theme.palette.warning.main;
         return theme.palette.error.main;
     };
+    console.log({ students });
 
     if (!students.length) {
         return (
@@ -124,7 +126,15 @@ export const StudentSelector: React.FC<StudentSelectorProps> = ({
                     borderColor: alpha(theme.palette.primary.main, 0.3),
                 }}
             >
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1.5,
+                        cursor: 'pointer',
+                    }}
+                    onClick={() => handleStudentSelect(student)}
+                >
                     <Avatar
                         src={student.avatar}
                         sx={{
@@ -133,22 +143,47 @@ export const StudentSelector: React.FC<StudentSelectorProps> = ({
                             backgroundColor: 'primary.main',
                         }}
                     >
-                        {student.firstName.charAt(0)}{student.lastName.charAt(0)}
+                        {student.firstName.charAt(0)}
+                        {student.lastName.charAt(0)}
                     </Avatar>
                     <Box sx={{ flexGrow: 1 }}>
-                        <Typography variant="subtitle1" sx={{ fontWeight: 600, lineHeight: 1.2 }}>
+                        <Typography
+                            variant="subtitle1"
+                            sx={{ fontWeight: 600, lineHeight: 1.2 }}
+                        >
                             {student.fullName}
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
-                            Grade {student.grade} • {student.homeroomTeacher.name}
+                            Grade {student.grade} •{' '}
+                            {student.homeroomTeacher.name}
                         </Typography>
                     </Box>
                     {stats && (
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <Typography variant="caption" sx={{ fontWeight: 600, color: getGradeColor(stats.currentGPA) }}>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 1,
+                            }}
+                        >
+                            <Typography
+                                variant="caption"
+                                sx={{
+                                    fontWeight: 600,
+                                    color: getGradeColor(stats.currentGPA),
+                                }}
+                            >
                                 {stats.currentGPA.toFixed(1)}
                             </Typography>
-                            <Typography variant="caption" sx={{ fontWeight: 600, color: getAttendanceColor(stats.attendanceRate) }}>
+                            <Typography
+                                variant="caption"
+                                sx={{
+                                    fontWeight: 600,
+                                    color: getAttendanceColor(
+                                        stats.attendanceRate
+                                    ),
+                                }}
+                            >
                                 {stats.attendanceRate}%
                             </Typography>
                             {stats.alertCount > 0 && (
@@ -181,7 +216,9 @@ export const StudentSelector: React.FC<StudentSelectorProps> = ({
                         borderColor: alpha(theme.palette.primary.main, 0.3),
                     }}
                 >
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                    <Box
+                        sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}
+                    >
                         <Avatar
                             src={selectedStudent.avatar}
                             sx={{
@@ -190,14 +227,22 @@ export const StudentSelector: React.FC<StudentSelectorProps> = ({
                                 backgroundColor: 'primary.main',
                             }}
                         >
-                            {selectedStudent.firstName.charAt(0)}{selectedStudent.lastName.charAt(0)}
+                            {selectedStudent.firstName.charAt(0)}
+                            {selectedStudent.lastName.charAt(0)}
                         </Avatar>
                         <Box sx={{ flexGrow: 1 }}>
-                            <Typography variant="subtitle1" sx={{ fontWeight: 600, lineHeight: 1.2 }}>
+                            <Typography
+                                variant="subtitle1"
+                                sx={{ fontWeight: 600, lineHeight: 1.2 }}
+                            >
                                 {selectedStudent.fullName}
                             </Typography>
-                            <Typography variant="caption" color="text.secondary">
-                                Grade {selectedStudent.grade} • {selectedStudent.homeroomTeacher.name}
+                            <Typography
+                                variant="caption"
+                                color="text.secondary"
+                            >
+                                Grade {selectedStudent.grade} •{' '}
+                                {selectedStudent.homeroomTeacher.name}
                             </Typography>
                         </Box>
 
@@ -205,30 +250,80 @@ export const StudentSelector: React.FC<StudentSelectorProps> = ({
                         {(() => {
                             const stats = getStudentStats(selectedStudent.id);
                             return (
-                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 1.5,
+                                    }}
+                                >
                                     {stats && (
                                         <>
                                             <Box sx={{ textAlign: 'center' }}>
-                                                <Typography variant="caption" sx={{ fontWeight: 600, color: getGradeColor(stats.currentGPA), display: 'block' }}>
-                                                    {stats.currentGPA.toFixed(1)}
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                        fontWeight: 600,
+                                                        color: getGradeColor(
+                                                            stats.currentGPA
+                                                        ),
+                                                        display: 'block',
+                                                    }}
+                                                >
+                                                    {stats.currentGPA.toFixed(
+                                                        1
+                                                    )}
                                                 </Typography>
-                                                <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.6875rem' }}>
+                                                <Typography
+                                                    variant="caption"
+                                                    color="text.secondary"
+                                                    sx={{
+                                                        fontSize: '0.6875rem',
+                                                    }}
+                                                >
                                                     GPA
                                                 </Typography>
                                             </Box>
                                             <Box sx={{ textAlign: 'center' }}>
-                                                <Typography variant="caption" sx={{ fontWeight: 600, color: getAttendanceColor(stats.attendanceRate), display: 'block' }}>
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                        fontWeight: 600,
+                                                        color: getAttendanceColor(
+                                                            stats.attendanceRate
+                                                        ),
+                                                        display: 'block',
+                                                    }}
+                                                >
                                                     {stats.attendanceRate}%
                                                 </Typography>
-                                                <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.6875rem' }}>
+                                                <Typography
+                                                    variant="caption"
+                                                    color="text.secondary"
+                                                    sx={{
+                                                        fontSize: '0.6875rem',
+                                                    }}
+                                                >
                                                     Attend
                                                 </Typography>
                                             </Box>
                                             <Box sx={{ textAlign: 'center' }}>
-                                                <Typography variant="caption" sx={{ fontWeight: 600, display: 'block' }}>
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                        fontWeight: 600,
+                                                        display: 'block',
+                                                    }}
+                                                >
                                                     {stats.upcomingAssignments}
                                                 </Typography>
-                                                <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.6875rem' }}>
+                                                <Typography
+                                                    variant="caption"
+                                                    color="text.secondary"
+                                                    sx={{
+                                                        fontSize: '0.6875rem',
+                                                    }}
+                                                >
                                                     Due
                                                 </Typography>
                                             </Box>
@@ -237,7 +332,10 @@ export const StudentSelector: React.FC<StudentSelectorProps> = ({
                                                     label={stats.alertCount}
                                                     color="error"
                                                     size="small"
-                                                    sx={{ height: 18, fontSize: '0.6875rem' }}
+                                                    sx={{
+                                                        height: 18,
+                                                        fontSize: '0.6875rem',
+                                                    }}
                                                 />
                                             )}
                                         </>
@@ -248,9 +346,15 @@ export const StudentSelector: React.FC<StudentSelectorProps> = ({
                                         sx={{
                                             ml: 'auto',
                                             p: 0.5,
-                                            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                                            backgroundColor: alpha(
+                                                theme.palette.primary.main,
+                                                0.1
+                                            ),
                                             '&:hover': {
-                                                backgroundColor: alpha(theme.palette.primary.main, 0.2),
+                                                backgroundColor: alpha(
+                                                    theme.palette.primary.main,
+                                                    0.2
+                                                ),
                                             },
                                         }}
                                     >
@@ -266,14 +370,19 @@ export const StudentSelector: React.FC<StudentSelectorProps> = ({
             {/* Quick Student List - Only show when multiple students */}
             {students.length > 1 && (
                 <Box sx={{ mb: 1 }}>
-                    <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1, color: 'text.secondary' }}>
+                    <Typography
+                        variant="subtitle2"
+                        sx={{ fontWeight: 600, mb: 1, color: 'text.secondary' }}
+                    >
                         Quick Switch ({students.length} students)
                     </Typography>
                     <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
                         {students
-                            .filter(student => student.id !== selectedStudent?.id)
+                            .filter(
+                                student => student.id !== selectedStudent?.id
+                            )
                             .slice(0, 3)
-                            .map((student) => {
+                            .map(student => {
                                 const stats = getStudentStats(student.id);
                                 return (
                                     <Box
@@ -292,7 +401,10 @@ export const StudentSelector: React.FC<StudentSelectorProps> = ({
                                             transition: 'all 0.2s ease',
                                             '&:hover': {
                                                 borderColor: 'primary.main',
-                                                backgroundColor: alpha(theme.palette.primary.main, 0.05),
+                                                backgroundColor: alpha(
+                                                    theme.palette.primary.main,
+                                                    0.05
+                                                ),
                                             },
                                         }}
                                     >
@@ -305,13 +417,25 @@ export const StudentSelector: React.FC<StudentSelectorProps> = ({
                                                 fontSize: '0.75rem',
                                             }}
                                         >
-                                            {student.firstName.charAt(0)}{student.lastName.charAt(0)}
+                                            {student.firstName.charAt(0)}
+                                            {student.lastName.charAt(0)}
                                         </Avatar>
                                         <Box>
-                                            <Typography variant="caption" sx={{ fontWeight: 600, display: 'block', lineHeight: 1.2 }}>
+                                            <Typography
+                                                variant="caption"
+                                                sx={{
+                                                    fontWeight: 600,
+                                                    display: 'block',
+                                                    lineHeight: 1.2,
+                                                }}
+                                            >
                                                 {student.firstName}
                                             </Typography>
-                                            <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.6875rem' }}>
+                                            <Typography
+                                                variant="caption"
+                                                color="text.secondary"
+                                                sx={{ fontSize: '0.6875rem' }}
+                                            >
                                                 Grade {student.grade}
                                             </Typography>
                                         </Box>
@@ -320,7 +444,11 @@ export const StudentSelector: React.FC<StudentSelectorProps> = ({
                                                 label={stats.alertCount}
                                                 color="error"
                                                 size="small"
-                                                sx={{ height: 16, fontSize: '0.625rem', minWidth: 16 }}
+                                                sx={{
+                                                    height: 16,
+                                                    fontSize: '0.625rem',
+                                                    minWidth: 16,
+                                                }}
                                             />
                                         )}
                                     </Box>
@@ -355,9 +483,11 @@ export const StudentSelector: React.FC<StudentSelectorProps> = ({
                     },
                 }}
             >
-                {students.map((student) => {
+                {students.map(student => {
                     const stats = getStudentStats(student.id);
                     const isSelected = selectedStudent?.id === student.id;
+
+                    console.log({ stats, isSelected });
 
                     return (
                         <MenuItem
@@ -376,19 +506,45 @@ export const StudentSelector: React.FC<StudentSelectorProps> = ({
                                         fontSize: '0.75rem',
                                     }}
                                 >
-                                    {student.firstName.charAt(0)}{student.lastName.charAt(0)}
+                                    {student.firstName.charAt(0)}
+                                    {student.lastName.charAt(0)}
                                 </Avatar>
                             </ListItemIcon>
                             <ListItemText
                                 primary={
-                                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                        <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'space-between',
+                                        }}
+                                    >
+                                        <Typography
+                                            variant="body2"
+                                            sx={{ fontWeight: 600 }}
+                                        >
                                             {student.fullName}
                                         </Typography>
                                         {stats && (
-                                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                                                <Typography variant="caption" sx={{ fontWeight: 600, color: getGradeColor(stats.currentGPA) }}>
-                                                    {stats.currentGPA.toFixed(1)}
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: 0.5,
+                                                }}
+                                            >
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                        fontWeight: 600,
+                                                        color: getGradeColor(
+                                                            stats.currentGPA
+                                                        ),
+                                                    }}
+                                                >
+                                                    {stats.currentGPA.toFixed(
+                                                        1
+                                                    )}
                                                 </Typography>
                                                 {stats.alertCount > 0 && (
                                                     <Chip
@@ -397,7 +553,8 @@ export const StudentSelector: React.FC<StudentSelectorProps> = ({
                                                         size="small"
                                                         sx={{
                                                             height: 16,
-                                                            fontSize: '0.6875rem',
+                                                            fontSize:
+                                                                '0.6875rem',
                                                             minWidth: 16,
                                                         }}
                                                     />
@@ -407,8 +564,12 @@ export const StudentSelector: React.FC<StudentSelectorProps> = ({
                                     </Box>
                                 }
                                 secondary={
-                                    <Typography variant="caption" color="text.secondary">
-                                        Grade {student.grade} • {student.homeroomTeacher.name}
+                                    <Typography
+                                        variant="caption"
+                                        color="text.secondary"
+                                    >
+                                        Grade {student.grade} •{' '}
+                                        {student.homeroomTeacher.name}
                                     </Typography>
                                 }
                             />

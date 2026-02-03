@@ -7,8 +7,7 @@ const messages = {
     minLength: (min: number) => `Must be at least ${min} characters`,
     maxLength: (max: number) => `Must be no more than ${max} characters`,
     phone: 'Please enter a valid phone number',
-    password:
-        'Password must contain at least 8 characters, including uppercase, lowercase, number, and special character',
+    password: 'Password must be at least 6 characters',
     confirmPassword: 'Passwords must match',
     positiveNumber: 'Must be a positive number',
     url: 'Please enter a valid URL',
@@ -26,11 +25,7 @@ export const validators = {
     password: yup
         .string()
         .required(messages.required)
-        .min(8, messages.minLength(8))
-        .matches(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
-            messages.password
-        ),
+        .min(6, messages.minLength(6)),
 
     confirmPassword: (passwordField = 'password') =>
         yup

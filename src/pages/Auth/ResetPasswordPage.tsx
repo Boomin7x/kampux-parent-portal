@@ -13,46 +13,44 @@ import {
     useMediaQuery,
     useTheme,
 } from '@mui/material';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useAuthFlow } from '../../hooks/useAuthFlow';
 import { AuthBackground } from './components/AuthBackground';
-import { SignInForm } from './components/SignInForm';
+import { ResetPasswordStep } from './components/ResetPasswordStep';
 
-// Auth page props
-interface AuthPageProps {
+interface ResetPasswordPageProps {
     className?: string;
 }
 
-// Main Auth Page component (Legacy)
-const AuthPage: React.FC<AuthPageProps> = ({ className = '' }) => {
+const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({ className = '' }) => {
     const theme = useTheme();
     const navigate = useNavigate();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
     const [searchParams] = useSearchParams();
 
-    // Redirect to new route-based auth system
-    useEffect(() => {
-        const resetToken = searchParams.get('token');
-        const mode = searchParams.get('mode');
-
-        if (resetToken && mode === 'reset-password') {
-            navigate(`/auth/reset-password?token=${resetToken}`, {
-                replace: true,
-            });
-        } else if (resetToken && mode === 'verify-email') {
-            navigate(`/auth/verify-email?token=${resetToken}`, {
-                replace: true,
-            });
-        }
-    }, [searchParams, navigate]);
+    const { state, actions } = useAuthFlow();
 
     const handleBackToWebsite = () => {
         navigate('/');
     };
 
-    const handleForgotPassword = () => {
-        navigate('/auth/forgot-password');
+    const handleResetPassword = async (data: { password: string; confirmPassword: string }) => {
+        const token = searchParams.get('token');
+        if (!token) {
+            actions.setError('Invalid reset token. Please request a new password reset.');
+            return;
+        }
+
+        try {
+            await actions.handleResetPassword({ ...data, token });
+            // On success, redirect to login
+            navigate('/auth', {
+                state: { message: 'Password reset successfully. Please log in with your new password.' }
+            });
+        } catch (error) {
+            // Error is handled by the hook
+        }
     };
 
     return (
@@ -137,64 +135,27 @@ const AuthPage: React.FC<AuthPageProps> = ({ className = '' }) => {
                                 </Box>
                             )}
 
-                            {/* Legacy Auth Form */}
-                            <Box sx={{ textAlign: 'center', mb: 4 }}>
-                                <Typography
-                                    variant="h3"
-                                    sx={{
-                                        fontWeight: 700,
-                                        mb: 2,
-                                        color: 'text.primary',
-                                        fontSize: {
-                                            xs: '1.75rem',
-                                            md: '2.25rem',
-                                        },
-                                    }}
-                                >
-                                    Welcome Back!
-                                </Typography>
-                                <Typography
-                                    variant="body1"
-                                    sx={{
-                                        color: 'text.secondary',
-                                        fontSize: '1rem',
-                                        lineHeight: 1.6,
-                                    }}
-                                >
-                                    Sign in to access your parent portal and
-                                    stay connected with your child's educational
-                                    journey.
-                                </Typography>
-                            </Box>
-
-                            {/* Legacy Sign-In Form */}
-                            <SignInForm
-                                onForgotPassword={handleForgotPassword}
-                                onSuccess={() => navigate('/portal')}
+                            {/* Reset Password Content */}
+                            <ResetPasswordStep
+                                onResetPassword={handleResetPassword}
+                                isLoading={state.isLoading}
+                                error={state.error}
                             />
 
-                            {/* Modern Flow Link */}
-                            <Box
-                                sx={{
-                                    textAlign: 'center',
-                                    mt: 4,
-                                    pt: 3,
-                                    borderTop: `1px solid ${theme.palette.divider}`,
-                                }}
-                            >
+                            {/* Footer */}
+                            <Box sx={{ textAlign: 'center', mt: 4 }}>
                                 <Typography
                                     variant="body2"
                                     sx={{
                                         color: 'text.secondary',
                                         fontSize: '0.875rem',
-                                        mb: 2,
                                     }}
                                 >
-                                    Want a more secure login?{' '}
+                                    Remember your password?{' '}
                                     <Button
                                         variant="text"
                                         size="small"
-                                        onClick={() => navigate('/auth/secure')}
+                                        onClick={() => navigate('/auth')}
                                         sx={{
                                             p: 0,
                                             minWidth: 'auto',
@@ -204,13 +165,13 @@ const AuthPage: React.FC<AuthPageProps> = ({ className = '' }) => {
                                             fontWeight: 500,
                                         }}
                                     >
-                                        Try New Secure Login
+                                        Back to Login
                                     </Button>
                                 </Typography>
                             </Box>
 
-                            {/* Footer */}
-                            <Box sx={{ textAlign: 'center', mt: 4 }}>
+                            {/* Help Footer */}
+                            <Box sx={{ textAlign: 'center', mt: 2 }}>
                                 <Typography
                                     variant="body2"
                                     sx={{
@@ -242,4 +203,4 @@ const AuthPage: React.FC<AuthPageProps> = ({ className = '' }) => {
     );
 };
 
-export default AuthPage;
+export default ResetPasswordPage;

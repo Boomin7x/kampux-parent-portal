@@ -1,11 +1,11 @@
 import {
+    Cancel as AbsentIcon,
+    GetApp as DownloadIcon,
+    Warning as LateIcon,
+    CheckCircle as PresentIcon,
     Print as PrintIcon,
     Schedule as ScheduleIcon,
     Today as TodayIcon,
-    CheckCircle as PresentIcon,
-    Cancel as AbsentIcon,
-    Warning as LateIcon,
-    GetApp as DownloadIcon,
 } from '@mui/icons-material';
 import {
     Box,
@@ -20,14 +20,15 @@ import {
     TableRow,
     Tooltip,
     Typography,
-    useTheme,
 } from '@mui/material';
 import React, { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import type { Student } from '../../../../types/student.types';
+import { useGetClassTimeTable } from '../../_hooks/useParent';
 
 interface WeeklyTimetableProps {
     selectedStudent: Student | null;
+    weekOffset?: number;
 }
 
 interface TimetableSlot {
@@ -293,8 +294,10 @@ const timeSlots = [
 
 export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
     selectedStudent,
+    weekOffset = 0,
 }) => {
     const printRef = useRef<HTMLDivElement>(null);
+    const { data } = useGetClassTimeTable();
 
     const handlePrint = useReactToPrint({
         contentRef: printRef,
@@ -308,12 +311,48 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
         `,
     });
 
+    const getWeekDates = () => {
+        const today = new Date(data?.weekStart?.toString());
+        const startOfWeek = new Date(today);
+        startOfWeek.setDate(
+            today.getDate() - today.getDay() + 1 + weekOffset * 7
+        ); // Start from Monday
+
+        const weekDates = [];
+        for (let i = 0; i < 5; i++) {
+            const date = new Date(startOfWeek);
+            date.setDate(startOfWeek.getDate() + i);
+            weekDates.push(date);
+        }
+        return weekDates;
+    };
+
+    const convertToMockDataFormat = () => {};
+
     const getCurrentDay = () => {
-        const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+        const today = new Date().toLocaleDateString('en-US', {
+            weekday: 'long',
+        });
+        const weekDates = getWeekDates();
+
+        // Check if today falls within the displayed week
+        const todayDate = new Date();
+        todayDate.setHours(0, 0, 0, 0);
+
+        for (const date of weekDates) {
+            if (date.getTime() === todayDate.getTime()) {
+                return today;
+            }
+        }
+
+        return null; // Today is not in the current week view
         return today;
     };
 
-    const getSlotForDayAndTime = (day: string, timeIndex: number): TimetableSlot | null => {
+    const getSlotForDayAndTime = (
+        day: string,
+        timeIndex: number
+    ): TimetableSlot | null => {
         const daySchedule = mockTimetable.find(d => d.day === day);
         return daySchedule?.slots[timeIndex] || null;
     };
@@ -321,17 +360,26 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
     const getAttendanceIcon = (status?: string) => {
         switch (status) {
             case 'present':
-                return <PresentIcon sx={{ fontSize: 14, color: 'success.main' }} />;
+                return (
+                    <PresentIcon sx={{ fontSize: 14, color: 'success.main' }} />
+                );
             case 'absent':
-                return <AbsentIcon sx={{ fontSize: 14, color: 'error.main' }} />;
+                return (
+                    <AbsentIcon sx={{ fontSize: 14, color: 'error.main' }} />
+                );
             case 'late':
-                return <LateIcon sx={{ fontSize: 14, color: 'warning.main' }} />;
+                return (
+                    <LateIcon sx={{ fontSize: 14, color: 'warning.main' }} />
+                );
             default:
                 return null;
         }
     };
 
-    const renderSubjectCell = (slot: TimetableSlot | null, isCurrentDay: boolean) => {
+    const renderSubjectCell = (
+        slot: TimetableSlot | null,
+        isCurrentDay: boolean
+    ) => {
         if (!slot) {
             return (
                 <TableCell
@@ -356,7 +404,9 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                     border: '1px solid',
                     borderColor: 'divider',
                     minHeight: 48,
-                    backgroundColor: isCurrentDay ? `${slot.color}08` : 'background.paper',
+                    backgroundColor: isCurrentDay
+                        ? `${slot.color}08`
+                        : 'background.paper',
                     position: 'relative',
                     ...(isCurrentDay && {
                         borderLeft: `3px solid ${slot.color}`,
@@ -374,14 +424,23 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                 >
                     {!isBreak && (
                         <>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.25 }}>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 0.5,
+                                    mb: 0.25,
+                                }}
+                            >
                                 <Typography
                                     variant="caption"
                                     sx={{
                                         fontWeight: 600,
                                         fontSize: '0.6875rem',
                                         lineHeight: 1,
-                                        color: isCurrentDay ? slot.color : 'text.primary',
+                                        color: isCurrentDay
+                                            ? slot.color
+                                            : 'text.primary',
                                         flex: 1,
                                     }}
                                 >
@@ -468,12 +527,23 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
     const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
     // Calculate attendance stats
-    const allSlots = mockTimetable.flatMap(day => day.slots.filter(slot => slot.type === 'academic'));
+    const allSlots = mockTimetable.flatMap(day =>
+        day.slots.filter(slot => slot.type === 'academic')
+    );
     const totalClasses = allSlots.length;
-    const attendedClasses = allSlots.filter(slot => slot.attendance === 'present').length;
-    const lateClasses = allSlots.filter(slot => slot.attendance === 'late').length;
-    const missedClasses = allSlots.filter(slot => slot.attendance === 'absent').length;
-    const attendanceRate = totalClasses > 0 ? ((attendedClasses + lateClasses) / totalClasses) * 100 : 0;
+    const attendedClasses = allSlots.filter(
+        slot => slot.attendance === 'present'
+    ).length;
+    const lateClasses = allSlots.filter(
+        slot => slot.attendance === 'late'
+    ).length;
+    const missedClasses = allSlots.filter(
+        slot => slot.attendance === 'absent'
+    ).length;
+    const attendanceRate =
+        totalClasses > 0
+            ? ((attendedClasses + lateClasses) / totalClasses) * 100
+            : 0;
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -498,7 +568,14 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                     >
                         Weekly Timetable
                     </Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1 }}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 1.5,
+                            mb: 1,
+                        }}
+                    >
                         <Typography
                             variant="body2"
                             sx={{
@@ -506,7 +583,8 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                                 fontSize: '0.8125rem',
                             }}
                         >
-                            {selectedStudent.fullName} • Grade {selectedStudent.grade}
+                            {selectedStudent.fullName} • Grade{' '}
+                            {selectedStudent.grade}
                         </Typography>
                         <Chip
                             label={`Today: ${currentDay}`}
@@ -586,10 +664,30 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                 }}
             >
                 {[
-                    { label: 'Present', value: attendedClasses, icon: <PresentIcon />, color: 'success' },
-                    { label: 'Late', value: lateClasses, icon: <LateIcon />, color: 'warning' },
-                    { label: 'Absent', value: missedClasses, icon: <AbsentIcon />, color: 'error' },
-                    { label: 'Rate', value: `${attendanceRate.toFixed(0)}%`, icon: <ScheduleIcon />, color: 'primary' },
+                    {
+                        label: 'Present',
+                        value: attendedClasses,
+                        icon: <PresentIcon />,
+                        color: 'success',
+                    },
+                    {
+                        label: 'Late',
+                        value: lateClasses,
+                        icon: <LateIcon />,
+                        color: 'warning',
+                    },
+                    {
+                        label: 'Absent',
+                        value: missedClasses,
+                        icon: <AbsentIcon />,
+                        color: 'error',
+                    },
+                    {
+                        label: 'Rate',
+                        value: `${attendanceRate.toFixed(0)}%`,
+                        icon: <ScheduleIcon />,
+                        color: 'primary',
+                    },
                 ].map((stat, index) => (
                     <Box
                         key={index}
@@ -677,14 +775,18 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                                             <TableCell
                                                 key={day}
                                                 sx={{
-                                                    backgroundColor: isToday ? 'primary.100' : 'primary.50',
+                                                    backgroundColor: isToday
+                                                        ? 'primary.100'
+                                                        : 'primary.50',
                                                     borderRight: '1px solid',
                                                     borderColor: 'divider',
                                                     fontWeight: 600,
                                                     fontSize: '0.75rem',
                                                     textAlign: 'center',
                                                     py: 1,
-                                                    color: isToday ? 'primary.main' : 'text.primary',
+                                                    color: isToday
+                                                        ? 'primary.main'
+                                                        : 'text.primary',
                                                     position: 'relative',
                                                 }}
                                             >
@@ -692,12 +794,14 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                                                 {isToday && (
                                                     <Box
                                                         sx={{
-                                                            position: 'absolute',
+                                                            position:
+                                                                'absolute',
                                                             bottom: 0,
                                                             left: 0,
                                                             right: 0,
                                                             height: 2,
-                                                            backgroundColor: 'primary.main',
+                                                            backgroundColor:
+                                                                'primary.main',
                                                         }}
                                                     />
                                                 )}
@@ -711,7 +815,8 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                                     <TableRow key={timeSlot}>
                                         <TableCell
                                             sx={{
-                                                backgroundColor: 'background.paper',
+                                                backgroundColor:
+                                                    'background.paper',
                                                 borderRight: '1px solid',
                                                 borderColor: 'divider',
                                                 fontWeight: 500,
@@ -724,9 +829,16 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                                             {timeSlot}
                                         </TableCell>
                                         {weekDays.map(day => {
-                                            const slot = getSlotForDayAndTime(day, timeIndex);
-                                            const isCurrentDay = day === currentDay;
-                                            return renderSubjectCell(slot, isCurrentDay);
+                                            const slot = getSlotForDayAndTime(
+                                                day,
+                                                timeIndex
+                                            );
+                                            const isCurrentDay =
+                                                day === currentDay;
+                                            return renderSubjectCell(
+                                                slot,
+                                                isCurrentDay
+                                            );
                                         })}
                                     </TableRow>
                                 ))}

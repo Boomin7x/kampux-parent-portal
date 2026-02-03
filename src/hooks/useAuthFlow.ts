@@ -7,10 +7,7 @@ import type {
     RegisterFormData
 } from '../utils/validation/schemas';
 
-type AuthMode = 'login' | 'signup' | 'forgot-password' | 'reset-password' | 'verify-email';
-
 interface AuthState {
-    mode: AuthMode;
     step: AuthStep;
     email: string;
     method: AuthMethod;
@@ -21,7 +18,6 @@ interface AuthState {
 
 interface AuthFlowActions {
     // Navigation
-    setMode: (mode: AuthMode) => void;
     setEmail: (email: string) => void;
     setMethod: (method: AuthMethod) => void;
     goToStep: (step: AuthStep) => void;
@@ -43,7 +39,6 @@ interface AuthFlowActions {
 }
 
 const initialState: AuthState = {
-    mode: 'login',
     step: 'email',
     email: '',
     method: null,
@@ -218,13 +213,6 @@ export const useAuthFlow = () => {
         }
     }, [state.email]);
 
-    const setMode = useCallback((mode: AuthMode) => {
-        setState(prev => ({
-            ...initialState,
-            mode,
-            email: prev.email, // Preserve email if available
-        }));
-    }, []);
 
     const handleSignupSuccess = useCallback(async (data: RegisterFormData) => {
         setLoading(true);
@@ -242,14 +230,13 @@ export const useAuthFlow = () => {
             }));
 
             // Redirect to email verification
-            setMode('verify-email');
-            setState(prev => ({ ...prev, email: data.email }));
+            navigate(`/auth/verify-email?email=${encodeURIComponent(data.email)}`);
         } catch (error) {
             setError(error instanceof Error ? error.message : 'Signup failed');
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [navigate, setLoading, setError]);
 
     const handleForgotPassword = useCallback(async (email: string) => {
         setLoading(true);
@@ -330,7 +317,6 @@ export const useAuthFlow = () => {
 
     const actions: AuthFlowActions = {
         // Navigation
-        setMode,
         setEmail,
         setMethod,
         goToStep,

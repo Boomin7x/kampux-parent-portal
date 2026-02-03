@@ -13,46 +13,29 @@ import {
     useMediaQuery,
     useTheme,
 } from '@mui/material';
-import React, { useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuthFlow } from '../../hooks/useAuthFlow';
 import { AuthBackground } from './components/AuthBackground';
-import { SignInForm } from './components/SignInForm';
+import { SignUpForm } from './components/SignUpForm';
 
-// Auth page props
-interface AuthPageProps {
+interface SignupPageProps {
     className?: string;
 }
 
-// Main Auth Page component (Legacy)
-const AuthPage: React.FC<AuthPageProps> = ({ className = '' }) => {
+const SignupPage: React.FC<SignupPageProps> = ({ className = '' }) => {
     const theme = useTheme();
     const navigate = useNavigate();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-    const [searchParams] = useSearchParams();
-
-    // Redirect to new route-based auth system
-    useEffect(() => {
-        const resetToken = searchParams.get('token');
-        const mode = searchParams.get('mode');
-
-        if (resetToken && mode === 'reset-password') {
-            navigate(`/auth/reset-password?token=${resetToken}`, {
-                replace: true,
-            });
-        } else if (resetToken && mode === 'verify-email') {
-            navigate(`/auth/verify-email?token=${resetToken}`, {
-                replace: true,
-            });
-        }
-    }, [searchParams, navigate]);
+    const { state, actions } = useAuthFlow();
 
     const handleBackToWebsite = () => {
         navigate('/');
     };
 
-    const handleForgotPassword = () => {
-        navigate('/auth/forgot-password');
+    const handleBackToLogin = () => {
+        navigate('/auth');
     };
 
     return (
@@ -137,7 +120,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ className = '' }) => {
                                 </Box>
                             )}
 
-                            {/* Legacy Auth Form */}
+                            {/* Header */}
                             <Box sx={{ textAlign: 'center', mb: 4 }}>
                                 <Typography
                                     variant="h3"
@@ -151,7 +134,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ className = '' }) => {
                                         },
                                     }}
                                 >
-                                    Welcome Back!
+                                    Create Your Account
                                 </Typography>
                                 <Typography
                                     variant="body1"
@@ -161,40 +144,32 @@ const AuthPage: React.FC<AuthPageProps> = ({ className = '' }) => {
                                         lineHeight: 1.6,
                                     }}
                                 >
-                                    Sign in to access your parent portal and
-                                    stay connected with your child's educational
-                                    journey.
+                                    Join our parent portal to stay connected with your child's educational journey.
                                 </Typography>
                             </Box>
 
-                            {/* Legacy Sign-In Form */}
-                            <SignInForm
-                                onForgotPassword={handleForgotPassword}
-                                onSuccess={() => navigate('/portal')}
+                            {/* Sign-Up Form */}
+                            <SignUpForm
+                                onSuccess={(userData) => {
+                                    // Navigate to email verification with user data
+                                    navigate(`/auth/verify-email?email=${encodeURIComponent(userData.email)}`);
+                                }}
                             />
 
-                            {/* Modern Flow Link */}
-                            <Box
-                                sx={{
-                                    textAlign: 'center',
-                                    mt: 4,
-                                    pt: 3,
-                                    borderTop: `1px solid ${theme.palette.divider}`,
-                                }}
-                            >
+                            {/* Footer */}
+                            <Box sx={{ textAlign: 'center', mt: 4 }}>
                                 <Typography
                                     variant="body2"
                                     sx={{
                                         color: 'text.secondary',
                                         fontSize: '0.875rem',
-                                        mb: 2,
                                     }}
                                 >
-                                    Want a more secure login?{' '}
+                                    Already have an account?{' '}
                                     <Button
                                         variant="text"
                                         size="small"
-                                        onClick={() => navigate('/auth/secure')}
+                                        onClick={handleBackToLogin}
                                         sx={{
                                             p: 0,
                                             minWidth: 'auto',
@@ -204,13 +179,13 @@ const AuthPage: React.FC<AuthPageProps> = ({ className = '' }) => {
                                             fontWeight: 500,
                                         }}
                                     >
-                                        Try New Secure Login
+                                        Sign In
                                     </Button>
                                 </Typography>
                             </Box>
 
-                            {/* Footer */}
-                            <Box sx={{ textAlign: 'center', mt: 4 }}>
+                            {/* Help Footer */}
+                            <Box sx={{ textAlign: 'center', mt: 2 }}>
                                 <Typography
                                     variant="body2"
                                     sx={{
@@ -242,4 +217,4 @@ const AuthPage: React.FC<AuthPageProps> = ({ className = '' }) => {
     );
 };
 
-export default AuthPage;
+export default SignupPage;

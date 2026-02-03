@@ -1,22 +1,18 @@
 import {
-    Announcement as AnnouncementIcon,
-    CalendarMonth as AttendanceIcon,
+    EventAvailable as AttendanceIcon,
     AccountBalance as BillingIcon,
-    CheckCircle as CheckIcon,
+    Check as CheckIcon,
     Dashboard as DashboardIcon,
-    CalendarToday as ExamCalendarIcon,
-    Quiz as ExaminationIcon,
     ExpandLess,
     ExpandMore,
     Payment as FeesIcon,
-    Grade as GradesIcon,
+    Home as HomeIcon,
     Receipt as PaymentIcon,
-    BarChart as ProgressIcon,
-    Assessment as ResultsIcon,
     Schedule as TimetableIcon,
 } from '@mui/icons-material';
 import {
     Box,
+    Button,
     Chip,
     Collapse,
     List,
@@ -70,54 +66,54 @@ const navigationItems: NavigationItem[] = [
             },
         ],
     },
-    {
-        id: 'examinations',
-        label: 'Examinations',
-        icon: <ExaminationIcon />,
-        path: 'examinations',
-        children: [
-            {
-                id: 'examinations-announcements',
-                label: 'Exam Announcements',
-                icon: <AnnouncementIcon />,
-                path: 'examinations/announcements',
-                badge: 2,
-            },
-            {
-                id: 'examinations-calendar',
-                label: 'Exam Calendar',
-                icon: <ExamCalendarIcon />,
-                path: 'examinations/calendar',
-            },
-        ],
-    },
-    {
-        id: 'results',
-        label: 'Academic Results',
-        icon: <ResultsIcon />,
-        path: 'results',
-        children: [
-            {
-                id: 'results-overview',
-                label: 'Results Overview',
-                icon: <GradesIcon />,
-                path: 'results/overview',
-                badge: 1,
-            },
-            {
-                id: 'results-sequential',
-                label: 'Sequential Assessments',
-                icon: <ProgressIcon />,
-                path: 'results/sequential',
-            },
-            {
-                id: 'results-term',
-                label: 'Term Reports',
-                icon: <ResultsIcon />,
-                path: 'results/term',
-            },
-        ],
-    },
+    // {
+    //     id: 'examinations',
+    //     label: 'Examinations',
+    //     icon: <ExaminationIcon />,
+    //     path: 'examinations',
+    //     children: [
+    //         {
+    //             id: 'examinations-announcements',
+    //             label: 'Exam Announcements',
+    //             icon: <ExamCalendarIcon />,
+    //             path: 'examinations/announcements',
+    //             badge: 2,
+    //         },
+    //         {
+    //             id: 'examinations-calendar',
+    //             label: 'Exam Calendar',
+    //             icon: <ExamCalendarIcon />,
+    //             path: 'examinations/calendar',
+    //         },
+    //     ],
+    // },
+    // {
+    //     id: 'results',
+    //     label: 'Academic Results',
+    //     icon: <ResultsIcon />,
+    //     path: 'results',
+    //     children: [
+    //         {
+    //             id: 'results-overview',
+    //             label: 'Results Overview',
+    //             icon: <GradesIcon />,
+    //             path: 'results/overview',
+    //             badge: 1,
+    //         },
+    //         {
+    //             id: 'results-sequential',
+    //             label: 'Sequential Assessments',
+    //             icon: <ProgressIcon />,
+    //             path: 'results/sequential',
+    //         },
+    //         {
+    //             id: 'results-term',
+    //             label: 'Term Reports',
+    //             icon: <ResultsIcon />,
+    //             path: 'results/term',
+    //         },
+    //     ],
+    // },
     {
         id: 'attendance',
         label: 'Attendance',
@@ -266,17 +262,22 @@ export const PortalSidebar: React.FC<PortalSidebarProps> = ({
                             }),
 
                             // Regular hover
-                            ...(!selected && !parentSelected && {
-                                '&:hover': {
-                                    backgroundColor: 'action.hover',
-                                },
-                            }),
+                            ...(!selected &&
+                                !parentSelected && {
+                                    '&:hover': {
+                                        backgroundColor: 'action.hover',
+                                    },
+                                }),
                         }}
                     >
                         <ListItemIcon
                             sx={{
                                 minWidth: 32,
-                                color: isActiveChild ? 'primary.main' : isActiveParent ? 'primary.main' : 'text.secondary',
+                                color: isActiveChild
+                                    ? 'primary.main'
+                                    : isActiveParent
+                                      ? 'primary.main'
+                                      : 'text.secondary',
                                 '& > svg': {
                                     fontSize: isChildItem ? 16 : 18,
                                 },
@@ -290,9 +291,18 @@ export const PortalSidebar: React.FC<PortalSidebarProps> = ({
                                 <Typography
                                     variant="body2"
                                     sx={{
-                                        fontWeight: (selected || parentSelected) ? 600 : 400,
-                                        fontSize: isChildItem ? '0.75rem' : '0.8125rem',
-                                        color: isActiveChild ? 'primary.main' : isActiveParent ? 'text.primary' : 'inherit',
+                                        fontWeight:
+                                            selected || parentSelected
+                                                ? 600
+                                                : 400,
+                                        fontSize: isChildItem
+                                            ? '0.75rem'
+                                            : '0.8125rem',
+                                        color: isActiveChild
+                                            ? 'primary.main'
+                                            : isActiveParent
+                                              ? 'text.primary'
+                                              : 'inherit',
                                     }}
                                 >
                                     {item.label}
@@ -322,14 +332,18 @@ export const PortalSidebar: React.FC<PortalSidebarProps> = ({
                                     <ExpandLess
                                         sx={{
                                             fontSize: 16,
-                                            color: isActiveParent ? 'primary.main' : 'text.secondary',
+                                            color: isActiveParent
+                                                ? 'primary.main'
+                                                : 'text.secondary',
                                         }}
                                     />
                                 ) : (
                                     <ExpandMore
                                         sx={{
                                             fontSize: 16,
-                                            color: isActiveParent ? 'primary.main' : 'text.secondary',
+                                            color: isActiveParent
+                                                ? 'primary.main'
+                                                : 'text.secondary',
                                         }}
                                     />
                                 )}
@@ -379,6 +393,35 @@ export const PortalSidebar: React.FC<PortalSidebarProps> = ({
                 <List sx={{ pt: 0.5, px: 0.5 }}>
                     {navigationItems.map(item => renderNavigationItem(item))}
                 </List>
+            </Box>
+
+            {/* Back to Landing Button */}
+            <Box sx={{ p: 1 }}>
+                <Button
+                    fullWidth
+                    startIcon={<HomeIcon />}
+                    onClick={() => navigate('/')}
+                    size="small"
+                    sx={{
+                        py: 1,
+                        fontSize: '0.75rem',
+                        textAlign: 'start',
+                        fontWeight: 500,
+                        textTransform: 'none',
+                        color: 'text.secondary',
+                        backgroundColor: 'background.paper',
+                        border: '1px solid',
+                        borderColor: 'divider',
+                        borderRadius: 1,
+                        '&:hover': {
+                            backgroundColor: 'primary.50',
+                            borderColor: 'primary.main',
+                            color: 'primary.main',
+                        },
+                    }}
+                >
+                    Retour à l'Accueil
+                </Button>
             </Box>
 
             {/* Footer */}

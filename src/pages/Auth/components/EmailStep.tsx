@@ -1,16 +1,21 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
 import {
+    Alert,
     Box,
     Button,
+    CircularProgress,
     TextField,
     Typography,
-    Alert,
-    CircularProgress,
 } from '@mui/material';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { authSchemas, type EmailOnlyFormData } from '../../../utils/validation/schemas';
+import {
+    authSchemas,
+    type EmailOnlyFormData,
+} from '../../../utils/validation/schemas';
+import { useUserExistsQuery } from '../_hooks/useAuthQueries';
+import { ILanguage } from '../_model/authModel';
 
 interface EmailStepProps {
     onContinue: (email: string) => void;
@@ -26,13 +31,15 @@ export const EmailStep: React.FC<EmailStepProps> = ({
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
+    const { mutateAsync } = useUserExistsQuery();
+
     const {
         control,
         handleSubmit,
         formState: { errors, isValid },
     } = useForm<EmailOnlyFormData>({
         resolver: yupResolver(authSchemas.emailOnly),
-        mode: 'onChange',
+        mode: 'onSubmit',
         defaultValues: {
             email: initialEmail,
         },
@@ -44,13 +51,23 @@ export const EmailStep: React.FC<EmailStepProps> = ({
 
         try {
             // TODO: Implement email verification API call
-            await new Promise(resolve => setTimeout(resolve, 800)); // Simulate API call
+            const result = await mutateAsync({
+                hubConnectionId: '',
+                language: ILanguage.EN,
+                password: '',
+                tenantAlias: 'moussango@gmail.com',
+                userName: '',
+            }); // Simulate API call
+
+            console.log({ result });
 
             // Simulate email verification
-            const emailExists = true; // This would come from API response
+            // const emailExists = true; // This would come from API response
 
-            if (!emailExists) {
-                setError('No account found with this email address. Please check your email or contact school administration.');
+            if (!result) {
+                setError(
+                    'No account found with this email address. Please check your email or contact school administration.'
+                );
                 return;
             }
 
@@ -88,7 +105,8 @@ export const EmailStep: React.FC<EmailStepProps> = ({
                         mx: 'auto',
                     }}
                 >
-                    Enter your email address to get started. We'll help you sign in securely.
+                    Enter your email address to get started. We'll help you sign
+                    in securely.
                 </Typography>
             </Box>
 
@@ -155,9 +173,10 @@ export const EmailStep: React.FC<EmailStepProps> = ({
                         height: 56,
                         background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
                         '&:hover': {
-                            background: 'linear-gradient(135deg, #5b5bd6, #7c3aed)',
+                            background:
+                                'linear-gradient(135deg, #5b5bd6, #7c3aed)',
                             transform: 'translateY(-1px)',
-                            boxShadow: (theme) => theme.shadows[8],
+                            boxShadow: theme => theme.shadows[8],
                         },
                         '&:disabled': {
                             background: 'grey.300',

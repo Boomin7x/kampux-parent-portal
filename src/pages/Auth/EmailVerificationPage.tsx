@@ -13,47 +13,44 @@ import {
     useMediaQuery,
     useTheme,
 } from '@mui/material';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useAuthFlow } from '../../hooks/useAuthFlow';
 import { AuthBackground } from './components/AuthBackground';
-import { SignInForm } from './components/SignInForm';
+import { EmailVerificationStep } from './components/EmailVerificationStep';
 
-// Auth page props
-interface AuthPageProps {
+interface EmailVerificationPageProps {
     className?: string;
 }
 
-// Main Auth Page component (Legacy)
-const AuthPage: React.FC<AuthPageProps> = ({ className = '' }) => {
+const EmailVerificationPage: React.FC<EmailVerificationPageProps> = ({ className = '' }) => {
     const theme = useTheme();
     const navigate = useNavigate();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
     const [searchParams] = useSearchParams();
 
-    // Redirect to new route-based auth system
-    useEffect(() => {
-        const resetToken = searchParams.get('token');
-        const mode = searchParams.get('mode');
-
-        if (resetToken && mode === 'reset-password') {
-            navigate(`/auth/reset-password?token=${resetToken}`, {
-                replace: true,
-            });
-        } else if (resetToken && mode === 'verify-email') {
-            navigate(`/auth/verify-email?token=${resetToken}`, {
-                replace: true,
-            });
-        }
-    }, [searchParams, navigate]);
+    const { state, actions } = useAuthFlow();
 
     const handleBackToWebsite = () => {
         navigate('/');
     };
 
-    const handleForgotPassword = () => {
-        navigate('/auth/forgot-password');
+    const handleEmailVerification = async (data: { code?: string }) => {
+        const token = searchParams.get('token');
+
+        try {
+            await actions.handleEmailVerification({ token, ...data });
+            // On success, the hook will redirect to portal
+        } catch (error) {
+            // Error is handled by the hook
+        }
     };
+
+    // Get email from URL params, state, or local storage
+    const email = searchParams.get('email') ||
+                 state.email ||
+                 (localStorage.getItem('pendingUser') ?
+                  JSON.parse(localStorage.getItem('pendingUser')!).email : '');
 
     return (
         <Box
@@ -137,64 +134,29 @@ const AuthPage: React.FC<AuthPageProps> = ({ className = '' }) => {
                                 </Box>
                             )}
 
-                            {/* Legacy Auth Form */}
-                            <Box sx={{ textAlign: 'center', mb: 4 }}>
-                                <Typography
-                                    variant="h3"
-                                    sx={{
-                                        fontWeight: 700,
-                                        mb: 2,
-                                        color: 'text.primary',
-                                        fontSize: {
-                                            xs: '1.75rem',
-                                            md: '2.25rem',
-                                        },
-                                    }}
-                                >
-                                    Welcome Back!
-                                </Typography>
-                                <Typography
-                                    variant="body1"
-                                    sx={{
-                                        color: 'text.secondary',
-                                        fontSize: '1rem',
-                                        lineHeight: 1.6,
-                                    }}
-                                >
-                                    Sign in to access your parent portal and
-                                    stay connected with your child's educational
-                                    journey.
-                                </Typography>
-                            </Box>
-
-                            {/* Legacy Sign-In Form */}
-                            <SignInForm
-                                onForgotPassword={handleForgotPassword}
-                                onSuccess={() => navigate('/portal')}
+                            {/* Email Verification Content */}
+                            <EmailVerificationStep
+                                onVerifyEmail={handleEmailVerification}
+                                onResendVerification={actions.resendEmailVerification}
+                                email={email}
+                                isLoading={state.isLoading}
+                                error={state.error}
                             />
 
-                            {/* Modern Flow Link */}
-                            <Box
-                                sx={{
-                                    textAlign: 'center',
-                                    mt: 4,
-                                    pt: 3,
-                                    borderTop: `1px solid ${theme.palette.divider}`,
-                                }}
-                            >
+                            {/* Footer */}
+                            <Box sx={{ textAlign: 'center', mt: 4 }}>
                                 <Typography
                                     variant="body2"
                                     sx={{
                                         color: 'text.secondary',
                                         fontSize: '0.875rem',
-                                        mb: 2,
                                     }}
                                 >
-                                    Want a more secure login?{' '}
+                                    Wrong email address?{' '}
                                     <Button
                                         variant="text"
                                         size="small"
-                                        onClick={() => navigate('/auth/secure')}
+                                        onClick={() => navigate('/auth/signup')}
                                         sx={{
                                             p: 0,
                                             minWidth: 'auto',
@@ -204,13 +166,13 @@ const AuthPage: React.FC<AuthPageProps> = ({ className = '' }) => {
                                             fontWeight: 500,
                                         }}
                                     >
-                                        Try New Secure Login
+                                        Sign Up Again
                                     </Button>
                                 </Typography>
                             </Box>
 
-                            {/* Footer */}
-                            <Box sx={{ textAlign: 'center', mt: 4 }}>
+                            {/* Help Footer */}
+                            <Box sx={{ textAlign: 'center', mt: 2 }}>
                                 <Typography
                                     variant="body2"
                                     sx={{
@@ -242,4 +204,4 @@ const AuthPage: React.FC<AuthPageProps> = ({ className = '' }) => {
     );
 };
 
-export default AuthPage;
+export default EmailVerificationPage;
