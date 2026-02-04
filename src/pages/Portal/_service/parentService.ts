@@ -1,6 +1,7 @@
 import { parentApiClient } from '../../../lib/axios';
 
 // Types for Parent/Student APIs based on actual API response
+
 export interface Student {
     // Core student identification
     id: number;
@@ -86,6 +87,8 @@ export interface Student {
     validationDate: string;
     effectiveDate: string | null;
 }
+
+export type { Student as IStudent };
 
 // Response wrapper - the API returns an array directly
 export type GetStudentsResponse = Student[];
@@ -313,27 +316,120 @@ export interface TellerOperation {
 export type GetTellerOperationsResponse = TellerOperation[];
 
 export interface CreateComplaintRequest {
-    studentId: string;
-    subject: string;
+    id: number; // registration id
+    complaintCategoryCode: string; // enumeration code from Complaint_Category
+    summary: string;
     description: string;
-    category:
-        | 'academic'
-        | 'administrative'
-        | 'facility'
-        | 'behavioral'
-        | 'other';
-    priority: 'low' | 'medium' | 'high' | 'urgent';
-    attachments?: File[];
+    complaintDate: string; // ISO date string
 }
 
 export interface CreateComplaintResponse {
-    complaintId: string;
-    ticketNumber: string;
-    status: 'submitted' | 'in_review' | 'resolved' | 'closed';
-    submissionDate: string;
     success: boolean;
     message?: string;
+    data?: {
+        complaintId?: number;
+        ticketNumber?: string;
+        status?: string;
+    };
 }
+
+// Student sheet individual record types
+export interface RegistrationSanction {
+    id: number;
+    registrationId: number;
+    sanctionDate: string | null;
+    sanctionTypeCode: string;
+    description: string;
+    assignedTeacherId: number | null;
+    haveBeenResolved: boolean;
+    resolutionDate: string | null;
+    resolutionDescription: string;
+    isCancelled: boolean;
+    cancellationDate: string | null;
+    cancellationPurpose: string | null;
+}
+
+export interface RegistrationAbsenceSheet {
+    id: number;
+    registrationId: number;
+    absenceDate: string;
+    absenceTypeCode: string;
+    startTime: string | null;
+    endTime: string | null;
+    description: string;
+    isJustified: boolean;
+    justificationDate: string | null;
+    justificationDescription: string;
+    assignedTeacherId: number | null;
+}
+
+export interface RegistrationDisciplinarySheet {
+    id: number;
+    registrationId: number;
+    incidentDate: string;
+    disciplinaryTypeCode: string;
+    description: string;
+    actionTaken: string;
+    assignedTeacherId: number | null;
+    haveBeenResolved: boolean;
+    resolutionDate: string | null;
+    resolutionDescription: string;
+    isCancelled: boolean;
+    cancellationDate: string | null;
+    cancellationPurpose: string | null;
+}
+
+export interface RegistrationObservationSheet {
+    id: number;
+    registrationId: number;
+    observationDate: string;
+    observationTypeCode: string;
+    description: string;
+    assignedTeacherId: number | null;
+    isPositive: boolean;
+    followUpRequired: boolean;
+    followUpDate: string | null;
+    followUpDescription: string;
+}
+
+export interface RegistrationComplaint {
+    id: number;
+    registrationId: number;
+    complaintDate: string | null;
+    complaintCategoryCode: string;
+    summary: string | null;
+    description: string;
+    assignedTeacherId: number | null;
+    haveBeenResolved: boolean;
+    resolutionDate: string | null;
+    resolutionDescription: string;
+    isCancelled: boolean;
+    cancellationDate: string | null;
+    cancellationPurpose: string | null;
+}
+
+export interface GetStudentSheetsResponse {
+    registrationSanctions: RegistrationSanction[];
+    registrationAbsenceSheets: RegistrationAbsenceSheet[];
+    registrationDisciplinarySheets: RegistrationDisciplinarySheet[];
+    registrationObservationSheets: RegistrationObservationSheet[];
+    registrationComplaints: RegistrationComplaint[];
+}
+
+export interface CodificationItem {
+    id: number;
+    enumerationId: number;
+    code: string;
+    name: string;
+    description: string;
+    enumerationCode: string;
+    parentEnumerationCode: string | null;
+    parentEnumerationItemCode: string | null;
+    isBuiltIn: boolean;
+    enumerationItemExs: unknown | null;
+}
+
+export type GetCodificationItemsResponse = CodificationItem[];
 
 // Parent Service
 export const parentService = {
@@ -349,9 +445,16 @@ export const parentService = {
     /**
      * Get class timetable for the school year
      */
-    getClassTimeTable: async (): Promise<GetTimeTableResponse> => {
+    getClassTimeTable: async (
+        schoolYearClassId: number | null
+    ): Promise<GetTimeTableResponse> => {
         const response = await parentApiClient.get<GetTimeTableResponse>(
-            '/get-schoolYear-class-time-table'
+            '/get-schoolYear-class-time-table',
+            {
+                params: {
+                    ...(schoolYearClassId && { schoolYearClassId }),
+                },
+            }
         );
         return response.data;
     },
@@ -386,30 +489,43 @@ export const parentService = {
     createComplaint: async (
         data: CreateComplaintRequest
     ): Promise<CreateComplaintResponse> => {
-        const formData = new FormData();
-
-        // Add all fields to FormData
-        formData.append('studentId', data.studentId);
-        formData.append('subject', data.subject);
-        formData.append('description', data.description);
-        formData.append('category', data.category);
-        formData.append('priority', data.priority);
-
-        // Add attachments if provided
-        if (data.attachments && data.attachments.length > 0) {
-            data.attachments.forEach((file, index) => {
-                formData.append(`attachment_${index}`, file);
-            });
-        }
-
         const response = await parentApiClient.post<CreateComplaintResponse>(
             '/create-complaint',
-            formData,
+            data,
             {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json',
                 },
             }
+        );
+        return response.data;
+    },
+
+    /**
+     * Get student sheets by student ID
+     */
+    getStudentSheets: async (
+        studentId: string
+    ): Promise<GetStudentSheetsResponse> => {
+        const response = await parentApiClient.get<GetStudentSheetsResponse>(
+            `/get-student-sheets?studentId=${studentId}`
+        );
+        return response.data;
+    },
+
+    /**
+     * Get codification items by codification codes
+     */
+    getCodificationItems: async (
+        codificationCodes: string | string[]
+    ): Promise<GetCodificationItemsResponse> => {
+        // Handle both single code and array of codes
+        const codesParam = Array.isArray(codificationCodes)
+            ? codificationCodes.join(',')
+            : codificationCodes;
+
+        const response = await parentApiClient.get<GetCodificationItemsResponse>(
+            `/get-codificationItems-by-codificationCodes/${encodeURIComponent(codesParam)}`
         );
         return response.data;
     },

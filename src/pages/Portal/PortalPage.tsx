@@ -14,6 +14,8 @@ import { ExaminationAnnouncements } from './components/examinations/ExaminationA
 import { PortalLayout } from './components/layout/PortalLayout';
 import { ResultsOverview } from './components/results/ResultsOverview';
 import { StudentSelector } from './components/student/StudentSelector';
+import { StudentSheet } from './components/student/StudentSheet';
+import { WeeklyTimetable } from './components/attendance/WeeklyTimetable';
 
 // Mock parent data with multiple children
 // const mockStudents: Student[] = [
@@ -70,7 +72,12 @@ const PortalPage: React.FC = () => {
     // const { selectedStudentId, setSelectedStudent } = useStudentStore();
 
     // Get student store
-    const { selectedStudentId, setSelectedStudent } = useStudentStore();
+    const {
+        selectedStudentId,
+        setSelectedStudent,
+        schoolYearClassId,
+        setSchoolYearClassId,
+    } = useStudentStore();
 
     // Fetch students using the real API
     const {
@@ -134,13 +141,16 @@ const PortalPage: React.FC = () => {
         : undefined;
 
     // Auto-select first student if none selected
+
+    console.log({ xxxxxx: students });
     useEffect(() => {
-        if (students.length > 0 && !selectedStudentId) {
-            const firstStudentId = students[0].id;
-            setSelectedStudent(firstStudentId);
-            console.log('👤 Auto-selected first student ID:', firstStudentId);
+        if (students.length > 0 && (!selectedStudentId || !schoolYearClassId)) {
+            console.log({ students });
+            const firstStudent = students[0];
+            setSelectedStudent(firstStudent.id?.toString());
+            setSchoolYearClassId(firstStudent.schoolYearClassId);
         }
-    }, [students, selectedStudentId, setSelectedStudent]);
+    }, [students, selectedStudentId, setSelectedStudent, setSchoolYearClassId]);
 
     const handleStudentChange = (student: Student) => {
         console.log('🔄 Student selection changed:', {
@@ -150,6 +160,7 @@ const PortalPage: React.FC = () => {
             currentStudents: students.length,
         });
         setSelectedStudent(student.id);
+        setSchoolYearClassId(student.schoolYearClassId);
         console.log('✅ setSelectedStudent called with:', student.id);
         // Navigate to dashboard when student is selected
         navigate('dashboard');
@@ -372,6 +383,22 @@ const PortalPage: React.FC = () => {
                         <Route
                             path="complaints"
                             element={<CreateComplaints />}
+                        />
+                        <Route
+                            path="student-sheet"
+                            element={
+                                <StudentSheet
+                                    selectedStudent={selectedStudent}
+                                />
+                            }
+                        />
+                        <Route
+                            path="timetable"
+                            element={
+                                <WeeklyTimetable
+                                    selectedStudent={selectedStudent}
+                                />
+                            }
                         />
 
                         {/* Catch all route */}

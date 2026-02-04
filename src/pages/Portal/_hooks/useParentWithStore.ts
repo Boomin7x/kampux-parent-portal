@@ -5,11 +5,13 @@
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSelectedStudent } from '../../../hooks/useSelectedStudent';
+import { useStudentStore } from '../../../stores/studentStore';
 import {
     parentService,
     type CreateComplaintRequest,
     type CreateComplaintResponse,
     type GetBillingsResponse,
+    type GetStudentSheetsResponse,
     type GetStudentsResponse,
     type GetTellerOperationsResponse,
     type GetTimeTableResponse,
@@ -23,6 +25,11 @@ export const PARENT_QUERY_KEYS = {
     tellerOperations: (studentId: string) => [
         'parent',
         'teller-operations',
+        studentId,
+    ],
+    studentSheets: (studentId: string) => [
+        'parent',
+        'student-sheets',
         studentId,
     ],
 } as const;
@@ -39,9 +46,11 @@ export const useGetStudents = () => {
 
 // Hook to get class timetable
 export const useGetClassTimeTable = () => {
+    const { schoolYearClassId } = useStudentStore();
     return useQuery<GetTimeTableResponse, Error>({
         queryKey: PARENT_QUERY_KEYS.timetable,
-        queryFn: parentService.getClassTimeTable,
+        queryFn: () => parentService.getClassTimeTable(schoolYearClassId),
+        enabled: !!schoolYearClassId,
         staleTime: 30 * 60 * 1000, // 30 minutes
         gcTime: 60 * 60 * 1000, // 1 hour
     });
@@ -103,19 +112,14 @@ export const useGetTellerOperations = (
 
 // Hook to create complaint for the currently selected student
 export const useCreateComplaintForSelectedStudent = () => {
-    const { selectedStudentId } = useSelectedStudent();
     const queryClient = useQueryClient();
 
     return useMutation<
         CreateComplaintResponse,
         Error,
-        Omit<CreateComplaintRequest, 'studentId'>
+        CreateComplaintRequest
     >({
-        mutationFn: complaintData =>
-            parentService.createComplaint({
-                ...complaintData,
-                studentId: selectedStudentId!,
-            }),
+        mutationFn: parentService.createComplaint,
         onSuccess: data => {
             console.log('Complaint created successfully:', data);
             // Invalidate students query to refresh any complaint-related data
@@ -145,5 +149,32 @@ export const useCreateComplaint = () => {
         onError: error => {
             console.error('Failed to create complaint:', error);
         },
+    });
+};
+
+// Hook to get student sheets for the currently selected student
+export const useGetSelectedStudentSheets = () => {
+    const { selectedStudentId, hasSelectedStudent } = useSelectedStudent();
+
+    return useQuery<GetStudentSheetsResponse, Error>({
+        queryKey: PARENT_QUERY_KEYS.studentSheets(selectedStudentId || ''),
+        queryFn: () => parentService.getStudentSheets(selectedStudentId!),
+        enabled: hasSelectedStudent,
+        staleTime: 5 * 60 * 1000, // 5 minutes
+        gcTime: 10 * 60 * 1000, // 10 minutes
+    });
+};
+
+// Hook to get student sheets for a specific student ID
+export const useGetStudentSheets = (
+    studentId: string,
+    enabled: boolean = true
+) => {
+    return useQuery<GetStudentSheetsResponse, Error>({
+        queryKey: PARENT_QUERY_KEYS.studentSheets(studentId),
+        queryFn: () => parentService.getStudentSheets(studentId),
+        enabled: enabled && !!studentId,
+        staleTime: 5 * 60 * 1000, // 5 minutes
+        gcTime: 10 * 60 * 1000, // 10 minutes
     });
 };

@@ -3,6 +3,7 @@ import {
     AccountBalance as BillingIcon,
     Check as CheckIcon,
     Dashboard as DashboardIcon,
+    Description as StudentSheetIcon,
     ExpandLess,
     ExpandMore,
     Payment as FeesIcon,
@@ -115,17 +116,17 @@ const navigationItems: NavigationItem[] = [
     //     ],
     // },
     {
+        id: 'timetable',
+        label: 'Timetable',
+        icon: <TimetableIcon />,
+        path: 'timetable',
+    },
+    {
         id: 'attendance',
         label: 'Attendance',
         icon: <AttendanceIcon />,
         path: 'attendance',
         children: [
-            {
-                id: 'attendance-timetable',
-                label: 'Weekly Timetable',
-                icon: <TimetableIcon />,
-                path: 'attendance/timetable',
-            },
             {
                 id: 'attendance-tracking',
                 label: 'Attendance Tracking',
@@ -133,6 +134,12 @@ const navigationItems: NavigationItem[] = [
                 path: 'attendance/tracking',
             },
         ],
+    },
+    {
+        id: 'student-sheet',
+        label: 'Student Sheet',
+        icon: <StudentSheetIcon />,
+        path: 'student-sheet',
     },
 ];
 

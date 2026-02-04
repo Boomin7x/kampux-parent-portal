@@ -5,6 +5,7 @@ import {
     CheckCircle as CheckIcon,
     Download as DownloadIcon,
     Error as ErrorIcon,
+    Info as InfoIcon,
     Payment as PaymentIcon,
     Person as PersonIcon,
     Schedule as ScheduleIcon,
@@ -78,45 +79,54 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
     } = useGetSelectedStudentBillings();
 
     // Calculate billing totals and categorize data
-    const { totals, overdue, dueSoon, paid } = useMemo(() => {
+    const { totals, unpaid, overdue, dueSoon, paid } = useMemo(() => {
         if (!billingData || billingData.length === 0) {
             return {
-                totals: { total: 0, paid: 0, outstanding: 0, overdue: 0 },
+                totals: {
+                    total: 0,
+                    paid: 0,
+                    unpaid: 0,
+                    outstanding: 0,
+                    overdue: 0,
+                },
+                unpaid: [],
                 overdue: [],
                 dueSoon: [],
                 paid: [],
             };
         }
 
-        const totals = {
-            total: billingData.reduce((sum, item) => sum + item.amount, 0),
-            paid: billingData.reduce((sum, item) => sum + item.amountPaid, 0),
-            outstanding: billingData.reduce(
-                (sum, item) => sum + item.unpaidAmount,
-                0
-            ),
-            overdue: 0,
-        };
+        // Start with all unpaid items (regardless of due date)
+        const unpaid = billingData.filter(item => item.unpaidAmount > 0);
 
-        const overdue = billingData.filter(
-            item =>
-                item.unpaidAmount > 0 && isPaymentOverdue(item.billingDueDate)
+        // Overdue is subset of unpaid where due date has passed
+        const overdue = unpaid.filter(item =>
+            isPaymentOverdue(item.billingDueDate)
         );
 
-        const dueSoon = billingData.filter(item => {
-            if (item.unpaidAmount <= 0) return false;
+        // Due soon is subset of unpaid due within 14 days (but not overdue)
+        const dueSoon = unpaid.filter(item => {
             const days = getDaysUntilDue(item.billingDueDate);
             return days > 0 && days <= 14;
         });
 
         const paid = billingData.filter(item => item.amountPaid > 0);
 
-        totals.overdue = overdue.reduce(
-            (sum, item) => sum + item.unpaidAmount,
-            0
-        );
+        const totals = {
+            total: billingData.reduce((sum, item) => sum + item.amount, 0),
+            paid: billingData.reduce((sum, item) => sum + item.amountPaid, 0),
+            unpaid: billingData.reduce(
+                (sum, item) => sum + item.unpaidAmount,
+                0
+            ),
+            outstanding: billingData.reduce(
+                (sum, item) => sum + item.unpaidAmount,
+                0
+            ), // keeping for backward compatibility
+            overdue: overdue.reduce((sum, item) => sum + item.unpaidAmount, 0),
+        };
 
-        return { totals, overdue, dueSoon, paid };
+        return { totals, unpaid, overdue, dueSoon, paid };
     }, [billingData]);
 
     const formatDate = (dateString: string) => {
@@ -307,7 +317,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                         {overdue.length > 0 && (
                             <Chip
                                 label={`${overdue.length} Overdue`}
-                                color="error"
+                                color="warning"
                                 size="small"
                                 sx={{ fontSize: '0.6875rem', height: 20 }}
                             />
@@ -324,20 +334,64 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                 )}
             </Box>
 
-            {/* Compact Metrics Grid */}
+            {/* Compact Metrics Grid - 5 Column Layout */}
             <Grid container spacing={1.5} sx={{ mb: 2 }}>
-                <Grid size={{ xs: 6, md: 3 }}>
+                <Grid size={{ xs: 6, sm: 4, md: 2.4 }}>
                     <Box
                         sx={{
                             p: 1.5,
                             backgroundColor:
-                                overdue.length > 0
+                                unpaid.length > 0
                                     ? 'error.50'
                                     : 'background.paper',
                             borderRadius: 1,
                             border: '1px solid',
                             borderColor:
-                                overdue.length > 0 ? 'error.main' : 'divider',
+                                unpaid.length > 0 ? 'error.main' : 'divider',
+                            textAlign: 'center',
+                        }}
+                    >
+                        <InfoIcon
+                            sx={{
+                                fontSize: 20,
+                                color:
+                                    unpaid.length > 0
+                                        ? 'error.main'
+                                        : 'text.disabled',
+                                mb: 0.5,
+                            }}
+                        />
+                        <Typography
+                            variant="subtitle1"
+                            sx={{
+                                fontWeight: 600,
+                                lineHeight: 1.1,
+                                color:
+                                    unpaid.length > 0
+                                        ? 'error.main'
+                                        : 'text.primary',
+                            }}
+                        >
+                            {formatCurrency(totals.unpaid)}
+                        </Typography>
+                        <Typography variant="caption" color="text.secondary">
+                            Unpaid
+                        </Typography>
+                    </Box>
+                </Grid>
+
+                <Grid size={{ xs: 6, sm: 4, md: 2.4 }}>
+                    <Box
+                        sx={{
+                            p: 1.5,
+                            backgroundColor:
+                                overdue.length > 0
+                                    ? 'warning.50'
+                                    : 'background.paper',
+                            borderRadius: 1,
+                            border: '1px solid',
+                            borderColor:
+                                overdue.length > 0 ? 'warning.main' : 'divider',
                             textAlign: 'center',
                         }}
                     >
@@ -346,38 +400,27 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                 fontSize: 20,
                                 color:
                                     overdue.length > 0
-                                        ? 'error.main'
+                                        ? 'warning.main'
                                         : 'text.disabled',
                                 mb: 0.5,
                             }}
                         />
-                        <Typography
-                            variant="subtitle1"
-                            sx={{ fontWeight: 600, lineHeight: 1.1 }}
-                        >
-                            {overdue.length}
-                        </Typography>
+                        {overdue.length >= 0 && (
+                            <Typography
+                                variant="caption"
+                                color="warning.main"
+                                sx={{ display: 'block', fontWeight: 600 }}
+                            >
+                                {formatCurrency(totals.overdue)}
+                            </Typography>
+                        )}
                         <Typography variant="caption" color="text.secondary">
                             Overdue
                         </Typography>
-                        {overdue.length > 0 && (
-                            <Typography
-                                variant="caption"
-                                color="error.main"
-                                sx={{ display: 'block', fontWeight: 600 }}
-                            >
-                                {formatCurrency(
-                                    overdue.reduce(
-                                        (sum, item) => sum + item.unpaidAmount,
-                                        0
-                                    )
-                                )}
-                            </Typography>
-                        )}
                     </Box>
                 </Grid>
 
-                <Grid size={{ xs: 6, md: 3 }}>
+                <Grid size={{ xs: 6, sm: 4, md: 2.4 }}>
                     <Box
                         sx={{
                             p: 1.5,
@@ -428,7 +471,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                     </Box>
                 </Grid>
 
-                <Grid size={{ xs: 6, md: 3 }}>
+                <Grid size={{ xs: 6, sm: 6, md: 2.4 }}>
                     <Box
                         sx={{
                             p: 1.5,
@@ -462,7 +505,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                     </Box>
                 </Grid>
 
-                <Grid size={{ xs: 6, md: 3 }}>
+                <Grid size={{ xs: 6, sm: 6, md: 2.4 }}>
                     <Box
                         sx={{
                             p: 1.5,
@@ -527,6 +570,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                         }}
                     >
                         <Tab label={`All (${billingData.length})`} />
+                        <Tab label={`Unpaid (${unpaid.length})`} />
                         <Tab label={`Overdue (${overdue.length})`} />
                         <Tab label={`Due Soon (${dueSoon.length})`} />
                         <Tab label={`Paid (${paid.length})`} />
@@ -555,12 +599,12 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                                 ? isPaymentOverdue(
                                                       billing.billingDueDate
                                                   )
-                                                    ? 'error.50'
+                                                    ? 'warning.50'
                                                     : getDaysUntilDue(
                                                             billing.billingDueDate
                                                         ) <= 14
                                                       ? 'warning.50'
-                                                      : 'background.paper'
+                                                      : 'error.50'
                                                 : 'success.50',
                                         borderRadius: 1,
                                         border: '1px solid',
@@ -657,8 +701,8 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                                             isPaymentOverdue(
                                                                 billing.billingDueDate
                                                             )
-                                                                ? 'error'
-                                                                : 'warning'
+                                                                ? 'warning'
+                                                                : 'error'
                                                         }
                                                         size="small"
                                                         sx={{
@@ -685,8 +729,175 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                         </Box>
                     )}
 
-                    {/* Overdue Tab */}
+                    {/* Unpaid Tab */}
                     {activeTab === 1 && (
+                        <Box>
+                            {unpaid.length > 0 ? (
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: 1,
+                                    }}
+                                >
+                                    {unpaid
+                                        .sort(
+                                            (a, b) =>
+                                                new Date(
+                                                    a.billingDueDate
+                                                ).getTime() -
+                                                new Date(
+                                                    b.billingDueDate
+                                                ).getTime()
+                                        )
+                                        .map(billing => (
+                                            <Box
+                                                key={billing.id}
+                                                sx={{
+                                                    p: 1.5,
+                                                    border: '1px solid',
+                                                    borderColor: 'divider',
+                                                    borderRadius: 1,
+                                                    backgroundColor:
+                                                        'background.paper',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent:
+                                                        'space-between',
+                                                    gap: 2,
+                                                }}
+                                            >
+                                                <Box
+                                                    sx={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        gap: 1.5,
+                                                        flex: 1,
+                                                    }}
+                                                >
+                                                    {getFeeIcon(billing)}
+                                                    <Box sx={{ flex: 1 }}>
+                                                        <Typography
+                                                            variant="body2"
+                                                            sx={{
+                                                                fontWeight: 500,
+                                                                fontSize:
+                                                                    '0.8125rem',
+                                                                mb: 0.25,
+                                                            }}
+                                                        >
+                                                            {
+                                                                billing.billingTypeName
+                                                            }
+                                                        </Typography>
+                                                        <Typography
+                                                            variant="caption"
+                                                            sx={{
+                                                                color: 'text.secondary',
+                                                                fontSize:
+                                                                    '0.75rem',
+                                                                display:
+                                                                    'block',
+                                                            }}
+                                                        >
+                                                            Due:{' '}
+                                                            {new Date(
+                                                                billing.billingDueDate
+                                                            ).toLocaleDateString(
+                                                                'fr-FR'
+                                                            )}
+                                                        </Typography>
+                                                    </Box>
+                                                </Box>
+
+                                                <Box
+                                                    sx={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        gap: 1,
+                                                    }}
+                                                >
+                                                    <Box
+                                                        sx={{
+                                                            textAlign: 'right',
+                                                        }}
+                                                    >
+                                                        <Typography
+                                                            variant="body2"
+                                                            sx={{
+                                                                fontWeight: 600,
+                                                                fontSize:
+                                                                    '0.8125rem',
+                                                                color: 'error.main',
+                                                            }}
+                                                        >
+                                                            {formatCurrency(
+                                                                billing.unpaidAmount
+                                                            )}
+                                                        </Typography>
+                                                        <Typography
+                                                            variant="caption"
+                                                            sx={{
+                                                                color: isPaymentOverdue(
+                                                                    billing.billingDueDate
+                                                                )
+                                                                    ? 'warning.main'
+                                                                    : getDaysUntilDue(
+                                                                            billing.billingDueDate
+                                                                        ) <=
+                                                                            14 &&
+                                                                        getDaysUntilDue(
+                                                                            billing.billingDueDate
+                                                                        ) > 0
+                                                                      ? 'warning.main'
+                                                                      : 'text.secondary',
+                                                                fontSize:
+                                                                    '0.6875rem',
+                                                                display:
+                                                                    'block',
+                                                                fontWeight: 500,
+                                                            }}
+                                                        >
+                                                            {isPaymentOverdue(
+                                                                billing.billingDueDate
+                                                            )
+                                                                ? 'En retard'
+                                                                : getDaysUntilDue(
+                                                                        billing.billingDueDate
+                                                                    ) <= 14 &&
+                                                                    getDaysUntilDue(
+                                                                        billing.billingDueDate
+                                                                    ) > 0
+                                                                  ? 'Échéance proche'
+                                                                  : 'Non payé'}
+                                                        </Typography>
+                                                    </Box>
+                                                </Box>
+                                            </Box>
+                                        ))}
+                                </Box>
+                            ) : (
+                                <Box
+                                    sx={{
+                                        textAlign: 'center',
+                                        py: 4,
+                                        color: 'text.secondary',
+                                    }}
+                                >
+                                    <InfoIcon sx={{ fontSize: 32, mb: 1 }} />
+                                    <Typography
+                                        variant="body2"
+                                        sx={{ fontSize: '0.8125rem' }}
+                                    >
+                                        Aucun montant impayé
+                                    </Typography>
+                                </Box>
+                            )}
+                        </Box>
+                    )}
+
+                    {/* Overdue Tab */}
+                    {activeTab === 2 && (
                         <Box>
                             {overdue.length > 0 ? (
                                 <Box
@@ -701,10 +912,10 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                             key={billing.id}
                                             sx={{
                                                 p: 1.5,
-                                                backgroundColor: 'error.50',
+                                                backgroundColor: 'warning.50',
                                                 borderRadius: 1,
                                                 border: '1px solid',
-                                                borderColor: 'error.main',
+                                                borderColor: 'warning.main',
                                             }}
                                         >
                                             <Box
@@ -724,7 +935,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                                 >
                                                     <ErrorIcon
                                                         sx={{
-                                                            color: 'error.main',
+                                                            color: 'warning.main',
                                                             fontSize: 16,
                                                         }}
                                                     />
@@ -741,7 +952,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                                         </Typography>
                                                         <Typography
                                                             variant="caption"
-                                                            color="error.main"
+                                                            color="warning.main"
                                                         >
                                                             Due:{' '}
                                                             {formatDate(
@@ -762,7 +973,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                                 >
                                                     <Typography
                                                         variant="subtitle2"
-                                                        color="error.main"
+                                                        color="warning.main"
                                                         sx={{ fontWeight: 600 }}
                                                     >
                                                         {formatCurrency(
@@ -808,7 +1019,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                     )}
 
                     {/* Due Soon Tab */}
-                    {activeTab === 2 && (
+                    {activeTab === 3 && (
                         <Box>
                             {dueSoon.length > 0 ? (
                                 <Box
@@ -927,7 +1138,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                     )}
 
                     {/* Paid Items Tab */}
-                    {activeTab === 3 && (
+                    {activeTab === 4 && (
                         <Box>
                             {paid.length > 0 ? (
                                 <Box

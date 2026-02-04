@@ -23,6 +23,7 @@ export interface Student {
     emergencyContacts: EmergencyContact[];
     medicalInfo?: MedicalInfo;
     parentIds: string[];
+    schoolYearClassId: number;
 }
 
 export interface EmergencyContact {

@@ -10,12 +10,18 @@ interface StudentStore {
     selectedStudentId: string | null;
     setSelectedStudent: (studentId: string | null) => void;
     clearSelectedStudent: () => void;
+    setSchoolYearClassId: (id: number | null) => void;
+    schoolYearClassId: number | null;
 }
 
 export const useStudentStore = create<StudentStore>()(
     persist(
         set => ({
             selectedStudentId: null,
+            schoolYearClassId: null,
+            setSchoolYearClassId: (id: number | null) => {
+                set({ schoolYearClassId: id });
+            },
 
             setSelectedStudent: (studentId: string | null) => {
                 console.log(

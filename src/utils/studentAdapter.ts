@@ -51,6 +51,7 @@ export const convertAPIStudentToUI = (apiStudent: APIStudent): UIStudent => {
             apiStudent.tutorId?.toString(),
         ].filter(Boolean) as string[],
         avatar: apiStudent.picturePath || undefined,
+        schoolYearClassId: apiStudent?.schoolYearClassId,
     };
 };
 

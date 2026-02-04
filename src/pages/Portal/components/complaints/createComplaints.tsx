@@ -1,23 +1,28 @@
 import {
-    AttachFile,
     CheckCircle,
     Error as ErrorIcon,
     Send,
+    Warning as WarningIcon,
 } from '@mui/icons-material';
 import {
     Alert,
     Box,
     Button,
-    Chip,
     FormControl,
+    FormHelperText,
+    Grid,
     InputLabel,
     MenuItem,
     Select,
     TextField,
     Typography,
 } from '@mui/material';
-import React, { useState } from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import React from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import * as yup from 'yup';
 import { useStudentStore } from '../../../../stores/studentStore';
+import { useGetCodificationItems } from '../../_hooks/useParent';
 import { useCreateComplaintForSelectedStudent } from '../../_hooks/useParentWithStore';
 import type { CreateComplaintRequest } from '../../_service/parentService';
 
@@ -26,20 +31,29 @@ interface CreateComplaintsProps {
     onCancel?: () => void;
 }
 
-const COMPLAINT_CATEGORIES = [
-    { value: 'academic', label: 'Académique', color: '#2563eb' },
-    { value: 'administrative', label: 'Administratif', color: '#7c3aed' },
-    { value: 'facility', label: 'Installations', color: '#059669' },
-    { value: 'behavioral', label: 'Comportemental', color: '#dc2626' },
-    { value: 'other', label: 'Autre', color: '#6b7280' },
-] as const;
+// Form data type matching the API payload
+type ComplaintFormData = {
+    complaintCategoryCode: string;
+    summary: string;
+    description: string;
+};
 
-const PRIORITY_LEVELS = [
-    { value: 'low', label: 'Faible', color: '#10b981' },
-    { value: 'medium', label: 'Moyenne', color: '#f59e0b' },
-    { value: 'high', label: 'Élevée', color: '#ef4444' },
-    { value: 'urgent', label: 'Urgente', color: '#dc2626' },
-] as const;
+// Validation schema
+const validationSchema = yup.object().shape({
+    complaintCategoryCode: yup
+        .string()
+        .required('La catégorie de plainte est requise'),
+    summary: yup
+        .string()
+        .required('Le résumé est requis')
+        .min(5, 'Le résumé doit contenir au moins 5 caractères')
+        .max(100, 'Le résumé ne doit pas dépasser 100 caractères'),
+    description: yup
+        .string()
+        .required('La description est requise')
+        .min(20, 'La description doit contenir au moins 20 caractères')
+        .max(500, 'La description ne doit pas dépasser 500 caractères'),
+});
 
 const CreateComplaints: React.FC<CreateComplaintsProps> = ({
     onSuccess,
@@ -48,150 +62,133 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
     const { selectedStudentId } = useStudentStore();
     const createComplaint = useCreateComplaintForSelectedStudent();
 
-    const [formData, setFormData] = useState<
-        Omit<CreateComplaintRequest, 'studentId' | 'attachments'>
-    >({
-        subject: '',
-        description: '',
-        category: 'other',
-        priority: 'medium',
+    // Fetch complaint categories from API
+    const {
+        data: categories,
+        isLoading: categoriesLoading,
+        error: categoriesError,
+    } = useGetCodificationItems('Complaint_Category', !!selectedStudentId);
+
+    const {
+        control,
+        handleSubmit,
+        reset,
+        watch,
+        formState: { errors, isValid, isDirty },
+    } = useForm<ComplaintFormData>({
+        resolver: yupResolver(validationSchema),
+        defaultValues: {
+            complaintCategoryCode: '',
+            summary: '',
+            description: '',
+        },
+        mode: 'onChange',
     });
 
-    const [attachments, setAttachments] = useState<File[]>([]);
-    const [errors, setErrors] = useState<Record<string, string>>({});
+    const watchedValues = watch();
 
-    const handleInputChange =
-        (field: keyof typeof formData) =>
-        (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-            setFormData(prev => ({ ...prev, [field]: event.target.value }));
-            if (errors[field]) {
-                setErrors(prev => ({ ...prev, [field]: '' }));
-            }
+    const onSubmit = async (data: ComplaintFormData) => {
+        if (!selectedStudentId) return;
+
+        const payload: CreateComplaintRequest = {
+            id: parseInt(selectedStudentId), // registration id
+            complaintCategoryCode: data.complaintCategoryCode,
+            summary: data.summary,
+            description: data.description,
+            complaintDate: new Date().toISOString(),
         };
-
-    const handleSelectChange =
-        (field: 'category' | 'priority') => (event: any) => {
-            setFormData(prev => ({ ...prev, [field]: event.target.value }));
-        };
-
-    const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const files = Array.from(event.target.files || []);
-        setAttachments(prev => [...prev, ...files]);
-    };
-
-    const removeAttachment = (index: number) => {
-        setAttachments(prev => prev.filter((_, i) => i !== index));
-    };
-
-    const validateForm = () => {
-        const newErrors: Record<string, string> = {};
-
-        if (!formData.subject.trim()) {
-            newErrors.subject = 'Le sujet est requis';
-        }
-
-        if (!formData.description.trim()) {
-            newErrors.description = 'La description est requise';
-        }
-
-        if (formData.description.length < 10) {
-            newErrors.description =
-                'La description doit contenir au moins 10 caractères';
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-
-    const handleSubmit = async (event: React.FormEvent) => {
-        event.preventDefault();
-
-        if (!validateForm() || !selectedStudentId) return;
 
         try {
-            await createComplaint.mutateAsync({
-                ...formData,
-                attachments: attachments.length > 0 ? attachments : undefined,
-            });
-
-            // Reset form
-            setFormData({
-                subject: '',
-                description: '',
-                category: 'other',
-                priority: 'medium',
-            });
-            setAttachments([]);
-            setErrors({});
-
+            await createComplaint.mutateAsync(payload);
+            reset();
             onSuccess?.();
         } catch (error) {
             console.error('Failed to submit complaint:', error);
         }
     };
 
-    const getCategoryInfo = (category: string) =>
-        COMPLAINT_CATEGORIES.find(c => c.value === category);
-
-    const getPriorityInfo = (priority: string) =>
-        PRIORITY_LEVELS.find(p => p.value === priority);
-
     if (!selectedStudentId) {
         return (
-            <Box sx={{ p: 2, textAlign: 'center' }}>
-                <Alert severity="warning" sx={{ borderRadius: 1 }}>
-                    Veuillez sélectionner un étudiant pour soumettre une
-                    plainte.
-                </Alert>
+            <Box
+                sx={{
+                    p: 2,
+                    borderRadius: 1,
+                    backgroundColor: 'warning.50',
+                    border: '1px solid',
+                    borderColor: 'warning.200',
+                }}
+            >
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <WarningIcon sx={{ color: 'warning.main', fontSize: 18 }} />
+                    <Typography
+                        variant="body2"
+                        sx={{ color: 'warning.dark', fontSize: '0.8125rem' }}
+                    >
+                        Veuillez sélectionner un étudiant pour soumettre une
+                        plainte.
+                    </Typography>
+                </Box>
             </Box>
         );
     }
 
+    if (categoriesError) {
+        return (
+            <Alert severity="error" sx={{ borderRadius: 1 }}>
+                <Typography variant="body2" sx={{ fontSize: '0.8125rem' }}>
+                    Erreur lors du chargement des catégories de plaintes.
+                </Typography>
+            </Alert>
+        );
+    }
+
     return (
-        <Box sx={{ p: 2, maxWidth: 600, mx: 'auto' }}>
+        <Box sx={{ maxWidth: 600, mx: 'auto' }}>
             {/* Header */}
-            <Box sx={{ mb: 3 }}>
+            <Box sx={{ mb: 2 }}>
                 <Typography
-                    variant="subtitle1"
+                    variant="subtitle2"
                     sx={{
                         fontWeight: 600,
                         color: 'text.primary',
-                        mb: 0.5,
+                        fontSize: '0.875rem',
+                        mb: 0.25,
                     }}
                 >
-                    Soumettre une Plainte
+                    Nouvelle Plainte
                 </Typography>
                 <Typography
-                    variant="body2"
-                    sx={{ color: 'text.secondary', fontSize: '0.8125rem' }}
+                    variant="caption"
+                    sx={{ color: 'text.secondary', fontSize: '0.75rem' }}
                 >
-                    Concernant l'étudiant sélectionné (ID: {selectedStudentId})
+                    Étudiant ID: {selectedStudentId}
                 </Typography>
             </Box>
 
-            {/* Success/Error Alert */}
+            {/* Success/Error Alerts */}
             {createComplaint.isSuccess && (
                 <Alert
                     severity="success"
-                    icon={<CheckCircle fontSize="small" />}
+                    icon={<CheckCircle sx={{ fontSize: 16 }} />}
                     sx={{
                         mb: 2,
                         borderRadius: 1,
+                        py: 0.75,
                         '& .MuiAlert-message': { fontSize: '0.8125rem' },
                     }}
                 >
-                    Plainte soumise avec succès. Vous recevrez une réponse sous
-                    48 heures.
+                    Plainte soumise avec succès. Vous recevrez une confirmation.
                 </Alert>
             )}
 
             {createComplaint.isError && (
                 <Alert
                     severity="error"
-                    icon={<ErrorIcon fontSize="small" />}
+                    icon={<ErrorIcon sx={{ fontSize: 16 }} />}
                     sx={{
                         mb: 2,
                         borderRadius: 1,
+                        py: 0.75,
                         '& .MuiAlert-message': { fontSize: '0.8125rem' },
                     }}
                 >
@@ -202,180 +199,146 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
             {/* Form */}
             <Box
                 component="form"
-                onSubmit={handleSubmit}
+                onSubmit={handleSubmit(onSubmit)}
                 sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 2,
+                    p: 2,
                     backgroundColor: 'background.paper',
                     border: '1px solid',
                     borderColor: 'divider',
                     borderRadius: 1,
-                    p: 2,
                 }}
             >
-                {/* Category and Priority */}
-                <Box sx={{ display: 'flex', gap: 1.5 }}>
-                    <FormControl size="small" sx={{ minWidth: 140, flex: 1 }}>
-                        <InputLabel sx={{ fontSize: '0.8125rem' }}>
-                            Catégorie
-                        </InputLabel>
-                        <Select
-                            value={formData.category}
-                            onChange={handleSelectChange('category')}
-                            label="Catégorie"
-                            sx={{ fontSize: '0.8125rem' }}
-                        >
-                            {COMPLAINT_CATEGORIES.map(category => (
-                                <MenuItem
-                                    key={category.value}
-                                    value={category.value}
-                                    sx={{ fontSize: '0.8125rem' }}
-                                >
-                                    <Box
-                                        sx={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: 1,
-                                        }}
-                                    >
-                                        <Box
-                                            sx={{
-                                                width: 8,
-                                                height: 8,
-                                                borderRadius: '50%',
-                                                backgroundColor: category.color,
-                                            }}
-                                        />
-                                        {category.label}
-                                    </Box>
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-
-                    <FormControl size="small" sx={{ minWidth: 120, flex: 1 }}>
-                        <InputLabel sx={{ fontSize: '0.8125rem' }}>
-                            Priorité
-                        </InputLabel>
-                        <Select
-                            value={formData.priority}
-                            onChange={handleSelectChange('priority')}
-                            label="Priorité"
-                            sx={{ fontSize: '0.8125rem' }}
-                        >
-                            {PRIORITY_LEVELS.map(priority => (
-                                <MenuItem
-                                    key={priority.value}
-                                    value={priority.value}
-                                    sx={{ fontSize: '0.8125rem' }}
-                                >
-                                    <Box
-                                        sx={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: 1,
-                                        }}
-                                    >
-                                        <Box
-                                            sx={{
-                                                width: 8,
-                                                height: 8,
-                                                borderRadius: '50%',
-                                                backgroundColor: priority.color,
-                                            }}
-                                        />
-                                        {priority.label}
-                                    </Box>
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Box>
-
-                {/* Subject */}
-                <TextField
-                    label="Sujet"
-                    value={formData.subject}
-                    onChange={handleInputChange('subject')}
-                    error={!!errors.subject}
-                    helperText={errors.subject}
-                    size="small"
-                    fullWidth
-                    InputLabelProps={{ sx: { fontSize: '0.8125rem' } }}
-                    inputProps={{ sx: { fontSize: '0.8125rem' } }}
-                    FormHelperTextProps={{ sx: { fontSize: '0.75rem' } }}
-                />
-
-                {/* Description */}
-                <TextField
-                    label="Description détaillée"
-                    value={formData.description}
-                    onChange={handleInputChange('description')}
-                    error={!!errors.description}
-                    helperText={
-                        errors.description ||
-                        `${formData.description.length} caractères`
-                    }
-                    multiline
-                    rows={4}
-                    fullWidth
-                    InputLabelProps={{ sx: { fontSize: '0.8125rem' } }}
-                    inputProps={{ sx: { fontSize: '0.8125rem' } }}
-                    FormHelperTextProps={{ sx: { fontSize: '0.75rem' } }}
-                />
-
-                {/* File Upload */}
-                <Box>
-                    <input
-                        type="file"
-                        multiple
-                        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                        onChange={handleFileUpload}
-                        style={{ display: 'none' }}
-                        id="file-upload"
-                    />
-                    <label htmlFor="file-upload">
-                        <Button
-                            component="span"
-                            startIcon={<AttachFile fontSize="small" />}
-                            size="small"
-                            sx={{
-                                fontSize: '0.75rem',
-                                textTransform: 'none',
-                                color: 'text.secondary',
-                                borderColor: 'divider',
-                            }}
-                            variant="outlined"
-                        >
-                            Joindre des fichiers
-                        </Button>
-                    </label>
-
-                    {attachments.length > 0 && (
-                        <Box
-                            sx={{
-                                mt: 1,
-                                display: 'flex',
-                                flexWrap: 'wrap',
-                                gap: 0.5,
-                            }}
-                        >
-                            {attachments.map((file, index) => (
-                                <Chip
-                                    key={index}
-                                    label={file.name}
-                                    onDelete={() => removeAttachment(index)}
+                <Grid container spacing={1.5}>
+                    {/* Category Selection */}
+                    <Grid size={{ xs: 12 }}>
+                        <Controller
+                            name="complaintCategoryCode"
+                            control={control}
+                            render={({ field }) => (
+                                <FormControl
                                     size="small"
-                                    sx={{ fontSize: '0.6875rem', height: 24 }}
+                                    fullWidth
+                                    error={!!errors.complaintCategoryCode}
+                                >
+                                    <InputLabel sx={{ fontSize: '0.8125rem' }}>
+                                        Catégorie de Plainte *
+                                    </InputLabel>
+                                    <Select
+                                        {...field}
+                                        label="Catégorie de Plainte *"
+                                        disabled={categoriesLoading}
+                                        sx={{ fontSize: '0.8125rem' }}
+                                    >
+                                        {categories?.map(category => (
+                                            <MenuItem
+                                                key={category.code}
+                                                value={category.code}
+                                                sx={{ fontSize: '0.8125rem' }}
+                                            >
+                                                <Box>
+                                                    <Typography
+                                                        variant="body2"
+                                                        sx={{
+                                                            fontSize: '0.8125rem',
+                                                            fontWeight: 500,
+                                                        }}
+                                                    >
+                                                        {category.name}
+                                                    </Typography>
+                                                    <Typography
+                                                        variant="caption"
+                                                        sx={{
+                                                            color: 'text.secondary',
+                                                            fontSize: '0.6875rem',
+                                                            display: 'block',
+                                                        }}
+                                                    >
+                                                        {category.description}
+                                                    </Typography>
+                                                </Box>
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                    {errors.complaintCategoryCode && (
+                                        <FormHelperText
+                                            sx={{ fontSize: '0.75rem' }}
+                                        >
+                                            {errors.complaintCategoryCode.message}
+                                        </FormHelperText>
+                                    )}
+                                </FormControl>
+                            )}
+                        />
+                    </Grid>
+
+                    {/* Summary */}
+                    <Grid size={{ xs: 12 }}>
+                        <Controller
+                            name="summary"
+                            control={control}
+                            render={({ field }) => (
+                                <TextField
+                                    {...field}
+                                    label="Résumé de la plainte *"
+                                    placeholder="Résumé concis en quelques mots..."
+                                    size="small"
+                                    fullWidth
+                                    error={!!errors.summary}
+                                    helperText={
+                                        errors.summary?.message ||
+                                        `${field.value.length}/100 caractères`
+                                    }
+                                    InputLabelProps={{
+                                        sx: { fontSize: '0.8125rem' },
+                                    }}
+                                    inputProps={{
+                                        sx: { fontSize: '0.8125rem' },
+                                        maxLength: 100,
+                                    }}
+                                    FormHelperTextProps={{
+                                        sx: { fontSize: '0.75rem' },
+                                    }}
                                 />
-                            ))}
-                        </Box>
-                    )}
-                </Box>
+                            )}
+                        />
+                    </Grid>
+
+                    {/* Description */}
+                    <Grid size={{ xs: 12 }}>
+                        <Controller
+                            name="description"
+                            control={control}
+                            render={({ field }) => (
+                                <TextField
+                                    {...field}
+                                    label="Description détaillée *"
+                                    placeholder="Décrivez votre plainte de manière détaillée..."
+                                    multiline
+                                    rows={3}
+                                    fullWidth
+                                    error={!!errors.description}
+                                    helperText={
+                                        errors.description?.message ||
+                                        `${field.value.length}/500 caractères`
+                                    }
+                                    InputLabelProps={{
+                                        sx: { fontSize: '0.8125rem' },
+                                    }}
+                                    inputProps={{
+                                        sx: { fontSize: '0.8125rem' },
+                                        maxLength: 500,
+                                    }}
+                                    FormHelperTextProps={{
+                                        sx: { fontSize: '0.75rem' },
+                                    }}
+                                />
+                            )}
+                        />
+                    </Grid>
+                </Grid>
 
                 {/* Action Buttons */}
-                <Box sx={{ display: 'flex', gap: 1, mt: 1 }}>
+                <Box sx={{ display: 'flex', gap: 1, mt: 2 }}>
                     {onCancel && (
                         <Button
                             onClick={onCancel}
@@ -395,11 +358,9 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
                         variant="contained"
                         size="small"
                         disabled={
-                            createComplaint.isPending ||
-                            !formData.subject ||
-                            !formData.description
+                            !isValid || !isDirty || createComplaint.isPending
                         }
-                        startIcon={<Send fontSize="small" />}
+                        startIcon={<Send sx={{ fontSize: 16 }} />}
                         sx={{
                             fontSize: '0.8125rem',
                             textTransform: 'none',
@@ -407,69 +368,130 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
                         }}
                     >
                         {createComplaint.isPending
-                            ? 'Envoi...'
+                            ? 'Envoi en cours...'
                             : 'Soumettre la Plainte'}
                     </Button>
                 </Box>
             </Box>
 
-            {/* Current Selection Display */}
-            <Box
-                sx={{
-                    mt: 2,
-                    p: 1.5,
-                    backgroundColor: 'primary.50',
-                    border: '1px solid',
-                    borderColor: 'primary.100',
-                    borderRadius: 1,
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                }}
-            >
-                <Box>
+            {/* Form Preview - Content Dense */}
+            {isDirty && (
+                <Box
+                    sx={{
+                        mt: 1.5,
+                        p: 1.5,
+                        backgroundColor: 'primary.50',
+                        border: '1px solid',
+                        borderColor: 'primary.100',
+                        borderRadius: 1,
+                    }}
+                >
                     <Typography
                         variant="caption"
                         sx={{
                             fontWeight: 600,
-                            fontSize: '0.75rem',
+                            fontSize: '0.6875rem',
+                            color: 'primary.dark',
                             display: 'block',
+                            mb: 0.5,
                         }}
                     >
-                        Plainte sélectionnée
+                        APERÇU DE LA PLAINTE
                     </Typography>
-                    <Box sx={{ display: 'flex', gap: 1, mt: 0.5 }}>
-                        <Chip
-                            label={getCategoryInfo(formData.category)?.label}
-                            size="small"
-                            sx={{
-                                fontSize: '0.6875rem',
-                                height: 20,
-                                backgroundColor:
-                                    getCategoryInfo(formData.category)?.color +
-                                    '20',
-                                color: getCategoryInfo(formData.category)
-                                    ?.color,
-                                border: 'none',
-                            }}
-                        />
-                        <Chip
-                            label={getPriorityInfo(formData.priority)?.label}
-                            size="small"
-                            sx={{
-                                fontSize: '0.6875rem',
-                                height: 20,
-                                backgroundColor:
-                                    getPriorityInfo(formData.priority)?.color +
-                                    '20',
-                                color: getPriorityInfo(formData.priority)
-                                    ?.color,
-                                border: 'none',
-                            }}
-                        />
+                    <Box
+                        sx={{
+                            display: 'grid',
+                            gap: 0.75,
+                            fontSize: '0.75rem',
+                        }}
+                    >
+                        {watchedValues.complaintCategoryCode && (
+                            <Box sx={{ display: 'flex', gap: 1 }}>
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        fontWeight: 500,
+                                        color: 'text.secondary',
+                                        minWidth: '70px',
+                                        fontSize: '0.6875rem',
+                                    }}
+                                >
+                                    Catégorie:
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        color: 'text.primary',
+                                        fontSize: '0.6875rem',
+                                    }}
+                                >
+                                    {
+                                        categories?.find(
+                                            c =>
+                                                c.code ===
+                                                watchedValues.complaintCategoryCode
+                                        )?.name
+                                    }
+                                </Typography>
+                            </Box>
+                        )}
+                        {watchedValues.summary && (
+                            <Box sx={{ display: 'flex', gap: 1 }}>
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        fontWeight: 500,
+                                        color: 'text.secondary',
+                                        minWidth: '70px',
+                                        fontSize: '0.6875rem',
+                                    }}
+                                >
+                                    Résumé:
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        color: 'text.primary',
+                                        fontSize: '0.6875rem',
+                                        lineHeight: 1.3,
+                                    }}
+                                >
+                                    {watchedValues.summary}
+                                </Typography>
+                            </Box>
+                        )}
+                        {watchedValues.description && (
+                            <Box sx={{ display: 'flex', gap: 1 }}>
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        fontWeight: 500,
+                                        color: 'text.secondary',
+                                        minWidth: '70px',
+                                        fontSize: '0.6875rem',
+                                        alignSelf: 'flex-start',
+                                    }}
+                                >
+                                    Description:
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        color: 'text.primary',
+                                        fontSize: '0.6875rem',
+                                        lineHeight: 1.3,
+                                        flex: 1,
+                                    }}
+                                >
+                                    {watchedValues.description.length > 100
+                                        ? `${watchedValues.description.substring(0, 100)}...`
+                                        : watchedValues.description}
+                                </Typography>
+                            </Box>
+                        )}
                     </Box>
                 </Box>
-            </Box>
+            )}
         </Box>
     );
 };

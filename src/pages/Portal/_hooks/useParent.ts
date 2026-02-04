@@ -1,9 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useStudentStore } from '../../../stores/studentStore';
 import {
     parentService,
     type CreateComplaintRequest,
     type CreateComplaintResponse,
     type GetBillingsResponse,
+    type GetCodificationItemsResponse,
     type GetStudentsResponse,
     type GetTellerOperationsResponse,
     type GetTimeTableResponse,
@@ -19,6 +21,7 @@ export const PARENT_QUERY_KEYS = {
         'teller-operations',
         studentId,
     ],
+    codificationItems: (codes: string) => ['parent', 'codification-items', codes],
 } as const;
 
 // Custom hook to get students linked to parent
@@ -33,9 +36,10 @@ export const useGetStudents = () => {
 
 // Custom hook to get class timetable
 export const useGetClassTimeTable = () => {
+    const { schoolYearClassId } = useStudentStore();
     return useQuery<GetTimeTableResponse, Error>({
         queryKey: PARENT_QUERY_KEYS.timetable,
-        queryFn: parentService.getClassTimeTable,
+        queryFn: () => parentService.getClassTimeTable(schoolYearClassId),
         staleTime: 30 * 60 * 1000, // 30 minutes (timetable doesn't change often)
         gcTime: 60 * 60 * 1000, // 1 hour
     });
@@ -69,6 +73,29 @@ export const useGetTellerOperations = (
     });
 };
 
+// Custom hook to get codification items
+export const useGetCodificationItems = (
+    codificationCodes: string | string[],
+    enabled: boolean = true
+) => {
+    // Convert codes to consistent string format for cache key
+    const codesKey = Array.isArray(codificationCodes)
+        ? codificationCodes.join(',')
+        : codificationCodes;
+
+    return useQuery<GetCodificationItemsResponse, Error>({
+        queryKey: PARENT_QUERY_KEYS.codificationItems(codesKey),
+        queryFn: () => parentService.getCodificationItems(codificationCodes),
+        enabled: enabled && !!codificationCodes && (
+            Array.isArray(codificationCodes)
+                ? codificationCodes.length > 0
+                : codificationCodes.length > 0
+        ),
+        staleTime: 30 * 60 * 1000, // 30 minutes (codification items don't change often)
+        gcTime: 60 * 60 * 1000, // 1 hour
+    });
+};
+
 // Custom hook to create complaint
 export const useCreateComplaint = () => {
     const queryClient = useQueryClient();
@@ -79,7 +106,9 @@ export const useCreateComplaint = () => {
             console.log('Complaint created successfully:', data);
 
             // Invalidate students query to refresh any complaint-related data
-            queryClient.invalidateQueries({ queryKey: PARENT_QUERY_KEYS.students });
+            queryClient.invalidateQueries({
+                queryKey: PARENT_QUERY_KEYS.students,
+            });
         },
         onError: error => {
             console.error('Failed to create complaint:', error);
@@ -141,6 +170,10 @@ export const useRefreshStudentData = () => {
             queryClient.invalidateQueries({ queryKey: ['parent', 'billings'] });
             queryClient.invalidateQueries({
                 queryKey: ['parent', 'teller-operations'],
+            });
+            // Invalidate all codification items
+            queryClient.invalidateQueries({
+                queryKey: ['parent', 'codification-items'],
             });
         }
     };

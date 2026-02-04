@@ -157,12 +157,14 @@ const createApiClient = (baseURL?: string): AxiosInstance => {
                     if (refreshToken) {
                         // Attempt to refresh the token
                         const response = await axios.post(
-                            `${API_BASE_URL}/auth/refresh`,
-                            { refreshToken }
+                            `${API_BASE_URL}/api/identity/token/refresh-token`,
+                            { refreshToken, token: '' }
                         );
 
-                        const { accessToken, refreshToken: newRefreshToken } =
-                            response.data;
+                        const {
+                            token: accessToken,
+                            refreshToken: newRefreshToken,
+                        } = response.data;
                         tokenManager.setTokens(accessToken, newRefreshToken);
 
                         // Retry the original request with new token
@@ -198,7 +200,9 @@ const createApiClient = (baseURL?: string): AxiosInstance => {
 // Main API client instances
 export const apiClient = createApiClient();
 export const authApiClient = createApiClient(`${API_BASE_URL}/api/identity`);
-export const parentApiClient = createApiClient(`${API_BASE_URL}/public-api/parent/v1`);
+export const parentApiClient = createApiClient(
+    `${API_BASE_URL}/public-api/parent/v1`
+);
 
 // Utility functions for common HTTP methods
 export const api = {
