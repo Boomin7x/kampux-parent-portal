@@ -169,7 +169,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                     Navigation
                 </Typography>
                 <List sx={{ p: 0 }}>
-                    {navItems.map((item, index) => (
+                    {navItems.map((item, _index) => (
                         <ListItem
                             key={item.label}
                             disablePadding

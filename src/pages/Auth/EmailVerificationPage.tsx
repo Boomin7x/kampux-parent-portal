@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
     ArrowBack as ArrowBackIcon,
     School as SchoolIcon,
@@ -23,7 +24,9 @@ interface EmailVerificationPageProps {
     className?: string;
 }
 
-const EmailVerificationPage: React.FC<EmailVerificationPageProps> = ({ className = '' }) => {
+const EmailVerificationPage: React.FC<EmailVerificationPageProps> = ({
+    className = '',
+}) => {
     const theme = useTheme();
     const navigate = useNavigate();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -39,18 +42,23 @@ const EmailVerificationPage: React.FC<EmailVerificationPageProps> = ({ className
         const token = searchParams.get('token');
 
         try {
-            await actions.handleEmailVerification({ token, ...data });
+            await actions.handleEmailVerification({
+                token: token as string,
+                ...data,
+            });
             // On success, the hook will redirect to portal
-        } catch (error) {
+        } catch (_e) {
             // Error is handled by the hook
         }
     };
 
     // Get email from URL params, state, or local storage
-    const email = searchParams.get('email') ||
-                 state.email ||
-                 (localStorage.getItem('pendingUser') ?
-                  JSON.parse(localStorage.getItem('pendingUser')!).email : '');
+    const email =
+        searchParams.get('email') ||
+        state.email ||
+        (localStorage.getItem('pendingUser')
+            ? JSON.parse(localStorage.getItem('pendingUser')!).email
+            : '');
 
     return (
         <Box
@@ -137,7 +145,9 @@ const EmailVerificationPage: React.FC<EmailVerificationPageProps> = ({ className
                             {/* Email Verification Content */}
                             <EmailVerificationStep
                                 onVerifyEmail={handleEmailVerification}
-                                onResendVerification={actions.resendEmailVerification}
+                                onResendVerification={
+                                    actions.resendEmailVerification
+                                }
                                 email={email}
                                 isLoading={state.isLoading}
                                 error={state.error}

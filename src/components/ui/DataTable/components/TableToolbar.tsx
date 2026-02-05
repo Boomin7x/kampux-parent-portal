@@ -1,47 +1,46 @@
-import React, { useState } from 'react';
 import {
-    Box,
-    Toolbar,
-    Typography,
-    TextField,
-    InputAdornment,
-    IconButton,
-    Button,
-    Menu,
-    MenuItem,
-    ListItemIcon,
-    ListItemText,
-    Divider,
-    Tooltip,
-    Badge,
-    FormControl,
-    FormLabel,
-    FormGroup,
-    FormControlLabel,
-    Checkbox,
-    useTheme,
-    alpha,
-} from '@mui/material';
-import {
-    Search as SearchIcon,
-    FilterList as FilterIcon,
+    Close as CloseIcon,
     ViewColumn as ColumnsIcon,
-    FileDownload as ExportIcon,
-    Refresh as RefreshIcon,
-    TableChart as TableIcon,
     ViewComfy as DensityIcon,
+    GetApp as DownloadIcon,
+    FileDownload as ExportIcon,
+    FilterList as FilterIcon,
     Fullscreen as FullscreenIcon,
     MoreVert as MoreIcon,
-    Close as CloseIcon,
-    GetApp as DownloadIcon,
+    Refresh as RefreshIcon,
+    Search as SearchIcon,
+    TableChart as TableIcon,
 } from '@mui/icons-material';
+import {
+    alpha,
+    Badge,
+    Box,
+    Button,
+    Checkbox,
+    Divider,
+    FormControl,
+    FormControlLabel,
+    FormGroup,
+    IconButton,
+    InputAdornment,
+    ListItemIcon,
+    ListItemText,
+    Menu,
+    MenuItem,
+    TextField,
+    Toolbar,
+    Tooltip,
+    Typography,
+    useTheme,
+} from '@mui/material';
+import React, { useState } from 'react';
 
 import type {
-    UseDataTableReturn,
     BaseTableData,
-    ToolbarConfig,
-    TableFilter,
     ExportFormat,
+    TableFilter,
+    ToolbarConfig,
+    UseDataTableReturn,
 } from '../types/table.types';
 import { exportFormatConfigs } from '../utils/exportHelpers';
 
@@ -60,18 +59,20 @@ export function TableToolbar<TData extends BaseTableData>({
     actions,
     computed,
     config,
-    filters = [],
 }: TableToolbarProps<TData>) {
     const theme = useTheme();
     const [searchValue, setSearchValue] = useState(state.globalFilter || '');
-    const [columnsMenuAnchor, setColumnsMenuAnchor] = useState<null | HTMLElement>(null);
-    const [exportMenuAnchor, setExportMenuAnchor] = useState<null | HTMLElement>(null);
-    const [densityMenuAnchor, setDensityMenuAnchor] = useState<null | HTMLElement>(null);
-    const [moreMenuAnchor, setMoreMenuAnchor] = useState<null | HTMLElement>(null);
+    const [columnsMenuAnchor, setColumnsMenuAnchor] =
+        useState<null | HTMLElement>(null);
+    const [exportMenuAnchor, setExportMenuAnchor] =
+        useState<null | HTMLElement>(null);
+    const [, setDensityMenuAnchor] = useState<null | HTMLElement>(null);
+    const [moreMenuAnchor, setMoreMenuAnchor] = useState<null | HTMLElement>(
+        null
+    );
 
     const {
         showSearch = true,
-        showFilters = false,
         showColumns = true,
         showExport = true,
         showRefresh = true,
@@ -168,9 +169,9 @@ export function TableToolbar<TData extends BaseTableData>({
         setDensityMenuAnchor(event.currentTarget);
     };
 
-    const handleDensityMenuClose = () => {
-        setDensityMenuAnchor(null);
-    };
+    // const handleDensityMenuClose = () => {
+    //     setDensityMenuAnchor(null);
+    // };
 
     // ====================
     // More Actions Menu
@@ -188,8 +189,12 @@ export function TableToolbar<TData extends BaseTableData>({
     // Computed Values
     // ====================
 
-    const visibleColumnsCount = table.getAllColumns().filter(col => col.getIsVisible()).length;
-    const hiddenColumnsCount = table.getAllColumns().filter(col => !col.getIsVisible() && col.getCanHide()).length;
+    const visibleColumnsCount = table
+        .getAllColumns()
+        .filter(col => col.getIsVisible()).length;
+    const hiddenColumnsCount = table
+        .getAllColumns()
+        .filter(col => !col.getIsVisible() && col.getCanHide()).length;
     const activeFiltersCount = computed.activeFilters.length;
     const hasSelection = computed.selectedRows.length > 0;
 
@@ -211,10 +216,20 @@ export function TableToolbar<TData extends BaseTableData>({
             }}
         >
             {/* Left side - Title and info */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexGrow: 1 }}>
+            <Box
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 2,
+                    flexGrow: 1,
+                }}
+            >
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <TableIcon color="primary" />
-                    <Typography variant="h6" sx={{ fontWeight: 600, color: 'text.primary' }}>
+                    <Typography
+                        variant="h6"
+                        sx={{ fontWeight: 600, color: 'text.primary' }}
+                    >
                         Data Table
                     </Typography>
                 </Box>
@@ -222,28 +237,49 @@ export function TableToolbar<TData extends BaseTableData>({
                 {/* Row count and selection info */}
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                     <Typography variant="body2" color="text.secondary">
-                        {computed.filteredRowCount.toLocaleString()} {computed.filteredRowCount === 1 ? 'row' : 'rows'}
-                        {computed.filteredRowCount !== computed.totalRowCount && (
-                            <span> (of {computed.totalRowCount.toLocaleString()})</span>
+                        {computed.filteredRowCount.toLocaleString()}{' '}
+                        {computed.filteredRowCount === 1 ? 'row' : 'rows'}
+                        {computed.filteredRowCount !==
+                            computed.totalRowCount && (
+                            <span>
+                                {' '}
+                                (of {computed.totalRowCount.toLocaleString()})
+                            </span>
                         )}
                     </Typography>
 
                     {hasSelection && (
-                        <Typography variant="body2" color="primary.main" sx={{ fontWeight: 500 }}>
+                        <Typography
+                            variant="body2"
+                            color="primary.main"
+                            sx={{ fontWeight: 500 }}
+                        >
                             {computed.selectedRows.length} selected
                         </Typography>
                     )}
 
                     {activeFiltersCount > 0 && (
-                        <Badge badgeContent={activeFiltersCount} color="primary">
-                            <FilterIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
+                        <Badge
+                            badgeContent={activeFiltersCount}
+                            color="primary"
+                        >
+                            <FilterIcon
+                                sx={{ fontSize: 18, color: 'text.secondary' }}
+                            />
                         </Badge>
                     )}
                 </Box>
             </Box>
 
             {/* Right side - Actions */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
+            <Box
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                    flexWrap: 'wrap',
+                }}
+            >
                 {/* Search */}
                 {showSearch && (
                     <TextField
@@ -260,7 +296,10 @@ export function TableToolbar<TData extends BaseTableData>({
                             ),
                             endAdornment: searchValue && (
                                 <InputAdornment position="end">
-                                    <IconButton size="small" onClick={handleClearSearch}>
+                                    <IconButton
+                                        size="small"
+                                        onClick={handleClearSearch}
+                                    >
                                         <CloseIcon sx={{ fontSize: 16 }} />
                                     </IconButton>
                                 </InputAdornment>
@@ -278,8 +317,14 @@ export function TableToolbar<TData extends BaseTableData>({
                 {/* Column Visibility */}
                 {showColumns && (
                     <Tooltip title="Manage columns">
-                        <IconButton size="small" onClick={handleColumnsMenuOpen}>
-                            <Badge badgeContent={hiddenColumnsCount || undefined} color="warning">
+                        <IconButton
+                            size="small"
+                            onClick={handleColumnsMenuOpen}
+                        >
+                            <Badge
+                                badgeContent={hiddenColumnsCount || undefined}
+                                color="warning"
+                            >
                                 <ColumnsIcon />
                             </Badge>
                         </IconButton>
@@ -309,8 +354,11 @@ export function TableToolbar<TData extends BaseTableData>({
                 )}
 
                 {/* Custom Actions */}
-                {customActions.map((action) => (
-                    <Tooltip key={action.id} title={action.tooltip || action.label}>
+                {customActions.map(action => (
+                    <Tooltip
+                        key={action.id}
+                        title={action.tooltip || action.label}
+                    >
                         <span>
                             <Button
                                 size="small"
@@ -351,29 +399,41 @@ export function TableToolbar<TData extends BaseTableData>({
                         Column Visibility
                     </Typography>
                     <Typography variant="caption" color="text.secondary">
-                        {visibleColumnsCount} of {table.getAllColumns().length} columns visible
+                        {visibleColumnsCount} of {table.getAllColumns().length}{' '}
+                        columns visible
                     </Typography>
                 </Box>
                 <Divider />
 
                 <Box sx={{ px: 1 }}>
-                    <FormControl component="fieldset" variant="standard" sx={{ width: '100%' }}>
+                    <FormControl
+                        component="fieldset"
+                        variant="standard"
+                        sx={{ width: '100%' }}
+                    >
                         <FormGroup>
-                            {table.getAllColumns()
+                            {table
+                                .getAllColumns()
                                 .filter(column => column.getCanHide())
-                                .map((column) => (
+                                .map(column => (
                                     <FormControlLabel
                                         key={column.id}
                                         control={
                                             <Checkbox
                                                 checked={column.getIsVisible()}
-                                                onChange={() => toggleColumnVisibility(column.id)}
+                                                onChange={() =>
+                                                    toggleColumnVisibility(
+                                                        column.id
+                                                    )
+                                                }
                                                 size="small"
                                             />
                                         }
                                         label={
                                             <Typography variant="body2">
-                                                {column.columnDef.header as string || column.id}
+                                                {(column.columnDef
+                                                    .header as string) ||
+                                                    column.id}
                                             </Typography>
                                         }
                                         sx={{ mx: 0 }}
@@ -385,13 +445,25 @@ export function TableToolbar<TData extends BaseTableData>({
 
                 <Divider />
                 <Box sx={{ p: 1, display: 'flex', gap: 1 }}>
-                    <Button size="small" onClick={showAllColumns} sx={{ flex: 1 }}>
+                    <Button
+                        size="small"
+                        onClick={showAllColumns}
+                        sx={{ flex: 1 }}
+                    >
                         Show All
                     </Button>
-                    <Button size="small" onClick={hideAllColumns} sx={{ flex: 1 }}>
+                    <Button
+                        size="small"
+                        onClick={hideAllColumns}
+                        sx={{ flex: 1 }}
+                    >
                         Hide All
                     </Button>
-                    <Button size="small" onClick={resetColumnVisibility} sx={{ flex: 1 }}>
+                    <Button
+                        size="small"
+                        onClick={resetColumnVisibility}
+                        sx={{ flex: 1 }}
+                    >
                         Reset
                     </Button>
                 </Box>
@@ -408,7 +480,8 @@ export function TableToolbar<TData extends BaseTableData>({
                         Export Data
                     </Typography>
                     <Typography variant="caption" color="text.secondary">
-                        {computed.filteredRowCount} rows • {visibleColumnsCount} columns
+                        {computed.filteredRowCount} rows • {visibleColumnsCount}{' '}
+                        columns
                     </Typography>
                 </Box>
                 <Divider />

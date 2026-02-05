@@ -6,6 +6,7 @@ import type { Student } from '../../types/student.types';
 import { convertAPIStudentsToUI } from '../../utils/studentAdapter';
 import { useGetStudents } from './_hooks/useParent';
 import { AttendanceCalendar } from './components/attendance/AttendanceCalendar';
+import { WeeklyTimetable } from './components/attendance/WeeklyTimetable';
 import { BillingOverview } from './components/billing/BillingOverview';
 import PaymentHistory from './components/billing/PaymentHistory';
 import CreateComplaints from './components/complaints/createComplaints';
@@ -15,7 +16,6 @@ import { PortalLayout } from './components/layout/PortalLayout';
 import { ResultsOverview } from './components/results/ResultsOverview';
 import { StudentSelector } from './components/student/StudentSelector';
 import { StudentSheet } from './components/student/StudentSheet';
-import { WeeklyTimetable } from './components/attendance/WeeklyTimetable';
 
 // Mock parent data with multiple children
 // const mockStudents: Student[] = [
@@ -298,7 +298,7 @@ const PortalPage: React.FC = () => {
                             path="billing/overview"
                             element={
                                 <BillingOverview
-                                    selectedStudent={selectedStudent}
+                                    selectedStudent={selectedStudent as any}
                                 />
                             }
                         />

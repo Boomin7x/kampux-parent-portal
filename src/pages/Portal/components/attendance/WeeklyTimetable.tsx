@@ -75,13 +75,13 @@ const formatTime = (dateString: string): string => {
     });
 };
 
-const formatDate = (dateString: string): string => {
-    return new Date(dateString).toLocaleDateString('fr-FR', {
-        weekday: 'long',
-        day: 'numeric',
-        month: 'long',
-    });
-};
+// const formatDate = (dateString: string): string => {
+//     return new Date(dateString).toLocaleDateString('fr-FR', {
+//         weekday: 'long',
+//         day: 'numeric',
+//         month: 'long',
+//     });
+// };
 
 const formatShortDate = (dateString: string): string => {
     return new Date(dateString).toLocaleDateString('fr-FR', {
@@ -181,12 +181,12 @@ const getDayName = (dateString: string): string => {
     });
 };
 
-const getDayIndex = (dateString: string): number => {
-    const date = new Date(dateString);
-    const dayIndex = date.getDay();
-    // Convert Sunday (0) to Monday (0) based indexing
-    return dayIndex === 0 ? 6 : dayIndex - 1;
-};
+// const getDayIndex = (dateString: string): number => {
+//     const date = new Date(dateString);
+//     const dayIndex = date.getDay();
+//     // Convert Sunday (0) to Monday (0) based indexing
+//     return dayIndex === 0 ? 6 : dayIndex - 1;
+// };
 
 const groupEventsByDayAndTime = (events: TimetableEvent[]) => {
     // Group events by day first

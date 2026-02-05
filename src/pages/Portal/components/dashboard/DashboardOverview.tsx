@@ -1,35 +1,36 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable react-hooks/set-state-in-effect */
 import {
-    Box,
-    Grid,
-    Card,
-    CardContent,
-    Typography,
-    LinearProgress,
-    Chip,
-    IconButton,
-    Avatar,
-    Divider,
-    useTheme,
-    alpha,
-} from '@mui/material';
-import {
-    TrendingUp as TrendingUpIcon,
-    TrendingDown as TrendingDownIcon,
+    ArrowForward as ArrowForwardIcon,
+    CalendarMonth as AttendanceIcon,
     AccountBalance as BillingIcon,
     Quiz as ExaminationIcon,
-    Assessment as ResultsIcon,
-    CalendarMonth as AttendanceIcon,
-    Warning as WarningIcon,
-    Schedule as ScheduleIcon,
-    Payment as PaymentIcon,
     Grade as GradeIcon,
-    Refresh as RefreshIcon,
-    ArrowForward as ArrowForwardIcon,
-    School as SchoolIcon,
-    Person as PersonIcon,
     MoreHoriz as MoreHorizIcon,
+    Payment as PaymentIcon,
+    Person as PersonIcon,
+    Refresh as RefreshIcon,
+    Assessment as ResultsIcon,
+    Schedule as ScheduleIcon,
+    School as SchoolIcon,
+    TrendingDown as TrendingDownIcon,
+    TrendingUp as TrendingUpIcon,
+    Warning as WarningIcon,
 } from '@mui/icons-material';
+import {
+    alpha,
+    Avatar,
+    Box,
+    Card,
+    CardContent,
+    Chip,
+    Divider,
+    Grid,
+    IconButton,
+    LinearProgress,
+    Typography,
+    useTheme,
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Student } from '../../../../types/student.types';
 
@@ -77,26 +78,26 @@ interface DashboardStats {
     lastUpdated: string;
 }
 
-interface RecentGrade {
-    id: string;
-    subject: string;
-    assignment: string;
-    grade: string;
-    points: string;
-    teacher: string;
-    dateGraded: string;
-    isNew: boolean;
-}
+// interface RecentGrade {
+//     id: string;
+//     subject: string;
+//     assignment: string;
+//     grade: string;
+//     points: string;
+//     teacher: string;
+//     dateGraded: string;
+//     isNew: boolean;
+// }
 
-interface UpcomingEvent {
-    id: string;
-    title: string;
-    date: string;
-    type: 'assignment' | 'test' | 'event' | 'meeting';
-    subject?: string;
-    teacher?: string;
-    priority: 'low' | 'medium' | 'high';
-}
+// interface UpcomingEvent {
+//     id: string;
+//     title: string;
+//     date: string;
+//     type: 'assignment' | 'test' | 'event' | 'meeting';
+//     subject?: string;
+//     teacher?: string;
+//     priority: 'low' | 'medium' | 'high';
+// }
 
 interface AlertSummary {
     total: number;
@@ -110,19 +111,19 @@ interface AlertSummary {
     };
 }
 
-interface SubjectPerformanceSummary {
-    subject: string;
-    teacher: string;
-    currentGrade: string;
-    percentage: number;
-    trend: 'up' | 'down' | 'stable';
-    trendChange: number;
-    missingAssignments: number;
-    nextAssignment?: {
-        name: string;
-        dueDate: string;
-    };
-}
+// interface SubjectPerformanceSummary {
+//     subject: string;
+//     teacher: string;
+//     currentGrade: string;
+//     percentage: number;
+//     trend: 'up' | 'down' | 'stable';
+//     trendChange: number;
+//     missingAssignments: number;
+//     nextAssignment?: {
+//         name: string;
+//         dueDate: string;
+//     };
+// }
 
 // Mock dashboard data
 const mockDashboardData: DashboardStats = {
@@ -134,9 +135,9 @@ const mockDashboardData: DashboardStats = {
     attendanceChange: -1.5,
 
     // Billing Summary
-    totalOutstanding: 4825.00,
+    totalOutstanding: 4825.0,
     nextPaymentDue: {
-        amount: 4000.00,
+        amount: 4000.0,
         description: 'Tuition Fee - Term 1, Installment 3',
         dueDate: '2025-02-15T23:59:59Z',
         daysUntilDue: 22,
@@ -180,7 +181,9 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
 }) => {
     const theme = useTheme();
     const navigate = useNavigate();
-    const [dashboardData, setDashboardData] = useState<DashboardStats | null>(null);
+    const [dashboardData, setDashboardData] = useState<DashboardStats | null>(
+        null
+    );
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -197,7 +200,9 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
         const now = new Date();
-        const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
+        const diffInHours = Math.floor(
+            (now.getTime() - date.getTime()) / (1000 * 60 * 60)
+        );
 
         if (diffInHours < 1) return 'Just now';
         if (diffInHours < 24) return `${diffInHours}h ago`;
@@ -212,7 +217,9 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
     const formatUpcomingDate = (dateString: string) => {
         const date = new Date(dateString);
         const now = new Date();
-        const diffInDays = Math.ceil((date.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+        const diffInDays = Math.ceil(
+            (date.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+        );
 
         if (diffInDays === 0) return 'Today';
         if (diffInDays === 1) return 'Tomorrow';
@@ -220,18 +227,26 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         return date.toLocaleDateString();
     };
 
-    const getGradeColor = (percentage: number) => {
-        if (percentage >= 90) return theme.palette.success.main;
-        if (percentage >= 80) return theme.palette.warning.main;
-        return theme.palette.error.main;
-    };
+    // const getGradeColor = (percentage: number) => {
+    //     if (percentage >= 90) return theme.palette.success.main;
+    //     if (percentage >= 80) return theme.palette.warning.main;
+    //     return theme.palette.error.main;
+    // };
 
     const getTrendIcon = (trend: 'up' | 'down' | 'stable') => {
         switch (trend) {
             case 'up':
-                return <TrendingUpIcon sx={{ color: theme.palette.success.main, fontSize: 16 }} />;
+                return (
+                    <TrendingUpIcon
+                        sx={{ color: theme.palette.success.main, fontSize: 16 }}
+                    />
+                );
             case 'down':
-                return <TrendingDownIcon sx={{ color: theme.palette.error.main, fontSize: 16 }} />;
+                return (
+                    <TrendingDownIcon
+                        sx={{ color: theme.palette.error.main, fontSize: 16 }}
+                    />
+                );
             default:
                 return null;
         }
@@ -242,7 +257,9 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
             <Card className={className}>
                 <CardContent>
                     <Box sx={{ textAlign: 'center', py: 4 }}>
-                        <SchoolIcon sx={{ fontSize: 64, color: 'text.disabled', mb: 2 }} />
+                        <SchoolIcon
+                            sx={{ fontSize: 64, color: 'text.disabled', mb: 2 }}
+                        />
                         <Typography variant="h6" color="text.secondary">
                             Select a student to view their dashboard
                         </Typography>
@@ -270,18 +287,20 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
     return (
         <Box className={className}>
             {/* Compact Header with Student Info */}
-            <Box sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                mb: 2,
-                py: 1.5,
-                px: 2,
-                backgroundColor: 'background.paper',
-                borderRadius: 1,
-                border: 1,
-                borderColor: 'grey.200'
-            }}>
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    mb: 2,
+                    py: 1.5,
+                    px: 2,
+                    backgroundColor: 'background.paper',
+                    borderRadius: 1,
+                    border: 1,
+                    borderColor: 'grey.200',
+                }}
+            >
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                     <Avatar
                         src={selectedStudent.avatar}
@@ -290,16 +309,24 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                         <PersonIcon sx={{ fontSize: 18 }} />
                     </Avatar>
                     <Box>
-                        <Typography variant="subtitle1" sx={{ fontWeight: 600, lineHeight: 1.2 }}>
+                        <Typography
+                            variant="subtitle1"
+                            sx={{ fontWeight: 600, lineHeight: 1.2 }}
+                        >
                             {selectedStudent.fullName}'s Dashboard
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
-                            {selectedStudent.grade} • {selectedStudent.studentId}
+                            {selectedStudent.grade} •{' '}
+                            {selectedStudent.studentId}
                         </Typography>
                     </Box>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                    <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.6875rem' }}>
+                    <Typography
+                        variant="caption"
+                        color="text.secondary"
+                        sx={{ fontSize: '0.6875rem' }}
+                    >
                         Updated {formatDate(dashboardData.lastUpdated)}
                     </Typography>
                     <IconButton size="small" sx={{ p: 0.5 }}>
@@ -323,25 +350,54 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                             transition: 'all 0.2s ease',
                             '&:hover': {
                                 borderColor: 'primary.main',
-                                boxShadow: 1
-                            }
+                                boxShadow: 1,
+                            },
                         }}
                         onClick={() => navigate('/portal/billing')}
                     >
-                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                <BillingIcon sx={{ fontSize: 18, color: 'error.main' }} />
-                                <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                mb: 1,
+                            }}
+                        >
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 1,
+                                }}
+                            >
+                                <BillingIcon
+                                    sx={{ fontSize: 18, color: 'error.main' }}
+                                />
+                                <Typography
+                                    variant="subtitle2"
+                                    sx={{ fontWeight: 600 }}
+                                >
                                     Outstanding
                                 </Typography>
                             </Box>
-                            <ArrowForwardIcon sx={{ fontSize: 14, color: 'text.disabled' }} />
+                            <ArrowForwardIcon
+                                sx={{ fontSize: 14, color: 'text.disabled' }}
+                            />
                         </Box>
-                        <Typography variant="h6" sx={{ fontWeight: 600, color: 'error.main', mb: 0.5 }}>
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                fontWeight: 600,
+                                color: 'error.main',
+                                mb: 0.5,
+                            }}
+                        >
                             {formatCurrency(dashboardData.totalOutstanding)}
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
-                            Due in {dashboardData.nextPaymentDue?.daysUntilDue || 0} days
+                            Due in{' '}
+                            {dashboardData.nextPaymentDue?.daysUntilDue || 0}{' '}
+                            days
                         </Typography>
                     </Box>
                 </Grid>
@@ -359,31 +415,77 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                             transition: 'all 0.2s ease',
                             '&:hover': {
                                 borderColor: 'success.main',
-                                boxShadow: 1
-                            }
+                                boxShadow: 1,
+                            },
                         }}
                         onClick={() => navigate('/portal/results')}
                     >
-                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                <ResultsIcon sx={{ fontSize: 18, color: 'success.main' }} />
-                                <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                mb: 1,
+                            }}
+                        >
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 1,
+                                }}
+                            >
+                                <ResultsIcon
+                                    sx={{ fontSize: 18, color: 'success.main' }}
+                                />
+                                <Typography
+                                    variant="subtitle2"
+                                    sx={{ fontWeight: 600 }}
+                                >
                                     Current GPA
                                 </Typography>
                                 {dashboardData.newGrades > 0 && (
-                                    <Chip label={`${dashboardData.newGrades} new`} size="small" color="success" sx={{ height: 18, fontSize: '0.6875rem' }} />
+                                    <Chip
+                                        label={`${dashboardData.newGrades} new`}
+                                        size="small"
+                                        color="success"
+                                        sx={{
+                                            height: 18,
+                                            fontSize: '0.6875rem',
+                                        }}
+                                    />
                                 )}
                             </Box>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 0.5,
+                                }}
+                            >
                                 {getTrendIcon(dashboardData.gpaTrend)}
-                                <ArrowForwardIcon sx={{ fontSize: 14, color: 'text.disabled' }} />
+                                <ArrowForwardIcon
+                                    sx={{
+                                        fontSize: 14,
+                                        color: 'text.disabled',
+                                    }}
+                                />
                             </Box>
                         </Box>
-                        <Typography variant="h6" sx={{ fontWeight: 600, color: 'success.main', mb: 0.5 }}>
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                fontWeight: 600,
+                                color: 'success.main',
+                                mb: 0.5,
+                            }}
+                        >
                             {dashboardData.currentGPA.toFixed(1)}
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
-                            {dashboardData.lastGradeReceived ? `Latest: ${dashboardData.lastGradeReceived.subject} - ${dashboardData.lastGradeReceived.grade}` : 'No recent grades'}
+                            {dashboardData.lastGradeReceived
+                                ? `Latest: ${dashboardData.lastGradeReceived.subject} - ${dashboardData.lastGradeReceived.grade}`
+                                : 'No recent grades'}
                         </Typography>
                     </Box>
                 </Grid>
@@ -401,28 +503,66 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                             transition: 'all 0.2s ease',
                             '&:hover': {
                                 borderColor: 'warning.main',
-                                boxShadow: 1
-                            }
+                                boxShadow: 1,
+                            },
                         }}
                         onClick={() => navigate('/portal/examinations')}
                     >
-                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                <ExaminationIcon sx={{ fontSize: 18, color: 'warning.main' }} />
-                                <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                mb: 1,
+                            }}
+                        >
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 1,
+                                }}
+                            >
+                                <ExaminationIcon
+                                    sx={{ fontSize: 18, color: 'warning.main' }}
+                                />
+                                <Typography
+                                    variant="subtitle2"
+                                    sx={{ fontWeight: 600 }}
+                                >
                                     Upcoming Exams
                                 </Typography>
                                 {dashboardData.unreadExamAnnouncements > 0 && (
-                                    <Chip label={`${dashboardData.unreadExamAnnouncements} new`} size="small" color="warning" sx={{ height: 18, fontSize: '0.6875rem' }} />
+                                    <Chip
+                                        label={`${dashboardData.unreadExamAnnouncements} new`}
+                                        size="small"
+                                        color="warning"
+                                        sx={{
+                                            height: 18,
+                                            fontSize: '0.6875rem',
+                                        }}
+                                    />
                                 )}
                             </Box>
-                            <ArrowForwardIcon sx={{ fontSize: 14, color: 'text.disabled' }} />
+                            <ArrowForwardIcon
+                                sx={{ fontSize: 14, color: 'text.disabled' }}
+                            />
                         </Box>
-                        <Typography variant="h6" sx={{ fontWeight: 600, color: 'warning.main', mb: 0.5 }}>
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                fontWeight: 600,
+                                color: 'warning.main',
+                                mb: 0.5,
+                            }}
+                        >
                             {dashboardData.upcomingExams}
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
-                            Next: {dashboardData.nextExamDate ? formatUpcomingDate(dashboardData.nextExamDate) : 'None scheduled'}
+                            Next:{' '}
+                            {dashboardData.nextExamDate
+                                ? formatUpcomingDate(dashboardData.nextExamDate)
+                                : 'None scheduled'}
                         </Typography>
                     </Box>
                 </Grid>
@@ -440,22 +580,49 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                             transition: 'all 0.2s ease',
                             '&:hover': {
                                 borderColor: 'info.main',
-                                boxShadow: 1
-                            }
+                                boxShadow: 1,
+                            },
                         }}
                         onClick={() => navigate('/portal/attendance')}
                     >
-                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                <AttendanceIcon sx={{ fontSize: 18, color: 'info.main' }} />
-                                <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                mb: 1,
+                            }}
+                        >
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 1,
+                                }}
+                            >
+                                <AttendanceIcon
+                                    sx={{ fontSize: 18, color: 'info.main' }}
+                                />
+                                <Typography
+                                    variant="subtitle2"
+                                    sx={{ fontWeight: 600 }}
+                                >
                                     Attendance
                                 </Typography>
                                 {getTrendIcon(dashboardData.attendanceTrend)}
                             </Box>
-                            <ArrowForwardIcon sx={{ fontSize: 14, color: 'text.disabled' }} />
+                            <ArrowForwardIcon
+                                sx={{ fontSize: 14, color: 'text.disabled' }}
+                            />
                         </Box>
-                        <Typography variant="h6" sx={{ fontWeight: 600, color: 'info.main', mb: 0.5 }}>
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                fontWeight: 600,
+                                color: 'info.main',
+                                mb: 0.5,
+                            }}
+                        >
                             {dashboardData.weeklyAttendance.toFixed(1)}%
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
@@ -466,15 +633,32 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
             </Grid>
 
             {/* Priority Alerts - Compact Banner Style */}
-            {(dashboardData.nextPaymentDue || dashboardData.nextExamDate || dashboardData.newGrades > 0 || dashboardData.missedClasses > 0) && (
+            {(dashboardData.nextPaymentDue ||
+                dashboardData.nextExamDate ||
+                dashboardData.newGrades > 0 ||
+                dashboardData.missedClasses > 0) && (
                 <Box sx={{ mb: 2 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1.5 }}>
-                        <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 1,
+                            mb: 1.5,
+                        }}
+                    >
+                        <Typography
+                            variant="subtitle1"
+                            sx={{ fontWeight: 600 }}
+                        >
                             Priority Items
                         </Typography>
                         <Chip
                             label={`${dashboardData.alertSummary.total} active`}
-                            color={dashboardData.alertSummary.total > 0 ? 'warning' : 'success'}
+                            color={
+                                dashboardData.alertSummary.total > 0
+                                    ? 'warning'
+                                    : 'success'
+                            }
                             size="small"
                             sx={{ height: 18, fontSize: '0.6875rem' }}
                         />
@@ -487,32 +671,82 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                                 <Box
                                     sx={{
                                         p: 1.5,
-                                        backgroundColor: alpha(theme.palette.error.main, 0.05),
+                                        backgroundColor: alpha(
+                                            theme.palette.error.main,
+                                            0.05
+                                        ),
                                         borderRadius: 1,
                                         border: 1,
-                                        borderColor: alpha(theme.palette.error.main, 0.2),
+                                        borderColor: alpha(
+                                            theme.palette.error.main,
+                                            0.2
+                                        ),
                                         cursor: 'pointer',
                                         transition: 'all 0.2s ease',
                                         '&:hover': {
-                                            backgroundColor: alpha(theme.palette.error.main, 0.1)
-                                        }
+                                            backgroundColor: alpha(
+                                                theme.palette.error.main,
+                                                0.1
+                                            ),
+                                        },
                                     }}
                                     onClick={() => navigate('/portal/billing')}
                                 >
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                                        <PaymentIcon sx={{ fontSize: 16, color: 'error.main' }} />
-                                        <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'error.main' }}>
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 1,
+                                            mb: 0.5,
+                                        }}
+                                    >
+                                        <PaymentIcon
+                                            sx={{
+                                                fontSize: 16,
+                                                color: 'error.main',
+                                            }}
+                                        />
+                                        <Typography
+                                            variant="subtitle2"
+                                            sx={{
+                                                fontWeight: 600,
+                                                color: 'error.main',
+                                            }}
+                                        >
                                             Payment Due Soon
                                         </Typography>
                                         <Box sx={{ ml: 'auto' }}>
-                                            <ArrowForwardIcon sx={{ fontSize: 14, color: 'error.main' }} />
+                                            <ArrowForwardIcon
+                                                sx={{
+                                                    fontSize: 14,
+                                                    color: 'error.main',
+                                                }}
+                                            />
                                         </Box>
                                     </Box>
-                                    <Typography variant="body2" sx={{ fontSize: '0.8125rem', mb: 0.5 }}>
-                                        {formatCurrency(dashboardData.nextPaymentDue.amount)} • {dashboardData.nextPaymentDue.daysUntilDue} days
+                                    <Typography
+                                        variant="body2"
+                                        sx={{ fontSize: '0.8125rem', mb: 0.5 }}
+                                    >
+                                        {formatCurrency(
+                                            dashboardData.nextPaymentDue.amount
+                                        )}{' '}
+                                        •{' '}
+                                        {
+                                            dashboardData.nextPaymentDue
+                                                .daysUntilDue
+                                        }{' '}
+                                        days
                                     </Typography>
-                                    <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.6875rem' }}>
-                                        {dashboardData.nextPaymentDue.description}
+                                    <Typography
+                                        variant="caption"
+                                        color="text.secondary"
+                                        sx={{ fontSize: '0.6875rem' }}
+                                    >
+                                        {
+                                            dashboardData.nextPaymentDue
+                                                .description
+                                        }
                                     </Typography>
                                 </Box>
                             </Grid>
@@ -524,31 +758,75 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                                 <Box
                                     sx={{
                                         p: 1.5,
-                                        backgroundColor: alpha(theme.palette.warning.main, 0.05),
+                                        backgroundColor: alpha(
+                                            theme.palette.warning.main,
+                                            0.05
+                                        ),
                                         borderRadius: 1,
                                         border: 1,
-                                        borderColor: alpha(theme.palette.warning.main, 0.2),
+                                        borderColor: alpha(
+                                            theme.palette.warning.main,
+                                            0.2
+                                        ),
                                         cursor: 'pointer',
                                         transition: 'all 0.2s ease',
                                         '&:hover': {
-                                            backgroundColor: alpha(theme.palette.warning.main, 0.1)
-                                        }
+                                            backgroundColor: alpha(
+                                                theme.palette.warning.main,
+                                                0.1
+                                            ),
+                                        },
                                     }}
-                                    onClick={() => navigate('/portal/examinations')}
+                                    onClick={() =>
+                                        navigate('/portal/examinations')
+                                    }
                                 >
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                                        <ScheduleIcon sx={{ fontSize: 16, color: 'warning.main' }} />
-                                        <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'warning.main' }}>
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 1,
+                                            mb: 0.5,
+                                        }}
+                                    >
+                                        <ScheduleIcon
+                                            sx={{
+                                                fontSize: 16,
+                                                color: 'warning.main',
+                                            }}
+                                        />
+                                        <Typography
+                                            variant="subtitle2"
+                                            sx={{
+                                                fontWeight: 600,
+                                                color: 'warning.main',
+                                            }}
+                                        >
                                             Upcoming Exam
                                         </Typography>
                                         <Box sx={{ ml: 'auto' }}>
-                                            <ArrowForwardIcon sx={{ fontSize: 14, color: 'warning.main' }} />
+                                            <ArrowForwardIcon
+                                                sx={{
+                                                    fontSize: 14,
+                                                    color: 'warning.main',
+                                                }}
+                                            />
                                         </Box>
                                     </Box>
-                                    <Typography variant="body2" sx={{ fontSize: '0.8125rem', mb: 0.5 }}>
-                                        Mathematics Midterm • {formatUpcomingDate(dashboardData.nextExamDate)}
+                                    <Typography
+                                        variant="body2"
+                                        sx={{ fontSize: '0.8125rem', mb: 0.5 }}
+                                    >
+                                        Mathematics Midterm •{' '}
+                                        {formatUpcomingDate(
+                                            dashboardData.nextExamDate
+                                        )}
                                     </Typography>
-                                    <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.6875rem' }}>
+                                    <Typography
+                                        variant="caption"
+                                        color="text.secondary"
+                                        sx={{ fontSize: '0.6875rem' }}
+                                    >
                                         Examination Hall A
                                     </Typography>
                                 </Box>
@@ -561,33 +839,85 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                                 <Box
                                     sx={{
                                         p: 1.5,
-                                        backgroundColor: alpha(theme.palette.success.main, 0.05),
+                                        backgroundColor: alpha(
+                                            theme.palette.success.main,
+                                            0.05
+                                        ),
                                         borderRadius: 1,
                                         border: 1,
-                                        borderColor: alpha(theme.palette.success.main, 0.2),
+                                        borderColor: alpha(
+                                            theme.palette.success.main,
+                                            0.2
+                                        ),
                                         cursor: 'pointer',
                                         transition: 'all 0.2s ease',
                                         '&:hover': {
-                                            backgroundColor: alpha(theme.palette.success.main, 0.1)
-                                        }
+                                            backgroundColor: alpha(
+                                                theme.palette.success.main,
+                                                0.1
+                                            ),
+                                        },
                                     }}
                                     onClick={() => navigate('/portal/results')}
                                 >
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                                        <GradeIcon sx={{ fontSize: 16, color: 'success.main' }} />
-                                        <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'success.main' }}>
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 1,
+                                            mb: 0.5,
+                                        }}
+                                    >
+                                        <GradeIcon
+                                            sx={{
+                                                fontSize: 16,
+                                                color: 'success.main',
+                                            }}
+                                        />
+                                        <Typography
+                                            variant="subtitle2"
+                                            sx={{
+                                                fontWeight: 600,
+                                                color: 'success.main',
+                                            }}
+                                        >
                                             New Grades Available
                                         </Typography>
                                         <Box sx={{ ml: 'auto' }}>
-                                            <ArrowForwardIcon sx={{ fontSize: 14, color: 'success.main' }} />
+                                            <ArrowForwardIcon
+                                                sx={{
+                                                    fontSize: 14,
+                                                    color: 'success.main',
+                                                }}
+                                            />
                                         </Box>
                                     </Box>
-                                    <Typography variant="body2" sx={{ fontSize: '0.8125rem', mb: 0.5 }}>
-                                        {dashboardData.newGrades} new grade{dashboardData.newGrades > 1 ? 's' : ''} posted
+                                    <Typography
+                                        variant="body2"
+                                        sx={{ fontSize: '0.8125rem', mb: 0.5 }}
+                                    >
+                                        {dashboardData.newGrades} new grade
+                                        {dashboardData.newGrades > 1
+                                            ? 's'
+                                            : ''}{' '}
+                                        posted
                                     </Typography>
                                     {dashboardData.lastGradeReceived && (
-                                        <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.6875rem' }}>
-                                            Latest: {dashboardData.lastGradeReceived.subject} - {dashboardData.lastGradeReceived.grade}
+                                        <Typography
+                                            variant="caption"
+                                            color="text.secondary"
+                                            sx={{ fontSize: '0.6875rem' }}
+                                        >
+                                            Latest:{' '}
+                                            {
+                                                dashboardData.lastGradeReceived
+                                                    .subject
+                                            }{' '}
+                                            -{' '}
+                                            {
+                                                dashboardData.lastGradeReceived
+                                                    .grade
+                                            }
                                         </Typography>
                                     )}
                                 </Box>
@@ -600,32 +930,81 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                                 <Box
                                     sx={{
                                         p: 1.5,
-                                        backgroundColor: alpha(theme.palette.info.main, 0.05),
+                                        backgroundColor: alpha(
+                                            theme.palette.info.main,
+                                            0.05
+                                        ),
                                         borderRadius: 1,
                                         border: 1,
-                                        borderColor: alpha(theme.palette.info.main, 0.2),
+                                        borderColor: alpha(
+                                            theme.palette.info.main,
+                                            0.2
+                                        ),
                                         cursor: 'pointer',
                                         transition: 'all 0.2s ease',
                                         '&:hover': {
-                                            backgroundColor: alpha(theme.palette.info.main, 0.1)
-                                        }
+                                            backgroundColor: alpha(
+                                                theme.palette.info.main,
+                                                0.1
+                                            ),
+                                        },
                                     }}
-                                    onClick={() => navigate('/portal/attendance')}
+                                    onClick={() =>
+                                        navigate('/portal/attendance')
+                                    }
                                 >
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                                        <WarningIcon sx={{ fontSize: 16, color: 'info.main' }} />
-                                        <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'info.main' }}>
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 1,
+                                            mb: 0.5,
+                                        }}
+                                    >
+                                        <WarningIcon
+                                            sx={{
+                                                fontSize: 16,
+                                                color: 'info.main',
+                                            }}
+                                        />
+                                        <Typography
+                                            variant="subtitle2"
+                                            sx={{
+                                                fontWeight: 600,
+                                                color: 'info.main',
+                                            }}
+                                        >
                                             Attendance Notice
                                         </Typography>
                                         <Box sx={{ ml: 'auto' }}>
-                                            <ArrowForwardIcon sx={{ fontSize: 14, color: 'info.main' }} />
+                                            <ArrowForwardIcon
+                                                sx={{
+                                                    fontSize: 14,
+                                                    color: 'info.main',
+                                                }}
+                                            />
                                         </Box>
                                     </Box>
-                                    <Typography variant="body2" sx={{ fontSize: '0.8125rem', mb: 0.5 }}>
-                                        {dashboardData.missedClasses} class{dashboardData.missedClasses > 1 ? 'es' : ''} missed this week
+                                    <Typography
+                                        variant="body2"
+                                        sx={{ fontSize: '0.8125rem', mb: 0.5 }}
+                                    >
+                                        {dashboardData.missedClasses} class
+                                        {dashboardData.missedClasses > 1
+                                            ? 'es'
+                                            : ''}{' '}
+                                        missed this week
                                     </Typography>
-                                    <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.6875rem' }}>
-                                        Current attendance: {dashboardData.weeklyAttendance.toFixed(1)}%
+                                    <Typography
+                                        variant="caption"
+                                        color="text.secondary"
+                                        sx={{ fontSize: '0.6875rem' }}
+                                    >
+                                        Current attendance:{' '}
+                                        {dashboardData.weeklyAttendance.toFixed(
+                                            1
+                                        )}
+                                        %
                                     </Typography>
                                 </Box>
                             </Grid>
@@ -634,16 +1013,24 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                 </Box>
             )}
 
-
             {/* Recent Activity Timeline - Compact */}
-            <Box sx={{
-                p: 2,
-                backgroundColor: 'background.paper',
-                borderRadius: 1,
-                border: 1,
-                borderColor: 'grey.200'
-            }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1.5 }}>
+            <Box
+                sx={{
+                    p: 2,
+                    backgroundColor: 'background.paper',
+                    borderRadius: 1,
+                    border: 1,
+                    borderColor: 'grey.200',
+                }}
+            >
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        mb: 1.5,
+                    }}
+                >
                     <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
                         Recent Activity
                     </Typography>
@@ -654,31 +1041,118 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
 
                 {/* Compact activity list */}
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, py: 0.5 }}>
-                        <GradeIcon sx={{ fontSize: 14, color: 'success.main' }} />
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 1.5,
+                            py: 0.5,
+                        }}
+                    >
+                        <GradeIcon
+                            sx={{ fontSize: 14, color: 'success.main' }}
+                        />
                         <Box sx={{ flex: 1 }}>
-                            <Typography variant="body2" sx={{ fontSize: '0.8125rem' }}>New grade posted in Mathematics</Typography>
-                            <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.6875rem' }}>2 hours ago</Typography>
+                            <Typography
+                                variant="body2"
+                                sx={{ fontSize: '0.8125rem' }}
+                            >
+                                New grade posted in Mathematics
+                            </Typography>
+                            <Typography
+                                variant="caption"
+                                color="text.secondary"
+                                sx={{ fontSize: '0.6875rem' }}
+                            >
+                                2 hours ago
+                            </Typography>
                         </Box>
-                        <Typography variant="body2" sx={{ fontWeight: 600, color: 'success.main', fontSize: '0.8125rem' }}>A-</Typography>
+                        <Typography
+                            variant="body2"
+                            sx={{
+                                fontWeight: 600,
+                                color: 'success.main',
+                                fontSize: '0.8125rem',
+                            }}
+                        >
+                            A-
+                        </Typography>
                     </Box>
                     <Divider sx={{ my: 0.5 }} />
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, py: 0.5 }}>
-                        <AttendanceIcon sx={{ fontSize: 14, color: 'info.main' }} />
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 1.5,
+                            py: 0.5,
+                        }}
+                    >
+                        <AttendanceIcon
+                            sx={{ fontSize: 14, color: 'info.main' }}
+                        />
                         <Box sx={{ flex: 1 }}>
-                            <Typography variant="body2" sx={{ fontSize: '0.8125rem' }}>Attended all classes today</Typography>
-                            <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.6875rem' }}>6 hours ago</Typography>
+                            <Typography
+                                variant="body2"
+                                sx={{ fontSize: '0.8125rem' }}
+                            >
+                                Attended all classes today
+                            </Typography>
+                            <Typography
+                                variant="caption"
+                                color="text.secondary"
+                                sx={{ fontSize: '0.6875rem' }}
+                            >
+                                6 hours ago
+                            </Typography>
                         </Box>
-                        <Typography variant="body2" sx={{ fontWeight: 600, color: 'info.main', fontSize: '0.8125rem' }}>100%</Typography>
+                        <Typography
+                            variant="body2"
+                            sx={{
+                                fontWeight: 600,
+                                color: 'info.main',
+                                fontSize: '0.8125rem',
+                            }}
+                        >
+                            100%
+                        </Typography>
                     </Box>
                     <Divider sx={{ my: 0.5 }} />
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, py: 0.5 }}>
-                        <ExaminationIcon sx={{ fontSize: 14, color: 'warning.main' }} />
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 1.5,
+                            py: 0.5,
+                        }}
+                    >
+                        <ExaminationIcon
+                            sx={{ fontSize: 14, color: 'warning.main' }}
+                        />
                         <Box sx={{ flex: 1 }}>
-                            <Typography variant="body2" sx={{ fontSize: '0.8125rem' }}>Math exam scheduled</Typography>
-                            <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.6875rem' }}>Yesterday</Typography>
+                            <Typography
+                                variant="body2"
+                                sx={{ fontSize: '0.8125rem' }}
+                            >
+                                Math exam scheduled
+                            </Typography>
+                            <Typography
+                                variant="caption"
+                                color="text.secondary"
+                                sx={{ fontSize: '0.6875rem' }}
+                            >
+                                Yesterday
+                            </Typography>
                         </Box>
-                        <Typography variant="body2" sx={{ fontWeight: 600, color: 'warning.main', fontSize: '0.8125rem' }}>Feb 5</Typography>
+                        <Typography
+                            variant="body2"
+                            sx={{
+                                fontWeight: 600,
+                                color: 'warning.main',
+                                fontSize: '0.8125rem',
+                            }}
+                        >
+                            Feb 5
+                        </Typography>
                     </Box>
                 </Box>
             </Box>

@@ -15,7 +15,6 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuthFlow } from '../../hooks/useAuthFlow';
 import { AuthBackground } from './components/AuthBackground';
 import { SignUpForm } from './components/SignUpForm';
 
@@ -28,7 +27,7 @@ const SignupPage: React.FC<SignupPageProps> = ({ className = '' }) => {
     const navigate = useNavigate();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-    const { state, actions } = useAuthFlow();
+    // const { state, actions } = useAuthFlow();
 
     const handleBackToWebsite = () => {
         navigate('/');
@@ -144,15 +143,18 @@ const SignupPage: React.FC<SignupPageProps> = ({ className = '' }) => {
                                         lineHeight: 1.6,
                                     }}
                                 >
-                                    Join our parent portal to stay connected with your child's educational journey.
+                                    Join our parent portal to stay connected
+                                    with your child's educational journey.
                                 </Typography>
                             </Box>
 
                             {/* Sign-Up Form */}
                             <SignUpForm
-                                onSuccess={(userData) => {
+                                onSuccess={userData => {
                                     // Navigate to email verification with user data
-                                    navigate(`/auth/verify-email?email=${encodeURIComponent(userData.email)}`);
+                                    navigate(
+                                        `/auth/verify-email?email=${encodeURIComponent(userData.email)}`
+                                    );
                                 }}
                             />
 

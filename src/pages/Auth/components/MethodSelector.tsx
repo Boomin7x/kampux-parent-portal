@@ -43,7 +43,10 @@ export const MethodSelector: React.FC<MethodSelectorProps> = ({
                         mb: 2,
                         color: 'text.secondary',
                         '&:hover': {
-                            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                            backgroundColor: alpha(
+                                theme.palette.primary.main,
+                                0.1
+                            ),
                         },
                     }}
                 >
@@ -62,7 +65,14 @@ export const MethodSelector: React.FC<MethodSelectorProps> = ({
                     Choose Sign-In Method
                 </Typography>
 
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1,
+                        mb: 2,
+                    }}
+                >
                     <Typography
                         variant="body1"
                         sx={{
@@ -76,7 +86,10 @@ export const MethodSelector: React.FC<MethodSelectorProps> = ({
                         label={email}
                         size="small"
                         sx={{
-                            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                            backgroundColor: alpha(
+                                theme.palette.primary.main,
+                                0.1
+                            ),
                             color: 'primary.main',
                             fontWeight: 500,
                         }}
@@ -92,12 +105,15 @@ export const MethodSelector: React.FC<MethodSelectorProps> = ({
                         maxWidth: 450,
                     }}
                 >
-                    Select your preferred authentication method to securely access your parent portal.
+                    Select your preferred authentication method to securely
+                    access your parent portal.
                 </Typography>
             </Box>
 
             {/* Authentication Method Cards */}
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, mb: 4 }}>
+            <Box
+                sx={{ display: 'flex', flexDirection: 'column', gap: 3, mb: 4 }}
+            >
                 {/* OTP Method */}
                 <Card
                     sx={{
@@ -114,26 +130,44 @@ export const MethodSelector: React.FC<MethodSelectorProps> = ({
                     onClick={() => onSelectMethod('otp')}
                 >
                     <CardContent sx={{ p: 4 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 3 }}>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'flex-start',
+                                gap: 3,
+                            }}
+                        >
                             {/* Icon */}
                             <Box
                                 sx={{
                                     width: 56,
                                     height: 56,
                                     borderRadius: 2,
-                                    backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                                    backgroundColor: alpha(
+                                        theme.palette.primary.main,
+                                        0.1
+                                    ),
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                     flexShrink: 0,
                                 }}
                             >
-                                <OTPIcon sx={{ fontSize: 28, color: 'primary.main' }} />
+                                <OTPIcon
+                                    sx={{ fontSize: 28, color: 'primary.main' }}
+                                />
                             </Box>
 
                             {/* Content */}
                             <Box sx={{ flexGrow: 1 }}>
-                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 2,
+                                        mb: 1,
+                                    }}
+                                >
                                     <Typography
                                         variant="h6"
                                         sx={{
@@ -162,20 +196,49 @@ export const MethodSelector: React.FC<MethodSelectorProps> = ({
                                         lineHeight: 1.6,
                                     }}
                                 >
-                                    Get a secure 6-digit code sent to your email. No password required.
+                                    Get a secure 6-digit code sent to your
+                                    email. No password required.
                                 </Typography>
 
                                 {/* Features */}
                                 <Box sx={{ display: 'flex', gap: 3 }}>
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                        <SecurityIcon sx={{ fontSize: 16, color: 'success.main' }} />
-                                        <Typography variant="caption" color="success.main">
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 1,
+                                        }}
+                                    >
+                                        <SecurityIcon
+                                            sx={{
+                                                fontSize: 16,
+                                                color: 'success.main',
+                                            }}
+                                        />
+                                        <Typography
+                                            variant="caption"
+                                            color="success.main"
+                                        >
                                             More Secure
                                         </Typography>
                                     </Box>
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                        <SpeedIcon sx={{ fontSize: 16, color: 'primary.main' }} />
-                                        <Typography variant="caption" color="primary.main">
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 1,
+                                        }}
+                                    >
+                                        <SpeedIcon
+                                            sx={{
+                                                fontSize: 16,
+                                                color: 'primary.main',
+                                            }}
+                                        />
+                                        <Typography
+                                            variant="caption"
+                                            color="primary.main"
+                                        >
                                             Quick Access
                                         </Typography>
                                     </Box>
@@ -201,21 +264,35 @@ export const MethodSelector: React.FC<MethodSelectorProps> = ({
                     onClick={() => onSelectMethod('password')}
                 >
                     <CardContent sx={{ p: 4 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 3 }}>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'flex-start',
+                                gap: 3,
+                            }}
+                        >
                             {/* Icon */}
                             <Box
                                 sx={{
                                     width: 56,
                                     height: 56,
                                     borderRadius: 2,
-                                    backgroundColor: alpha(theme.palette.secondary.main, 0.1),
+                                    backgroundColor: alpha(
+                                        theme.palette.secondary.main,
+                                        0.1
+                                    ),
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                     flexShrink: 0,
                                 }}
                             >
-                                <PasswordIcon sx={{ fontSize: 28, color: 'secondary.main' }} />
+                                <PasswordIcon
+                                    sx={{
+                                        fontSize: 28,
+                                        color: 'secondary.main',
+                                    }}
+                                />
                             </Box>
 
                             {/* Content */}
@@ -239,13 +316,23 @@ export const MethodSelector: React.FC<MethodSelectorProps> = ({
                                         lineHeight: 1.6,
                                     }}
                                 >
-                                    Use your secure password to access your account.
+                                    Use your secure password to access your
+                                    account.
                                 </Typography>
 
                                 {/* Features */}
                                 <Box sx={{ display: 'flex', gap: 3 }}>
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                        <Typography variant="caption" color="text.secondary">
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 1,
+                                        }}
+                                    >
+                                        <Typography
+                                            variant="caption"
+                                            color="text.secondary"
+                                        >
                                             Traditional method
                                         </Typography>
                                     </Box>

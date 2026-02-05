@@ -1,13 +1,14 @@
-import {
-    useForm,
-    UseFormProps,
-    UseFormReturn,
-    FieldValues,
-} from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import { useMutation, UseMutationResult } from '@tanstack/react-query';
+import { useMutation, type UseMutationResult } from '@tanstack/react-query';
 import { useCallback } from 'react';
+import {
+    type FieldValues,
+    type Resolver,
+    useForm,
+    type UseFormProps,
+    type UseFormReturn,
+} from 'react-hook-form';
+import * as yup from 'yup';
 import { ApiError } from '../../lib/axios';
 
 // Enhanced form hook that integrates React Hook Form with Yup validation and TanStack Query
@@ -43,7 +44,7 @@ export function useFormWithValidation<TFormData extends FieldValues>({
     // Initialize React Hook Form with Yup resolver
     const form = useForm<TFormData>({
         ...formOptions,
-        resolver: yupResolver(schema),
+        resolver: yupResolver(schema) as Resolver<TFormData>,
         mode: formOptions.mode || 'onChange',
         reValidateMode: formOptions.reValidateMode || 'onChange',
     });
@@ -183,7 +184,7 @@ export function useRegistrationForm() {
 // Hook for dynamic form validation (when schema changes)
 export function useDynamicForm<TFormData extends FieldValues>(
     getSchema: () => yup.ObjectSchema<TFormData>,
-    dependencies: any[] = []
+    _dependencies: any[] = []
 ) {
     return useFormWithValidation({
         schema: getSchema(),

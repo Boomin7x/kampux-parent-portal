@@ -1,41 +1,41 @@
-import React, { useMemo, useState } from 'react';
 import {
-    Box,
-    Card,
-    CardContent,
-    Typography,
-    Chip,
-    IconButton,
-    Collapse,
-    Button,
-    Divider,
-    Avatar,
-    useTheme,
-    alpha,
-    Stack,
-    Tooltip,
-    Checkbox,
-    Paper,
-} from '@mui/material';
-import {
-    ExpandMore as ExpandMoreIcon,
-    ExpandLess as ExpandLessIcon,
-    MoreVert as MoreIcon,
     Check,
     Close,
+    ExpandLess as ExpandLessIcon,
+    ExpandMore as ExpandMoreIcon,
+    MoreVert as MoreIcon,
     Person,
 } from '@mui/icons-material';
+import {
+    alpha,
+    Avatar,
+    Box,
+    Button,
+    Card,
+    CardContent,
+    Checkbox,
+    Chip,
+    Collapse,
+    IconButton,
+    Paper,
+    Stack,
+    Tooltip,
+    Typography,
+    useTheme,
+} from '@mui/material';
+import { useMemo, useState } from 'react';
 
-import type { DataTableProps, BaseTableData } from '../types/table.types';
 import { useDataTable } from '../hooks/useDataTable';
-import { TableToolbar } from './TableToolbar';
+import type { BaseTableData, DataTableProps } from '../types/table.types';
+import { EmptyState } from './EmptyState';
 import { TableFilters } from './TableFilters';
 import { TablePagination } from './TablePagination';
-import { EmptyState } from './EmptyState';
 import { TableSkeleton } from './TableSkeleton';
+import { TableToolbar } from './TableToolbar';
 
-interface MobileDataTableProps<TData extends BaseTableData>
-    extends DataTableProps<TData> {
+interface MobileDataTableProps<
+    TData extends BaseTableData,
+> extends DataTableProps<TData> {
     cardElevation?: number;
     cardSpacing?: number;
     showExpandButton?: boolean;
@@ -58,7 +58,6 @@ interface MobileCardProps<TData extends BaseTableData> {
 
 function MobileCard<TData extends BaseTableData>({
     row,
-    columns,
     primaryFields = [],
     secondaryFields = [],
     showExpandButton = true,
@@ -71,7 +70,7 @@ function MobileCard<TData extends BaseTableData>({
     const [expanded, setExpanded] = useState(false);
 
     const data = row.original;
-    const cells = row.getVisibleCells();
+    const cells = row.getVisibleCells() as any[];
 
     // Organize fields into primary, secondary, and remaining
     const fieldGroups = useMemo(() => {
@@ -84,7 +83,10 @@ function MobileCard<TData extends BaseTableData>({
             const columnMeta = cell.column.columnDef.meta;
 
             // Skip selection and action columns in card view
-            if (columnMeta?.type === 'selection' || columnMeta?.type === 'actions') {
+            if (
+                columnMeta?.type === 'selection' ||
+                columnMeta?.type === 'actions'
+            ) {
                 return;
             }
 
@@ -111,12 +113,31 @@ function MobileCard<TData extends BaseTableData>({
                     <Avatar
                         src={src}
                         sx={{
-                            width: size === 'small' ? 32 : size === 'large' ? 48 : 40,
-                            height: size === 'small' ? 32 : size === 'large' ? 48 : 40,
-                            fontSize: size === 'small' ? '0.875rem' : size === 'large' ? '1.25rem' : '1rem',
+                            width:
+                                size === 'small'
+                                    ? 32
+                                    : size === 'large'
+                                      ? 48
+                                      : 40,
+                            height:
+                                size === 'small'
+                                    ? 32
+                                    : size === 'large'
+                                      ? 48
+                                      : 40,
+                            fontSize:
+                                size === 'small'
+                                    ? '0.875rem'
+                                    : size === 'large'
+                                      ? '1.25rem'
+                                      : '1rem',
                         }}
                     >
-                        {!src && name ? name.charAt(0).toUpperCase() : <Person />}
+                        {!src && name ? (
+                            name.charAt(0).toUpperCase()
+                        ) : (
+                            <Person />
+                        )}
                     </Avatar>
                     {showName && name && (
                         <Typography variant="body2" sx={{ fontWeight: 500 }}>
@@ -144,9 +165,12 @@ function MobileCard<TData extends BaseTableData>({
             const { value, boolean, showIcons = false } = cellValue;
             return (
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    {showIcons && (
-                        boolean ? <Check color="success" fontSize="small" /> : <Close color="error" fontSize="small" />
-                    )}
+                    {showIcons &&
+                        (boolean ? (
+                            <Check color="success" fontSize="small" />
+                        ) : (
+                            <Close color="error" fontSize="small" />
+                        ))}
                     <Typography
                         variant="body2"
                         sx={{
@@ -161,7 +185,11 @@ function MobileCard<TData extends BaseTableData>({
         }
 
         if (cellValue === null || cellValue === undefined) {
-            return <Typography variant="body2" color="text.disabled">—</Typography>;
+            return (
+                <Typography variant="body2" color="text.disabled">
+                    —
+                </Typography>
+            );
         }
 
         return (
@@ -183,7 +211,8 @@ function MobileCard<TData extends BaseTableData>({
 
     const renderField = (cell: any, isSecondary = false) => {
         const columnHeader = cell.column.columnDef.header;
-        const label = typeof columnHeader === 'string' ? columnHeader : cell.column.id;
+        const label =
+            typeof columnHeader === 'string' ? columnHeader : cell.column.id;
 
         return (
             <Box
@@ -194,7 +223,7 @@ function MobileCard<TData extends BaseTableData>({
                     gap: isSecondary ? 1 : 0.5,
                     alignItems: isSecondary ? 'center' : 'flex-start',
                 }}
-                onClick={(e) => {
+                onClick={e => {
                     if (onCellClick) {
                         e.stopPropagation();
                         onCellClick(cell, data);
@@ -218,8 +247,12 @@ function MobileCard<TData extends BaseTableData>({
     };
 
     // Get actions from columns
-    const actionCells = cells.filter((cell: any) => cell.column.columnDef.meta?.type === 'actions');
-    const selectionCells = cells.filter((cell: any) => cell.column.columnDef.meta?.type === 'selection');
+    const actionCells = cells.filter(
+        (cell: any) => cell.column.columnDef.meta?.type === 'actions'
+    );
+    const selectionCells = cells.filter(
+        (cell: any) => cell.column.columnDef.meta?.type === 'selection'
+    );
 
     return (
         <Card
@@ -240,18 +273,23 @@ function MobileCard<TData extends BaseTableData>({
                     borderColor: 'primary.main',
                 }),
             }}
-            onClick={(e) => {
+            onClick={_ => {
                 if (onRowClick) {
                     onRowClick(data, row.index);
                 }
             }}
-            onDoubleClick={(e) => {
+            onDoubleClick={_ => {
                 if (onRowDoubleClick) {
                     onRowDoubleClick(data, row.index);
                 }
             }}
         >
-            <CardContent sx={{ pb: compactMode ? 1 : 2, '&:last-child': { pb: compactMode ? 1 : 2 } }}>
+            <CardContent
+                sx={{
+                    pb: compactMode ? 1 : 2,
+                    '&:last-child': { pb: compactMode ? 1 : 2 },
+                }}
+            >
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
                     {/* Selection checkbox */}
                     {selectionCells.length > 0 && (
@@ -262,7 +300,7 @@ function MobileCard<TData extends BaseTableData>({
                                 onChange={row.getToggleSelectedHandler()}
                                 disabled={!row.getCanSelect()}
                                 size="small"
-                                onClick={(e) => e.stopPropagation()}
+                                onClick={e => e.stopPropagation()}
                             />
                         </Box>
                     )}
@@ -271,8 +309,13 @@ function MobileCard<TData extends BaseTableData>({
                     <Box sx={{ flex: 1, minWidth: 0 }}>
                         {/* Primary fields */}
                         {fieldGroups.primary.length > 0 && (
-                            <Stack spacing={compactMode ? 1 : 1.5} sx={{ mb: compactMode ? 1 : 2 }}>
-                                {fieldGroups.primary.map((cell) => renderField(cell, false))}
+                            <Stack
+                                spacing={compactMode ? 1 : 1.5}
+                                sx={{ mb: compactMode ? 1 : 2 }}
+                            >
+                                {fieldGroups.primary.map(cell =>
+                                    renderField(cell, false)
+                                )}
                             </Stack>
                         )}
 
@@ -280,69 +323,115 @@ function MobileCard<TData extends BaseTableData>({
                         {fieldGroups.secondary.length > 0 && (
                             <Box sx={{ mb: compactMode ? 0.5 : 1 }}>
                                 <Stack spacing={compactMode ? 0.5 : 1}>
-                                    {fieldGroups.secondary.map((cell) => renderField(cell, true))}
+                                    {fieldGroups.secondary.map(cell =>
+                                        renderField(cell, true)
+                                    )}
                                 </Stack>
                             </Box>
                         )}
 
                         {/* Expandable content */}
-                        {fieldGroups.remaining.length > 0 && showExpandButton && (
-                            <>
-                                <Collapse in={expanded}>
-                                    <Box sx={{ mt: 1, pt: 1, borderTop: `1px solid ${theme.palette.divider}` }}>
-                                        <Stack spacing={1}>
-                                            {fieldGroups.remaining.map((cell) => renderField(cell, true))}
-                                        </Stack>
-                                    </Box>
-                                </Collapse>
+                        {fieldGroups.remaining.length > 0 &&
+                            showExpandButton && (
+                                <>
+                                    <Collapse in={expanded}>
+                                        <Box
+                                            sx={{
+                                                mt: 1,
+                                                pt: 1,
+                                                borderTop: `1px solid ${theme.palette.divider}`,
+                                            }}
+                                        >
+                                            <Stack spacing={1}>
+                                                {fieldGroups.remaining.map(
+                                                    cell =>
+                                                        renderField(cell, true)
+                                                )}
+                                            </Stack>
+                                        </Box>
+                                    </Collapse>
 
-                                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 1 }}>
-                                    <Button
-                                        size="small"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            setExpanded(!expanded);
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            mt: 1,
                                         }}
-                                        endIcon={expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                                        sx={{ textTransform: 'none' }}
                                     >
-                                        {expanded ? 'Show Less' : `Show ${fieldGroups.remaining.length} More`}
-                                    </Button>
-                                </Box>
-                            </>
-                        )}
+                                        <Button
+                                            size="small"
+                                            onClick={e => {
+                                                e.stopPropagation();
+                                                setExpanded(!expanded);
+                                            }}
+                                            endIcon={
+                                                expanded ? (
+                                                    <ExpandLessIcon />
+                                                ) : (
+                                                    <ExpandMoreIcon />
+                                                )
+                                            }
+                                            sx={{ textTransform: 'none' }}
+                                        >
+                                            {expanded
+                                                ? 'Show Less'
+                                                : `Show ${fieldGroups.remaining.length} More`}
+                                        </Button>
+                                    </Box>
+                                </>
+                            )}
                     </Box>
 
                     {/* Actions */}
                     {actionCells.length > 0 && (
                         <Box sx={{ flexShrink: 0 }}>
-                            {actionCells.map((cell) => {
+                            {actionCells.map(cell => {
                                 const cellValue = cell.getValue();
                                 if (cellValue?.actions) {
                                     return (
-                                        <Box key={cell.id} sx={{ display: 'flex', gap: 0.5 }}>
+                                        <Box
+                                            key={cell.id}
+                                            sx={{ display: 'flex', gap: 0.5 }}
+                                        >
                                             {cellValue.actions
-                                                .filter((action: any) => !action.hidden)
+                                                .filter(
+                                                    (action: any) =>
+                                                        !action.hidden
+                                                )
                                                 .slice(0, 2) // Show only first 2 actions on mobile
-                                                .map((action: any, index: number) => (
-                                                    <Tooltip key={index} title={action.label}>
-                                                        <span>
-                                                            <IconButton
-                                                                size="small"
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    action.onClick();
-                                                                }}
-                                                                disabled={action.disabled}
-                                                                sx={{
-                                                                    color: action.color ? `${action.color}.main` : 'primary.main',
-                                                                }}
-                                                            >
-                                                                {action.icon || <MoreIcon />}
-                                                            </IconButton>
-                                                        </span>
-                                                    </Tooltip>
-                                                ))}
+                                                .map(
+                                                    (
+                                                        action: any,
+                                                        index: number
+                                                    ) => (
+                                                        <Tooltip
+                                                            key={index}
+                                                            title={action.label}
+                                                        >
+                                                            <span>
+                                                                <IconButton
+                                                                    size="small"
+                                                                    onClick={e => {
+                                                                        e.stopPropagation();
+                                                                        action.onClick();
+                                                                    }}
+                                                                    disabled={
+                                                                        action.disabled
+                                                                    }
+                                                                    sx={{
+                                                                        color: action.color
+                                                                            ? `${action.color}.main`
+                                                                            : 'primary.main',
+                                                                    }}
+                                                                >
+                                                                    {action.icon || (
+                                                                        <MoreIcon />
+                                                                    )}
+                                                                </IconButton>
+                                                            </span>
+                                                        </Tooltip>
+                                                    )
+                                                )}
                                         </Box>
                                     );
                                 }
@@ -357,14 +446,15 @@ function MobileCard<TData extends BaseTableData>({
 }
 
 export function MobileDataTable<TData extends BaseTableData>({
-    cardElevation = 1,
-    cardSpacing = 2,
+    // cardElevation = 1,
+    // cardSpacing = 2,
     showExpandButton = true,
     primaryFields = [],
     secondaryFields = [],
     compactMode = false,
     ...props
 }: MobileDataTableProps<TData>) {
+    const theme = useTheme();
     const {
         toolbar = { enabled: true },
         onRowClick,
@@ -391,7 +481,12 @@ export function MobileDataTable<TData extends BaseTableData>({
                         filters={props.filters}
                     />
                 )}
-                <TableSkeleton rows={5} columns={3} showHeader={false} showToolbar={false} />
+                <TableSkeleton
+                    rows={5}
+                    columns={3}
+                    showHeader={false}
+                    showToolbar={false}
+                />
             </Box>
         );
     }
@@ -404,9 +499,15 @@ export function MobileDataTable<TData extends BaseTableData>({
                     Error Loading Data
                 </Typography>
                 <Typography variant="body2" color="text.secondary" gutterBottom>
-                    {typeof state.error === 'string' ? state.error : 'An unexpected error occurred'}
+                    {typeof state.error === 'string'
+                        ? state.error
+                        : 'An unexpected error occurred'}
                 </Typography>
-                <Button variant="outlined" onClick={actions.refresh} sx={{ mt: 2 }}>
+                <Button
+                    variant="outlined"
+                    onClick={actions.refresh}
+                    sx={{ mt: 2 }}
+                >
                     Retry
                 </Button>
             </Paper>
@@ -429,11 +530,18 @@ export function MobileDataTable<TData extends BaseTableData>({
                 )}
                 <EmptyState
                     title="No Data Available"
-                    description={emptyMessage || 'There are no records to display.'}
-                    onReset={computed.activeFilters.length > 0 ? () => {
-                        actions.setColumnFilters([]);
-                        actions.setGlobalFilter('');
-                    } : undefined}
+                    description={
+                        (emptyMessage as string) ||
+                        'There are no records to display.'
+                    }
+                    onReset={
+                        computed.activeFilters.length > 0
+                            ? () => {
+                                  actions.setColumnFilters([]);
+                                  actions.setGlobalFilter('');
+                              }
+                            : undefined
+                    }
                 />
             </Box>
         );
@@ -457,11 +565,13 @@ export function MobileDataTable<TData extends BaseTableData>({
             {computed.activeFilters.length > 0 && (
                 <TableFilters
                     activeFilters={computed.activeFilters}
-                    onClearFilter={(column) => {
+                    onClearFilter={column => {
                         if (column === 'all') {
                             actions.setGlobalFilter('');
                         } else {
-                            const newFilters = state.columnFilters.filter(f => f.id !== column);
+                            const newFilters = state.columnFilters.filter(
+                                f => f.id !== column
+                            );
                             actions.setColumnFilters(newFilters);
                         }
                     }}
@@ -480,15 +590,24 @@ export function MobileDataTable<TData extends BaseTableData>({
                         sx={{
                             mb: 2,
                             p: 2,
-                            backgroundColor: alpha(theme.palette.primary.main, 0.08),
+                            backgroundColor: alpha(
+                                theme.palette.primary.main,
+                                0.08
+                            ),
                             borderRadius: 1,
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'space-between',
                         }}
                     >
-                        <Typography variant="body2" color="primary.main" sx={{ fontWeight: 500 }}>
-                            {computed.selectedRows.length} item{computed.selectedRows.length === 1 ? '' : 's'} selected
+                        <Typography
+                            variant="body2"
+                            color="primary.main"
+                            sx={{ fontWeight: 500 }}
+                        >
+                            {computed.selectedRows.length} item
+                            {computed.selectedRows.length === 1 ? '' : 's'}{' '}
+                            selected
                         </Typography>
                         <Button
                             size="small"
@@ -501,7 +620,7 @@ export function MobileDataTable<TData extends BaseTableData>({
                 )}
 
                 {/* Cards */}
-                {table.getRowModel().rows.map((row) => (
+                {table.getRowModel().rows.map(row => (
                     <MobileCard
                         key={row.id}
                         row={row}

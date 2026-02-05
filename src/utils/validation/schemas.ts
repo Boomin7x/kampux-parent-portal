@@ -36,7 +36,7 @@ export const validators = {
     phone: yup
         .string()
         .required(messages.required)
-        .matches(/^[\+]?[1-9][\d]{0,15}$/, messages.phone),
+        .matches(/^[+]?[1-9][\d]{0,15}$/, messages.phone),
 
     name: yup
         .string()
@@ -313,13 +313,23 @@ export const profileSchemas = {
 
 // Type inference helpers
 export type EmailOnlyFormData = yup.InferType<typeof authSchemas.emailOnly>;
-export type OTPVerificationFormData = yup.InferType<typeof authSchemas.otpVerification>;
-export type PasswordAuthFormData = yup.InferType<typeof authSchemas.passwordAuth>;
+export type OTPVerificationFormData = yup.InferType<
+    typeof authSchemas.otpVerification
+>;
+export type PasswordAuthFormData = yup.InferType<
+    typeof authSchemas.passwordAuth
+>;
 export type LoginFormData = yup.InferType<typeof authSchemas.login>;
 export type RegisterFormData = yup.InferType<typeof authSchemas.register>;
-export type ForgotPasswordFormData = yup.InferType<typeof authSchemas.forgotPassword>;
-export type ResetPasswordFormData = yup.InferType<typeof authSchemas.resetPassword>;
-export type EmailVerificationFormData = yup.InferType<typeof authSchemas.emailVerification>;
+export type ForgotPasswordFormData = yup.InferType<
+    typeof authSchemas.forgotPassword
+>;
+export type ResetPasswordFormData = yup.InferType<
+    typeof authSchemas.resetPassword
+>;
+export type EmailVerificationFormData = yup.InferType<
+    typeof authSchemas.emailVerification
+>;
 export type StudentInfoFormData = yup.InferType<
     typeof studentSchemas.studentInfo
 >;

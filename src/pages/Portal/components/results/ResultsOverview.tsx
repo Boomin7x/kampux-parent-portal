@@ -1,17 +1,16 @@
 import {
     CalendarToday as CalendarIcon,
+    Close as CloseIcon,
+    NavigateNext as NextIcon,
+    NavigateBefore as PreviousIcon,
     Assessment as ResultsIcon,
     BarChart as SummaryIcon,
-    NavigateBefore as PreviousIcon,
-    NavigateNext as NextIcon,
     Timeline as TimelineIcon,
-    Close as CloseIcon,
     TrendingUp as TrendIcon,
 } from '@mui/icons-material';
 import {
     Box,
     Chip,
-    Container,
     Dialog,
     DialogContent,
     DialogTitle,
@@ -560,7 +559,9 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
     React.useEffect(() => {
         if (sequences.length > 0) {
             const currentIndex = sequences.findIndex(seq => seq.isCurrent);
-            setCurrentSequenceIndex(currentIndex >= 0 ? currentIndex : sequences.length - 1);
+            setCurrentSequenceIndex(
+                currentIndex >= 0 ? currentIndex : sequences.length - 1
+            );
         }
     }, [sequences]);
 
@@ -1496,7 +1497,9 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                     <PreviousIcon sx={{ fontSize: 16 }} />
                                 </IconButton>
 
-                                <Box sx={{ textAlign: 'center', flex: 1, mx: 2 }}>
+                                <Box
+                                    sx={{ textAlign: 'center', flex: 1, mx: 2 }}
+                                >
                                     <Typography
                                         variant="subtitle1"
                                         sx={{
@@ -1505,7 +1508,8 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                             mb: 0.5,
                                         }}
                                     >
-                                        {currentSequence?.assessmentPeriod || 'No Data'}
+                                        {currentSequence?.assessmentPeriod ||
+                                            'No Data'}
                                     </Typography>
                                     <Typography
                                         variant="caption"
@@ -1514,14 +1518,20 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                             color: 'text.secondary',
                                         }}
                                     >
-                                        Sequence {currentSequenceIndex + 1} of {sequences.length} • Term {currentSequence?.termNumber || 'N/A'} • {currentSequence?.academicYear}
+                                        Sequence {currentSequenceIndex + 1} of{' '}
+                                        {sequences.length} • Term{' '}
+                                        {currentSequence?.termNumber || 'N/A'} •{' '}
+                                        {currentSequence?.academicYear}
                                     </Typography>
                                 </Box>
 
                                 <IconButton
                                     size="small"
                                     onClick={handleNextSequence}
-                                    disabled={currentSequenceIndex === sequences.length - 1}
+                                    disabled={
+                                        currentSequenceIndex ===
+                                        sequences.length - 1
+                                    }
                                     sx={{
                                         border: '1px solid',
                                         borderColor: 'divider',
@@ -1546,7 +1556,13 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                 >
                                     Sequence Progress
                                 </Typography>
-                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 1,
+                                    }}
+                                >
                                     {sequences.map((seq, index) => (
                                         <Box
                                             key={seq.id}
@@ -1564,16 +1580,24 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                                     bgcolor: seq.isCompleted
                                                         ? 'success.main'
                                                         : seq.isCurrent
-                                                        ? 'primary.main'
-                                                        : 'grey.300',
+                                                          ? 'primary.main'
+                                                          : 'grey.300',
                                                     color: 'white',
                                                     display: 'flex',
                                                     alignItems: 'center',
                                                     justifyContent: 'center',
                                                     fontSize: '0.75rem',
                                                     fontWeight: 600,
-                                                    border: index === currentSequenceIndex ? '2px solid' : 'none',
-                                                    borderColor: index === currentSequenceIndex ? 'warning.main' : 'none',
+                                                    border:
+                                                        index ===
+                                                        currentSequenceIndex
+                                                            ? '2px solid'
+                                                            : 'none',
+                                                    borderColor:
+                                                        index ===
+                                                        currentSequenceIndex
+                                                            ? 'warning.main'
+                                                            : 'none',
                                                 }}
                                             >
                                                 {seq.sequenceNumber}
@@ -1583,7 +1607,9 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                                     sx={{
                                                         flex: 1,
                                                         height: 2,
-                                                        bgcolor: seq.isCompleted ? 'success.main' : 'grey.300',
+                                                        bgcolor: seq.isCompleted
+                                                            ? 'success.main'
+                                                            : 'grey.300',
                                                         mx: 0.5,
                                                     }}
                                                 />
@@ -1606,37 +1632,61 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                         bgcolor: currentSequence.isCompleted
                                             ? 'success.50'
                                             : currentSequence.isCurrent
-                                            ? 'warning.50'
-                                            : 'grey.50',
+                                              ? 'warning.50'
+                                              : 'grey.50',
                                         border: '1px solid',
                                         borderColor: currentSequence.isCompleted
                                             ? 'success.200'
                                             : currentSequence.isCurrent
-                                            ? 'warning.200'
-                                            : 'grey.200',
+                                              ? 'warning.200'
+                                              : 'grey.200',
                                     }}
                                 >
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 2,
+                                        }}
+                                    >
                                         <TimelineIcon
                                             sx={{
                                                 fontSize: 20,
                                                 color: currentSequence.isCompleted
                                                     ? 'success.main'
                                                     : currentSequence.isCurrent
-                                                    ? 'warning.main'
-                                                    : 'grey.500',
+                                                      ? 'warning.main'
+                                                      : 'grey.500',
                                             }}
                                         />
                                         <Box>
-                                            <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.8125rem' }}>
+                                            <Typography
+                                                variant="body2"
+                                                sx={{
+                                                    fontWeight: 600,
+                                                    fontSize: '0.8125rem',
+                                                }}
+                                            >
                                                 {currentSequence.isCompleted
                                                     ? 'Completed Assessment'
                                                     : currentSequence.isCurrent
-                                                    ? 'Current Assessment Period'
-                                                    : 'Upcoming Assessment'}
+                                                      ? 'Current Assessment Period'
+                                                      : 'Upcoming Assessment'}
                                             </Typography>
-                                            <Typography variant="caption" sx={{ fontSize: '0.75rem', color: 'text.secondary' }}>
-                                                {new Date(currentSequence.startDate).toLocaleDateString()} - {new Date(currentSequence.endDate).toLocaleDateString()}
+                                            <Typography
+                                                variant="caption"
+                                                sx={{
+                                                    fontSize: '0.75rem',
+                                                    color: 'text.secondary',
+                                                }}
+                                            >
+                                                {new Date(
+                                                    currentSequence.startDate
+                                                ).toLocaleDateString()}{' '}
+                                                -{' '}
+                                                {new Date(
+                                                    currentSequence.endDate
+                                                ).toLocaleDateString()}
                                             </Typography>
                                         </Box>
                                     </Box>
@@ -1668,47 +1718,119 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                             <Box
                                                 sx={{
                                                     display: 'grid',
-                                                    gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+                                                    gridTemplateColumns:
+                                                        'repeat(auto-fit, minmax(120px, 1fr))',
                                                     gap: 2,
                                                 }}
                                             >
                                                 <Box>
-                                                    <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>
+                                                    <Typography
+                                                        variant="caption"
+                                                        sx={{
+                                                            fontWeight: 600,
+                                                            color: 'text.secondary',
+                                                        }}
+                                                    >
                                                         Total Marks:
                                                     </Typography>
-                                                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                                                        {currentSequence.overallPerformance.obtainedMarks}/{currentSequence.overallPerformance.totalMarks}
+                                                    <Typography
+                                                        variant="body2"
+                                                        sx={{ fontWeight: 600 }}
+                                                    >
+                                                        {
+                                                            currentSequence
+                                                                .overallPerformance
+                                                                .obtainedMarks
+                                                        }
+                                                        /
+                                                        {
+                                                            currentSequence
+                                                                .overallPerformance
+                                                                .totalMarks
+                                                        }
                                                     </Typography>
                                                 </Box>
                                                 <Box>
-                                                    <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>
+                                                    <Typography
+                                                        variant="caption"
+                                                        sx={{
+                                                            fontWeight: 600,
+                                                            color: 'text.secondary',
+                                                        }}
+                                                    >
                                                         Average:
                                                     </Typography>
-                                                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                                                        {currentSequence.overallPerformance.averagePercentage}%
+                                                    <Typography
+                                                        variant="body2"
+                                                        sx={{ fontWeight: 600 }}
+                                                    >
+                                                        {
+                                                            currentSequence
+                                                                .overallPerformance
+                                                                .averagePercentage
+                                                        }
+                                                        %
                                                     </Typography>
                                                 </Box>
                                                 <Box>
-                                                    <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>
+                                                    <Typography
+                                                        variant="caption"
+                                                        sx={{
+                                                            fontWeight: 600,
+                                                            color: 'text.secondary',
+                                                        }}
+                                                    >
                                                         Grade:
                                                     </Typography>
                                                     <Chip
-                                                        label={currentSequence.overallPerformance.grade}
+                                                        label={
+                                                            currentSequence
+                                                                .overallPerformance
+                                                                .grade
+                                                        }
                                                         size="small"
                                                         sx={{
-                                                            bgcolor: getGradeBackground(currentSequence.overallPerformance.averagePercentage),
-                                                            color: getGradeColor(currentSequence.overallPerformance.averagePercentage),
+                                                            bgcolor:
+                                                                getGradeBackground(
+                                                                    currentSequence
+                                                                        .overallPerformance
+                                                                        .averagePercentage
+                                                                ),
+                                                            color: getGradeColor(
+                                                                currentSequence
+                                                                    .overallPerformance
+                                                                    .averagePercentage
+                                                            ),
                                                             fontWeight: 600,
                                                             fontSize: '0.75rem',
                                                         }}
                                                     />
                                                 </Box>
                                                 <Box>
-                                                    <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>
+                                                    <Typography
+                                                        variant="caption"
+                                                        sx={{
+                                                            fontWeight: 600,
+                                                            color: 'text.secondary',
+                                                        }}
+                                                    >
                                                         Position:
                                                     </Typography>
-                                                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                                                        {currentSequence.overallPerformance.position}/{currentSequence.overallPerformance.totalStudents}
+                                                    <Typography
+                                                        variant="body2"
+                                                        sx={{ fontWeight: 600 }}
+                                                    >
+                                                        {
+                                                            currentSequence
+                                                                .overallPerformance
+                                                                .position
+                                                        }
+                                                        /
+                                                        {
+                                                            currentSequence
+                                                                .overallPerformance
+                                                                .totalStudents
+                                                        }
                                                     </Typography>
                                                 </Box>
                                             </Box>
@@ -1739,67 +1861,234 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                             >
                                                 <Table size="small">
                                                     <TableHead>
-                                                        <TableRow sx={{ bgcolor: 'grey.50' }}>
-                                                            <TableCell sx={{ fontWeight: 700, fontSize: '0.75rem', p: 1 }}>Subject</TableCell>
-                                                            <TableCell align="center" sx={{ fontWeight: 700, fontSize: '0.75rem', p: 1 }}>Marks</TableCell>
-                                                            <TableCell align="center" sx={{ fontWeight: 700, fontSize: '0.75rem', p: 1 }}>Percentage</TableCell>
-                                                            <TableCell align="center" sx={{ fontWeight: 700, fontSize: '0.75rem', p: 1 }}>Grade</TableCell>
-                                                            <TableCell align="center" sx={{ fontWeight: 700, fontSize: '0.75rem', p: 1 }}>Position</TableCell>
-                                                            <TableCell sx={{ fontWeight: 700, fontSize: '0.75rem', p: 1 }}>Teacher</TableCell>
+                                                        <TableRow
+                                                            sx={{
+                                                                bgcolor:
+                                                                    'grey.50',
+                                                            }}
+                                                        >
+                                                            <TableCell
+                                                                sx={{
+                                                                    fontWeight: 700,
+                                                                    fontSize:
+                                                                        '0.75rem',
+                                                                    p: 1,
+                                                                }}
+                                                            >
+                                                                Subject
+                                                            </TableCell>
+                                                            <TableCell
+                                                                align="center"
+                                                                sx={{
+                                                                    fontWeight: 700,
+                                                                    fontSize:
+                                                                        '0.75rem',
+                                                                    p: 1,
+                                                                }}
+                                                            >
+                                                                Marks
+                                                            </TableCell>
+                                                            <TableCell
+                                                                align="center"
+                                                                sx={{
+                                                                    fontWeight: 700,
+                                                                    fontSize:
+                                                                        '0.75rem',
+                                                                    p: 1,
+                                                                }}
+                                                            >
+                                                                Percentage
+                                                            </TableCell>
+                                                            <TableCell
+                                                                align="center"
+                                                                sx={{
+                                                                    fontWeight: 700,
+                                                                    fontSize:
+                                                                        '0.75rem',
+                                                                    p: 1,
+                                                                }}
+                                                            >
+                                                                Grade
+                                                            </TableCell>
+                                                            <TableCell
+                                                                align="center"
+                                                                sx={{
+                                                                    fontWeight: 700,
+                                                                    fontSize:
+                                                                        '0.75rem',
+                                                                    p: 1,
+                                                                }}
+                                                            >
+                                                                Position
+                                                            </TableCell>
+                                                            <TableCell
+                                                                sx={{
+                                                                    fontWeight: 700,
+                                                                    fontSize:
+                                                                        '0.75rem',
+                                                                    p: 1,
+                                                                }}
+                                                            >
+                                                                Teacher
+                                                            </TableCell>
                                                         </TableRow>
                                                     </TableHead>
                                                     <TableBody>
-                                                        {currentSequence.subjects.map(subject => (
-                                                            <TableRow
-                                                                key={subject.subjectId}
-                                                                onClick={() => handleSubjectClick(subject)}
-                                                                sx={{
-                                                                    '&:hover': { bgcolor: 'action.hover' },
-                                                                    cursor: 'pointer'
-                                                                }}
-                                                            >
-                                                                <TableCell sx={{ p: 1 }}>
-                                                                    <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.8125rem' }}>
-                                                                        {subject.subject}
-                                                                    </Typography>
-                                                                    <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
-                                                                        {subject.subjectCode}
-                                                                    </Typography>
-                                                                </TableCell>
-                                                                <TableCell align="center" sx={{ p: 1 }}>
-                                                                    <Typography variant="body2" sx={{ fontSize: '0.8125rem' }}>
-                                                                        {subject.marksObtained}/{subject.totalMarks}
-                                                                    </Typography>
-                                                                </TableCell>
-                                                                <TableCell align="center" sx={{ p: 1 }}>
-                                                                    <Typography variant="body2" sx={{ fontSize: '0.8125rem', fontWeight: 600 }}>
-                                                                        {subject.percentage}%
-                                                                    </Typography>
-                                                                </TableCell>
-                                                                <TableCell align="center" sx={{ p: 1 }}>
-                                                                    <Chip
-                                                                        label={subject.grade}
-                                                                        size="small"
+                                                        {currentSequence.subjects.map(
+                                                            subject => (
+                                                                <TableRow
+                                                                    key={
+                                                                        subject.subjectId
+                                                                    }
+                                                                    onClick={() =>
+                                                                        handleSubjectClick(
+                                                                            subject
+                                                                        )
+                                                                    }
+                                                                    sx={{
+                                                                        '&:hover':
+                                                                            {
+                                                                                bgcolor:
+                                                                                    'action.hover',
+                                                                            },
+                                                                        cursor: 'pointer',
+                                                                    }}
+                                                                >
+                                                                    <TableCell
                                                                         sx={{
-                                                                            bgcolor: getGradeBackground(subject.percentage),
-                                                                            color: getGradeColor(subject.percentage),
-                                                                            fontWeight: 600,
-                                                                            fontSize: '0.75rem',
+                                                                            p: 1,
                                                                         }}
-                                                                    />
-                                                                </TableCell>
-                                                                <TableCell align="center" sx={{ p: 1 }}>
-                                                                    <Typography variant="body2" sx={{ fontSize: '0.8125rem' }}>
-                                                                        {subject.position}
-                                                                    </Typography>
-                                                                </TableCell>
-                                                                <TableCell sx={{ p: 1 }}>
-                                                                    <Typography variant="body2" sx={{ fontSize: '0.8125rem' }}>
-                                                                        {subject.teacher}
-                                                                    </Typography>
-                                                                </TableCell>
-                                                            </TableRow>
-                                                        ))}
+                                                                    >
+                                                                        <Typography
+                                                                            variant="body2"
+                                                                            sx={{
+                                                                                fontWeight: 600,
+                                                                                fontSize:
+                                                                                    '0.8125rem',
+                                                                            }}
+                                                                        >
+                                                                            {
+                                                                                subject.subject
+                                                                            }
+                                                                        </Typography>
+                                                                        <Typography
+                                                                            variant="caption"
+                                                                            color="text.secondary"
+                                                                            sx={{
+                                                                                fontSize:
+                                                                                    '0.75rem',
+                                                                            }}
+                                                                        >
+                                                                            {
+                                                                                subject.subjectCode
+                                                                            }
+                                                                        </Typography>
+                                                                    </TableCell>
+                                                                    <TableCell
+                                                                        align="center"
+                                                                        sx={{
+                                                                            p: 1,
+                                                                        }}
+                                                                    >
+                                                                        <Typography
+                                                                            variant="body2"
+                                                                            sx={{
+                                                                                fontSize:
+                                                                                    '0.8125rem',
+                                                                            }}
+                                                                        >
+                                                                            {
+                                                                                subject.marksObtained
+                                                                            }
+                                                                            /
+                                                                            {
+                                                                                subject.totalMarks
+                                                                            }
+                                                                        </Typography>
+                                                                    </TableCell>
+                                                                    <TableCell
+                                                                        align="center"
+                                                                        sx={{
+                                                                            p: 1,
+                                                                        }}
+                                                                    >
+                                                                        <Typography
+                                                                            variant="body2"
+                                                                            sx={{
+                                                                                fontSize:
+                                                                                    '0.8125rem',
+                                                                                fontWeight: 600,
+                                                                            }}
+                                                                        >
+                                                                            {
+                                                                                subject.percentage
+                                                                            }
+                                                                            %
+                                                                        </Typography>
+                                                                    </TableCell>
+                                                                    <TableCell
+                                                                        align="center"
+                                                                        sx={{
+                                                                            p: 1,
+                                                                        }}
+                                                                    >
+                                                                        <Chip
+                                                                            label={
+                                                                                subject.grade
+                                                                            }
+                                                                            size="small"
+                                                                            sx={{
+                                                                                bgcolor:
+                                                                                    getGradeBackground(
+                                                                                        subject.percentage
+                                                                                    ),
+                                                                                color: getGradeColor(
+                                                                                    subject.percentage
+                                                                                ),
+                                                                                fontWeight: 600,
+                                                                                fontSize:
+                                                                                    '0.75rem',
+                                                                            }}
+                                                                        />
+                                                                    </TableCell>
+                                                                    <TableCell
+                                                                        align="center"
+                                                                        sx={{
+                                                                            p: 1,
+                                                                        }}
+                                                                    >
+                                                                        <Typography
+                                                                            variant="body2"
+                                                                            sx={{
+                                                                                fontSize:
+                                                                                    '0.8125rem',
+                                                                            }}
+                                                                        >
+                                                                            {
+                                                                                subject.position
+                                                                            }
+                                                                        </Typography>
+                                                                    </TableCell>
+                                                                    <TableCell
+                                                                        sx={{
+                                                                            p: 1,
+                                                                        }}
+                                                                    >
+                                                                        <Typography
+                                                                            variant="body2"
+                                                                            sx={{
+                                                                                fontSize:
+                                                                                    '0.8125rem',
+                                                                            }}
+                                                                        >
+                                                                            {
+                                                                                subject.teacher
+                                                                            }
+                                                                        </Typography>
+                                                                    </TableCell>
+                                                                </TableRow>
+                                                            )
+                                                        )}
                                                     </TableBody>
                                                 </Table>
                                             </TableContainer>
@@ -1816,20 +2105,31 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                             bgcolor: 'grey.50',
                                         }}
                                     >
-                                        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                                        <Typography
+                                            variant="body2"
+                                            color="text.secondary"
+                                            sx={{ mb: 1 }}
+                                        >
                                             {currentSequence.isCurrent
                                                 ? 'Assessment in Progress'
                                                 : 'Assessment Not Yet Started'}
                                         </Typography>
-                                        <Typography variant="caption" color="text.secondary">
-                                            Results will be available after the assessment period ends.
+                                        <Typography
+                                            variant="caption"
+                                            color="text.secondary"
+                                        >
+                                            Results will be available after the
+                                            assessment period ends.
                                         </Typography>
                                     </Box>
                                 )}
                             </>
                         ) : (
                             <Box sx={{ p: 3, textAlign: 'center' }}>
-                                <Typography variant="body2" color="text.secondary">
+                                <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                >
                                     No sequence data available.
                                 </Typography>
                             </Box>
@@ -1866,7 +2166,8 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                 variant="subtitle2"
                                 sx={{ fontWeight: 600, fontSize: '0.875rem' }}
                             >
-                                {reportData.academicYear} • Complete Academic Performance
+                                {reportData.academicYear} • Complete Academic
+                                Performance
                             </Typography>
                         </Box>
 
@@ -1887,7 +2188,8 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                             <Box
                                 sx={{
                                     display: 'grid',
-                                    gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+                                    gridTemplateColumns:
+                                        'repeat(auto-fit, minmax(140px, 1fr))',
                                     gap: 2,
                                     mb: 2,
                                 }}
@@ -1902,16 +2204,39 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                         textAlign: 'center',
                                     }}
                                 >
-                                    <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>
+                                    <Typography
+                                        variant="caption"
+                                        sx={{
+                                            fontWeight: 600,
+                                            color: 'text.secondary',
+                                        }}
+                                    >
                                         First Term Average
                                     </Typography>
-                                    <Typography variant="h6" sx={{ fontWeight: 700, fontSize: '1.25rem' }}>
-                                        {reportData.overallSummary.firstTermAverage}%
+                                    <Typography
+                                        variant="h6"
+                                        sx={{
+                                            fontWeight: 700,
+                                            fontSize: '1.25rem',
+                                        }}
+                                    >
+                                        {
+                                            reportData.overallSummary
+                                                .firstTermAverage
+                                        }
+                                        %
                                     </Typography>
                                     <LinearProgress
                                         variant="determinate"
-                                        value={reportData.overallSummary.firstTermAverage}
-                                        sx={{ mt: 0.5, height: 4, borderRadius: 2 }}
+                                        value={
+                                            reportData.overallSummary
+                                                .firstTermAverage
+                                        }
+                                        sx={{
+                                            mt: 0.5,
+                                            height: 4,
+                                            borderRadius: 2,
+                                        }}
                                     />
                                 </Box>
 
@@ -1925,16 +2250,39 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                         textAlign: 'center',
                                     }}
                                 >
-                                    <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>
+                                    <Typography
+                                        variant="caption"
+                                        sx={{
+                                            fontWeight: 600,
+                                            color: 'text.secondary',
+                                        }}
+                                    >
                                         Second Term Average
                                     </Typography>
-                                    <Typography variant="h6" sx={{ fontWeight: 700, fontSize: '1.25rem' }}>
-                                        {reportData.overallSummary.secondTermAverage}%
+                                    <Typography
+                                        variant="h6"
+                                        sx={{
+                                            fontWeight: 700,
+                                            fontSize: '1.25rem',
+                                        }}
+                                    >
+                                        {
+                                            reportData.overallSummary
+                                                .secondTermAverage
+                                        }
+                                        %
                                     </Typography>
                                     <LinearProgress
                                         variant="determinate"
-                                        value={reportData.overallSummary.secondTermAverage}
-                                        sx={{ mt: 0.5, height: 4, borderRadius: 2 }}
+                                        value={
+                                            reportData.overallSummary
+                                                .secondTermAverage
+                                        }
+                                        sx={{
+                                            mt: 0.5,
+                                            height: 4,
+                                            borderRadius: 2,
+                                        }}
                                         color="warning"
                                     />
                                 </Box>
@@ -1949,16 +2297,39 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                         textAlign: 'center',
                                     }}
                                 >
-                                    <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>
+                                    <Typography
+                                        variant="caption"
+                                        sx={{
+                                            fontWeight: 600,
+                                            color: 'text.secondary',
+                                        }}
+                                    >
                                         Third Term Average
                                     </Typography>
-                                    <Typography variant="h6" sx={{ fontWeight: 700, fontSize: '1.25rem' }}>
-                                        {reportData.overallSummary.thirdTermAverage}%
+                                    <Typography
+                                        variant="h6"
+                                        sx={{
+                                            fontWeight: 700,
+                                            fontSize: '1.25rem',
+                                        }}
+                                    >
+                                        {
+                                            reportData.overallSummary
+                                                .thirdTermAverage
+                                        }
+                                        %
                                     </Typography>
                                     <LinearProgress
                                         variant="determinate"
-                                        value={reportData.overallSummary.thirdTermAverage}
-                                        sx={{ mt: 0.5, height: 4, borderRadius: 2 }}
+                                        value={
+                                            reportData.overallSummary
+                                                .thirdTermAverage
+                                        }
+                                        sx={{
+                                            mt: 0.5,
+                                            height: 4,
+                                            borderRadius: 2,
+                                        }}
                                         color="success"
                                     />
                                 </Box>
@@ -1973,16 +2344,39 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                         textAlign: 'center',
                                     }}
                                 >
-                                    <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>
+                                    <Typography
+                                        variant="caption"
+                                        sx={{
+                                            fontWeight: 600,
+                                            color: 'text.secondary',
+                                        }}
+                                    >
                                         Annual Average
                                     </Typography>
-                                    <Typography variant="h6" sx={{ fontWeight: 700, fontSize: '1.25rem' }}>
-                                        {reportData.overallSummary.annualAverage}%
+                                    <Typography
+                                        variant="h6"
+                                        sx={{
+                                            fontWeight: 700,
+                                            fontSize: '1.25rem',
+                                        }}
+                                    >
+                                        {
+                                            reportData.overallSummary
+                                                .annualAverage
+                                        }
+                                        %
                                     </Typography>
                                     <LinearProgress
                                         variant="determinate"
-                                        value={reportData.overallSummary.annualAverage}
-                                        sx={{ mt: 0.5, height: 4, borderRadius: 2 }}
+                                        value={
+                                            reportData.overallSummary
+                                                .annualAverage
+                                        }
+                                        sx={{
+                                            mt: 0.5,
+                                            height: 4,
+                                            borderRadius: 2,
+                                        }}
                                         color="info"
                                     />
                                 </Box>
@@ -2003,75 +2397,134 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                 Subject Performance Analysis
                             </Typography>
 
-                            {Object.entries(subjectsByGroup).map(([groupName, subjects]) => (
-                                <Box key={groupName} sx={{ mb: 2 }}>
-                                    <Typography
-                                        variant="body2"
-                                        sx={{
-                                            fontWeight: 600,
-                                            mb: 1,
-                                            fontSize: '0.8125rem',
-                                            color: 'secondary.main',
-                                        }}
-                                    >
-                                        {groupName} Group
-                                    </Typography>
+                            {Object.entries(subjectsByGroup).map(
+                                ([groupName, subjects]) => (
+                                    <Box key={groupName} sx={{ mb: 2 }}>
+                                        <Typography
+                                            variant="body2"
+                                            sx={{
+                                                fontWeight: 600,
+                                                mb: 1,
+                                                fontSize: '0.8125rem',
+                                                color: 'secondary.main',
+                                            }}
+                                        >
+                                            {groupName} Group
+                                        </Typography>
 
-                                    <Box
-                                        sx={{
-                                            display: 'grid',
-                                            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-                                            gap: 1.5,
-                                        }}
-                                    >
-                                        {subjects.map(subject => (
-                                            <Box
-                                                key={subject.id}
-                                                sx={{
-                                                    p: 1.5,
-                                                    border: '1px solid',
-                                                    borderColor: 'divider',
-                                                    borderRadius: 1,
-                                                    bgcolor: 'background.paper',
-                                                    '&:hover': { bgcolor: 'action.hover' },
-                                                }}
-                                            >
-                                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
-                                                    <Typography variant="body2" sx={{ fontWeight: 600, fontSize: '0.8125rem' }}>
-                                                        {subject.subject}
-                                                    </Typography>
-                                                    <Chip
-                                                        label={subject.grade}
-                                                        size="small"
+                                        <Box
+                                            sx={{
+                                                display: 'grid',
+                                                gridTemplateColumns:
+                                                    'repeat(auto-fit, minmax(180px, 1fr))',
+                                                gap: 1.5,
+                                            }}
+                                        >
+                                            {subjects.map(subject => (
+                                                <Box
+                                                    key={subject.id}
+                                                    sx={{
+                                                        p: 1.5,
+                                                        border: '1px solid',
+                                                        borderColor: 'divider',
+                                                        borderRadius: 1,
+                                                        bgcolor:
+                                                            'background.paper',
+                                                        '&:hover': {
+                                                            bgcolor:
+                                                                'action.hover',
+                                                        },
+                                                    }}
+                                                >
+                                                    <Box
                                                         sx={{
-                                                            bgcolor: getGradeBackground(subject.thirdTerm.average),
-                                                            color: getGradeColor(subject.thirdTerm.average),
-                                                            fontWeight: 600,
-                                                            fontSize: '0.6875rem',
+                                                            display: 'flex',
+                                                            justifyContent:
+                                                                'space-between',
+                                                            alignItems:
+                                                                'center',
+                                                            mb: 1,
+                                                        }}
+                                                    >
+                                                        <Typography
+                                                            variant="body2"
+                                                            sx={{
+                                                                fontWeight: 600,
+                                                                fontSize:
+                                                                    '0.8125rem',
+                                                            }}
+                                                        >
+                                                            {subject.subject}
+                                                        </Typography>
+                                                        <Chip
+                                                            label={
+                                                                subject.grade
+                                                            }
+                                                            size="small"
+                                                            sx={{
+                                                                bgcolor:
+                                                                    getGradeBackground(
+                                                                        subject
+                                                                            .thirdTerm
+                                                                            .average
+                                                                    ),
+                                                                color: getGradeColor(
+                                                                    subject
+                                                                        .thirdTerm
+                                                                        .average
+                                                                ),
+                                                                fontWeight: 600,
+                                                                fontSize:
+                                                                    '0.6875rem',
+                                                            }}
+                                                        />
+                                                    </Box>
+                                                    <Typography
+                                                        variant="caption"
+                                                        color="text.secondary"
+                                                        sx={{
+                                                            fontSize: '0.75rem',
+                                                        }}
+                                                    >
+                                                        Current Term:{' '}
+                                                        {
+                                                            subject.thirdTerm
+                                                                .average
+                                                        }
+                                                        % • Position:{' '}
+                                                        {
+                                                            subject.thirdTerm
+                                                                .position
+                                                        }
+                                                    </Typography>
+                                                    <LinearProgress
+                                                        variant="determinate"
+                                                        value={
+                                                            subject.thirdTerm
+                                                                .average
+                                                        }
+                                                        sx={{
+                                                            mt: 0.5,
+                                                            height: 3,
+                                                            borderRadius: 1.5,
+                                                            bgcolor: 'grey.200',
+                                                            '& .MuiLinearProgress-bar':
+                                                                {
+                                                                    bgcolor:
+                                                                        getGradeColor(
+                                                                            subject
+                                                                                .thirdTerm
+                                                                                .average
+                                                                        ),
+                                                                },
                                                         }}
                                                     />
                                                 </Box>
-                                                <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
-                                                    Current Term: {subject.thirdTerm.average}% • Position: {subject.thirdTerm.position}
-                                                </Typography>
-                                                <LinearProgress
-                                                    variant="determinate"
-                                                    value={subject.thirdTerm.average}
-                                                    sx={{
-                                                        mt: 0.5,
-                                                        height: 3,
-                                                        borderRadius: 1.5,
-                                                        bgcolor: 'grey.200',
-                                                        '& .MuiLinearProgress-bar': {
-                                                            bgcolor: getGradeColor(subject.thirdTerm.average),
-                                                        },
-                                                    }}
-                                                />
-                                            </Box>
-                                        ))}
+                                            ))}
+                                        </Box>
                                     </Box>
-                                </Box>
-                            ))}
+                                )
+                            )}
                         </Box>
 
                         {/* Class Standing & Recognition */}
@@ -2099,23 +2552,57 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                             <Box
                                 sx={{
                                     display: 'grid',
-                                    gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
+                                    gridTemplateColumns:
+                                        'repeat(auto-fit, minmax(160px, 1fr))',
                                     gap: 2,
                                 }}
                             >
                                 <Box sx={{ textAlign: 'center', p: 1 }}>
-                                    <Typography variant="h4" sx={{ fontWeight: 700, color: 'primary.main' }}>
-                                        #{reportData.overallSummary.classPosition}
+                                    <Typography
+                                        variant="h4"
+                                        sx={{
+                                            fontWeight: 700,
+                                            color: 'primary.main',
+                                        }}
+                                    >
+                                        #
+                                        {
+                                            reportData.overallSummary
+                                                .classPosition
+                                        }
                                     </Typography>
-                                    <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>
-                                        Out of {reportData.overallSummary.totalStudents} Students
+                                    <Typography
+                                        variant="caption"
+                                        sx={{
+                                            fontWeight: 600,
+                                            color: 'text.secondary',
+                                        }}
+                                    >
+                                        Out of{' '}
+                                        {
+                                            reportData.overallSummary
+                                                .totalStudents
+                                        }{' '}
+                                        Students
                                     </Typography>
                                 </Box>
                                 <Box sx={{ textAlign: 'center', p: 1 }}>
-                                    <Typography variant="h4" sx={{ fontWeight: 700, color: 'success.main' }}>
+                                    <Typography
+                                        variant="h4"
+                                        sx={{
+                                            fontWeight: 700,
+                                            color: 'success.main',
+                                        }}
+                                    >
                                         {reportData.overallSummary.bestAverage}%
                                     </Typography>
-                                    <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>
+                                    <Typography
+                                        variant="caption"
+                                        sx={{
+                                            fontWeight: 600,
+                                            color: 'text.secondary',
+                                        }}
+                                    >
                                         Best Term Average
                                     </Typography>
                                 </Box>
@@ -2124,16 +2611,31 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                         variant="h4"
                                         sx={{
                                             fontWeight: 700,
-                                            color: reportData.overallSummary.annualAverage >= 85 ? 'success.main' : reportData.overallSummary.annualAverage >= 70 ? 'warning.main' : 'error.main',
+                                            color:
+                                                reportData.overallSummary
+                                                    .annualAverage >= 85
+                                                    ? 'success.main'
+                                                    : reportData.overallSummary
+                                                            .annualAverage >= 70
+                                                      ? 'warning.main'
+                                                      : 'error.main',
                                         }}
                                     >
-                                        {reportData.overallSummary.annualAverage >= 85
+                                        {reportData.overallSummary
+                                            .annualAverage >= 85
                                             ? 'EXCELLENT'
-                                            : reportData.overallSummary.annualAverage >= 70
-                                            ? 'GOOD'
-                                            : 'NEEDS IMPROVEMENT'}
+                                            : reportData.overallSummary
+                                                    .annualAverage >= 70
+                                              ? 'GOOD'
+                                              : 'NEEDS IMPROVEMENT'}
                                     </Typography>
-                                    <Typography variant="caption" sx={{ fontWeight: 600, color: 'text.secondary' }}>
+                                    <Typography
+                                        variant="caption"
+                                        sx={{
+                                            fontWeight: 600,
+                                            color: 'text.secondary',
+                                        }}
+                                    >
                                         Overall Rating
                                     </Typography>
                                 </Box>
@@ -2163,14 +2665,34 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                             </Typography>
 
                             <Box sx={{ textAlign: 'center' }}>
-                                <Typography variant="body2" sx={{ fontSize: '0.8125rem', lineHeight: 1.6, color: 'text.secondary' }}>
-                                    Based on {sequences.filter(s => s.isCompleted).length} completed assessments across {reportData.academicYear}, this student has demonstrated
-                                    {reportData.overallSummary.annualAverage >= 85
+                                <Typography
+                                    variant="body2"
+                                    sx={{
+                                        fontSize: '0.8125rem',
+                                        lineHeight: 1.6,
+                                        color: 'text.secondary',
+                                    }}
+                                >
+                                    Based on{' '}
+                                    {
+                                        sequences.filter(s => s.isCompleted)
+                                            .length
+                                    }{' '}
+                                    completed assessments across{' '}
+                                    {reportData.academicYear}, this student has
+                                    demonstrated
+                                    {reportData.overallSummary.annualAverage >=
+                                    85
                                         ? ' excellent academic performance with consistent high achievements.'
-                                        : reportData.overallSummary.annualAverage >= 70
-                                        ? ' good academic progress with room for continued improvement.'
-                                        : ' academic challenges that require additional support and focus.'}
-                                    {' '}The student currently ranks #{reportData.overallSummary.classPosition} in a class of {reportData.overallSummary.totalStudents} students.
+                                        : reportData.overallSummary
+                                                .annualAverage >= 70
+                                          ? ' good academic progress with room for continued improvement.'
+                                          : ' academic challenges that require additional support and focus.'}{' '}
+                                    The student currently ranks #
+                                    {reportData.overallSummary.classPosition} in
+                                    a class of{' '}
+                                    {reportData.overallSummary.totalStudents}{' '}
+                                    students.
                                 </Typography>
                             </Box>
                         </Box>
@@ -2188,8 +2710,8 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                     sx: {
                         boxShadow: 'none',
                         border: '1px solid',
-                        borderColor: 'divider'
-                    }
+                        borderColor: 'divider',
+                    },
                 }}
             >
                 <DialogTitle
@@ -2199,17 +2721,23 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                         justifyContent: 'space-between',
                         borderBottom: 1,
                         borderColor: 'divider',
-                        pb: 2
+                        pb: 2,
                     }}
                 >
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                        <TrendIcon sx={{ color: 'primary.main', fontSize: '1.5rem' }} />
+                        <TrendIcon
+                            sx={{ color: 'primary.main', fontSize: '1.5rem' }}
+                        />
                         <Box>
                             <Typography variant="h6" sx={{ fontWeight: 700 }}>
                                 {selectedSubject?.subject || 'Subject Details'}
                             </Typography>
-                            <Typography variant="caption" color="text.secondary">
-                                {selectedSubject?.subjectCode} • {selectedSubject?.teacher}
+                            <Typography
+                                variant="caption"
+                                color="text.secondary"
+                            >
+                                {selectedSubject?.subjectCode} •{' '}
+                                {selectedSubject?.teacher}
                             </Typography>
                         </Box>
                     </Box>
@@ -2226,7 +2754,8 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                 <Paper
                                     sx={{
                                         p: 3,
-                                        background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
+                                        background:
+                                            'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
                                         border: 1,
                                         borderColor: 'primary.200',
                                         boxShadow: 'none',
@@ -2234,7 +2763,11 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                 >
                                     <Typography
                                         variant="subtitle1"
-                                        sx={{ fontWeight: 700, mb: 2, color: 'primary.main' }}
+                                        sx={{
+                                            fontWeight: 700,
+                                            mb: 2,
+                                            color: 'primary.main',
+                                        }}
                                     >
                                         Performance Overview
                                     </Typography>
@@ -2243,16 +2776,27 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                         <Grid size={{ xs: 6, sm: 3 }}>
                                             <Box sx={{ textAlign: 'center' }}>
                                                 <Chip
-                                                    label={selectedSubject.grade}
+                                                    label={
+                                                        selectedSubject.grade
+                                                    }
                                                     sx={{
                                                         fontSize: '1rem',
                                                         fontWeight: 700,
                                                         mb: 1,
-                                                        bgcolor: getGradeBackground(selectedSubject.percentage),
-                                                        color: getGradeColor(selectedSubject.percentage),
+                                                        bgcolor:
+                                                            getGradeBackground(
+                                                                selectedSubject.percentage
+                                                            ),
+                                                        color: getGradeColor(
+                                                            selectedSubject.percentage
+                                                        ),
                                                     }}
                                                 />
-                                                <Typography variant="caption" display="block" color="text.secondary">
+                                                <Typography
+                                                    variant="caption"
+                                                    display="block"
+                                                    color="text.secondary"
+                                                >
                                                     Grade
                                                 </Typography>
                                             </Box>
@@ -2260,10 +2804,21 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
 
                                         <Grid size={{ xs: 6, sm: 3 }}>
                                             <Box sx={{ textAlign: 'center' }}>
-                                                <Typography variant="h5" sx={{ fontWeight: 700, color: 'primary.main' }}>
-                                                    {selectedSubject.percentage}%
+                                                <Typography
+                                                    variant="h5"
+                                                    sx={{
+                                                        fontWeight: 700,
+                                                        color: 'primary.main',
+                                                    }}
+                                                >
+                                                    {selectedSubject.percentage}
+                                                    %
                                                 </Typography>
-                                                <Typography variant="caption" display="block" color="text.secondary">
+                                                <Typography
+                                                    variant="caption"
+                                                    display="block"
+                                                    color="text.secondary"
+                                                >
                                                     Percentage
                                                 </Typography>
                                             </Box>
@@ -2271,10 +2826,24 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
 
                                         <Grid size={{ xs: 6, sm: 3 }}>
                                             <Box sx={{ textAlign: 'center' }}>
-                                                <Typography variant="h5" sx={{ fontWeight: 700, color: 'text.primary' }}>
-                                                    {selectedSubject.marksObtained}/{selectedSubject.totalMarks}
+                                                <Typography
+                                                    variant="h5"
+                                                    sx={{
+                                                        fontWeight: 700,
+                                                        color: 'text.primary',
+                                                    }}
+                                                >
+                                                    {
+                                                        selectedSubject.marksObtained
+                                                    }
+                                                    /
+                                                    {selectedSubject.totalMarks}
                                                 </Typography>
-                                                <Typography variant="caption" display="block" color="text.secondary">
+                                                <Typography
+                                                    variant="caption"
+                                                    display="block"
+                                                    color="text.secondary"
+                                                >
                                                     Marks
                                                 </Typography>
                                             </Box>
@@ -2282,10 +2851,20 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
 
                                         <Grid size={{ xs: 6, sm: 3 }}>
                                             <Box sx={{ textAlign: 'center' }}>
-                                                <Typography variant="h5" sx={{ fontWeight: 700, color: 'warning.main' }}>
+                                                <Typography
+                                                    variant="h5"
+                                                    sx={{
+                                                        fontWeight: 700,
+                                                        color: 'warning.main',
+                                                    }}
+                                                >
                                                     #{selectedSubject.position}
                                                 </Typography>
-                                                <Typography variant="caption" display="block" color="text.secondary">
+                                                <Typography
+                                                    variant="caption"
+                                                    display="block"
+                                                    color="text.secondary"
+                                                >
                                                     Position
                                                 </Typography>
                                             </Box>
@@ -2296,7 +2875,14 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
 
                             {/* Performance Progress */}
                             <Grid size={{ xs: 12 }}>
-                                <Paper sx={{ p: 3, boxShadow: 'none', border: '1px solid', borderColor: 'divider' }}>
+                                <Paper
+                                    sx={{
+                                        p: 3,
+                                        boxShadow: 'none',
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                    }}
+                                >
                                     <Typography
                                         variant="subtitle1"
                                         sx={{ fontWeight: 700, mb: 3 }}
@@ -2319,14 +2905,30 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                         }}
                                     />
 
-                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1 }}>
-                                        <Typography variant="caption" color="text.secondary">
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            mt: 1,
+                                        }}
+                                    >
+                                        <Typography
+                                            variant="caption"
+                                            color="text.secondary"
+                                        >
                                             0%
                                         </Typography>
-                                        <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600 }}>
+                                        <Typography
+                                            variant="caption"
+                                            color="text.secondary"
+                                            sx={{ fontWeight: 600 }}
+                                        >
                                             {selectedSubject.percentage}%
                                         </Typography>
-                                        <Typography variant="caption" color="text.secondary">
+                                        <Typography
+                                            variant="caption"
+                                            color="text.secondary"
+                                        >
                                             100%
                                         </Typography>
                                     </Box>
@@ -2335,7 +2937,15 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
 
                             {/* Performance Analysis */}
                             <Grid size={{ xs: 12, md: 6 }}>
-                                <Paper sx={{ p: 3, height: '100%', boxShadow: 'none', border: '1px solid', borderColor: 'divider' }}>
+                                <Paper
+                                    sx={{
+                                        p: 3,
+                                        height: '100%',
+                                        boxShadow: 'none',
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                    }}
+                                >
                                     <Typography
                                         variant="subtitle1"
                                         sx={{ fontWeight: 700, mb: 2 }}
@@ -2343,7 +2953,13 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                         Detailed Breakdown
                                     </Typography>
 
-                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap: 2,
+                                        }}
+                                    >
                                         <Box
                                             sx={{
                                                 display: 'flex',
@@ -2353,10 +2969,16 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                                 borderRadius: 1,
                                             }}
                                         >
-                                            <Typography variant="body2" color="text.secondary">
+                                            <Typography
+                                                variant="body2"
+                                                color="text.secondary"
+                                            >
                                                 Subject Code
                                             </Typography>
-                                            <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                                            <Typography
+                                                variant="body2"
+                                                sx={{ fontWeight: 600 }}
+                                            >
                                                 {selectedSubject.subjectCode}
                                             </Typography>
                                         </Box>
@@ -2370,10 +2992,16 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                                 borderRadius: 1,
                                             }}
                                         >
-                                            <Typography variant="body2" color="text.secondary">
+                                            <Typography
+                                                variant="body2"
+                                                color="text.secondary"
+                                            >
                                                 Teacher
                                             </Typography>
-                                            <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                                            <Typography
+                                                variant="body2"
+                                                sx={{ fontWeight: 600 }}
+                                            >
                                                 {selectedSubject.teacher}
                                             </Typography>
                                         </Box>
@@ -2387,11 +3015,18 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                                 borderRadius: 1,
                                             }}
                                         >
-                                            <Typography variant="body2" color="text.secondary">
+                                            <Typography
+                                                variant="body2"
+                                                color="text.secondary"
+                                            >
                                                 Total Students
                                             </Typography>
-                                            <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                                                {selectedSubject.totalStudents || 'N/A'}
+                                            <Typography
+                                                variant="body2"
+                                                sx={{ fontWeight: 600 }}
+                                            >
+                                                {selectedSubject.totalStudents ||
+                                                    'N/A'}
                                             </Typography>
                                         </Box>
                                     </Box>
@@ -2400,7 +3035,15 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
 
                             {/* Performance Comments */}
                             <Grid size={{ xs: 12, md: 6 }}>
-                                <Paper sx={{ p: 3, height: '100%', boxShadow: 'none', border: '1px solid', borderColor: 'divider' }}>
+                                <Paper
+                                    sx={{
+                                        p: 3,
+                                        height: '100%',
+                                        boxShadow: 'none',
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                    }}
+                                >
                                     <Typography
                                         variant="subtitle1"
                                         sx={{ fontWeight: 700, mb: 2 }}
@@ -2408,29 +3051,59 @@ export const ResultsOverview: React.FC<ResultsOverviewProps> = ({
                                         Performance Summary
                                     </Typography>
 
-                                    <Typography variant="body2" sx={{ lineHeight: 1.6, color: 'text.secondary', mb: 2 }}>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{
+                                            lineHeight: 1.6,
+                                            color: 'text.secondary',
+                                            mb: 2,
+                                        }}
+                                    >
                                         {selectedSubject.percentage >= 80
                                             ? `Excellent performance in ${selectedSubject.subject}. The student demonstrates a strong understanding of the subject matter and consistently achieves high marks.`
                                             : selectedSubject.percentage >= 70
-                                            ? `Good performance in ${selectedSubject.subject}. The student shows solid understanding with room for improvement in some areas.`
-                                            : selectedSubject.percentage >= 60
-                                            ? `Satisfactory performance in ${selectedSubject.subject}. Additional focus and practice recommended to strengthen understanding.`
-                                            : `Performance in ${selectedSubject.subject} needs improvement. Extra attention and support required to meet academic standards.`}
+                                              ? `Good performance in ${selectedSubject.subject}. The student shows solid understanding with room for improvement in some areas.`
+                                              : selectedSubject.percentage >= 60
+                                                ? `Satisfactory performance in ${selectedSubject.subject}. Additional focus and practice recommended to strengthen understanding.`
+                                                : `Performance in ${selectedSubject.subject} needs improvement. Extra attention and support required to meet academic standards.`}
                                     </Typography>
 
                                     <Box
                                         sx={{
                                             p: 2,
-                                            bgcolor: selectedSubject.percentage >= 70 ? 'success.50' : selectedSubject.percentage >= 60 ? 'warning.50' : 'error.50',
+                                            bgcolor:
+                                                selectedSubject.percentage >= 70
+                                                    ? 'success.50'
+                                                    : selectedSubject.percentage >=
+                                                        60
+                                                      ? 'warning.50'
+                                                      : 'error.50',
                                             borderRadius: 1,
                                             border: 1,
-                                            borderColor: selectedSubject.percentage >= 70 ? 'success.200' : selectedSubject.percentage >= 60 ? 'warning.200' : 'error.200',
+                                            borderColor:
+                                                selectedSubject.percentage >= 70
+                                                    ? 'success.200'
+                                                    : selectedSubject.percentage >=
+                                                        60
+                                                      ? 'warning.200'
+                                                      : 'error.200',
                                         }}
                                     >
-                                        <Typography variant="caption" sx={{ fontWeight: 600 }}>
-                                            {selectedSubject.percentage >= 70 ? 'Strengths' : 'Areas for Improvement'}
+                                        <Typography
+                                            variant="caption"
+                                            sx={{ fontWeight: 600 }}
+                                        >
+                                            {selectedSubject.percentage >= 70
+                                                ? 'Strengths'
+                                                : 'Areas for Improvement'}
                                         </Typography>
-                                        <Typography variant="body2" sx={{ fontSize: '0.8125rem', mt: 0.5 }}>
+                                        <Typography
+                                            variant="body2"
+                                            sx={{
+                                                fontSize: '0.8125rem',
+                                                mt: 0.5,
+                                            }}
+                                        >
                                             {selectedSubject.percentage >= 70
                                                 ? 'Consistent performance and good grasp of concepts.'
                                                 : 'Focus on fundamental concepts and regular practice required.'}

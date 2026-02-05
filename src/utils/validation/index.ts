@@ -1,140 +1,142 @@
-export * from './schemas';
+// export * from './schemas';
 
-// Validation utilities
-import * as yup from 'yup';
+// type AnyPresentValue = NonNullable<unknown>;
 
-// Custom validation methods
-export const customValidators = {
-    // Validate file size (in MB)
-    fileSize: (maxSizeMB: number) => (file: File | null) => {
-        if (!file) return true;
-        return file.size <= maxSizeMB * 1024 * 1024;
-    },
+// // Validation utilities
+// import * as yup from 'yup';
 
-    // Validate file type
-    fileType: (allowedTypes: string[]) => (file: File | null) => {
-        if (!file) return true;
-        return allowedTypes.includes(file.type);
-    },
+// // Custom validation methods
+// export const customValidators = {
+//     // Validate file size (in MB)
+//     fileSize: (maxSizeMB: number) => (file: File | null) => {
+//         if (!file) return true;
+//         return file.size <= maxSizeMB * 1024 * 1024;
+//     },
 
-    // Validate that at least one checkbox is selected
-    atLeastOne: (array: any[]) => array && array.length > 0,
+//     // Validate file type
+//     fileType: (allowedTypes: string[]) => (file: File | null) => {
+//         if (!file) return true;
+//         return allowedTypes.includes(file.type);
+//     },
 
-    // Validate unique values in array
-    uniqueValues: (array: any[]) => {
-        if (!array) return true;
-        return new Set(array).size === array.length;
-    },
+//     // Validate that at least one checkbox is selected
+//     atLeastOne: (array: any[]) => array && array.length > 0,
 
-    // Validate date is not weekend (for school-related dates)
-    notWeekend: (date: Date) => {
-        const day = date.getDay();
-        return day !== 0 && day !== 6; // 0 = Sunday, 6 = Saturday
-    },
+//     // Validate unique values in array
+//     uniqueValues: (array: any[]) => {
+//         if (!array) return true;
+//         return new Set(array).size === array.length;
+//     },
 
-    // Validate business hours (9 AM to 5 PM)
-    businessHours: (time: string) => {
-        const hour = parseInt(time.split(':')[0]);
-        return hour >= 9 && hour <= 17;
-    },
-};
+//     // Validate date is not weekend (for school-related dates)
+//     notWeekend: (date: Date) => {
+//         const day = date.getDay();
+//         return day !== 0 && day !== 6; // 0 = Sunday, 6 = Saturday
+//     },
 
-// Helper to create conditional validation
-export const conditionalValidator = <T>(
-    condition: (value: T) => boolean,
-    schema: yup.Schema<any>
-) => {
-    return yup.mixed<T>().test('conditional', function (value) {
-        if (condition(value as T)) {
-            return schema.isValidSync(value);
-        }
-        return true;
-    });
-};
+//     // Validate business hours (9 AM to 5 PM)
+//     businessHours: (time: string) => {
+//         const hour = parseInt(time.split(':')[0]);
+//         return hour >= 9 && hour <= 17;
+//     },
+// };
 
-// Helper to transform form data before validation
-export const transformers = {
-    // Trim whitespace from strings
-    trimString: (value: string) =>
-        typeof value === 'string' ? value.trim() : value,
+// // Helper to create conditional validation
+// export const conditionalValidator = <T extends AnyPresentValue>(
+//     condition: (value: T) => boolean,
+//     schema: yup.Schema<any>
+// ) => {
+//     return yup.mixed<T>().test('conditional', function (value) {
+//         if (condition(value as T)) {
+//             return schema.isValidSync(value);
+//         }
+//         return true;
+//     });
+// };
 
-    // Convert empty strings to null
-    emptyToNull: (value: string) => (value === '' ? null : value),
+// // Helper to transform form data before validation
+// export const transformers = {
+//     // Trim whitespace from strings
+//     trimString: (value: string) =>
+//         typeof value === 'string' ? value.trim() : value,
 
-    // Convert string to number
-    stringToNumber: (value: string) => {
-        const num = parseFloat(value);
-        return isNaN(num) ? null : num;
-    },
+//     // Convert empty strings to null
+//     emptyToNull: (value: string) => (value === '' ? null : value),
 
-    // Normalize phone number
-    normalizePhone: (value: string) => {
-        if (typeof value !== 'string') return value;
-        return value.replace(/\D/g, ''); // Remove all non-digits
-    },
+//     // Convert string to number
+//     stringToNumber: (value: string) => {
+//         const num = parseFloat(value);
+//         return isNaN(num) ? null : num;
+//     },
 
-    // Normalize email (lowercase and trim)
-    normalizeEmail: (value: string) => {
-        if (typeof value !== 'string') return value;
-        return value.toLowerCase().trim();
-    },
-};
+//     // Normalize phone number
+//     normalizePhone: (value: string) => {
+//         if (typeof value !== 'string') return value;
+//         return value.replace(/\D/g, ''); // Remove all non-digits
+//     },
 
-// Validation error formatter
-export const formatValidationErrors = (errors: yup.ValidationError) => {
-    const formattedErrors: Record<string, string> = {};
+//     // Normalize email (lowercase and trim)
+//     normalizeEmail: (value: string) => {
+//         if (typeof value !== 'string') return value;
+//         return value.toLowerCase().trim();
+//     },
+// };
 
-    if (errors.inner && errors.inner.length > 0) {
-        errors.inner.forEach(error => {
-            if (error.path) {
-                formattedErrors[error.path] = error.message;
-            }
-        });
-    } else if (errors.path) {
-        formattedErrors[errors.path] = errors.message;
-    }
+// // Validation error formatter
+// export const formatValidationErrors = (errors: yup.ValidationError) => {
+//     const formattedErrors: Record<string, string> = {};
 
-    return formattedErrors;
-};
+//     if (errors.inner && errors.inner.length > 0) {
+//         errors.inner.forEach(error => {
+//             if (error.path) {
+//                 formattedErrors[error.path] = error.message;
+//             }
+//         });
+//     } else if (errors.path) {
+//         formattedErrors[errors.path] = errors.message;
+//     }
 
-// Async validation helper for server-side validation
-export const createAsyncValidator = <T>(
-    asyncValidationFn: (value: T) => Promise<boolean>,
-    errorMessage: string
-) => {
-    return yup.mixed<T>().test('async', errorMessage, async function (value) {
-        try {
-            return await asyncValidationFn(value as T);
-        } catch {
-            return false;
-        }
-    });
-};
+//     return formattedErrors;
+// };
 
-// Common async validators
-export const asyncValidators = {
-    // Check if email is already registered
-    emailAvailable: createAsyncValidator<string>(async (email: string) => {
-        // TODO: Implement actual API call
-        await new Promise(resolve => setTimeout(resolve, 500)); // Simulate API delay
-        return !['admin@example.com', 'test@example.com'].includes(email);
-    }, 'This email is already registered'),
+// // Async validation helper for server-side validation
+// export const createAsyncValidator = <T>(
+//     asyncValidationFn: (value: T) => Promise<boolean>,
+//     errorMessage: string
+// ) => {
+//     return yup.mixed<T>().test('async', errorMessage, async function (value) {
+//         try {
+//             return await asyncValidationFn(value as T);
+//         } catch {
+//             return false;
+//         }
+//     });
+// };
 
-    // Check if student ID exists
-    studentIdExists: createAsyncValidator<string>(async (studentId: string) => {
-        // TODO: Implement actual API call
-        await new Promise(resolve => setTimeout(resolve, 300));
-        return ['STU001', 'STU002', 'STU003'].includes(studentId);
-    }, 'Student ID not found'),
-};
+// // Common async validators
+// export const asyncValidators = {
+//     // Check if email is already registered
+//     emailAvailable: createAsyncValidator<string>(async (email: string) => {
+//         // TODO: Implement actual API call
+//         await new Promise(resolve => setTimeout(resolve, 500)); // Simulate API delay
+//         return !['admin@example.com', 'test@example.com'].includes(email);
+//     }, 'This email is already registered'),
 
-// Schema composition helper
-export const composeSchemas = <T extends Record<string, any>>(
-    baseSchema: yup.ObjectSchema<T>,
-    ...additionalSchemas: Array<Partial<yup.ObjectSchema<any>>>
-) => {
-    return additionalSchemas.reduce(
-        (schema, additionalSchema) => schema.concat(additionalSchema),
-        baseSchema
-    );
-};
+//     // Check if student ID exists
+//     studentIdExists: createAsyncValidator<string>(async (studentId: string) => {
+//         // TODO: Implement actual API call
+//         await new Promise(resolve => setTimeout(resolve, 300));
+//         return ['STU001', 'STU002', 'STU003'].includes(studentId);
+//     }, 'Student ID not found'),
+// };
+
+// // Schema composition helper
+// export const composeSchemas = <T extends Record<string, any>>(
+//     baseSchema: yup.ObjectSchema<T>,
+//     ...additionalSchemas: Array<yup.ObjectSchema<any>>
+// ) => {
+//     return additionalSchemas.reduce(
+//         (schema, additionalSchema) => schema.concat(additionalSchema),
+//         baseSchema
+//     );
+// };

@@ -524,9 +524,10 @@ export const parentService = {
             ? codificationCodes.join(',')
             : codificationCodes;
 
-        const response = await parentApiClient.get<GetCodificationItemsResponse>(
-            `/get-codificationItems-by-codificationCodes/${encodeURIComponent(codesParam)}`
-        );
+        const response =
+            await parentApiClient.get<GetCodificationItemsResponse>(
+                `/get-codificationItems-by-codificationCodes/${encodeURIComponent(codesParam)}`
+            );
         return response.data;
     },
 };

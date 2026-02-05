@@ -23,7 +23,10 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { authSchemas, type PasswordAuthFormData } from '../../../utils/validation/schemas';
+import {
+    authSchemas,
+    type PasswordAuthFormData,
+} from '../../../utils/validation/schemas';
 
 interface PasswordStepProps {
     email: string;
@@ -70,14 +73,18 @@ export const PasswordStep: React.FC<PasswordStepProps> = ({
             const isValidPassword = data.password.length >= 6; // This would come from API response
 
             if (!isValidPassword) {
-                setError('Incorrect password. Please try again or use OTP to sign in.');
+                setError(
+                    'Incorrect password. Please try again or use OTP to sign in.'
+                );
                 return;
             }
 
             onSignIn(data);
         } catch (err) {
             console.error('Password authentication error:', err);
-            setError('Unable to sign in. Please check your password and try again.');
+            setError(
+                'Unable to sign in. Please check your password and try again.'
+            );
         } finally {
             setIsSubmitting(false);
         }
@@ -103,7 +110,10 @@ export const PasswordStep: React.FC<PasswordStepProps> = ({
                         mb: 2,
                         color: 'text.secondary',
                         '&:hover': {
-                            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                            backgroundColor: alpha(
+                                theme.palette.primary.main,
+                                0.1
+                            ),
                         },
                     }}
                 >
@@ -122,7 +132,14 @@ export const PasswordStep: React.FC<PasswordStepProps> = ({
                     Enter Your Password
                 </Typography>
 
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1,
+                        mb: 2,
+                    }}
+                >
                     <Typography
                         variant="body1"
                         sx={{
@@ -136,7 +153,10 @@ export const PasswordStep: React.FC<PasswordStepProps> = ({
                         label={email}
                         size="small"
                         sx={{
-                            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                            backgroundColor: alpha(
+                                theme.palette.primary.main,
+                                0.1
+                            ),
                             color: 'primary.main',
                             fontWeight: 500,
                         }}
@@ -195,7 +215,9 @@ export const PasswordStep: React.FC<PasswordStepProps> = ({
                                 endAdornment: (
                                     <InputAdornment position="end">
                                         <IconButton
-                                            onClick={handleTogglePasswordVisibility}
+                                            onClick={
+                                                handleTogglePasswordVisibility
+                                            }
                                             edge="end"
                                             size="small"
                                             disabled={isSubmitting}
@@ -306,7 +328,8 @@ export const PasswordStep: React.FC<PasswordStepProps> = ({
                         height: 56,
                         background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
                         '&:hover': {
-                            background: 'linear-gradient(135deg, #5b5bd6, #7c3aed)',
+                            background:
+                                'linear-gradient(135deg, #5b5bd6, #7c3aed)',
                             transform: 'translateY(-1px)',
                             boxShadow: theme.shadows[8],
                         },
@@ -344,7 +367,10 @@ export const PasswordStep: React.FC<PasswordStepProps> = ({
                         fontSize: '0.875rem',
                         fontWeight: 500,
                         '&:hover': {
-                            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                            backgroundColor: alpha(
+                                theme.palette.primary.main,
+                                0.1
+                            ),
                         },
                     }}
                 >

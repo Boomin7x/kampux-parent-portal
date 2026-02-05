@@ -1,28 +1,27 @@
-import React, { useState, useMemo } from 'react';
 import {
-    Box,
-    Typography,
-    IconButton,
-    Select,
-    MenuItem,
-    FormControl,
-    TextField,
-    Tooltip,
-    Divider,
-    useTheme,
-    alpha,
-} from '@mui/material';
-import {
-    FirstPage,
-    LastPage,
     ChevronLeft,
     ChevronRight,
+    FirstPage,
+    LastPage,
     MoreHoriz,
 } from '@mui/icons-material';
+import {
+    alpha,
+    Box,
+    FormControl,
+    IconButton,
+    MenuItem,
+    Select,
+    TextField,
+    Tooltip,
+    Typography,
+    useTheme,
+} from '@mui/material';
+import React, { useMemo, useState } from 'react';
 import type {
-    UseDataTableReturn,
     BaseTableData,
     PaginationConfig,
+    UseDataTableReturn,
 } from '../types/table.types';
 
 interface TablePaginationProps<TData extends BaseTableData> {
@@ -34,7 +33,6 @@ interface TablePaginationProps<TData extends BaseTableData> {
 }
 
 export function TablePagination<TData extends BaseTableData>({
-    table,
     state,
     actions,
     computed,
@@ -46,7 +44,6 @@ export function TablePagination<TData extends BaseTableData>({
     const {
         pageSizes = [10, 25, 50, 100],
         showPageSizeSelector = true,
-        showPageInfo = true,
         showFirstLastButtons = true,
         showPreviousNextButtons = true,
         showQuickJumper = true,
@@ -135,8 +132,14 @@ export function TablePagination<TData extends BaseTableData>({
     // Display Information
     // ====================
 
-    const startRow = computed.filteredRowCount === 0 ? 0 : state.pagination.pageIndex * pageSize + 1;
-    const endRow = Math.min((state.pagination.pageIndex + 1) * pageSize, computed.filteredRowCount);
+    const startRow =
+        computed.filteredRowCount === 0
+            ? 0
+            : state.pagination.pageIndex * pageSize + 1;
+    const endRow = Math.min(
+        (state.pagination.pageIndex + 1) * pageSize,
+        computed.filteredRowCount
+    );
 
     if (totalPages <= 1 && !showTotal) {
         return null;
@@ -156,16 +159,25 @@ export function TablePagination<TData extends BaseTableData>({
             }}
         >
             {/* Left side - Total and page size selector */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
+            <Box
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 2,
+                    flexWrap: 'wrap',
+                }}
+            >
                 {showTotal && (
                     <Typography variant="body2" color="text.secondary">
                         {computed.filteredRowCount === 0
                             ? 'No records'
-                            : `Showing ${startRow.toLocaleString()} to ${endRow.toLocaleString()} of ${computed.filteredRowCount.toLocaleString()} ${computed.filteredRowCount === 1 ? 'record' : 'records'}`
-                        }
-                        {computed.filteredRowCount !== computed.totalRowCount && (
+                            : `Showing ${startRow.toLocaleString()} to ${endRow.toLocaleString()} of ${computed.filteredRowCount.toLocaleString()} ${computed.filteredRowCount === 1 ? 'record' : 'records'}`}
+                        {computed.filteredRowCount !==
+                            computed.totalRowCount && (
                             <span>
-                                {' '}(filtered from {computed.totalRowCount.toLocaleString()} total)
+                                {' '}
+                                (filtered from{' '}
+                                {computed.totalRowCount.toLocaleString()} total)
                             </span>
                         )}
                     </Typography>
@@ -179,7 +191,9 @@ export function TablePagination<TData extends BaseTableData>({
                         <FormControl size="small" variant="outlined">
                             <Select
                                 value={pageSize}
-                                onChange={(e) => handlePageSizeChange(Number(e.target.value))}
+                                onChange={e =>
+                                    handlePageSizeChange(Number(e.target.value))
+                                }
                                 sx={{
                                     minWidth: 70,
                                     '& .MuiSelect-select': {
@@ -187,7 +201,7 @@ export function TablePagination<TData extends BaseTableData>({
                                     },
                                 }}
                             >
-                                {pageSizes.map((size) => (
+                                {pageSizes.map(size => (
                                     <MenuItem key={size} value={size}>
                                         {size}
                                     </MenuItem>
@@ -215,7 +229,10 @@ export function TablePagination<TData extends BaseTableData>({
                                     sx={{
                                         color: 'text.secondary',
                                         '&:hover': {
-                                            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                                            backgroundColor: alpha(
+                                                theme.palette.primary.main,
+                                                0.1
+                                            ),
                                             color: 'primary.main',
                                         },
                                     }}
@@ -237,7 +254,10 @@ export function TablePagination<TData extends BaseTableData>({
                                     sx={{
                                         color: 'text.secondary',
                                         '&:hover': {
-                                            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                                            backgroundColor: alpha(
+                                                theme.palette.primary.main,
+                                                0.1
+                                            ),
                                             color: 'primary.main',
                                         },
                                     }}
@@ -249,7 +269,9 @@ export function TablePagination<TData extends BaseTableData>({
                     )}
 
                     {/* Page numbers */}
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                    <Box
+                        sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
+                    >
                         {/* Always show page 1 if not in current range */}
                         {!pageNumbers.includes(1) && totalPages > 1 && (
                             <>
@@ -261,7 +283,10 @@ export function TablePagination<TData extends BaseTableData>({
                                         height: 32,
                                         color: 'text.secondary',
                                         '&:hover': {
-                                            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                                            backgroundColor: alpha(
+                                                theme.palette.primary.main,
+                                                0.1
+                                            ),
                                             color: 'primary.main',
                                         },
                                     }}
@@ -269,7 +294,12 @@ export function TablePagination<TData extends BaseTableData>({
                                     1
                                 </IconButton>
                                 {pageNumbers[0] !== 2 && (
-                                    <MoreHoriz sx={{ color: 'text.disabled', fontSize: '1rem' }} />
+                                    <MoreHoriz
+                                        sx={{
+                                            color: 'text.disabled',
+                                            fontSize: '1rem',
+                                        }}
+                                    />
                                 )}
                             </>
                         )}
@@ -278,7 +308,12 @@ export function TablePagination<TData extends BaseTableData>({
                         {pageNumbers.map((page, index) => (
                             <React.Fragment key={index}>
                                 {page === '...' ? (
-                                    <MoreHoriz sx={{ color: 'text.disabled', fontSize: '1rem' }} />
+                                    <MoreHoriz
+                                        sx={{
+                                            color: 'text.disabled',
+                                            fontSize: '1rem',
+                                        }}
+                                    />
                                 ) : (
                                     <IconButton
                                         size="small"
@@ -288,15 +323,25 @@ export function TablePagination<TData extends BaseTableData>({
                                             height: 32,
                                             backgroundColor:
                                                 currentPage === page
-                                                    ? alpha(theme.palette.primary.main, 0.2)
+                                                    ? alpha(
+                                                          theme.palette.primary
+                                                              .main,
+                                                          0.2
+                                                      )
                                                     : 'transparent',
                                             color:
                                                 currentPage === page
                                                     ? 'primary.main'
                                                     : 'text.secondary',
-                                            fontWeight: currentPage === page ? 600 : 400,
+                                            fontWeight:
+                                                currentPage === page
+                                                    ? 600
+                                                    : 400,
                                             '&:hover': {
-                                                backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                                                backgroundColor: alpha(
+                                                    theme.palette.primary.main,
+                                                    0.1
+                                                ),
                                                 color: 'primary.main',
                                             },
                                         }}
@@ -308,28 +353,38 @@ export function TablePagination<TData extends BaseTableData>({
                         ))}
 
                         {/* Always show last page if not in current range */}
-                        {!pageNumbers.includes(totalPages) && totalPages > 1 && (
-                            <>
-                                {pageNumbers[pageNumbers.length - 1] !== totalPages - 1 && (
-                                    <MoreHoriz sx={{ color: 'text.disabled', fontSize: '1rem' }} />
-                                )}
-                                <IconButton
-                                    size="small"
-                                    onClick={() => goToPage(totalPages)}
-                                    sx={{
-                                        minWidth: 32,
-                                        height: 32,
-                                        color: 'text.secondary',
-                                        '&:hover': {
-                                            backgroundColor: alpha(theme.palette.primary.main, 0.1),
-                                            color: 'primary.main',
-                                        },
-                                    }}
-                                >
-                                    {totalPages}
-                                </IconButton>
-                            </>
-                        )}
+                        {!pageNumbers.includes(totalPages) &&
+                            totalPages > 1 && (
+                                <>
+                                    {pageNumbers[pageNumbers.length - 1] !==
+                                        totalPages - 1 && (
+                                        <MoreHoriz
+                                            sx={{
+                                                color: 'text.disabled',
+                                                fontSize: '1rem',
+                                            }}
+                                        />
+                                    )}
+                                    <IconButton
+                                        size="small"
+                                        onClick={() => goToPage(totalPages)}
+                                        sx={{
+                                            minWidth: 32,
+                                            height: 32,
+                                            color: 'text.secondary',
+                                            '&:hover': {
+                                                backgroundColor: alpha(
+                                                    theme.palette.primary.main,
+                                                    0.1
+                                                ),
+                                                color: 'primary.main',
+                                            },
+                                        }}
+                                    >
+                                        {totalPages}
+                                    </IconButton>
+                                </>
+                            )}
                     </Box>
 
                     {/* Next page button */}
@@ -343,7 +398,10 @@ export function TablePagination<TData extends BaseTableData>({
                                     sx={{
                                         color: 'text.secondary',
                                         '&:hover': {
-                                            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                                            backgroundColor: alpha(
+                                                theme.palette.primary.main,
+                                                0.1
+                                            ),
                                             color: 'primary.main',
                                         },
                                     }}
@@ -365,7 +423,10 @@ export function TablePagination<TData extends BaseTableData>({
                                     sx={{
                                         color: 'text.secondary',
                                         '&:hover': {
-                                            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                                            backgroundColor: alpha(
+                                                theme.palette.primary.main,
+                                                0.1
+                                            ),
                                             color: 'primary.main',
                                         },
                                     }}
@@ -388,7 +449,7 @@ export function TablePagination<TData extends BaseTableData>({
                         size="small"
                         variant="outlined"
                         value={jumpToPage}
-                        onChange={(e) => setJumpToPage(e.target.value)}
+                        onChange={e => setJumpToPage(e.target.value)}
                         onBlur={handleJumpToPage}
                         onKeyDown={handleJumpToPageKeyDown}
                         placeholder={`1-${totalPages}`}

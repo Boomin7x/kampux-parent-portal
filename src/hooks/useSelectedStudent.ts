@@ -6,7 +6,8 @@
 import { useStudentStore } from '../stores/studentStore';
 
 export const useSelectedStudent = () => {
-    const { selectedStudentId, setSelectedStudent, clearSelectedStudent } = useStudentStore();
+    const { selectedStudentId, setSelectedStudent, clearSelectedStudent } =
+        useStudentStore();
 
     return {
         // The current selected student ID - use this for API queries

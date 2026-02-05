@@ -1,5 +1,9 @@
 import { format } from 'date-fns';
-import type { ExportFormat, TableColumn, BaseTableData } from '../types/table.types';
+import type {
+    BaseTableData,
+    ExportFormat,
+    TableColumn,
+} from '../types/table.types';
 
 // ====================
 // Export Data Processors
@@ -32,7 +36,7 @@ export const dataProcessors = {
             onlyColumns,
             transformData,
             dateFormat = 'yyyy-MM-dd',
-            numberFormat = { maximumFractionDigits: 2 }
+            numberFormat = { maximumFractionDigits: 2 },
         } = options;
 
         if (transformData) {
@@ -40,7 +44,7 @@ export const dataProcessors = {
         }
 
         // Filter columns
-        let exportColumns = columns.filter(col => {
+        const exportColumns = columns.filter(col => {
             if (!includeHiddenColumns && col.meta?.hidden) return false;
             if (excludeColumns.includes(col.id)) return false;
             if (onlyColumns && !onlyColumns.includes(col.id)) return false;
@@ -54,13 +58,22 @@ export const dataProcessors = {
 
             exportColumns.forEach(column => {
                 const value = row[column.accessorKey as keyof TData];
-                let exportValue = value;
+                let exportValue: string;
 
                 // Format based on column type
-                if (column.meta?.type === 'date' && value instanceof Date) {
+                if (
+                    column.meta?.type === 'date' &&
+                    (value as any) instanceof Date
+                ) {
                     exportValue = format(value, dateFormat);
-                } else if (column.meta?.type === 'number' && typeof value === 'number') {
-                    exportValue = new Intl.NumberFormat('en-US', numberFormat).format(value);
+                } else if (
+                    column.meta?.type === 'number' &&
+                    typeof value === 'number'
+                ) {
+                    exportValue = new Intl.NumberFormat(
+                        'en-US',
+                        numberFormat
+                    ).format(value);
                 } else if (column.meta?.type === 'boolean') {
                     exportValue = value ? 'Yes' : 'No';
                 } else if (value == null) {
@@ -89,7 +102,7 @@ export const dataProcessors = {
             customHeaders = {},
             includeHiddenColumns = false,
             excludeColumns = [],
-            onlyColumns
+            onlyColumns,
         } = options;
 
         return columns
@@ -101,8 +114,8 @@ export const dataProcessors = {
                 if (col.meta?.type === 'selection') return false;
                 return true;
             })
-            .map(col => customHeaders[col.id] || col.header as string);
-    }
+            .map(col => customHeaders[col.id] || (col.header as string));
+    },
 };
 
 // ====================
@@ -119,7 +132,11 @@ export const csvExporter = {
         options: ExportOptions<TData> = {}
     ): string => {
         const { includeHeaders = true } = options;
-        const processedData = dataProcessors.processTableData(data, columns, options);
+        const processedData = dataProcessors.processTableData(
+            data,
+            columns,
+            options
+        );
 
         if (processedData.length === 0) {
             return '';
@@ -146,14 +163,20 @@ export const csvExporter = {
      * Converts array to CSV row
      */
     arrayToCSVRow: (array: any[]): string => {
-        return array.map(value => {
-            const stringValue = String(value);
-            // Escape quotes and wrap in quotes if necessary
-            if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n')) {
-                return `"${stringValue.replace(/"/g, '""')}"`;
-            }
-            return stringValue;
-        }).join(',');
+        return array
+            .map(value => {
+                const stringValue = String(value);
+                // Escape quotes and wrap in quotes if necessary
+                if (
+                    stringValue.includes(',') ||
+                    stringValue.includes('"') ||
+                    stringValue.includes('\n')
+                ) {
+                    return `"${stringValue.replace(/"/g, '""')}"`;
+                }
+                return stringValue;
+            })
+            .join(',');
     },
 
     /**
@@ -166,9 +189,14 @@ export const csvExporter = {
     ): void => {
         const { filename = 'export.csv' } = options;
         const csvContent = csvExporter.dataToCSV(data, columns, options);
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        downloadUtils.downloadBlob(blob, filename.endsWith('.csv') ? filename : `${filename}.csv`);
-    }
+        const blob = new Blob([csvContent], {
+            type: 'text/csv;charset=utf-8;',
+        });
+        downloadUtils.downloadBlob(
+            blob,
+            filename.endsWith('.csv') ? filename : `${filename}.csv`
+        );
+    },
 };
 
 // ====================
@@ -185,7 +213,11 @@ export const excelExporter = {
         options: ExportOptions<TData> = {}
     ): any[][] => {
         const { includeHeaders = true } = options;
-        const processedData = dataProcessors.processTableData(data, columns, options);
+        const processedData = dataProcessors.processTableData(
+            data,
+            columns,
+            options
+        );
 
         if (processedData.length === 0) {
             return [];
@@ -227,12 +259,14 @@ export const excelExporter = {
 
         // Note: This is a simplified version. In a real implementation,
         // you would use a library like xlsx or exceljs
-        console.warn('Excel export requires additional library (xlsx). Falling back to CSV.');
+        console.warn(
+            'Excel export requires additional library (xlsx). Falling back to CSV.'
+        );
         csvExporter.downloadCSV(data, columns, {
             ...options,
-            filename: filename.replace('.xlsx', '.csv')
+            filename: filename.replace('.xlsx', '.csv'),
         });
-    }
+    },
 };
 
 // ====================
@@ -248,7 +282,11 @@ export const jsonExporter = {
         columns: TableColumn<TData>[],
         options: ExportOptions<TData> = {}
     ): string => {
-        const processedData = dataProcessors.processTableData(data, columns, options);
+        const processedData = dataProcessors.processTableData(
+            data,
+            columns,
+            options
+        );
         return JSON.stringify(processedData, null, 2);
     },
 
@@ -262,9 +300,14 @@ export const jsonExporter = {
     ): void => {
         const { filename = 'export.json' } = options;
         const jsonContent = jsonExporter.dataToJSON(data, columns, options);
-        const blob = new Blob([jsonContent], { type: 'application/json;charset=utf-8;' });
-        downloadUtils.downloadBlob(blob, filename.endsWith('.json') ? filename : `${filename}.json`);
-    }
+        const blob = new Blob([jsonContent], {
+            type: 'application/json;charset=utf-8;',
+        });
+        downloadUtils.downloadBlob(
+            blob,
+            filename.endsWith('.json') ? filename : `${filename}.json`
+        );
+    },
 };
 
 // ====================
@@ -284,12 +327,14 @@ export const pdfExporter = {
 
         // Note: This is a placeholder. In a real implementation,
         // you would use a library like jsPDF with autoTable plugin
-        console.warn('PDF export requires additional library (jsPDF). Falling back to CSV.');
+        console.warn(
+            'PDF export requires additional library (jsPDF). Falling back to CSV.'
+        );
         csvExporter.downloadCSV(data, columns, {
             ...options,
-            filename: filename.replace('.pdf', '.csv')
+            filename: filename.replace('.pdf', '.csv'),
         });
-    }
+    },
 };
 
 // ====================
@@ -332,7 +377,7 @@ export const downloadUtils = {
     validateFilename: (filename: string): string => {
         // Remove or replace invalid characters
         return filename.replace(/[<>:"/\\|?*]/g, '_').trim();
-    }
+    },
 };
 
 // ====================
@@ -348,25 +393,39 @@ export function exportTableData<TData extends BaseTableData>(
     const { filename } = options;
 
     // Generate filename if not provided
-    const finalFilename = filename || downloadUtils.generateTimestampedFilename(
-        'table_export',
-        format === 'excel' ? 'xlsx' : format
-    );
+    const finalFilename =
+        filename ||
+        downloadUtils.generateTimestampedFilename(
+            'table_export',
+            format === 'excel' ? 'xlsx' : format
+        );
 
     const validatedFilename = downloadUtils.validateFilename(finalFilename);
 
     switch (format) {
         case 'csv':
-            csvExporter.downloadCSV(data, columns, { ...options, filename: validatedFilename });
+            csvExporter.downloadCSV(data, columns, {
+                ...options,
+                filename: validatedFilename,
+            });
             break;
         case 'excel':
-            excelExporter.downloadExcel(data, columns, { ...options, filename: validatedFilename });
+            excelExporter.downloadExcel(data, columns, {
+                ...options,
+                filename: validatedFilename,
+            });
             break;
         case 'json':
-            jsonExporter.downloadJSON(data, columns, { ...options, filename: validatedFilename });
+            jsonExporter.downloadJSON(data, columns, {
+                ...options,
+                filename: validatedFilename,
+            });
             break;
         case 'pdf':
-            pdfExporter.downloadPDF(data, columns, { ...options, filename: validatedFilename });
+            pdfExporter.downloadPDF(data, columns, {
+                ...options,
+                filename: validatedFilename,
+            });
             break;
         default:
             throw new Error(`Unsupported export format: ${format}`);
@@ -404,7 +463,8 @@ export const exportFormatConfigs = {
         label: 'Excel',
         description: 'Microsoft Excel spreadsheet',
         extension: 'xlsx',
-        mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        mimeType:
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         supportsImages: true,
         supportsFormatting: true,
     },

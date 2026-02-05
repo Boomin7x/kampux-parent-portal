@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import type { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ApiError } from '../../lib/axios';
 import { invalidateQueries, queryKeys } from '../../lib/queryClient';
@@ -10,7 +11,7 @@ export function useCurrentUser() {
         queryFn: authService.getCurrentUser,
         enabled: authService.isAuthenticated(),
         staleTime: 1000 * 60 * 5, // 5 minutes
-        retry: (failureCount, error: Error) => {
+        retry: (failureCount, error: AxiosError) => {
             // Don't retry on authentication errors
             if (error?.status === 401) return false;
             return failureCount < 2;

@@ -216,7 +216,6 @@ const FacultyCard: React.FC<{ faculty: FacultyMember }> = ({ faculty }) => {
 // Main Faculty Swiper component
 export const FacultySwiper: React.FC<FacultySwiperProps> = ({
     faculty,
-    showNavigation = true,
     className = '',
 }) => {
     const { handleSwiper, handleSlideChange } = useSwiper();

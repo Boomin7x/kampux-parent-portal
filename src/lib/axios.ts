@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, {
     AxiosError,
     type AxiosInstance,
@@ -7,9 +6,43 @@ import axios, {
     type InternalAxiosRequestConfig,
 } from 'axios';
 
+type IConfig = {
+    VITE_API_BASE_URL: string;
+    NODE_ENV: string;
+    VITE_APP_NAME: string;
+    VITE_APP_VERSION: string;
+    VITE_ENABLE_DEV_TOOLS: boolean;
+    VITE_ENABLE_MOCK_API: boolean;
+    VITE_GA_TRACKING_ID: string;
+    VITE_SENTRY_DSN: string;
+};
+const Config = async (): Promise<IConfig> => {
+    try {
+        const res = await fetch('/config.json', {
+            method: 'GET',
+        });
+
+        if (!res?.ok) {
+            throw new Error('Config not found');
+        }
+        const data = await res?.json();
+        return data;
+    } catch (error) {
+        throw new Error('An error occured while getting Config File', {
+            cause: error,
+        });
+    }
+};
+
+const configFile = await Config().catch(() => null);
+
+console.log({ configFile });
+
 // Base API configuration
 const API_BASE_URL =
-    import.meta.env.VITE_API_BASE_URL || 'https://kampux-api.univ-soft.com';
+    import.meta.env.VITE_API_BASE_URL ||
+    configFile?.VITE_API_BASE_URL ||
+    'https://kampux-api.univ-soft.com';
 const API_TIMEOUT = 30000; // 30 seconds
 
 // Request ID generator for debugging and request tracking

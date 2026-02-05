@@ -480,7 +480,7 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                     }}
                                 >
                                     {data.registrationComplaints.map(
-                                        (complaint, index) => (
+                                        (complaint, _index) => (
                                             <Box
                                                 key={complaint.id}
                                                 sx={{

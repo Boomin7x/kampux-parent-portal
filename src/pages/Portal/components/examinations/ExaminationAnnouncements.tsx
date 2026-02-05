@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import {
     Announcement as AnnouncementIcon,
     Attachment as AttachmentIcon,
@@ -453,13 +454,13 @@ export const ExaminationAnnouncements: React.FC<
         return new Date(dateString).toLocaleDateString();
     };
 
-    const formatTime = (dateString: string) => {
-        return new Date(dateString).toLocaleTimeString('en-US', {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-        });
-    };
+    // const formatTime = (dateString: string) => {
+    //     return new Date(dateString).toLocaleTimeString('en-US', {
+    //         hour: '2-digit',
+    //         minute: '2-digit',
+    //         hour12: true,
+    //     });
+    // };
 
     const formatDateTime = (dateString: string) => {
         const date = new Date(dateString);
@@ -514,7 +515,10 @@ export const ExaminationAnnouncements: React.FC<
         }
     };
 
-    const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    const handleTabChange = (
+        _event: React.SyntheticEvent,
+        newValue: number
+    ) => {
         setTabValue(newValue);
     };
 
@@ -1062,7 +1066,7 @@ export const ExaminationAnnouncements: React.FC<
                 <TabPanel value={tabValue} index={0}>
                     <Box sx={{ p: 2 }}>
                         {examinationData.examAnnouncements.map(
-                            (announcement, index) => (
+                            (announcement, _index) => (
                                 <Paper
                                     key={announcement.id}
                                     sx={{
@@ -1928,7 +1932,7 @@ export const ExaminationAnnouncements: React.FC<
                                 }}
                             />
 
-                            {mockUpcomingExams.map((exam, index) => (
+                            {mockUpcomingExams.map((exam, _index) => (
                                 <Box
                                     key={exam.id}
                                     sx={{ position: 'relative', mb: 3 }}

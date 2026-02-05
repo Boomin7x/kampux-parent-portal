@@ -17,7 +17,12 @@ export interface OverallPerformance {
     classRank: number;
     totalStudentsInClass: number;
     overallPercentage: number;
-    gradeStatus: 'excellent' | 'good' | 'satisfactory' | 'needs_improvement' | 'unsatisfactory';
+    gradeStatus:
+        | 'excellent'
+        | 'good'
+        | 'satisfactory'
+        | 'needs_improvement'
+        | 'unsatisfactory';
     termCompletion: number; // percentage of term completed
     assessmentCompletion: number; // percentage of assessments completed
 }
@@ -68,7 +73,12 @@ export interface SequentialSubjectResult {
     totalMarks: number;
     percentage: number;
     grade: string;
-    assessmentType: 'test' | 'assignment' | 'project' | 'presentation' | 'practical';
+    assessmentType:
+        | 'test'
+        | 'assignment'
+        | 'project'
+        | 'presentation'
+        | 'practical';
     assessmentDate: string;
     comments?: string;
 }
@@ -129,7 +139,15 @@ export interface TermSubjectResult {
 export interface Assessment {
     id: string;
     name: string;
-    type: 'quiz' | 'test' | 'midterm' | 'final' | 'assignment' | 'project' | 'practical' | 'presentation';
+    type:
+        | 'quiz'
+        | 'test'
+        | 'midterm'
+        | 'final'
+        | 'assignment'
+        | 'project'
+        | 'practical'
+        | 'presentation';
     date: string;
     marksObtained: number;
     totalMarks: number;

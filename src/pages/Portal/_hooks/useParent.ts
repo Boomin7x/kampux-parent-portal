@@ -21,7 +21,11 @@ export const PARENT_QUERY_KEYS = {
         'teller-operations',
         studentId,
     ],
-    codificationItems: (codes: string) => ['parent', 'codification-items', codes],
+    codificationItems: (codes: string) => [
+        'parent',
+        'codification-items',
+        codes,
+    ],
 } as const;
 
 // Custom hook to get students linked to parent
@@ -86,11 +90,12 @@ export const useGetCodificationItems = (
     return useQuery<GetCodificationItemsResponse, Error>({
         queryKey: PARENT_QUERY_KEYS.codificationItems(codesKey),
         queryFn: () => parentService.getCodificationItems(codificationCodes),
-        enabled: enabled && !!codificationCodes && (
-            Array.isArray(codificationCodes)
+        enabled:
+            enabled &&
+            !!codificationCodes &&
+            (Array.isArray(codificationCodes)
                 ? codificationCodes.length > 0
-                : codificationCodes.length > 0
-        ),
+                : codificationCodes.length > 0),
         staleTime: 30 * 60 * 1000, // 30 minutes (codification items don't change often)
         gcTime: 60 * 60 * 1000, // 1 hour
     });

@@ -20,8 +20,7 @@ export const Toast = {
             description: options?.description,
             duration: options?.duration || 4000,
             action: options?.action,
-            cancel: options?.cancel,
-            important: options?.important,
+            cancel: options?.cancel as any,
         });
     },
 
@@ -30,8 +29,7 @@ export const Toast = {
             description: options?.description,
             duration: options?.duration || 5000,
             action: options?.action,
-            cancel: options?.cancel,
-            important: options?.important,
+            cancel: options?.cancel as any,
         });
     },
 
@@ -40,8 +38,7 @@ export const Toast = {
             description: options?.description,
             duration: options?.duration || 4000,
             action: options?.action,
-            cancel: options?.cancel,
-            important: options?.important,
+            cancel: options?.cancel as any,
         });
     },
 
@@ -50,8 +47,7 @@ export const Toast = {
             description: options?.description,
             duration: options?.duration || 4000,
             action: options?.action,
-            cancel: options?.cancel,
-            important: options?.important,
+            cancel: options?.cancel as any,
         });
     },
 
@@ -59,8 +55,7 @@ export const Toast = {
         return toast.loading(message, {
             description: options?.description,
             action: options?.action,
-            cancel: options?.cancel,
-            important: options?.important,
+            cancel: options?.cancel as any,
         });
     },
 
@@ -92,8 +87,7 @@ export const Toast = {
         return toast(jsx, {
             duration: options?.duration || 4000,
             action: options?.action,
-            cancel: options?.cancel,
-            important: options?.important,
+            cancel: options?.cancel as any,
         });
     },
 

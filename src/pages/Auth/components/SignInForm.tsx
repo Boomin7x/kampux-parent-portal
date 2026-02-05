@@ -36,7 +36,7 @@ interface SignInFormProps {
 // Main SignInForm component
 export const SignInForm: React.FC<SignInFormProps> = ({
     onForgotPassword,
-    onSuccess,
+    onSuccess: _o,
     className = '',
 }) => {
     const toast = useToast();
@@ -60,18 +60,18 @@ export const SignInForm: React.FC<SignInFormProps> = ({
     });
 
     // Mock current user data
-    const currentUser = {
-        name: 'Sarah Johnson',
-        email: 'sarah.johnson@email.com',
-        avatar: undefined,
-    };
+    // const currentUser = {
+    //     name: 'Sarah Johnson',
+    //     email: 'sarah.johnson@email.com',
+    //     avatar: undefined,
+    // };
 
-    const defaultUser = {
-        userName: 'moussango@gmail.com',
-        // name: 'Moussango Bertrand',
-        password: md5('P@ssw0rd'),
-        tenantAlias: 'univ',
-    };
+    // const defaultUser = {
+    //     userName: 'moussango@gmail.com',
+    //     // name: 'Moussango Bertrand',
+    //     password: md5('P@ssw0rd'),
+    //     tenantAlias: 'univ',
+    // };
 
     // Form submission handler
     const onSubmit = async (data: SignInFormData) => {
@@ -82,9 +82,9 @@ export const SignInForm: React.FC<SignInFormProps> = ({
             const result = await mutateAsync({
                 hubConnectionId: '',
                 language: ILanguage.EN,
-
-                // userName: data.email,
-                ...defaultUser,
+                password: md5(data?.password),
+                tenantAlias: 'univ',
+                userName: data?.email,
             });
 
             console.log({ result });
@@ -103,9 +103,9 @@ export const SignInForm: React.FC<SignInFormProps> = ({
             }
 
             const tokenResult = await getTokenMutateAsync({
-                userName: defaultUser.userName,
-                password: defaultUser.password,
-                tenantAlias: defaultUser.tenantAlias,
+                userName: data?.email,
+                password: data?.password,
+                tenantAlias: 'univ',
                 hubConnectionId: '',
                 language: ILanguage.EN,
             });
@@ -162,10 +162,12 @@ export const SignInForm: React.FC<SignInFormProps> = ({
             className={className}
             component="form"
             onSubmit={handleSubmit(onSubmit)}
-            sx={{
-                ...authStyles.formContainer,
-                ...formAnimations.slideIn,
-            }}
+            sx={
+                {
+                    ...authStyles.formContainer,
+                    ...formAnimations.slideIn,
+                } as any
+            }
         >
             {/* Email field */}
             <FormField

@@ -46,7 +46,7 @@ export const SignupStep: React.FC<SignupStepProps> = ({
         control,
         handleSubmit,
         watch,
-        formState: { errors, isValid },
+        formState: { errors },
         trigger,
     } = useForm<RegisterFormData>({
         resolver: yupResolver(authSchemas.register),

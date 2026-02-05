@@ -1,10 +1,14 @@
-import { useState, useCallback } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { tokenManager } from '../lib/axios';
-import type { AuthStep, AuthMethod } from '../pages/Auth/components/AuthStepper';
+import type {
+    AuthMethod,
+    AuthStep,
+} from '../pages/Auth/components/AuthStepper';
 import type {
     PasswordAuthFormData,
-    RegisterFormData
+    RegisterFormData,
 } from '../utils/validation/schemas';
 
 interface AuthState {
@@ -32,8 +36,15 @@ interface AuthFlowActions {
     handlePasswordSuccess: (data: PasswordAuthFormData) => Promise<void>;
     handleSignupSuccess: (data: RegisterFormData) => Promise<void>;
     handleForgotPassword: (email: string) => Promise<void>;
-    handleResetPassword: (data: { password: string; confirmPassword: string; token: string }) => Promise<void>;
-    handleEmailVerification: (data: { token?: string; code?: string }) => Promise<void>;
+    handleResetPassword: (data: {
+        password: string;
+        confirmPassword: string;
+        token: string;
+    }) => Promise<void>;
+    handleEmailVerification: (data: {
+        token?: string;
+        code?: string;
+    }) => Promise<void>;
     resendOTP: () => Promise<void>;
     resendEmailVerification: (email: string) => Promise<void>;
 }
@@ -94,11 +105,15 @@ export const useAuthFlow = () => {
             switch (prev.step) {
                 case 'method':
                     newStep = 'email';
-                    newCompletedSteps = newCompletedSteps.filter(s => s !== 'email');
+                    newCompletedSteps = newCompletedSteps.filter(
+                        s => s !== 'email'
+                    );
                     break;
                 case 'auth':
                     newStep = 'method';
-                    newCompletedSteps = newCompletedSteps.filter(s => s !== 'method');
+                    newCompletedSteps = newCompletedSteps.filter(
+                        s => s !== 'method'
+                    );
                     break;
                 default:
                     newStep = prev.step;
@@ -132,7 +147,7 @@ export const useAuthFlow = () => {
         setState(initialState);
     }, []);
 
-    const authenticateUser = async (authData: any): Promise<void> => {
+    const authenticateUser = async (_authData: any): Promise<void> => {
         try {
             // TODO: Replace with actual API call
             await new Promise(resolve => setTimeout(resolve, 1000));
@@ -161,40 +176,54 @@ export const useAuthFlow = () => {
         }
     };
 
-    const handleOTPSuccess = useCallback(async (otp: string) => {
-        setLoading(true);
-        setError(null);
+    const handleOTPSuccess = useCallback(
+        async (otp: string) => {
+            setLoading(true);
+            setError(null);
 
-        try {
-            await authenticateUser({
-                email: state.email,
-                method: 'otp',
-                otp,
-            });
-        } catch (error) {
-            setError(error instanceof Error ? error.message : 'OTP verification failed');
-        } finally {
-            setLoading(false);
-        }
-    }, [state.email]);
+            try {
+                await authenticateUser({
+                    email: state.email,
+                    method: 'otp',
+                    otp,
+                });
+            } catch (error) {
+                setError(
+                    error instanceof Error
+                        ? error.message
+                        : 'OTP verification failed'
+                );
+            } finally {
+                setLoading(false);
+            }
+        },
+        [state.email]
+    );
 
-    const handlePasswordSuccess = useCallback(async (data: PasswordAuthFormData) => {
-        setLoading(true);
-        setError(null);
+    const handlePasswordSuccess = useCallback(
+        async (data: PasswordAuthFormData) => {
+            setLoading(true);
+            setError(null);
 
-        try {
-            await authenticateUser({
-                email: state.email,
-                method: 'password',
-                password: data.password,
-                rememberMe: data.rememberMe,
-            });
-        } catch (error) {
-            setError(error instanceof Error ? error.message : 'Password authentication failed');
-        } finally {
-            setLoading(false);
-        }
-    }, [state.email]);
+            try {
+                await authenticateUser({
+                    email: state.email,
+                    method: 'password',
+                    password: data.password,
+                    rememberMe: data.rememberMe,
+                });
+            } catch (error) {
+                setError(
+                    error instanceof Error
+                        ? error.message
+                        : 'Password authentication failed'
+                );
+            } finally {
+                setLoading(false);
+            }
+        },
+        [state.email]
+    );
 
     const resendOTP = useCallback(async () => {
         setError(null);
@@ -213,30 +242,39 @@ export const useAuthFlow = () => {
         }
     }, [state.email]);
 
+    const handleSignupSuccess = useCallback(
+        async (data: RegisterFormData) => {
+            setLoading(true);
+            setError(null);
 
-    const handleSignupSuccess = useCallback(async (data: RegisterFormData) => {
-        setLoading(true);
-        setError(null);
+            try {
+                // TODO: Replace with actual signup API call
+                await new Promise(resolve => setTimeout(resolve, 1000));
 
-        try {
-            // TODO: Replace with actual signup API call
-            await new Promise(resolve => setTimeout(resolve, 1000));
+                // Store user data temporarily
+                localStorage.setItem(
+                    'pendingUser',
+                    JSON.stringify({
+                        firstName: data.firstName,
+                        lastName: data.lastName,
+                        email: data.email,
+                    })
+                );
 
-            // Store user data temporarily
-            localStorage.setItem('pendingUser', JSON.stringify({
-                firstName: data.firstName,
-                lastName: data.lastName,
-                email: data.email,
-            }));
-
-            // Redirect to email verification
-            navigate(`/auth/verify-email?email=${encodeURIComponent(data.email)}`);
-        } catch (error) {
-            setError(error instanceof Error ? error.message : 'Signup failed');
-        } finally {
-            setLoading(false);
-        }
-    }, [navigate, setLoading, setError]);
+                // Redirect to email verification
+                navigate(
+                    `/auth/verify-email?email=${encodeURIComponent(data.email)}`
+                );
+            } catch (error) {
+                setError(
+                    error instanceof Error ? error.message : 'Signup failed'
+                );
+            } finally {
+                setLoading(false);
+            }
+        },
+        [navigate, setLoading, setError]
+    );
 
     const handleForgotPassword = useCallback(async (email: string) => {
         setLoading(true);
@@ -248,58 +286,82 @@ export const useAuthFlow = () => {
 
             console.log(`Password reset link sent to: ${email}`);
         } catch (error) {
-            setError(error instanceof Error ? error.message : 'Failed to send reset link');
+            setError(
+                error instanceof Error
+                    ? error.message
+                    : 'Failed to send reset link'
+            );
             throw error;
         } finally {
             setLoading(false);
         }
     }, []);
 
-    const handleResetPassword = useCallback(async (data: { password: string; confirmPassword: string; token: string }) => {
-        setLoading(true);
-        setError(null);
+    const handleResetPassword = useCallback(
+        async (data: {
+            password: string;
+            confirmPassword: string;
+            token: string;
+        }) => {
+            setLoading(true);
+            setError(null);
 
-        try {
-            // TODO: Replace with actual reset password API call
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            try {
+                // TODO: Replace with actual reset password API call
+                await new Promise(resolve => setTimeout(resolve, 1000));
 
-            console.log('Password reset successful', { token: data.token });
-        } catch (error) {
-            setError(error instanceof Error ? error.message : 'Password reset failed');
-            throw error;
-        } finally {
-            setLoading(false);
-        }
-    }, []);
+                console.log('Password reset successful', { token: data.token });
+            } catch (error) {
+                setError(
+                    error instanceof Error
+                        ? error.message
+                        : 'Password reset failed'
+                );
+                throw error;
+            } finally {
+                setLoading(false);
+            }
+        },
+        []
+    );
 
-    const handleEmailVerification = useCallback(async (data: { token?: string; code?: string }) => {
-        setLoading(true);
-        setError(null);
+    const handleEmailVerification = useCallback(
+        async (data: { token?: string; code?: string }) => {
+            setLoading(true);
+            setError(null);
 
-        try {
-            // TODO: Replace with actual email verification API call
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            try {
+                // TODO: Replace with actual email verification API call
+                await new Promise(resolve => setTimeout(resolve, 1000));
 
-            console.log('Email verification successful', data);
+                console.log('Email verification successful', data);
 
-            // Get pending user data
-            const pendingUserData = localStorage.getItem('pendingUser');
-            const userData = pendingUserData ? JSON.parse(pendingUserData) : mockUser;
+                // Get pending user data
+                const pendingUserData = localStorage.getItem('pendingUser');
+                const userData = pendingUserData
+                    ? JSON.parse(pendingUserData)
+                    : mockUser;
 
-            // Store tokens and user data
-            tokenManager.setTokens('verified-token', 'refresh-token');
-            localStorage.setItem('user', JSON.stringify(userData));
-            localStorage.removeItem('pendingUser');
+                // Store tokens and user data
+                tokenManager.setTokens('verified-token', 'refresh-token');
+                localStorage.setItem('user', JSON.stringify(userData));
+                localStorage.removeItem('pendingUser');
 
-            // Navigate to portal
-            navigate('/portal');
-        } catch (error) {
-            setError(error instanceof Error ? error.message : 'Email verification failed');
-            throw error;
-        } finally {
-            setLoading(false);
-        }
-    }, [navigate]);
+                // Navigate to portal
+                navigate('/portal');
+            } catch (error) {
+                setError(
+                    error instanceof Error
+                        ? error.message
+                        : 'Email verification failed'
+                );
+                throw error;
+            } finally {
+                setLoading(false);
+            }
+        },
+        [navigate]
+    );
 
     const resendEmailVerification = useCallback(async (email: string) => {
         setError(null);
@@ -311,7 +373,9 @@ export const useAuthFlow = () => {
             console.log(`Resending verification email to: ${email}`);
         } catch (error) {
             console.error('Resend verification error:', error);
-            throw new Error('Failed to resend verification email. Please try again.');
+            throw new Error(
+                'Failed to resend verification email. Please try again.'
+            );
         }
     }, []);
 

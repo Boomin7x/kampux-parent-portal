@@ -18,7 +18,10 @@ import {
 } from '@mui/material';
 import React, { useState, useEffect, useRef } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { authSchemas, type OTPVerificationFormData } from '../../../utils/validation/schemas';
+import {
+    authSchemas,
+    type OTPVerificationFormData,
+} from '../../../utils/validation/schemas';
 
 interface OTPStepProps {
     email: string;
@@ -82,7 +85,9 @@ export const OTPStep: React.FC<OTPStepProps> = ({
             const isValidOTP = data.otp === '123456'; // This would come from API response
 
             if (!isValidOTP) {
-                setError('Invalid OTP code. Please check your email and try again.');
+                setError(
+                    'Invalid OTP code. Please check your email and try again.'
+                );
                 return;
             }
 
@@ -144,7 +149,10 @@ export const OTPStep: React.FC<OTPStepProps> = ({
 
     const handlePaste = (e: React.ClipboardEvent) => {
         e.preventDefault();
-        const pastedData = e.clipboardData.getData('text').replace(/[^0-9]/g, '').slice(0, 6);
+        const pastedData = e.clipboardData
+            .getData('text')
+            .replace(/[^0-9]/g, '')
+            .slice(0, 6);
         setValue('otp', pastedData);
     };
 
@@ -158,7 +166,10 @@ export const OTPStep: React.FC<OTPStepProps> = ({
                         mb: 2,
                         color: 'text.secondary',
                         '&:hover': {
-                            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                            backgroundColor: alpha(
+                                theme.palette.primary.main,
+                                0.1
+                            ),
                         },
                     }}
                 >
@@ -177,7 +188,14 @@ export const OTPStep: React.FC<OTPStepProps> = ({
                     Enter Verification Code
                 </Typography>
 
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1,
+                        mb: 2,
+                    }}
+                >
                     <Typography
                         variant="body1"
                         sx={{
@@ -191,7 +209,10 @@ export const OTPStep: React.FC<OTPStepProps> = ({
                         label={email}
                         size="small"
                         sx={{
-                            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+                            backgroundColor: alpha(
+                                theme.palette.primary.main,
+                                0.1
+                            ),
                             color: 'primary.main',
                             fontWeight: 500,
                         }}
@@ -206,7 +227,8 @@ export const OTPStep: React.FC<OTPStepProps> = ({
                         lineHeight: 1.6,
                     }}
                 >
-                    Please check your email and enter the verification code below.
+                    Please check your email and enter the verification code
+                    below.
                 </Typography>
             </Box>
 
@@ -245,13 +267,20 @@ export const OTPStep: React.FC<OTPStepProps> = ({
                                 }}
                                 onPaste={handlePaste}
                             >
-                                {[0, 1, 2, 3, 4, 5].map((index) => (
+                                {[0, 1, 2, 3, 4, 5].map(index => (
                                     <TextField
                                         key={index}
-                                        inputRef={(el) => (inputRefs.current[index] = el)}
+                                        inputRef={el =>
+                                            (inputRefs.current[index] = el)
+                                        }
                                         value={otpValue[index] || ''}
-                                        onChange={(e) => handleOTPChange(e.target.value, index)}
-                                        onKeyDown={(e) => handleKeyDown(e, index)}
+                                        onChange={e =>
+                                            handleOTPChange(
+                                                e.target.value,
+                                                index
+                                            )
+                                        }
+                                        onKeyDown={e => handleKeyDown(e, index)}
                                         inputProps={{
                                             maxLength: 1,
                                             style: {
@@ -268,7 +297,8 @@ export const OTPStep: React.FC<OTPStepProps> = ({
                                                 height: 64,
                                                 '&.Mui-focused': {
                                                     '& fieldset': {
-                                                        borderColor: 'primary.main',
+                                                        borderColor:
+                                                            'primary.main',
                                                         borderWidth: 2,
                                                     },
                                                 },
@@ -312,7 +342,8 @@ export const OTPStep: React.FC<OTPStepProps> = ({
                         height: 56,
                         background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
                         '&:hover': {
-                            background: 'linear-gradient(135deg, #5b5bd6, #7c3aed)',
+                            background:
+                                'linear-gradient(135deg, #5b5bd6, #7c3aed)',
                             transform: 'translateY(-1px)',
                             boxShadow: theme.shadows[8],
                         },
@@ -326,7 +357,11 @@ export const OTPStep: React.FC<OTPStepProps> = ({
                 >
                     {isSubmitting ? (
                         <>
-                            <CircularProgress size={20} color="inherit" sx={{ mr: 1 }} />
+                            <CircularProgress
+                                size={20}
+                                color="inherit"
+                                sx={{ mr: 1 }}
+                            />
                             Verifying...
                         </>
                     ) : (
@@ -359,7 +394,9 @@ export const OTPStep: React.FC<OTPStepProps> = ({
                         fontSize: '0.875rem',
                         fontWeight: 500,
                         '&:hover': {
-                            backgroundColor: canResend ? alpha(theme.palette.primary.main, 0.1) : 'transparent',
+                            backgroundColor: canResend
+                                ? alpha(theme.palette.primary.main, 0.1)
+                                : 'transparent',
                         },
                     }}
                 >

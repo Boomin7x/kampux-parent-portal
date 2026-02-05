@@ -1,31 +1,31 @@
-import React, { useState } from 'react';
 import {
-    Drawer,
+    Close as CloseIcon,
+    // Assignment as AssignmentIcon,
+    EventAvailable as EventIcon,
+    Info as InfoIcon,
+    MarkEmailRead as MarkReadIcon,
+    School as SchoolIcon,
+    CheckCircle as SuccessIcon,
+    Circle as UnreadIcon,
+    Warning as WarningIcon,
+} from '@mui/icons-material';
+import {
+    Avatar,
+    Badge,
     Box,
-    Typography,
+    Button,
+    Chip,
+    Divider,
+    Drawer,
     IconButton,
     List,
     ListItem,
-    Avatar,
-    Chip,
-    Button,
-    Divider,
     Tab,
     Tabs,
-    Badge,
+    Typography,
     useTheme,
 } from '@mui/material';
-import {
-    Close as CloseIcon,
-    Circle as UnreadIcon,
-    School as SchoolIcon,
-    Assignment as AssignmentIcon,
-    EventAvailable as EventIcon,
-    Warning as WarningIcon,
-    CheckCircle as SuccessIcon,
-    Info as InfoIcon,
-    MarkEmailRead as MarkReadIcon,
-} from '@mui/icons-material';
+import React, { useState } from 'react';
 
 interface NotificationCenterProps {
     open: boolean;
@@ -79,7 +79,8 @@ const mockNotifications: Notification[] = [
         id: '3',
         type: 'general',
         title: 'Parent-Teacher Conference',
-        message: 'Reminder: Your conference is scheduled for tomorrow at 2:00 PM.',
+        message:
+            'Reminder: Your conference is scheduled for tomorrow at 2:00 PM.',
         timestamp: '2024-01-17T16:00:00Z',
         isRead: true,
         priority: 'medium',
@@ -89,7 +90,8 @@ const mockNotifications: Notification[] = [
         id: '4',
         type: 'achievement',
         title: 'Student Recognition',
-        message: 'Emma was recognized for outstanding participation in class discussions.',
+        message:
+            'Emma was recognized for outstanding participation in class discussions.',
         timestamp: '2024-01-17T14:30:00Z',
         isRead: false,
         priority: 'low',
@@ -134,7 +136,10 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
         }
     };
 
-    const getNotificationColor = (type: Notification['type'], priority: Notification['priority']) => {
+    const getNotificationColor = (
+        type: Notification['type'],
+        priority: Notification['priority']
+    ) => {
         if (priority === 'high') return theme.palette.error.main;
         if (type === 'achievement') return theme.palette.success.main;
         if (type === 'academic') return theme.palette.primary.main;
@@ -144,7 +149,9 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
     const formatTimestamp = (timestamp: string) => {
         const date = new Date(timestamp);
         const now = new Date();
-        const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
+        const diffInMinutes = Math.floor(
+            (now.getTime() - date.getTime()) / (1000 * 60)
+        );
 
         if (diffInMinutes < 60) {
             return `${diffInMinutes}m ago`;
@@ -178,9 +185,16 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
             case 1: // Unread
                 return notifications.filter(n => !n.isRead);
             case 2: // Academic
-                return notifications.filter(n => n.type === 'academic' || n.type === 'alert');
+                return notifications.filter(
+                    n => n.type === 'academic' || n.type === 'alert'
+                );
             case 3: // General
-                return notifications.filter(n => n.type === 'general' || n.type === 'attendance' || n.type === 'achievement');
+                return notifications.filter(
+                    n =>
+                        n.type === 'general' ||
+                        n.type === 'attendance' ||
+                        n.type === 'achievement'
+                );
             default:
                 return notifications;
         }
@@ -200,7 +214,13 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                 },
             }}
         >
-            <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+            <Box
+                sx={{
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                }}
+            >
                 {/* Header */}
                 <Box
                     sx={{
@@ -228,7 +248,12 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
 
                 {/* Action Bar */}
                 {unreadCount > 0 && (
-                    <Box sx={{ p: 2, borderBottom: `1px solid ${theme.palette.divider}` }}>
+                    <Box
+                        sx={{
+                            p: 2,
+                            borderBottom: `1px solid ${theme.palette.divider}`,
+                        }}
+                    >
                         <Button
                             size="small"
                             startIcon={<MarkReadIcon />}
@@ -241,7 +266,9 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                 )}
 
                 {/* Filter Tabs */}
-                <Box sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}>
+                <Box
+                    sx={{ borderBottom: `1px solid ${theme.palette.divider}` }}
+                >
                     <Tabs
                         value={activeTab}
                         onChange={(_, newValue) => setActiveTab(newValue)}
@@ -258,7 +285,13 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                         <Tab label="All" />
                         <Tab
                             label={
-                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 1,
+                                    }}
+                                >
                                     Unread
                                     {unreadCount > 0 && (
                                         <Chip
@@ -312,17 +345,25 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                                                 sx={{
                                                     width: 32,
                                                     height: 32,
-                                                    backgroundColor: getNotificationColor(
-                                                        notification.type,
-                                                        notification.priority
-                                                    ),
+                                                    backgroundColor:
+                                                        getNotificationColor(
+                                                            notification.type,
+                                                            notification.priority
+                                                        ),
                                                     color: 'white',
                                                 }}
                                             >
-                                                {getNotificationIcon(notification.type)}
+                                                {getNotificationIcon(
+                                                    notification.type
+                                                )}
                                             </Avatar>
 
-                                            <Box sx={{ flexGrow: 1, minWidth: 0 }}>
+                                            <Box
+                                                sx={{
+                                                    flexGrow: 1,
+                                                    minWidth: 0,
+                                                }}
+                                            >
                                                 <Box
                                                     sx={{
                                                         display: 'flex',
@@ -342,23 +383,31 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                                                     <Typography
                                                         variant="subtitle2"
                                                         sx={{
-                                                            fontWeight: notification.isRead ? 400 : 600,
-                                                            fontSize: '0.8125rem',
+                                                            fontWeight:
+                                                                notification.isRead
+                                                                    ? 400
+                                                                    : 600,
+                                                            fontSize:
+                                                                '0.8125rem',
                                                             overflow: 'hidden',
-                                                            textOverflow: 'ellipsis',
-                                                            whiteSpace: 'nowrap',
+                                                            textOverflow:
+                                                                'ellipsis',
+                                                            whiteSpace:
+                                                                'nowrap',
                                                         }}
                                                     >
                                                         {notification.title}
                                                     </Typography>
-                                                    {notification.priority === 'high' && (
+                                                    {notification.priority ===
+                                                        'high' && (
                                                         <Chip
                                                             label="High"
                                                             size="small"
                                                             color="error"
                                                             sx={{
                                                                 height: 16,
-                                                                fontSize: '0.6875rem',
+                                                                fontSize:
+                                                                    '0.6875rem',
                                                             }}
                                                         />
                                                     )}
@@ -381,11 +430,14 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                                                         variant="caption"
                                                         sx={{
                                                             color: 'primary.main',
-                                                            fontSize: '0.6875rem',
+                                                            fontSize:
+                                                                '0.6875rem',
                                                             fontWeight: 500,
                                                         }}
                                                     >
-                                                        {notification.studentName}
+                                                        {
+                                                            notification.studentName
+                                                        }
                                                     </Typography>
                                                 )}
 
@@ -393,7 +445,8 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                                                     sx={{
                                                         display: 'flex',
                                                         alignItems: 'center',
-                                                        justifyContent: 'space-between',
+                                                        justifyContent:
+                                                            'space-between',
                                                         mt: 1,
                                                     }}
                                                 >
@@ -401,32 +454,44 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                                                         variant="caption"
                                                         sx={{
                                                             color: 'text.secondary',
-                                                            fontSize: '0.6875rem',
+                                                            fontSize:
+                                                                '0.6875rem',
                                                         }}
                                                     >
-                                                        {notification.source} • {formatTimestamp(notification.timestamp)}
+                                                        {notification.source} •{' '}
+                                                        {formatTimestamp(
+                                                            notification.timestamp
+                                                        )}
                                                     </Typography>
 
-                                                    {notification.actionRequired && notification.actionText && (
-                                                        <Button
-                                                            size="small"
-                                                            variant="text"
-                                                            sx={{
-                                                                textTransform: 'none',
-                                                                fontSize: '0.6875rem',
-                                                                minWidth: 'auto',
-                                                                p: 0.5,
-                                                            }}
-                                                        >
-                                                            {notification.actionText}
-                                                        </Button>
-                                                    )}
+                                                    {notification.actionRequired &&
+                                                        notification.actionText && (
+                                                            <Button
+                                                                size="small"
+                                                                variant="text"
+                                                                sx={{
+                                                                    textTransform:
+                                                                        'none',
+                                                                    fontSize:
+                                                                        '0.6875rem',
+                                                                    minWidth:
+                                                                        'auto',
+                                                                    p: 0.5,
+                                                                }}
+                                                            >
+                                                                {
+                                                                    notification.actionText
+                                                                }
+                                                            </Button>
+                                                        )}
                                                 </Box>
                                             </Box>
                                         </Box>
                                     </Box>
                                 </ListItem>
-                                {index < filteredNotifications().length - 1 && <Divider />}
+                                {index < filteredNotifications().length - 1 && (
+                                    <Divider />
+                                )}
                             </React.Fragment>
                         ))}
                     </List>
@@ -460,7 +525,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                             <Typography variant="body2" color="text.secondary">
                                 {activeTab === 1
                                     ? "You're all caught up!"
-                                    : "No notifications to display"}
+                                    : 'No notifications to display'}
                             </Typography>
                         </Box>
                     )}

@@ -236,7 +236,12 @@ export interface GradeTrend {
 
 export interface PerformanceAlert {
     id: string;
-    type: 'missing_assignment' | 'failing_grade' | 'attendance' | 'behavior' | 'positive';
+    type:
+        | 'missing_assignment'
+        | 'failing_grade'
+        | 'attendance'
+        | 'behavior'
+        | 'positive';
     severity: 'low' | 'medium' | 'high' | 'critical';
     title: string;
     message: string;

@@ -17,34 +17,38 @@ const requirements: StrengthRequirement[] = [
     {
         id: 'length',
         label: 'At least 8 characters',
-        test: (password) => password.length >= 8,
+        test: password => password.length >= 8,
     },
     {
         id: 'uppercase',
         label: 'One uppercase letter',
-        test: (password) => /[A-Z]/.test(password),
+        test: password => /[A-Z]/.test(password),
     },
     {
         id: 'lowercase',
         label: 'One lowercase letter',
-        test: (password) => /[a-z]/.test(password),
+        test: password => /[a-z]/.test(password),
     },
     {
         id: 'number',
         label: 'One number',
-        test: (password) => /\d/.test(password),
+        test: password => /\d/.test(password),
     },
     {
         id: 'special',
         label: 'One special character',
-        test: (password) => /[@$!%*?&]/.test(password),
+        test: password => /[@$!%*?&]/.test(password),
     },
 ];
 
-const getPasswordStrength = (password: string): { score: number; label: string; color: string } => {
+const getPasswordStrength = (
+    password: string
+): { score: number; label: string; color: string } => {
     if (!password) return { score: 0, label: '', color: '#e5e7eb' };
 
-    const metRequirements = requirements.filter(req => req.test(password)).length;
+    const metRequirements = requirements.filter(req =>
+        req.test(password)
+    ).length;
     const score = (metRequirements / requirements.length) * 100;
 
     if (score < 40) {
@@ -58,10 +62,9 @@ const getPasswordStrength = (password: string): { score: number; label: string; 
     }
 };
 
-export const PasswordStrengthIndicator: React.FC<PasswordStrengthIndicatorProps> = ({
-    password,
-    showRequirements = true,
-}) => {
+export const PasswordStrengthIndicator: React.FC<
+    PasswordStrengthIndicatorProps
+> = ({ password, showRequirements = true }) => {
     const strength = getPasswordStrength(password);
 
     if (!password) return null;
@@ -132,8 +135,14 @@ export const PasswordStrengthIndicator: React.FC<PasswordStrengthIndicatorProps>
                     >
                         Password Requirements
                     </Typography>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                        {requirements.map((requirement) => {
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 1,
+                        }}
+                    >
+                        {requirements.map(requirement => {
                             const isMet = requirement.test(password);
                             return (
                                 <Box
@@ -147,7 +156,9 @@ export const PasswordStrengthIndicator: React.FC<PasswordStrengthIndicatorProps>
                                     <CheckIcon
                                         sx={{
                                             fontSize: 16,
-                                            color: isMet ? '#10b981' : '#d1d5db',
+                                            color: isMet
+                                                ? '#10b981'
+                                                : '#d1d5db',
                                             transition: 'color 0.2s ease',
                                         }}
                                     />
@@ -155,7 +166,9 @@ export const PasswordStrengthIndicator: React.FC<PasswordStrengthIndicatorProps>
                                         variant="caption"
                                         sx={{
                                             fontSize: '0.75rem',
-                                            color: isMet ? '#059669' : 'text.secondary',
+                                            color: isMet
+                                                ? '#059669'
+                                                : 'text.secondary',
                                             fontWeight: isMet ? 500 : 400,
                                             transition: 'color 0.2s ease',
                                         }}

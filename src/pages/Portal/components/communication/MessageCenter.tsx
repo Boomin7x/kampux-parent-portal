@@ -285,16 +285,16 @@ export const MessageCenter: React.FC<MessageCenterProps> = ({
         return { unread, fromTeachers, fromSchool };
     };
 
-    const getPriorityColor = (priority: 'low' | 'medium' | 'high') => {
-        switch (priority) {
-            case 'high':
-                return 'error';
-            case 'medium':
-                return 'warning';
-            default:
-                return 'default';
-        }
-    };
+    // const getPriorityColor = (priority: 'low' | 'medium' | 'high') => {
+    //     switch (priority) {
+    //         case 'high':
+    //             return 'error';
+    //         case 'medium':
+    //             return 'warning';
+    //         default:
+    //             return 'default';
+    //     }
+    // };
 
     const getRoleIcon = (role: 'teacher' | 'parent' | 'admin') => {
         switch (role) {
@@ -489,7 +489,6 @@ export const MessageCenter: React.FC<MessageCenterProps> = ({
                         {filteredThreads.map((thread, index) => (
                             <React.Fragment key={thread.id}>
                                 <ListItem
-                                    button
                                     onClick={() => handleThreadClick(thread)}
                                     sx={{
                                         borderRadius: 2,

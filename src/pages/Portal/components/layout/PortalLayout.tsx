@@ -52,7 +52,7 @@ export const PortalLayout: React.FC<PortalLayoutProps> = ({
         navigate('/portal/complaints');
     };
 
-    const unreadNotifications = 3; // Mock notification count
+    // const unreadNotifications = 3; // Mock notification count
 
     return (
         <Box sx={{ display: 'flex', minHeight: '100vh' }}>

@@ -280,7 +280,8 @@ export function DataTable<TData extends BaseTableData>(
                 <EmptyState
                     title="No Data Available"
                     description={
-                        emptyMessage || 'There are no records to display.'
+                        (emptyMessage as string) ||
+                        'There are no records to display.'
                     }
                     onReset={
                         computed.activeFilters.length > 0
@@ -401,7 +402,8 @@ export function DataTable<TData extends BaseTableData>(
                                                     header.column.columnDef
                                                         .maxSize,
                                                 textAlign:
-                                                    columnMeta?.align || 'left',
+                                                    (columnMeta as any)
+                                                        ?.align || 'left',
                                                 position: 'relative',
                                                 userSelect: 'none',
                                                 ...(canSort && {
@@ -519,7 +521,7 @@ export function DataTable<TData extends BaseTableData>(
                                               ),
                                           },
                                       }}
-                                      onClick={e => {
+                                      onClick={() => {
                                           if (onRowClick) {
                                               onRowClick(
                                                   row.original,
@@ -527,7 +529,7 @@ export function DataTable<TData extends BaseTableData>(
                                               );
                                           }
                                       }}
-                                      onDoubleClick={e => {
+                                      onDoubleClick={_ => {
                                           if (onRowDoubleClick) {
                                               onRowDoubleClick(
                                                   row.original,
@@ -544,8 +546,8 @@ export function DataTable<TData extends BaseTableData>(
                                                   key={cell.id}
                                                   sx={{
                                                       textAlign:
-                                                          columnMeta?.align ||
-                                                          'left',
+                                                          (columnMeta as any)
+                                                              ?.align || 'left',
                                                   }}
                                                   onClick={e => {
                                                       if (onCellClick) {

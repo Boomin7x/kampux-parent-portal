@@ -114,11 +114,7 @@ export const useGetTellerOperations = (
 export const useCreateComplaintForSelectedStudent = () => {
     const queryClient = useQueryClient();
 
-    return useMutation<
-        CreateComplaintResponse,
-        Error,
-        CreateComplaintRequest
-    >({
+    return useMutation<CreateComplaintResponse, Error, CreateComplaintRequest>({
         mutationFn: parentService.createComplaint,
         onSuccess: data => {
             console.log('Complaint created successfully:', data);

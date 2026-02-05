@@ -67,7 +67,7 @@ export const FormField: React.FC<FormFieldProps> = ({
                     rows={rows}
                     error={!!error}
                     helperText={error?.message}
-                    sx={{ ...authStyles.textField, ...sx }}
+                    sx={{ ...authStyles.textField, ...sx } as any}
                     InputProps={
                         showPasswordToggle
                             ? {

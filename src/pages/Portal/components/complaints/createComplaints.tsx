@@ -1,3 +1,4 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
     CheckCircle,
     Error as ErrorIcon,
@@ -17,7 +18,6 @@ import {
     TextField,
     Typography,
 } from '@mui/material';
-import { yupResolver } from '@hookform/resolvers/yup';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -239,7 +239,8 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
                                                     <Typography
                                                         variant="body2"
                                                         sx={{
-                                                            fontSize: '0.8125rem',
+                                                            fontSize:
+                                                                '0.8125rem',
                                                             fontWeight: 500,
                                                         }}
                                                     >
@@ -249,7 +250,8 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
                                                         variant="caption"
                                                         sx={{
                                                             color: 'text.secondary',
-                                                            fontSize: '0.6875rem',
+                                                            fontSize:
+                                                                '0.6875rem',
                                                             display: 'block',
                                                         }}
                                                     >
@@ -263,7 +265,10 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
                                         <FormHelperText
                                             sx={{ fontSize: '0.75rem' }}
                                         >
-                                            {errors.complaintCategoryCode.message}
+                                            {
+                                                errors.complaintCategoryCode
+                                                    .message
+                                            }
                                         </FormHelperText>
                                     )}
                                 </FormControl>

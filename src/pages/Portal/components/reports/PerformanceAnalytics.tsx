@@ -1,34 +1,32 @@
-import React, { useState, useMemo } from 'react';
 import {
-    Box,
-    Card,
-    CardContent,
-    Typography,
-    Grid,
-    Select,
-    MenuItem,
-    FormControl,
-    InputLabel,
-    Button,
-    Paper,
-    LinearProgress,
-    Chip,
-    Avatar,
-    useTheme,
-    alpha,
-} from '@mui/material';
-import {
-    TrendingUp as TrendingUpIcon,
-    TrendingDown as TrendingDownIcon,
-    Assessment as AnalyticsIcon,
-    School as SubjectIcon,
+    // School as SubjectIcon,
     EmojiEvents as AchievementIcon,
     Warning as AlertIcon,
-    Timeline as TimelineIcon,
-    PieChart as PieChartIcon,
-    BarChart as BarChartIcon,
+    Assessment as AnalyticsIcon,
     Download as DownloadIcon,
+    Timeline as TimelineIcon,
+    TrendingDown as TrendingDownIcon,
+    TrendingUp as TrendingUpIcon,
 } from '@mui/icons-material';
+import {
+    alpha,
+    Avatar,
+    Box,
+    Button,
+    Card,
+    CardContent,
+    Chip,
+    FormControl,
+    Grid,
+    InputLabel,
+    LinearProgress,
+    MenuItem,
+    Paper,
+    Select,
+    Typography,
+    useTheme,
+} from '@mui/material';
+import React, { useState } from 'react';
 import type { Student } from '../../../../types/student.types';
 
 interface PerformanceAnalyticsProps {
@@ -39,7 +37,11 @@ interface PerformanceAnalyticsProps {
 interface AnalyticsData {
     overallPerformance: {
         currentGPA: number;
-        gpaHistory: { period: string; gpa: number; trend: 'up' | 'down' | 'stable' }[];
+        gpaHistory: {
+            period: string;
+            gpa: number;
+            trend: 'up' | 'down' | 'stable';
+        }[];
         classRank: number;
         totalStudents: number;
         percentile: number;
@@ -112,7 +114,8 @@ const mockAnalyticsData: AnalyticsData = {
         pattern: {
             bestDay: 'Wednesday',
             worstDay: 'Monday',
-            timePattern: 'Morning arrival consistent, occasional early dismissal',
+            timePattern:
+                'Morning arrival consistent, occasional early dismissal',
         },
         comparison: 2.1, // 2.1% above school average
     },
@@ -170,7 +173,7 @@ export const PerformanceAnalytics: React.FC<PerformanceAnalyticsProps> = ({
 }) => {
     const theme = useTheme();
     const [timeRange, setTimeRange] = useState('current_year');
-    const [reportType, setReportType] = useState('comprehensive');
+    const [reportType] = useState('comprehensive');
 
     const analyticsData = mockAnalyticsData;
 
@@ -188,9 +191,17 @@ export const PerformanceAnalytics: React.FC<PerformanceAnalyticsProps> = ({
 
     const getTrendIcon = (trend: 'up' | 'down' | 'stable', value?: number) => {
         if (trend === 'up' || (value && value > 0)) {
-            return <TrendingUpIcon sx={{ color: theme.palette.success.main, fontSize: 16 }} />;
+            return (
+                <TrendingUpIcon
+                    sx={{ color: theme.palette.success.main, fontSize: 16 }}
+                />
+            );
         } else if (trend === 'down' || (value && value < 0)) {
-            return <TrendingDownIcon sx={{ color: theme.palette.error.main, fontSize: 16 }} />;
+            return (
+                <TrendingDownIcon
+                    sx={{ color: theme.palette.error.main, fontSize: 16 }}
+                />
+            );
         }
         return null;
     };
@@ -205,7 +216,9 @@ export const PerformanceAnalytics: React.FC<PerformanceAnalyticsProps> = ({
             <Card className={className}>
                 <CardContent>
                     <Box sx={{ textAlign: 'center', py: 4 }}>
-                        <AnalyticsIcon sx={{ fontSize: 64, color: 'text.disabled', mb: 2 }} />
+                        <AnalyticsIcon
+                            sx={{ fontSize: 64, color: 'text.disabled', mb: 2 }}
+                        />
                         <Typography variant="h6" color="text.secondary">
                             Select a student to view performance analytics
                         </Typography>
@@ -218,7 +231,14 @@ export const PerformanceAnalytics: React.FC<PerformanceAnalyticsProps> = ({
     return (
         <Box className={className}>
             {/* Header */}
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    mb: 3,
+                }}
+            >
                 <Typography variant="h4" sx={{ fontWeight: 600 }}>
                     Performance Analytics
                 </Typography>
@@ -227,12 +247,18 @@ export const PerformanceAnalytics: React.FC<PerformanceAnalyticsProps> = ({
                         <InputLabel>Time Range</InputLabel>
                         <Select
                             value={timeRange}
-                            onChange={(e) => setTimeRange(e.target.value)}
+                            onChange={e => setTimeRange(e.target.value)}
                             label="Time Range"
                         >
-                            <MenuItem value="current_quarter">Current Quarter</MenuItem>
-                            <MenuItem value="current_semester">Current Semester</MenuItem>
-                            <MenuItem value="current_year">Current Year</MenuItem>
+                            <MenuItem value="current_quarter">
+                                Current Quarter
+                            </MenuItem>
+                            <MenuItem value="current_semester">
+                                Current Semester
+                            </MenuItem>
+                            <MenuItem value="current_year">
+                                Current Year
+                            </MenuItem>
                             <MenuItem value="all_time">All Time</MenuItem>
                         </Select>
                     </FormControl>
@@ -252,21 +278,54 @@ export const PerformanceAnalytics: React.FC<PerformanceAnalyticsProps> = ({
                 <Grid size={{ xs: 12 }}>
                     <Card>
                         <CardContent>
-                            <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                            <Typography
+                                variant="h6"
+                                sx={{ fontWeight: 600, mb: 3 }}
+                            >
                                 Overall Performance Summary
                             </Typography>
                             <Grid container spacing={3}>
                                 <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                                     <Box sx={{ textAlign: 'center' }}>
-                                        <Typography variant="h3" sx={{ color: getPerformanceColor(analyticsData.overallPerformance.currentGPA, 'gpa'), fontWeight: 600 }}>
-                                            {analyticsData.overallPerformance.currentGPA.toFixed(2)}
+                                        <Typography
+                                            variant="h3"
+                                            sx={{
+                                                color: getPerformanceColor(
+                                                    analyticsData
+                                                        .overallPerformance
+                                                        .currentGPA,
+                                                    'gpa'
+                                                ),
+                                                fontWeight: 600,
+                                            }}
+                                        >
+                                            {analyticsData.overallPerformance.currentGPA.toFixed(
+                                                2
+                                            )}
                                         </Typography>
-                                        <Typography variant="body2" color="text.secondary">
+                                        <Typography
+                                            variant="body2"
+                                            color="text.secondary"
+                                        >
                                             Current GPA
                                         </Typography>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 1 }}>
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                mt: 1,
+                                            }}
+                                        >
                                             {getTrendIcon('up')}
-                                            <Typography variant="caption" sx={{ color: 'success.main', fontWeight: 600, ml: 0.5 }}>
+                                            <Typography
+                                                variant="caption"
+                                                sx={{
+                                                    color: 'success.main',
+                                                    fontWeight: 600,
+                                                    ml: 0.5,
+                                                }}
+                                            >
                                                 +0.1 from last quarter
                                             </Typography>
                                         </Box>
@@ -274,39 +333,91 @@ export const PerformanceAnalytics: React.FC<PerformanceAnalyticsProps> = ({
                                 </Grid>
                                 <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                                     <Box sx={{ textAlign: 'center' }}>
-                                        <Typography variant="h3" sx={{ color: 'primary.main', fontWeight: 600 }}>
-                                            #{analyticsData.overallPerformance.classRank}
+                                        <Typography
+                                            variant="h3"
+                                            sx={{
+                                                color: 'primary.main',
+                                                fontWeight: 600,
+                                            }}
+                                        >
+                                            #
+                                            {
+                                                analyticsData.overallPerformance
+                                                    .classRank
+                                            }
                                         </Typography>
-                                        <Typography variant="body2" color="text.secondary">
+                                        <Typography
+                                            variant="body2"
+                                            color="text.secondary"
+                                        >
                                             Class Rank
                                         </Typography>
-                                        <Typography variant="caption" color="text.secondary">
-                                            of {analyticsData.overallPerformance.totalStudents} students
+                                        <Typography
+                                            variant="caption"
+                                            color="text.secondary"
+                                        >
+                                            of{' '}
+                                            {
+                                                analyticsData.overallPerformance
+                                                    .totalStudents
+                                            }{' '}
+                                            students
                                         </Typography>
                                     </Box>
                                 </Grid>
                                 <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                                     <Box sx={{ textAlign: 'center' }}>
-                                        <Typography variant="h3" sx={{ color: 'success.main', fontWeight: 600 }}>
-                                            {analyticsData.overallPerformance.percentile}%
+                                        <Typography
+                                            variant="h3"
+                                            sx={{
+                                                color: 'success.main',
+                                                fontWeight: 600,
+                                            }}
+                                        >
+                                            {
+                                                analyticsData.overallPerformance
+                                                    .percentile
+                                            }
+                                            %
                                         </Typography>
-                                        <Typography variant="body2" color="text.secondary">
+                                        <Typography
+                                            variant="body2"
+                                            color="text.secondary"
+                                        >
                                             Percentile Rank
                                         </Typography>
-                                        <Typography variant="caption" color="text.secondary">
+                                        <Typography
+                                            variant="caption"
+                                            color="text.secondary"
+                                        >
                                             Top 16% of class
                                         </Typography>
                                     </Box>
                                 </Grid>
                                 <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                                     <Box sx={{ textAlign: 'center' }}>
-                                        <Typography variant="h3" sx={{ color: 'info.main', fontWeight: 600 }}>
-                                            {analyticsData.achievements.academicAwards + analyticsData.achievements.extracurricularAwards}
+                                        <Typography
+                                            variant="h3"
+                                            sx={{
+                                                color: 'info.main',
+                                                fontWeight: 600,
+                                            }}
+                                        >
+                                            {analyticsData.achievements
+                                                .academicAwards +
+                                                analyticsData.achievements
+                                                    .extracurricularAwards}
                                         </Typography>
-                                        <Typography variant="body2" color="text.secondary">
+                                        <Typography
+                                            variant="body2"
+                                            color="text.secondary"
+                                        >
                                             Awards Earned
                                         </Typography>
-                                        <Typography variant="caption" color="text.secondary">
+                                        <Typography
+                                            variant="caption"
+                                            color="text.secondary"
+                                        >
                                             This school year
                                         </Typography>
                                     </Box>
@@ -320,91 +431,293 @@ export const PerformanceAnalytics: React.FC<PerformanceAnalyticsProps> = ({
                 <Grid size={{ xs: 12, lg: 8 }}>
                     <Card>
                         <CardContent>
-                            <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                            <Typography
+                                variant="h6"
+                                sx={{ fontWeight: 600, mb: 3 }}
+                            >
                                 Subject Performance Analysis
                             </Typography>
                             <Grid container spacing={3}>
                                 <Grid size={{ xs: 12, sm: 6 }}>
-                                    <Paper sx={{ p: 2, backgroundColor: alpha(theme.palette.success.main, 0.05), border: `1px solid ${alpha(theme.palette.success.main, 0.2)}` }}>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                                            <Avatar sx={{ width: 32, height: 32, backgroundColor: 'success.main' }}>
+                                    <Paper
+                                        sx={{
+                                            p: 2,
+                                            backgroundColor: alpha(
+                                                theme.palette.success.main,
+                                                0.05
+                                            ),
+                                            border: `1px solid ${alpha(theme.palette.success.main, 0.2)}`,
+                                        }}
+                                    >
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: 1,
+                                                mb: 1,
+                                            }}
+                                        >
+                                            <Avatar
+                                                sx={{
+                                                    width: 32,
+                                                    height: 32,
+                                                    backgroundColor:
+                                                        'success.main',
+                                                }}
+                                            >
                                                 <TrendingUpIcon fontSize="small" />
                                             </Avatar>
-                                            <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                                            <Typography
+                                                variant="subtitle2"
+                                                sx={{ fontWeight: 600 }}
+                                            >
                                                 Strongest Subject
                                             </Typography>
                                         </Box>
-                                        <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                                            {analyticsData.subjectAnalysis.strongest.subject}
+                                        <Typography
+                                            variant="h6"
+                                            sx={{ fontWeight: 600 }}
+                                        >
+                                            {
+                                                analyticsData.subjectAnalysis
+                                                    .strongest.subject
+                                            }
                                         </Typography>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                            <Typography variant="body2" sx={{ color: 'success.main', fontWeight: 600 }}>
-                                                {analyticsData.subjectAnalysis.strongest.grade.toFixed(1)}%
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: 1,
+                                            }}
+                                        >
+                                            <Typography
+                                                variant="body2"
+                                                sx={{
+                                                    color: 'success.main',
+                                                    fontWeight: 600,
+                                                }}
+                                            >
+                                                {analyticsData.subjectAnalysis.strongest.grade.toFixed(
+                                                    1
+                                                )}
+                                                %
                                             </Typography>
-                                            {getTrendIcon('up', analyticsData.subjectAnalysis.strongest.trend)}
-                                            <Typography variant="caption" color="text.secondary">
-                                                +{analyticsData.subjectAnalysis.strongest.trend.toFixed(1)}% trend
+                                            {getTrendIcon(
+                                                'up',
+                                                analyticsData.subjectAnalysis
+                                                    .strongest.trend
+                                            )}
+                                            <Typography
+                                                variant="caption"
+                                                color="text.secondary"
+                                            >
+                                                +
+                                                {analyticsData.subjectAnalysis.strongest.trend.toFixed(
+                                                    1
+                                                )}
+                                                % trend
                                             </Typography>
                                         </Box>
                                     </Paper>
                                 </Grid>
                                 <Grid size={{ xs: 12, sm: 6 }}>
-                                    <Paper sx={{ p: 2, backgroundColor: alpha(theme.palette.warning.main, 0.05), border: `1px solid ${alpha(theme.palette.warning.main, 0.2)}` }}>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                                            <Avatar sx={{ width: 32, height: 32, backgroundColor: 'warning.main' }}>
+                                    <Paper
+                                        sx={{
+                                            p: 2,
+                                            backgroundColor: alpha(
+                                                theme.palette.warning.main,
+                                                0.05
+                                            ),
+                                            border: `1px solid ${alpha(theme.palette.warning.main, 0.2)}`,
+                                        }}
+                                    >
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: 1,
+                                                mb: 1,
+                                            }}
+                                        >
+                                            <Avatar
+                                                sx={{
+                                                    width: 32,
+                                                    height: 32,
+                                                    backgroundColor:
+                                                        'warning.main',
+                                                }}
+                                            >
                                                 <AlertIcon fontSize="small" />
                                             </Avatar>
-                                            <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                                            <Typography
+                                                variant="subtitle2"
+                                                sx={{ fontWeight: 600 }}
+                                            >
                                                 Needs Attention
                                             </Typography>
                                         </Box>
-                                        <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                                            {analyticsData.subjectAnalysis.weakest.subject}
+                                        <Typography
+                                            variant="h6"
+                                            sx={{ fontWeight: 600 }}
+                                        >
+                                            {
+                                                analyticsData.subjectAnalysis
+                                                    .weakest.subject
+                                            }
                                         </Typography>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                            <Typography variant="body2" sx={{ color: 'warning.main', fontWeight: 600 }}>
-                                                {analyticsData.subjectAnalysis.weakest.grade.toFixed(1)}%
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: 1,
+                                            }}
+                                        >
+                                            <Typography
+                                                variant="body2"
+                                                sx={{
+                                                    color: 'warning.main',
+                                                    fontWeight: 600,
+                                                }}
+                                            >
+                                                {analyticsData.subjectAnalysis.weakest.grade.toFixed(
+                                                    1
+                                                )}
+                                                %
                                             </Typography>
-                                            {getTrendIcon('down', analyticsData.subjectAnalysis.weakest.trend)}
-                                            <Typography variant="caption" color="text.secondary">
-                                                {analyticsData.subjectAnalysis.weakest.trend.toFixed(1)}% trend
+                                            {getTrendIcon(
+                                                'down',
+                                                analyticsData.subjectAnalysis
+                                                    .weakest.trend
+                                            )}
+                                            <Typography
+                                                variant="caption"
+                                                color="text.secondary"
+                                            >
+                                                {analyticsData.subjectAnalysis.weakest.trend.toFixed(
+                                                    1
+                                                )}
+                                                % trend
                                             </Typography>
                                         </Box>
                                     </Paper>
                                 </Grid>
                                 <Grid size={{ xs: 12, sm: 6 }}>
-                                    <Paper sx={{ p: 2, backgroundColor: alpha(theme.palette.primary.main, 0.05), border: `1px solid ${alpha(theme.palette.primary.main, 0.2)}` }}>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                                            <Avatar sx={{ width: 32, height: 32, backgroundColor: 'primary.main' }}>
+                                    <Paper
+                                        sx={{
+                                            p: 2,
+                                            backgroundColor: alpha(
+                                                theme.palette.primary.main,
+                                                0.05
+                                            ),
+                                            border: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
+                                        }}
+                                    >
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: 1,
+                                                mb: 1,
+                                            }}
+                                        >
+                                            <Avatar
+                                                sx={{
+                                                    width: 32,
+                                                    height: 32,
+                                                    backgroundColor:
+                                                        'primary.main',
+                                                }}
+                                            >
                                                 <AchievementIcon fontSize="small" />
                                             </Avatar>
-                                            <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                                            <Typography
+                                                variant="subtitle2"
+                                                sx={{ fontWeight: 600 }}
+                                            >
                                                 Most Improved
                                             </Typography>
                                         </Box>
-                                        <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                                            {analyticsData.subjectAnalysis.mostImproved.subject}
+                                        <Typography
+                                            variant="h6"
+                                            sx={{ fontWeight: 600 }}
+                                        >
+                                            {
+                                                analyticsData.subjectAnalysis
+                                                    .mostImproved.subject
+                                            }
                                         </Typography>
-                                        <Typography variant="body2" sx={{ color: 'primary.main', fontWeight: 600 }}>
-                                            +{analyticsData.subjectAnalysis.mostImproved.improvement.toFixed(1)}% improvement
+                                        <Typography
+                                            variant="body2"
+                                            sx={{
+                                                color: 'primary.main',
+                                                fontWeight: 600,
+                                            }}
+                                        >
+                                            +
+                                            {analyticsData.subjectAnalysis.mostImproved.improvement.toFixed(
+                                                1
+                                            )}
+                                            % improvement
                                         </Typography>
                                     </Paper>
                                 </Grid>
                                 <Grid size={{ xs: 12, sm: 6 }}>
-                                    <Paper sx={{ p: 2, backgroundColor: alpha(theme.palette.info.main, 0.05), border: `1px solid ${alpha(theme.palette.info.main, 0.2)}` }}>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                                            <Avatar sx={{ width: 32, height: 32, backgroundColor: 'info.main' }}>
+                                    <Paper
+                                        sx={{
+                                            p: 2,
+                                            backgroundColor: alpha(
+                                                theme.palette.info.main,
+                                                0.05
+                                            ),
+                                            border: `1px solid ${alpha(theme.palette.info.main, 0.2)}`,
+                                        }}
+                                    >
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: 1,
+                                                mb: 1,
+                                            }}
+                                        >
+                                            <Avatar
+                                                sx={{
+                                                    width: 32,
+                                                    height: 32,
+                                                    backgroundColor:
+                                                        'info.main',
+                                                }}
+                                            >
                                                 <TimelineIcon fontSize="small" />
                                             </Avatar>
-                                            <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                                            <Typography
+                                                variant="subtitle2"
+                                                sx={{ fontWeight: 600 }}
+                                            >
                                                 Attendance Rate
                                             </Typography>
                                         </Box>
-                                        <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                                            {analyticsData.attendanceAnalytics.rate.toFixed(1)}%
+                                        <Typography
+                                            variant="h6"
+                                            sx={{ fontWeight: 600 }}
+                                        >
+                                            {analyticsData.attendanceAnalytics.rate.toFixed(
+                                                1
+                                            )}
+                                            %
                                         </Typography>
-                                        <Typography variant="body2" sx={{ color: 'info.main', fontWeight: 600 }}>
-                                            +{analyticsData.attendanceAnalytics.comparison.toFixed(1)}% vs school avg
+                                        <Typography
+                                            variant="body2"
+                                            sx={{
+                                                color: 'info.main',
+                                                fontWeight: 600,
+                                            }}
+                                        >
+                                            +
+                                            {analyticsData.attendanceAnalytics.comparison.toFixed(
+                                                1
+                                            )}
+                                            % vs school avg
                                         </Typography>
                                     </Paper>
                                 </Grid>
@@ -417,17 +730,42 @@ export const PerformanceAnalytics: React.FC<PerformanceAnalyticsProps> = ({
                 <Grid size={{ xs: 12, lg: 4 }}>
                     <Card>
                         <CardContent>
-                            <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                            <Typography
+                                variant="h6"
+                                sx={{ fontWeight: 600, mb: 3 }}
+                            >
                                 Behavioral Insights
                             </Typography>
-                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                                {Object.entries(analyticsData.behaviorInsights).map(([key, value]) => (
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: 3,
+                                }}
+                            >
+                                {Object.entries(
+                                    analyticsData.behaviorInsights
+                                ).map(([key, value]) => (
                                     <Box key={key}>
-                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                                            <Typography variant="body2" sx={{ textTransform: 'capitalize' }}>
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                mb: 1,
+                                            }}
+                                        >
+                                            <Typography
+                                                variant="body2"
+                                                sx={{
+                                                    textTransform: 'capitalize',
+                                                }}
+                                            >
                                                 {key}
                                             </Typography>
-                                            <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                                            <Typography
+                                                variant="body2"
+                                                sx={{ fontWeight: 600 }}
+                                            >
                                                 {value}%
                                             </Typography>
                                         </Box>
@@ -438,7 +776,11 @@ export const PerformanceAnalytics: React.FC<PerformanceAnalyticsProps> = ({
                                                 height: 6,
                                                 borderRadius: 3,
                                                 '& .MuiLinearProgress-bar': {
-                                                    backgroundColor: getPerformanceColor(value, 'percentage'),
+                                                    backgroundColor:
+                                                        getPerformanceColor(
+                                                            value,
+                                                            'percentage'
+                                                        ),
                                                 },
                                             }}
                                         />
@@ -453,58 +795,119 @@ export const PerformanceAnalytics: React.FC<PerformanceAnalyticsProps> = ({
                 <Grid size={{ xs: 12 }}>
                     <Card>
                         <CardContent>
-                            <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                            <Typography
+                                variant="h6"
+                                sx={{ fontWeight: 600, mb: 3 }}
+                            >
                                 Predictive Insights & Recommendations
                             </Typography>
                             <Grid container spacing={3}>
                                 <Grid size={{ xs: 12, md: 4 }}>
                                     <Box>
-                                        <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 2, color: 'success.main' }}>
+                                        <Typography
+                                            variant="subtitle1"
+                                            sx={{
+                                                fontWeight: 600,
+                                                mb: 2,
+                                                color: 'success.main',
+                                            }}
+                                        >
                                             Semester Projection
                                         </Typography>
-                                        <Typography variant="h4" sx={{ color: 'success.main', fontWeight: 600, mb: 1 }}>
-                                            {analyticsData.predictiveInsights.semesterProjection.toFixed(1)} GPA
+                                        <Typography
+                                            variant="h4"
+                                            sx={{
+                                                color: 'success.main',
+                                                fontWeight: 600,
+                                                mb: 1,
+                                            }}
+                                        >
+                                            {analyticsData.predictiveInsights.semesterProjection.toFixed(
+                                                1
+                                            )}{' '}
+                                            GPA
                                         </Typography>
-                                        <Typography variant="body2" color="text.secondary">
+                                        <Typography
+                                            variant="body2"
+                                            color="text.secondary"
+                                        >
                                             Based on current performance trends
                                         </Typography>
                                     </Box>
                                 </Grid>
                                 <Grid size={{ xs: 12, md: 4 }}>
                                     <Box>
-                                        <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 2, color: 'primary.main' }}>
+                                        <Typography
+                                            variant="subtitle1"
+                                            sx={{
+                                                fontWeight: 600,
+                                                mb: 2,
+                                                color: 'primary.main',
+                                            }}
+                                        >
                                             Opportunities
                                         </Typography>
-                                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                                            {analyticsData.predictiveInsights.opportunities.map((opportunity, index) => (
-                                                <Chip
-                                                    key={index}
-                                                    label={opportunity}
-                                                    size="small"
-                                                    color="primary"
-                                                    variant="outlined"
-                                                    sx={{ fontSize: '0.75rem', alignSelf: 'flex-start' }}
-                                                />
-                                            ))}
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                gap: 1,
+                                            }}
+                                        >
+                                            {analyticsData.predictiveInsights.opportunities.map(
+                                                (opportunity, index) => (
+                                                    <Chip
+                                                        key={index}
+                                                        label={opportunity}
+                                                        size="small"
+                                                        color="primary"
+                                                        variant="outlined"
+                                                        sx={{
+                                                            fontSize: '0.75rem',
+                                                            alignSelf:
+                                                                'flex-start',
+                                                        }}
+                                                    />
+                                                )
+                                            )}
                                         </Box>
                                     </Box>
                                 </Grid>
                                 <Grid size={{ xs: 12, md: 4 }}>
                                     <Box>
-                                        <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 2, color: 'warning.main' }}>
+                                        <Typography
+                                            variant="subtitle1"
+                                            sx={{
+                                                fontWeight: 600,
+                                                mb: 2,
+                                                color: 'warning.main',
+                                            }}
+                                        >
                                             Risk Factors
                                         </Typography>
-                                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                                            {analyticsData.predictiveInsights.riskFactors.map((risk, index) => (
-                                                <Chip
-                                                    key={index}
-                                                    label={risk}
-                                                    size="small"
-                                                    color="warning"
-                                                    variant="outlined"
-                                                    sx={{ fontSize: '0.75rem', alignSelf: 'flex-start' }}
-                                                />
-                                            ))}
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                gap: 1,
+                                            }}
+                                        >
+                                            {analyticsData.predictiveInsights.riskFactors.map(
+                                                (risk, index) => (
+                                                    <Chip
+                                                        key={index}
+                                                        label={risk}
+                                                        size="small"
+                                                        color="warning"
+                                                        variant="outlined"
+                                                        sx={{
+                                                            fontSize: '0.75rem',
+                                                            alignSelf:
+                                                                'flex-start',
+                                                        }}
+                                                    />
+                                                )
+                                            )}
                                         </Box>
                                     </Box>
                                 </Grid>
@@ -517,44 +920,89 @@ export const PerformanceAnalytics: React.FC<PerformanceAnalyticsProps> = ({
                 <Grid size={{ xs: 12 }}>
                     <Card>
                         <CardContent>
-                            <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                            <Typography
+                                variant="h6"
+                                sx={{ fontWeight: 600, mb: 3 }}
+                            >
                                 Personalized Recommendations
                             </Typography>
                             <Grid container spacing={3}>
                                 <Grid size={{ xs: 12, md: 4 }}>
-                                    <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 2, color: 'primary.main' }}>
+                                    <Typography
+                                        variant="subtitle1"
+                                        sx={{
+                                            fontWeight: 600,
+                                            mb: 2,
+                                            color: 'primary.main',
+                                        }}
+                                    >
                                         Academic Support
                                     </Typography>
                                     <Box component="ul" sx={{ pl: 2, m: 0 }}>
-                                        {analyticsData.recommendations.academic.map((rec, index) => (
-                                            <Typography component="li" key={index} variant="body2" sx={{ mb: 1 }}>
-                                                {rec}
-                                            </Typography>
-                                        ))}
+                                        {analyticsData.recommendations.academic.map(
+                                            (rec, index) => (
+                                                <Typography
+                                                    component="li"
+                                                    key={index}
+                                                    variant="body2"
+                                                    sx={{ mb: 1 }}
+                                                >
+                                                    {rec}
+                                                </Typography>
+                                            )
+                                        )}
                                     </Box>
                                 </Grid>
                                 <Grid size={{ xs: 12, md: 4 }}>
-                                    <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 2, color: 'success.main' }}>
+                                    <Typography
+                                        variant="subtitle1"
+                                        sx={{
+                                            fontWeight: 600,
+                                            mb: 2,
+                                            color: 'success.main',
+                                        }}
+                                    >
                                         Behavioral Development
                                     </Typography>
                                     <Box component="ul" sx={{ pl: 2, m: 0 }}>
-                                        {analyticsData.recommendations.behavioral.map((rec, index) => (
-                                            <Typography component="li" key={index} variant="body2" sx={{ mb: 1 }}>
-                                                {rec}
-                                            </Typography>
-                                        ))}
+                                        {analyticsData.recommendations.behavioral.map(
+                                            (rec, index) => (
+                                                <Typography
+                                                    component="li"
+                                                    key={index}
+                                                    variant="body2"
+                                                    sx={{ mb: 1 }}
+                                                >
+                                                    {rec}
+                                                </Typography>
+                                            )
+                                        )}
                                     </Box>
                                 </Grid>
                                 <Grid size={{ xs: 12, md: 4 }}>
-                                    <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 2, color: 'info.main' }}>
+                                    <Typography
+                                        variant="subtitle1"
+                                        sx={{
+                                            fontWeight: 600,
+                                            mb: 2,
+                                            color: 'info.main',
+                                        }}
+                                    >
                                         Enrichment Opportunities
                                     </Typography>
                                     <Box component="ul" sx={{ pl: 2, m: 0 }}>
-                                        {analyticsData.recommendations.enrichment.map((rec, index) => (
-                                            <Typography component="li" key={index} variant="body2" sx={{ mb: 1 }}>
-                                                {rec}
-                                            </Typography>
-                                        ))}
+                                        {analyticsData.recommendations.enrichment.map(
+                                            (rec, index) => (
+                                                <Typography
+                                                    component="li"
+                                                    key={index}
+                                                    variant="body2"
+                                                    sx={{ mb: 1 }}
+                                                >
+                                                    {rec}
+                                                </Typography>
+                                            )
+                                        )}
                                     </Box>
                                 </Grid>
                             </Grid>

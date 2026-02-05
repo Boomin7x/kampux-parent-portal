@@ -23,7 +23,9 @@ interface ResetPasswordPageProps {
     className?: string;
 }
 
-const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({ className = '' }) => {
+const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({
+    className = '',
+}) => {
     const theme = useTheme();
     const navigate = useNavigate();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -35,10 +37,15 @@ const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({ className = '' })
         navigate('/');
     };
 
-    const handleResetPassword = async (data: { password: string; confirmPassword: string }) => {
+    const handleResetPassword = async (data: {
+        password: string;
+        confirmPassword: string;
+    }) => {
         const token = searchParams.get('token');
         if (!token) {
-            actions.setError('Invalid reset token. Please request a new password reset.');
+            actions.setError(
+                'Invalid reset token. Please request a new password reset.'
+            );
             return;
         }
 
@@ -46,9 +53,13 @@ const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({ className = '' })
             await actions.handleResetPassword({ ...data, token });
             // On success, redirect to login
             navigate('/auth', {
-                state: { message: 'Password reset successfully. Please log in with your new password.' }
+                state: {
+                    message:
+                        'Password reset successfully. Please log in with your new password.',
+                },
             });
         } catch (error) {
+            console.error(error);
             // Error is handled by the hook
         }
     };

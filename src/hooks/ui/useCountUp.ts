@@ -12,10 +12,7 @@ export interface UseCountUpOptions {
     easingFunction?: (t: number) => number;
 }
 
-export const useCountUp = (
-    trigger: boolean,
-    options: UseCountUpOptions
-) => {
+export const useCountUp = (trigger: boolean, options: UseCountUpOptions) => {
     const {
         start = 0,
         end,
@@ -62,10 +59,14 @@ export const useCountUp = (
     const formatNumber = (num: number): string => {
         const fixed = num.toFixed(decimals);
         const parts = fixed.split('.');
-        const integerPart = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, separator);
-        const formattedNumber = decimals > 0 && parts[1]
-            ? `${integerPart}.${parts[1]}`
-            : integerPart;
+        const integerPart = parts[0].replace(
+            /\B(?=(\d{3})+(?!\d))/g,
+            separator
+        );
+        const formattedNumber =
+            decimals > 0 && parts[1]
+                ? `${integerPart}.${parts[1]}`
+                : integerPart;
 
         return `${prefix}${formattedNumber}${suffix}`;
     };

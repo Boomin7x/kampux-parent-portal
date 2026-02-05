@@ -262,7 +262,14 @@ export interface WeeklyTimetable {
 }
 
 export interface DailySchedule {
-    day: 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
+    day:
+        | 'Monday'
+        | 'Tuesday'
+        | 'Wednesday'
+        | 'Thursday'
+        | 'Friday'
+        | 'Saturday'
+        | 'Sunday';
     date: string;
     classes: ClassSession[];
     isWeekend: boolean;
@@ -279,7 +286,13 @@ export interface ClassSession {
     duration: number; // in minutes
     teacher: AttendanceTeacher;
     classroom: Classroom;
-    sessionType: 'lecture' | 'practical' | 'tutorial' | 'study_hall' | 'break' | 'assembly';
+    sessionType:
+        | 'lecture'
+        | 'practical'
+        | 'tutorial'
+        | 'study_hall'
+        | 'break'
+        | 'assembly';
     studentAttendance: StudentClassAttendance;
     teacherAttendance: TeacherClassAttendance;
     notes?: string;
@@ -328,7 +341,13 @@ export interface Classroom {
     building: string;
     floor?: number;
     capacity: number;
-    type: 'regular' | 'laboratory' | 'workshop' | 'library' | 'gymnasium' | 'auditorium';
+    type:
+        | 'regular'
+        | 'laboratory'
+        | 'workshop'
+        | 'library'
+        | 'gymnasium'
+        | 'auditorium';
     facilities: string[];
     isAccessible: boolean;
 }

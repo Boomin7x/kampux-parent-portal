@@ -1,10 +1,11 @@
+/* eslint-disable no-case-declarations */
 import { format, isAfter, isBefore, isEqual, parseISO } from 'date-fns';
-import { debounce } from 'lodash-es';
+import { debounce } from 'lodash';
 import type {
-    TableFilter,
     ActiveFilter,
-    FilterOption,
     BaseTableData,
+    FilterOption,
+    TableFilter,
 } from '../types/table.types';
 
 // ====================
@@ -41,31 +42,71 @@ export const filterValueProcessors = {
 
 export const filterFunctions = {
     text: {
-        contains: (value: any, filterValue: string, caseSensitive = false): boolean => {
+        contains: (
+            value: any,
+            filterValue: string,
+            caseSensitive = false
+        ): boolean => {
             if (!value) return false;
-            const processedValue = filterValueProcessors.text(String(value), caseSensitive);
-            const processedFilter = filterValueProcessors.text(filterValue, caseSensitive);
+            const processedValue = filterValueProcessors.text(
+                String(value),
+                caseSensitive
+            );
+            const processedFilter = filterValueProcessors.text(
+                filterValue,
+                caseSensitive
+            );
             return processedValue.includes(processedFilter);
         },
 
-        startsWith: (value: any, filterValue: string, caseSensitive = false): boolean => {
+        startsWith: (
+            value: any,
+            filterValue: string,
+            caseSensitive = false
+        ): boolean => {
             if (!value) return false;
-            const processedValue = filterValueProcessors.text(String(value), caseSensitive);
-            const processedFilter = filterValueProcessors.text(filterValue, caseSensitive);
+            const processedValue = filterValueProcessors.text(
+                String(value),
+                caseSensitive
+            );
+            const processedFilter = filterValueProcessors.text(
+                filterValue,
+                caseSensitive
+            );
             return processedValue.startsWith(processedFilter);
         },
 
-        endsWith: (value: any, filterValue: string, caseSensitive = false): boolean => {
+        endsWith: (
+            value: any,
+            filterValue: string,
+            caseSensitive = false
+        ): boolean => {
             if (!value) return false;
-            const processedValue = filterValueProcessors.text(String(value), caseSensitive);
-            const processedFilter = filterValueProcessors.text(filterValue, caseSensitive);
+            const processedValue = filterValueProcessors.text(
+                String(value),
+                caseSensitive
+            );
+            const processedFilter = filterValueProcessors.text(
+                filterValue,
+                caseSensitive
+            );
             return processedValue.endsWith(processedFilter);
         },
 
-        equals: (value: any, filterValue: string, caseSensitive = false): boolean => {
+        equals: (
+            value: any,
+            filterValue: string,
+            caseSensitive = false
+        ): boolean => {
             if (!value) return false;
-            const processedValue = filterValueProcessors.text(String(value), caseSensitive);
-            const processedFilter = filterValueProcessors.text(filterValue, caseSensitive);
+            const processedValue = filterValueProcessors.text(
+                String(value),
+                caseSensitive
+            );
+            const processedFilter = filterValueProcessors.text(
+                filterValue,
+                caseSensitive
+            );
             return processedValue === processedFilter;
         },
 
@@ -140,8 +181,10 @@ export const filterFunctions = {
             const date = filterValueProcessors.date(value);
             if (!date) return false;
             const [start, end] = range;
-            return (isAfter(date, start) || isEqual(date, start)) &&
-                   (isBefore(date, end) || isEqual(date, end));
+            return (
+                (isAfter(date, start) || isEqual(date, start)) &&
+                (isBefore(date, end) || isEqual(date, end))
+            );
         },
 
         isEmpty: (value: any): boolean => {
@@ -252,18 +295,27 @@ export const filterBuilders = {
         placeholder: options.placeholder || `Filter ${column} range`,
         presets: [
             { label: 'Today', value: [new Date(), new Date()] },
-            { label: 'Yesterday', value: [
-                new Date(Date.now() - 24 * 60 * 60 * 1000),
-                new Date(Date.now() - 24 * 60 * 60 * 1000)
-            ]},
-            { label: 'Last 7 days', value: [
-                new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
-                new Date()
-            ]},
-            { label: 'Last 30 days', value: [
-                new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
-                new Date()
-            ]},
+            {
+                label: 'Yesterday',
+                value: [
+                    new Date(Date.now() - 24 * 60 * 60 * 1000),
+                    new Date(Date.now() - 24 * 60 * 60 * 1000),
+                ],
+            },
+            {
+                label: 'Last 7 days',
+                value: [
+                    new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+                    new Date(),
+                ],
+            },
+            {
+                label: 'Last 30 days',
+                value: [
+                    new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+                    new Date(),
+                ],
+            },
         ],
     }),
 
@@ -297,8 +349,12 @@ export const filterStateManager = {
         filterConfigs: TableFilter[]
     ): ActiveFilter[] => {
         return Object.entries(filters)
-            .filter(([_, value]) => value != null && value !== '' &&
-                    !(Array.isArray(value) && value.length === 0))
+            .filter(
+                ([_, value]) =>
+                    value != null &&
+                    value !== '' &&
+                    !(Array.isArray(value) && value.length === 0)
+            )
             .map(([column, value]) => {
                 const config = filterConfigs.find(f => f.column === column);
                 if (!config) return null;
@@ -344,7 +400,11 @@ export const filterStateManager = {
         column: string,
         value: any
     ): Record<string, any> => {
-        if (value == null || value === '' || (Array.isArray(value) && value.length === 0)) {
+        if (
+            value == null ||
+            value === '' ||
+            (Array.isArray(value) && value.length === 0)
+        ) {
             return filterStateManager.clearFilter(filters, column);
         }
 
@@ -394,14 +454,22 @@ export function formatFilterValue(value: any, config: TableFilter): string {
         case 'dateRange':
             if (Array.isArray(value) && value.length === 2) {
                 const formatStr = config.format || 'MMM dd, yyyy';
-                const start = value[0] instanceof Date ? format(value[0], formatStr) : value[0];
-                const end = value[1] instanceof Date ? format(value[1], formatStr) : value[1];
+                const start =
+                    value[0] instanceof Date
+                        ? format(value[0], formatStr)
+                        : value[0];
+                const end =
+                    value[1] instanceof Date
+                        ? format(value[1], formatStr)
+                        : value[1];
                 return `${start} - ${end}`;
             }
             return String(value);
 
         case 'boolean':
-            return value ? (config.trueLabel || 'Yes') : (config.falseLabel || 'No');
+            return value
+                ? config.trueLabel || 'Yes'
+                : config.falseLabel || 'No';
 
         default:
             return String(value);
@@ -422,13 +490,23 @@ export function generateFilterOptions<TData extends BaseTableData>(
         customLabels?: Record<string, string>;
     } = {}
 ): FilterOption[] {
-    const { includeEmpty = false, sortAlphabetically = true, maxOptions = 100, customLabels = {} } = options;
+    const {
+        includeEmpty = false,
+        sortAlphabetically = true,
+        maxOptions = 100,
+        customLabels = {},
+    } = options;
 
     // Get unique values
-    const uniqueValues = Array.from(new Set(
-        data.map(row => row[column])
-            .filter(value => includeEmpty || (value != null && value !== ''))
-    ));
+    const uniqueValues = Array.from(
+        new Set(
+            data
+                .map(row => row[column])
+                .filter(
+                    value => includeEmpty || (value != null && value !== '')
+                )
+        )
+    );
 
     // Create options
     let filterOptions: FilterOption[] = uniqueValues.map(value => ({

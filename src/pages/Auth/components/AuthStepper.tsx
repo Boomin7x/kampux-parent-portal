@@ -1,18 +1,19 @@
+/* eslint-disable react-hooks/static-components */
 import {
     Check as CheckIcon,
     Email as EmailIcon,
-    Security as SecurityIcon,
-    VpnKey as PasswordIcon,
     Message as OTPIcon,
+    VpnKey as PasswordIcon,
+    Security as SecurityIcon,
 } from '@mui/icons-material';
 import {
+    alpha,
     Box,
     Step,
     StepLabel,
     Stepper,
     Typography,
     useTheme,
-    alpha,
 } from '@mui/material';
 import React from 'react';
 
@@ -56,13 +57,26 @@ export const AuthStepper: React.FC<AuthStepperProps> = ({
         },
         {
             id: 'auth',
-            label: selectedMethod === 'otp' ? 'OTP' : selectedMethod === 'password' ? 'Password' : 'Verify',
-            icon: selectedMethod === 'otp' ? <OTPIcon /> : selectedMethod === 'password' ? <PasswordIcon /> : <SecurityIcon />,
-            description: selectedMethod === 'otp'
-                ? 'Enter verification code'
-                : selectedMethod === 'password'
-                ? 'Enter your password'
-                : 'Complete verification',
+            label:
+                selectedMethod === 'otp'
+                    ? 'OTP'
+                    : selectedMethod === 'password'
+                      ? 'Password'
+                      : 'Verify',
+            icon:
+                selectedMethod === 'otp' ? (
+                    <OTPIcon />
+                ) : selectedMethod === 'password' ? (
+                    <PasswordIcon />
+                ) : (
+                    <SecurityIcon />
+                ),
+            description:
+                selectedMethod === 'otp'
+                    ? 'Enter verification code'
+                    : selectedMethod === 'password'
+                      ? 'Enter your password'
+                      : 'Complete verification',
         },
     ];
 
@@ -72,21 +86,29 @@ export const AuthStepper: React.FC<AuthStepperProps> = ({
 
     const activeStepIndex = getStepIndex(activeStep);
 
-    const StepIcon = ({ stepId, isActive, isCompleted }: { stepId: AuthStep; isActive: boolean; isCompleted: boolean }) => {
+    const StepIcon = ({
+        stepId,
+        isActive,
+        isCompleted,
+    }: {
+        stepId: AuthStep;
+        isActive: boolean;
+        isCompleted: boolean;
+    }) => {
         const stepConfig = steps.find(step => step.id === stepId);
         if (!stepConfig) return null;
 
         const iconColor = isCompleted
             ? theme.palette.success.main
             : isActive
-            ? theme.palette.primary.main
-            : theme.palette.text.disabled;
+              ? theme.palette.primary.main
+              : theme.palette.text.disabled;
 
         const backgroundColor = isCompleted
             ? alpha(theme.palette.success.main, 0.1)
             : isActive
-            ? alpha(theme.palette.primary.main, 0.1)
-            : alpha(theme.palette.text.disabled, 0.1);
+              ? alpha(theme.palette.primary.main, 0.1)
+              : alpha(theme.palette.text.disabled, 0.1);
 
         return (
             <Box
@@ -103,22 +125,27 @@ export const AuthStepper: React.FC<AuthStepperProps> = ({
                 }}
             >
                 {isCompleted ? (
-                    <CheckIcon sx={{ color: theme.palette.success.main, fontSize: 20 }} />
+                    <CheckIcon
+                        sx={{ color: theme.palette.success.main, fontSize: 20 }}
+                    />
                 ) : (
                     React.cloneElement(stepConfig.icon, {
-                        sx: { color: iconColor, fontSize: 20 }
-                    })
+                        sx: { color: iconColor, fontSize: 20 },
+                    } as any)
                 )}
             </Box>
         );
     };
 
     return (
-        <Box className={className} sx={{ width: '100%', maxWidth: 600, mx: 'auto', mb: 4 }}>
+        <Box
+            className={className}
+            sx={{ width: '100%', maxWidth: 600, mx: 'auto', mb: 4 }}
+        >
             {/* Desktop Stepper */}
             <Box sx={{ display: { xs: 'none', md: 'block' } }}>
                 <Stepper activeStep={activeStepIndex} alternativeLabel>
-                    {steps.map((step, index) => {
+                    {steps.map((step, _index) => {
                         const isCompleted = completed.includes(step.id);
                         const isActive = step.id === activeStep;
 
@@ -137,9 +164,12 @@ export const AuthStepper: React.FC<AuthStepperProps> = ({
                                             color: isCompleted
                                                 ? 'success.main'
                                                 : isActive
-                                                ? 'primary.main'
-                                                : 'text.disabled',
-                                            fontWeight: isActive || isCompleted ? 600 : 400,
+                                                  ? 'primary.main'
+                                                  : 'text.disabled',
+                                            fontWeight:
+                                                isActive || isCompleted
+                                                    ? 600
+                                                    : 400,
                                             fontSize: '0.875rem',
                                             mt: 1,
                                         },
@@ -148,12 +178,15 @@ export const AuthStepper: React.FC<AuthStepperProps> = ({
                                     <Typography
                                         variant="body2"
                                         sx={{
-                                            fontWeight: isActive || isCompleted ? 600 : 400,
+                                            fontWeight:
+                                                isActive || isCompleted
+                                                    ? 600
+                                                    : 400,
                                             color: isCompleted
                                                 ? 'success.main'
                                                 : isActive
-                                                ? 'primary.main'
-                                                : 'text.disabled',
+                                                  ? 'primary.main'
+                                                  : 'text.disabled',
                                         }}
                                     >
                                         {step.label}
@@ -177,7 +210,14 @@ export const AuthStepper: React.FC<AuthStepperProps> = ({
 
             {/* Mobile Progress Indicator */}
             <Box sx={{ display: { xs: 'block', md: 'none' } }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 2,
+                        mb: 2,
+                    }}
+                >
                     <StepIcon
                         stepId={activeStep}
                         isActive={true}
@@ -192,7 +232,8 @@ export const AuthStepper: React.FC<AuthStepperProps> = ({
                                 fontSize: '1.1rem',
                             }}
                         >
-                            Step {activeStepIndex + 1} of {steps.length}: {steps[activeStepIndex]?.label}
+                            Step {activeStepIndex + 1} of {steps.length}:{' '}
+                            {steps[activeStepIndex]?.label}
                         </Typography>
                         <Typography
                             variant="body2"
@@ -220,7 +261,8 @@ export const AuthStepper: React.FC<AuthStepperProps> = ({
                         sx={{
                             width: `${((activeStepIndex + 1) / steps.length) * 100}%`,
                             height: '100%',
-                            background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                            background:
+                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
                             transition: 'width 0.3s ease',
                         }}
                     />

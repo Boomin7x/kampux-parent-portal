@@ -2,469 +2,475 @@
 /* Innovative toast styling matching the project's purple aesthetic */
 
 :root {
-  /* Excellence Academy Brand Colors */
-  --excellence-primary: #6366f1;
-  --excellence-primary-light: #8b5cf6;
-  --excellence-primary-dark: #4338ca;
+    /* Excellence Academy Brand Colors */
+    --excellence-primary: #6366f1;
+    --excellence-primary-light: #8b5cf6;
+    --excellence-primary-dark: #4338ca;
 
-  /* Toast System Variables */
-  --excellence-toast-width: 320px;
-  --excellence-toast-radius: 6px;
-  --excellence-toast-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  --excellence-toast-shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.2);
+    /* Toast System Variables */
+    --excellence-toast-width: 320px;
+    --excellence-toast-radius: 6px;
+    --excellence-toast-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    --excellence-toast-shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.2);
 
-  /* Typography */
-  --excellence-font: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    /* Typography */
+    --excellence-font:
+        'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
-  /* Compact Spacing & Layout */
-  --excellence-spacing-xs: 4px;
-  --excellence-spacing-sm: 8px;
-  --excellence-spacing-md: 12px;
-  --excellence-spacing-lg: 16px;
+    /* Compact Spacing & Layout */
+    --excellence-spacing-xs: 4px;
+    --excellence-spacing-sm: 8px;
+    --excellence-spacing-md: 12px;
+    --excellence-spacing-lg: 16px;
 }
 
 /* Toast Container Configuration */
 [data-sonner-toaster] {
-  position: fixed !important;
-  top: 0 !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  z-index: 999999 !important;
-  pointer-events: none !important;
-  width: fit-content !important;
-  max-width: calc(100vw - 24px) !important;
-  padding: 12px !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 999999 !important;
+    pointer-events: none !important;
+    width: fit-content !important;
+    max-width: calc(100vw - 24px) !important;
+    padding: 12px !important;
 }
 
 /* Right position override */
-[data-sonner-toaster][data-position*="right"] {
-  left: auto !important;
-  right: 0 !important;
-  transform: none !important;
+[data-sonner-toaster][data-position*='right'] {
+    left: auto !important;
+    right: 0 !important;
+    transform: none !important;
 }
 
 [data-sonner-toaster] * {
-  pointer-events: auto !important;
+    pointer-events: auto !important;
 }
 
 /* Base Toast Styling - Compact Solid Design */
 .excellence-toast {
-  all: unset !important;
-  width: var(--excellence-toast-width) !important;
-  max-width: calc(100vw - 32px) !important;
-  background: #ffffff !important;
-  border: 1px solid #e5e7eb !important;
-  border-radius: var(--excellence-toast-radius) !important;
-  box-shadow: var(--excellence-toast-shadow) !important;
-  padding: var(--excellence-spacing-md) !important;
-  font-family: var(--excellence-font) !important;
-  position: relative !important;
-  overflow: hidden !important;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  display: flex !important;
-  align-items: flex-start !important;
-  gap: var(--excellence-spacing-sm) !important;
-  min-height: 48px !important;
-  margin-bottom: var(--excellence-spacing-sm) !important;
+    all: unset !important;
+    width: var(--excellence-toast-width) !important;
+    max-width: calc(100vw - 32px) !important;
+    background: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+    border-radius: var(--excellence-toast-radius) !important;
+    box-shadow: var(--excellence-toast-shadow) !important;
+    padding: var(--excellence-spacing-md) !important;
+    font-family: var(--excellence-font) !important;
+    position: relative !important;
+    overflow: hidden !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: var(--excellence-spacing-sm) !important;
+    min-height: 48px !important;
+    margin-bottom: var(--excellence-spacing-sm) !important;
 }
 
 .excellence-toast:hover {
-  transform: translateY(-1px) !important;
-  box-shadow: var(--excellence-toast-shadow-hover) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: var(--excellence-toast-shadow-hover) !important;
 }
 
 /* Accent Bar - Left Border for Visual Hierarchy */
 .excellence-toast::before {
-  content: '' !important;
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 3px !important;
-  height: 100% !important;
-  background: var(--excellence-primary) !important;
-  border-radius: var(--excellence-toast-radius) 0 0 var(--excellence-toast-radius) !important;
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 3px !important;
+    height: 100% !important;
+    background: var(--excellence-primary) !important;
+    border-radius: var(--excellence-toast-radius) 0 0
+        var(--excellence-toast-radius) !important;
 }
 
 /* Icon Container */
 .excellence-toast [data-icon] {
-  width: 16px !important;
-  height: 16px !important;
-  flex-shrink: 0 !important;
-  margin-top: 1px !important;
-  opacity: 0.8 !important;
+    width: 16px !important;
+    height: 16px !important;
+    flex-shrink: 0 !important;
+    margin-top: 1px !important;
+    opacity: 0.8 !important;
 }
 
 /* Content Container */
 .excellence-toast-content {
-  flex: 1 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 2px !important;
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
 }
 
 /* Title Styling - Compact Typography */
 .excellence-toast-title {
-  all: unset !important;
-  font-family: var(--excellence-font) !important;
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  line-height: 1.3 !important;
-  color: #1f2937 !important;
-  margin: 0 !important;
-  display: block !important;
-  letter-spacing: -0.01em !important;
+    all: unset !important;
+    font-family: var(--excellence-font) !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    line-height: 1.3 !important;
+    color: #1f2937 !important;
+    margin: 0 !important;
+    display: block !important;
+    letter-spacing: -0.01em !important;
 }
 
 /* Description Styling - Dense Secondary Text */
 .excellence-toast-description {
-  all: unset !important;
-  font-family: var(--excellence-font) !important;
-  font-size: 12px !important;
-  font-weight: 400 !important;
-  line-height: 1.3 !important;
-  color: #6b7280 !important;
-  margin: 0 !important;
-  display: block !important;
-  opacity: 0.8 !important;
+    all: unset !important;
+    font-family: var(--excellence-font) !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    line-height: 1.3 !important;
+    color: #6b7280 !important;
+    margin: 0 !important;
+    display: block !important;
+    opacity: 0.8 !important;
 }
 
 /* Close Button - Compact Design */
 .excellence-toast-close {
-  all: unset !important;
-  position: absolute !important;
-  top: var(--excellence-spacing-sm) !important;
-  right: var(--excellence-spacing-sm) !important;
-  width: 18px !important;
-  height: 18px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  border-radius: 3px !important;
-  background: rgba(107, 114, 128, 0.1) !important;
-  color: #6b7280 !important;
-  cursor: pointer !important;
-  transition: all 0.15s ease !important;
-  opacity: 0.6 !important;
+    all: unset !important;
+    position: absolute !important;
+    top: var(--excellence-spacing-sm) !important;
+    right: var(--excellence-spacing-sm) !important;
+    width: 18px !important;
+    height: 18px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 3px !important;
+    background: rgba(107, 114, 128, 0.1) !important;
+    color: #6b7280 !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    opacity: 0.6 !important;
 }
 
 .excellence-toast-close:hover {
-  background: rgba(107, 114, 128, 0.15) !important;
-  opacity: 1 !important;
+    background: rgba(107, 114, 128, 0.15) !important;
+    opacity: 1 !important;
 }
 
 .excellence-toast-close svg {
-  width: 12px !important;
-  height: 12px !important;
+    width: 12px !important;
+    height: 12px !important;
 }
 
 /* Success Toast - Solid Green Theme */
 .excellence-toast-success {
-  background: #f0f9ff !important;
-  border-color: #10b981 !important;
+    background: #f0f9ff !important;
+    border-color: #10b981 !important;
 }
 
 .excellence-toast-success::before {
-  background: #10b981 !important;
+    background: #10b981 !important;
 }
 
 .excellence-toast-success .excellence-toast-title {
-  color: #065f46 !important;
+    color: #065f46 !important;
 }
 
 .excellence-toast-success .excellence-toast-description {
-  color: #047857 !important;
+    color: #047857 !important;
 }
 
 .excellence-toast-success [data-icon] {
-  color: #10b981 !important;
+    color: #10b981 !important;
 }
 
 /* Error Toast - Solid Red Theme */
 .excellence-toast-error {
-  background: #fef2f2 !important;
-  border-color: #ef4444 !important;
+    background: #fef2f2 !important;
+    border-color: #ef4444 !important;
 }
 
 .excellence-toast-error::before {
-  background: #ef4444 !important;
+    background: #ef4444 !important;
 }
 
 .excellence-toast-error .excellence-toast-title {
-  color: #7f1d1d !important;
+    color: #7f1d1d !important;
 }
 
 .excellence-toast-error .excellence-toast-description {
-  color: #991b1b !important;
+    color: #991b1b !important;
 }
 
 .excellence-toast-error [data-icon] {
-  color: #ef4444 !important;
+    color: #ef4444 !important;
 }
 
 /* Warning Toast - Solid Orange Theme */
 .excellence-toast-warning {
-  background: #fffbeb !important;
-  border-color: #f59e0b !important;
+    background: #fffbeb !important;
+    border-color: #f59e0b !important;
 }
 
 .excellence-toast-warning::before {
-  background: #f59e0b !important;
+    background: #f59e0b !important;
 }
 
 .excellence-toast-warning .excellence-toast-title {
-  color: #78350f !important;
+    color: #78350f !important;
 }
 
 .excellence-toast-warning .excellence-toast-description {
-  color: #92400e !important;
+    color: #92400e !important;
 }
 
 .excellence-toast-warning [data-icon] {
-  color: #f59e0b !important;
+    color: #f59e0b !important;
 }
 
 /* Info Toast - Solid Purple Theme (Brand Colors) */
 .excellence-toast-info {
-  background: #f5f3ff !important;
-  border-color: var(--excellence-primary) !important;
+    background: #f5f3ff !important;
+    border-color: var(--excellence-primary) !important;
 }
 
 .excellence-toast-info::before {
-  background: var(--excellence-primary) !important;
+    background: var(--excellence-primary) !important;
 }
 
 .excellence-toast-info .excellence-toast-title {
-  color: #312e81 !important;
+    color: #312e81 !important;
 }
 
 .excellence-toast-info .excellence-toast-description {
-  color: #3730a3 !important;
+    color: #3730a3 !important;
 }
 
 .excellence-toast-info [data-icon] {
-  color: var(--excellence-primary) !important;
+    color: var(--excellence-primary) !important;
 }
 
 /* Loading Toast - Solid Neutral */
 .excellence-toast-loading {
-  background: #f9fafb !important;
-  border-color: #d1d5db !important;
+    background: #f9fafb !important;
+    border-color: #d1d5db !important;
 }
 
 .excellence-toast-loading::before {
-  background: #9ca3af !important;
+    background: #9ca3af !important;
 }
 
 .excellence-toast-loading [data-icon] {
-  color: var(--excellence-primary) !important;
-  animation: excellence-spin 1s linear infinite !important;
+    color: var(--excellence-primary) !important;
+    animation: excellence-spin 1s linear infinite !important;
 }
 
 @keyframes excellence-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* Action Button - Compact Solid */
 .excellence-toast-action {
-  all: unset !important;
-  background: var(--excellence-primary) !important;
-  color: white !important;
-  padding: 6px 12px !important;
-  border-radius: 4px !important;
-  font-family: var(--excellence-font) !important;
-  font-size: 11px !important;
-  font-weight: 500 !important;
-  cursor: pointer !important;
-  margin-top: 6px !important;
-  display: inline-block !important;
-  transition: all 0.15s ease !important;
+    all: unset !important;
+    background: var(--excellence-primary) !important;
+    color: white !important;
+    padding: 6px 12px !important;
+    border-radius: 4px !important;
+    font-family: var(--excellence-font) !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    margin-top: 6px !important;
+    display: inline-block !important;
+    transition: all 0.15s ease !important;
 }
 
 .excellence-toast-action:hover {
-  background: var(--excellence-primary-dark) !important;
+    background: var(--excellence-primary-dark) !important;
 }
 
 /* Cancel Button - Compact Outline */
 .excellence-toast-cancel {
-  all: unset !important;
-  background: transparent !important;
-  color: #6b7280 !important;
-  border: 1px solid #d1d5db !important;
-  padding: 5px 11px !important;
-  border-radius: 4px !important;
-  font-family: var(--excellence-font) !important;
-  font-size: 11px !important;
-  font-weight: 500 !important;
-  cursor: pointer !important;
-  margin-top: 6px !important;
-  margin-left: 6px !important;
-  display: inline-block !important;
-  transition: all 0.15s ease !important;
+    all: unset !important;
+    background: transparent !important;
+    color: #6b7280 !important;
+    border: 1px solid #d1d5db !important;
+    padding: 5px 11px !important;
+    border-radius: 4px !important;
+    font-family: var(--excellence-font) !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    margin-top: 6px !important;
+    margin-left: 6px !important;
+    display: inline-block !important;
+    transition: all 0.15s ease !important;
 }
 
 .excellence-toast-cancel:hover {
-  background: #f9fafb !important;
-  border-color: #9ca3af !important;
+    background: #f9fafb !important;
+    border-color: #9ca3af !important;
 }
 
 /* Enhanced Animations */
-[data-sonner-toaster] [data-sonner-toast][data-mounted="true"] {
-  animation: excellence-slide-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+[data-sonner-toaster] [data-sonner-toast][data-mounted='true'] {
+    animation: excellence-slide-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
 }
 
-[data-sonner-toaster] [data-sonner-toast][data-removed="true"] {
-  animation: excellence-slide-out 0.3s cubic-bezier(0.4, 0, 1, 1) forwards !important;
+[data-sonner-toaster] [data-sonner-toast][data-removed='true'] {
+    animation: excellence-slide-out 0.3s cubic-bezier(0.4, 0, 1, 1) forwards !important;
 }
 
 @keyframes excellence-slide-in {
-  from {
-    transform: translateX(calc(100% + 24px)) scale(0.95);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0) scale(1);
-    opacity: 1;
-  }
+    from {
+        transform: translateX(calc(100% + 24px)) scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
 }
 
 @keyframes excellence-slide-out {
-  from {
-    transform: translateX(0) scale(1);
-    opacity: 1;
-  }
-  to {
-    transform: translateX(calc(100% + 24px)) scale(0.95);
-    opacity: 0;
-  }
+    from {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(calc(100% + 24px)) scale(0.95);
+        opacity: 0;
+    }
 }
 
 /* Mobile Responsiveness */
 @media (max-width: 640px) {
-  :root {
-    --excellence-toast-width: calc(100vw - 32px);
-    --excellence-toast-radius: 6px;
-  }
+    :root {
+        --excellence-toast-width: calc(100vw - 32px);
+        --excellence-toast-radius: 6px;
+    }
 
-  [data-sonner-toaster] {
-    left: 0 !important;
-    right: 0 !important;
-    padding: 12px !important;
-  }
+    [data-sonner-toaster] {
+        left: 0 !important;
+        right: 0 !important;
+        padding: 12px !important;
+    }
 
-  .excellence-toast {
-    width: 100% !important;
-    max-width: none !important;
-    padding: 10px !important;
-    min-height: 44px !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    gap: 6px !important;
-  }
+    .excellence-toast {
+        width: 100% !important;
+        max-width: none !important;
+        padding: 10px !important;
+        min-height: 44px !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        gap: 6px !important;
+    }
 
-  .excellence-toast [data-icon] {
-    width: 14px !important;
-    height: 14px !important;
-  }
+    .excellence-toast [data-icon] {
+        width: 14px !important;
+        height: 14px !important;
+    }
 
-  .excellence-toast-title {
-    font-size: 12px !important;
-  }
+    .excellence-toast-title {
+        font-size: 12px !important;
+    }
 
-  .excellence-toast-description {
-    font-size: 11px !important;
-  }
+    .excellence-toast-description {
+        font-size: 11px !important;
+    }
 
-  .excellence-toast-close {
-    top: 6px !important;
-    right: 6px !important;
-    width: 16px !important;
-    height: 16px !important;
-  }
+    .excellence-toast-close {
+        top: 6px !important;
+        right: 6px !important;
+        width: 16px !important;
+        height: 16px !important;
+    }
 
-  .excellence-toast-close svg {
-    width: 10px !important;
-    height: 10px !important;
-  }
+    .excellence-toast-close svg {
+        width: 10px !important;
+        height: 10px !important;
+    }
 }
 
 /* Dark Mode Support */
 @media (prefers-color-scheme: dark) {
-  [data-sonner-toaster][data-theme="dark"],
-  [data-sonner-toaster][data-theme="system"] {
-    .excellence-toast {
-      background: #1f2937 !important;
-      border-color: #4b5563 !important;
-    }
+    [data-sonner-toaster][data-theme='dark'],
+    [data-sonner-toaster][data-theme='system'] {
+        .excellence-toast {
+            background: #1f2937 !important;
+            border-color: #4b5563 !important;
+        }
 
-    .excellence-toast-title {
-      color: #f9fafb !important;
-    }
+        .excellence-toast-title {
+            color: #f9fafb !important;
+        }
 
-    .excellence-toast-description {
-      color: #d1d5db !important;
-    }
+        .excellence-toast-description {
+            color: #d1d5db !important;
+        }
 
-    .excellence-toast-close {
-      background: rgba(156, 163, 175, 0.1) !important;
-      color: #d1d5db !important;
-    }
+        .excellence-toast-close {
+            background: rgba(156, 163, 175, 0.1) !important;
+            color: #d1d5db !important;
+        }
 
-    .excellence-toast-close:hover {
-      background: rgba(156, 163, 175, 0.2) !important;
-    }
+        .excellence-toast-close:hover {
+            background: rgba(156, 163, 175, 0.2) !important;
+        }
 
-    /* Dark mode toast variants - solid colors */
-    .excellence-toast-success {
-      background: #064e3b !important;
-      border-color: #10b981 !important;
-    }
+        /* Dark mode toast variants - solid colors */
+        .excellence-toast-success {
+            background: #064e3b !important;
+            border-color: #10b981 !important;
+        }
 
-    .excellence-toast-error {
-      background: #7f1d1d !important;
-      border-color: #ef4444 !important;
-    }
+        .excellence-toast-error {
+            background: #7f1d1d !important;
+            border-color: #ef4444 !important;
+        }
 
-    .excellence-toast-warning {
-      background: #78350f !important;
-      border-color: #f59e0b !important;
-    }
+        .excellence-toast-warning {
+            background: #78350f !important;
+            border-color: #f59e0b !important;
+        }
 
-    .excellence-toast-info {
-      background: #312e81 !important;
-      border-color: var(--excellence-primary) !important;
-    }
+        .excellence-toast-info {
+            background: #312e81 !important;
+            border-color: var(--excellence-primary) !important;
+        }
 
-    .excellence-toast-loading {
-      background: #374151 !important;
-      border-color: #6b7280 !important;
+        .excellence-toast-loading {
+            background: #374151 !important;
+            border-color: #6b7280 !important;
+        }
     }
-  }
 }
 
 /* Accessibility Improvements */
 .excellence-toast:focus-within {
-  outline: 2px solid var(--excellence-primary) !important;
-  outline-offset: 2px !important;
+    outline: 2px solid var(--excellence-primary) !important;
+    outline-offset: 2px !important;
 }
 
 /* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
-  .excellence-toast,
-  .excellence-toast-close,
-  .excellence-toast-action {
-    transition: none !important;
-  }
+    .excellence-toast,
+    .excellence-toast-close,
+    .excellence-toast-action {
+        transition: none !important;
+    }
 
-  .excellence-toast:hover {
-    transform: none !important;
-  }
+    .excellence-toast:hover {
+        transform: none !important;
+    }
 
-  [data-sonner-toaster] [data-sonner-toast][data-mounted="true"] {
-    animation: none !important;
-  }
+    [data-sonner-toaster] [data-sonner-toast][data-mounted='true'] {
+        animation: none !important;
+    }
 
-  [data-sonner-toaster] [data-sonner-toast][data-removed="true"] {
-    animation: none !important;
-  }
+    [data-sonner-toaster] [data-sonner-toast][data-removed='true'] {
+        animation: none !important;
+    }
 }

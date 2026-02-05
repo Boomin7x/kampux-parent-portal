@@ -1,15 +1,11 @@
+/* eslint-disable react-hooks/incompatible-library */
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
     ArrowBack as ArrowBackIcon,
     CheckCircle as CheckIcon,
     Email as EmailIcon,
 } from '@mui/icons-material';
-import {
-    Box,
-    Button,
-    TextField,
-    Typography,
-} from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { authSchemas } from '../../../utils/validation/schemas';
@@ -137,8 +133,8 @@ export const ForgotPasswordStep: React.FC<ForgotPasswordStepProps> = ({
                         mx: 'auto',
                     }}
                 >
-                    Click the link in the email to reset your password. If you don't see the email,
-                    check your spam folder.
+                    Click the link in the email to reset your password. If you
+                    don't see the email, check your spam folder.
                 </Typography>
 
                 {/* Action Buttons */}
@@ -162,9 +158,11 @@ export const ForgotPasswordStep: React.FC<ForgotPasswordStepProps> = ({
                             fontSize: '1rem',
                             fontWeight: 600,
                             textTransform: 'none',
-                            background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                            background:
+                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
                             '&:hover': {
-                                background: 'linear-gradient(135deg, #5b5bd6, #7c3aed)',
+                                background:
+                                    'linear-gradient(135deg, #5b5bd6, #7c3aed)',
                                 transform: 'translateY(-1px)',
                             },
                             '&:disabled': {
@@ -260,8 +258,8 @@ export const ForgotPasswordStep: React.FC<ForgotPasswordStepProps> = ({
                         maxWidth: 400,
                     }}
                 >
-                    No worries! Enter your email address and we'll send you a link to reset your
-                    password.
+                    No worries! Enter your email address and we'll send you a
+                    link to reset your password.
                 </Typography>
             </Box>
 
@@ -328,7 +326,8 @@ export const ForgotPasswordStep: React.FC<ForgotPasswordStepProps> = ({
                         textTransform: 'none',
                         background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
                         '&:hover': {
-                            background: 'linear-gradient(135deg, #5b5bd6, #7c3aed)',
+                            background:
+                                'linear-gradient(135deg, #5b5bd6, #7c3aed)',
                             transform: 'translateY(-1px)',
                         },
                         '&:disabled': {

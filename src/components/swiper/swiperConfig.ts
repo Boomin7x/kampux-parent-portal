@@ -1,5 +1,5 @@
 // Centralized Swiper configuration for the application
-import type { SwiperOptions } from 'swiper';
+import type { SwiperOptions } from 'swiper/types';
 
 // Default breakpoints for responsive design
 export const defaultBreakpoints = {
@@ -181,6 +181,7 @@ export const gallerySwiperConfig: SwiperOptions = {
 // Activities swiper configuration (for student life section)
 export const activitiesSwiperConfig: SwiperOptions = {
     ...baseSwiperConfig,
+
     slidesPerView: 1,
     spaceBetween: 20,
     autoplay: {

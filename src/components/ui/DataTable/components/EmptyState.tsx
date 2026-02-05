@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-    Box,
-    Typography,
-    Button,
-    Paper,
-    useTheme,
-    alpha,
-} from '@mui/material';
+import { Box, Typography, Button, Paper, useTheme, alpha } from '@mui/material';
 import {
     TableChart as TableIcon,
     SearchOff as SearchOffIcon,
@@ -51,55 +44,65 @@ interface EmptyStateProps {
     className?: string;
 }
 
-const EmptyStateConfigs: Record<EmptyStateType, {
-    icon: React.ReactNode;
-    title: string;
-    description: string;
-    color: string;
-}> = {
+const EmptyStateConfigs: Record<
+    EmptyStateType,
+    {
+        icon: React.ReactNode;
+        title: string;
+        description: string;
+        color: string;
+    }
+> = {
     'no-data': {
         icon: <NoDataIcon sx={{ fontSize: 64 }} />,
         title: 'No Data Available',
-        description: 'There are no records to display. You can create a new record to get started.',
+        description:
+            'There are no records to display. You can create a new record to get started.',
         color: 'text.secondary',
     },
     'no-results': {
         icon: <SearchOffIcon sx={{ fontSize: 64 }} />,
         title: 'No Results Found',
-        description: 'We couldn\'t find any records matching your search criteria. Try adjusting your search terms.',
+        description:
+            "We couldn't find any records matching your search criteria. Try adjusting your search terms.",
         color: 'warning.main',
     },
-    'filtered': {
+    filtered: {
         icon: <FilterOffIcon sx={{ fontSize: 64 }} />,
         title: 'No Matching Records',
-        description: 'No records match the current filters. Try removing some filters to see more results.',
+        description:
+            'No records match the current filters. Try removing some filters to see more results.',
         color: 'info.main',
     },
-    'error': {
+    error: {
         icon: <ErrorIcon sx={{ fontSize: 64 }} />,
         title: 'Error Loading Data',
-        description: 'An unexpected error occurred while loading the data. Please try again.',
+        description:
+            'An unexpected error occurred while loading the data. Please try again.',
         color: 'error.main',
     },
     'loading-failed': {
         icon: <LoadingIcon sx={{ fontSize: 64 }} />,
         title: 'Loading Failed',
-        description: 'Failed to load data from the server. Please check your connection and try again.',
+        description:
+            'Failed to load data from the server. Please check your connection and try again.',
         color: 'error.main',
     },
-    'offline': {
+    offline: {
         icon: <CloudOffIcon sx={{ fontSize: 64 }} />,
         title: 'No Internet Connection',
-        description: 'You appear to be offline. Please check your internet connection and try again.',
+        description:
+            'You appear to be offline. Please check your internet connection and try again.',
         color: 'warning.main',
     },
     'permission-denied': {
         icon: <ErrorIcon sx={{ fontSize: 64 }} />,
         title: 'Access Denied',
-        description: 'You don\'t have permission to view this data. Contact your administrator if you need access.',
+        description:
+            "You don't have permission to view this data. Contact your administrator if you need access.",
         color: 'error.main',
     },
-    'custom': {
+    custom: {
         icon: <TableIcon sx={{ fontSize: 64 }} />,
         title: 'Custom State',
         description: 'This is a custom empty state.',
@@ -139,7 +142,10 @@ export function EmptyState({
         });
     }
 
-    if ((type === 'error' || type === 'loading-failed' || type === 'offline') && onRetry) {
+    if (
+        (type === 'error' || type === 'loading-failed' || type === 'offline') &&
+        onRetry
+    ) {
         defaultActions.push({
             label: 'Try Again',
             onClick: onRetry,
@@ -253,9 +259,15 @@ export function EmptyState({
                                     py: 1,
                                     fontWeight: 500,
                                     minWidth: 120,
-                                    boxShadow: action.variant === 'contained' ? 2 : 'none',
+                                    boxShadow:
+                                        action.variant === 'contained'
+                                            ? 2
+                                            : 'none',
                                     '&:hover': {
-                                        boxShadow: action.variant === 'contained' ? 4 : 1,
+                                        boxShadow:
+                                            action.variant === 'contained'
+                                                ? 4
+                                                : 1,
                                     },
                                 }}
                             >

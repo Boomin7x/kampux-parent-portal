@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { type ReactNode } from 'react';
 // import { type SwiperOptions } from 'swiper';
 import {

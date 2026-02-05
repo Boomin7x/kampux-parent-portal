@@ -1,6 +1,6 @@
-import { format } from 'date-fns';
-import type { TableColumn, BaseTableData } from '../types/table.types';
 import { createColumnHelper } from '@tanstack/react-table';
+import { format } from 'date-fns';
+import type { BaseTableData, TableColumn } from '../types/table.types';
 
 // ====================
 // Column Helper Factory
@@ -60,7 +60,12 @@ export const columnBuilders = {
             const value = getValue() as number;
             if (value == null) return '—';
 
-            const { precision = 0, prefix = '', suffix = '', format: formatType } = options;
+            const {
+                precision = 0,
+                prefix = '',
+                suffix = '',
+                format: formatType,
+            } = options;
 
             let formatted: string;
             switch (formatType) {
@@ -118,13 +123,17 @@ export const columnBuilders = {
 
             if (options.relative) {
                 const now = new Date();
-                const diffInDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
+                const diffInDays = Math.floor(
+                    (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)
+                );
 
                 if (diffInDays === 0) return 'Today';
                 if (diffInDays === 1) return 'Yesterday';
                 if (diffInDays === -1) return 'Tomorrow';
-                if (diffInDays > 0 && diffInDays < 7) return `${diffInDays} days ago`;
-                if (diffInDays < 0 && diffInDays > -7) return `In ${Math.abs(diffInDays)} days`;
+                if (diffInDays > 0 && diffInDays < 7)
+                    return `${diffInDays} days ago`;
+                if (diffInDays < 0 && diffInDays > -7)
+                    return `In ${Math.abs(diffInDays)} days`;
             }
 
             return format(date, dateFormat);
@@ -143,7 +152,20 @@ export const columnBuilders = {
     status: <TData extends BaseTableData>(
         accessorKey: keyof TData,
         options: Partial<TableColumn<TData>> & {
-            statusMap?: Record<string, { label: string; color: 'default' | 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success' }>;
+            statusMap?: Record<
+                string,
+                {
+                    label: string;
+                    color:
+                        | 'default'
+                        | 'primary'
+                        | 'secondary'
+                        | 'error'
+                        | 'warning'
+                        | 'info'
+                        | 'success';
+                }
+            >;
         } = {}
     ): TableColumn<TData> => ({
         id: String(accessorKey),
@@ -155,7 +177,7 @@ export const columnBuilders = {
 
             const statusConfig = options.statusMap?.[value] || {
                 label: value,
-                color: 'default' as const
+                color: 'default' as const,
             };
 
             return {
@@ -188,7 +210,11 @@ export const columnBuilders = {
         header: options.title || String(accessorKey),
         cell: ({ getValue }) => {
             const value = getValue() as boolean;
-            const { trueLabel = 'Yes', falseLabel = 'No', showIcons = false } = options;
+            const {
+                trueLabel = 'Yes',
+                falseLabel = 'No',
+                showIcons = false,
+            } = options;
 
             if (value == null) return '—';
 
@@ -224,7 +250,9 @@ export const columnBuilders = {
         header: options.title || String(accessorKey),
         cell: ({ getValue, row }) => {
             const avatarSrc = getValue() as string;
-            const name = options.nameKey ? row.getValue(options.nameKey as string) as string : '';
+            const name = options.nameKey
+                ? (row.getValue(options.nameKey as string) as string)
+                : '';
 
             return {
                 type: 'avatar',
@@ -253,7 +281,13 @@ export const columnBuilders = {
             onClick: (row: TData) => void;
             disabled?: (row: TData) => boolean;
             hidden?: (row: TData) => boolean;
-            color?: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
+            color?:
+                | 'primary'
+                | 'secondary'
+                | 'error'
+                | 'warning'
+                | 'info'
+                | 'success';
             variant?: 'text' | 'outlined' | 'contained';
         }>,
         options: Partial<TableColumn<TData>> = {}
@@ -358,9 +392,18 @@ export const columnUtils = {
 
         const sample = data[0];
         const keys = Object.keys(sample) as (keyof TData)[];
-        const { exclude = [], include, columnOverrides = {} } = options;
+        const {
+            exclude = [],
+            include,
+            columnOverrides = {} as Record<
+                keyof TData,
+                Partial<TableColumn<TData>>
+            >,
+        } = options;
 
-        const filteredKeys = include ? include : keys.filter(key => !exclude.includes(key));
+        const filteredKeys = include
+            ? include
+            : keys.filter(key => !exclude.includes(key));
 
         return filteredKeys.map(key => {
             const value = sample[key];
@@ -373,7 +416,10 @@ export const columnUtils = {
                 column = columnBuilders.boolean(key, override);
             } else if (typeof value === 'number') {
                 column = columnBuilders.number(key, override);
-            } else if (value instanceof Date || (typeof value === 'string' && !isNaN(Date.parse(value)))) {
+            } else if (
+                (value as any) instanceof Date ||
+                (typeof value === 'string' && !isNaN(Date.parse(value)))
+            ) {
                 column = columnBuilders.date(key, override);
             } else {
                 column = columnBuilders.text(key, override);
@@ -389,12 +435,12 @@ export const columnUtils = {
     group: <TData extends BaseTableData>(
         id: string,
         header: string,
-        columns: TableColumn<TData>[],
+        // columns: TableColumn<TData>[],
         options: Partial<TableColumn<TData>> = {}
     ): TableColumn<TData> => ({
         id,
         header,
-        columns,
+        // columns,
         enableSorting: false,
         enableColumnFilter: false,
         enableGlobalFilter: false,
@@ -413,9 +459,13 @@ export const columnUtils = {
         }
     ): TableColumn<TData>[] => {
         return columns.map(column => {
-            const { hideOnMobile = [], hideOnTablet = [], showOnDesktop = [] } = breakpoints;
+            const {
+                hideOnMobile = [],
+                hideOnTablet = [],
+                showOnDesktop = [],
+            } = breakpoints;
 
-            let meta = column.meta || {};
+            const meta = column.meta || {};
 
             if (hideOnMobile.includes(column.id)) {
                 meta.responsive = { hideBelow: 'md' };

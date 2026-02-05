@@ -35,7 +35,7 @@ export function useDataTable<TData extends BaseTableData>(
         enableFilters = false,
         enableSorting = true,
         enableColumnResizing = false,
-        enableColumnReordering = false,
+        // enableColumnOrdering= false,
         enableHiding = true,
         enablePinning = false,
         filters: customFilters = [],
@@ -188,7 +188,8 @@ export function useDataTable<TData extends BaseTableData>(
         getExpandedRowModel: getExpandedRowModel(),
         enableRowSelection: selectionConfig.enabled,
         enableColumnResizing: enableColumnResizing,
-        enableColumnReordering: enableColumnReordering,
+        // enableColumnFilters
+        // enableColumnOrdering: enableColumnOrdering,
         enableMultiSort: true,
         enableSortingRemoval: true,
         enableColumnPinning: enablePinning,
@@ -200,7 +201,7 @@ export function useDataTable<TData extends BaseTableData>(
             : undefined,
         autoResetPageIndex: false,
         autoResetExpanded: false,
-        autoResetRowSelection: false,
+        // autoResetRowSelection: false,
         debugTable: debugTable,
         meta: {
             updateData: (
@@ -249,7 +250,9 @@ export function useDataTable<TData extends BaseTableData>(
                 : table.getFilteredRowModel().rows.map(row => row.original);
 
             exportTableData(filteredData, visibleColumns, format, {
-                filename: `table_export_${new Date().toISOString().split('T')[0]}`,
+                filename: `table_export_${
+                    new Date().toISOString().split('T')[0]
+                }`,
                 includeHeaders: true,
             });
         },
@@ -342,7 +345,7 @@ export function useDataTable<TData extends BaseTableData>(
             rowSelection,
             globalFilter,
             isLoading: loading || serverSide?.loading || false,
-            error: error || serverSide?.error || null,
+            error: (error as string) || serverSide?.error || null,
         },
         actions: {
             setSorting,
@@ -380,8 +383,8 @@ export function useServerSideDataTable<TData extends BaseTableData>(
     return useDataTable({
         ...props,
         serverSide: {
-            enabled: true,
             ...props.serverSide,
+            enabled: true,
         },
     });
 }

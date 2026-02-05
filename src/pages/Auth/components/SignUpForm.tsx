@@ -1,11 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
     Box,
+    Button,
     Checkbox,
     FormControlLabel,
     Link,
     Typography,
-    Button,
+    type SxProps,
 } from '@mui/material';
 import { isAxiosError } from 'axios';
 import React, { useState } from 'react';
@@ -45,7 +46,6 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
         control,
         handleSubmit,
         formState: { errors },
-        watch,
     } = useForm<SignUpFormData>({
         resolver: yupResolver(authSchemas.register),
         defaultValues: {
@@ -59,7 +59,6 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
         mode: 'onChange',
     });
 
-
     // Form submission handler
     const onSubmit = async (data: SignUpFormData) => {
         setIsSubmitting(true);
@@ -70,18 +69,20 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
             await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
 
             // Store user data temporarily
-            localStorage.setItem('pendingUser', JSON.stringify({
-                firstName: data.firstName,
-                lastName: data.lastName,
-                email: data.email,
-            }));
+            localStorage.setItem(
+                'pendingUser',
+                JSON.stringify({
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    email: data.email,
+                })
+            );
 
             // Show success toast
             toast.auth.signupSuccess();
 
             // Handle success callback
             onSuccess?.(data);
-
         } catch (error) {
             console.error('Sign-up error:', error);
             if (isAxiosError(error)) {
@@ -107,16 +108,17 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
         });
     };
 
-
     return (
         <Box
             className={className}
             component="form"
             onSubmit={handleSubmit(onSubmit)}
-            sx={{
-                ...authStyles.formContainer,
-                ...formAnimations.slideIn,
-            }}
+            sx={
+                {
+                    ...authStyles.formContainer,
+                    ...formAnimations.slideIn,
+                } as SxProps
+            }
         >
             {/* Name fields */}
             <Box sx={authStyles.nameFieldsContainer}>
@@ -160,7 +162,6 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
                 sx={authStyles.passwordField}
             />
 
-
             {/* Confirm Password field */}
             <FormField
                 name="confirmPassword"
@@ -196,7 +197,9 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
                                     sx={{
                                         color: 'primary.main',
                                         textDecoration: 'none',
-                                        '&:hover': { textDecoration: 'underline' }
+                                        '&:hover': {
+                                            textDecoration: 'underline',
+                                        },
                                     }}
                                 >
                                     Terms of Service
@@ -207,7 +210,9 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
                                     sx={{
                                         color: 'primary.main',
                                         textDecoration: 'none',
-                                        '&:hover': { textDecoration: 'underline' }
+                                        '&:hover': {
+                                            textDecoration: 'underline',
+                                        },
                                     }}
                                 >
                                     Privacy Policy

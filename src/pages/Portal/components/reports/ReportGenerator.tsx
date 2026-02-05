@@ -1,49 +1,48 @@
-import React, { useState } from 'react';
+/* eslint-disable react-hooks/purity */
 import {
+    School as AcademicIcon,
+    CalendarToday as CalendarIcon,
+    Delete as DeleteIcon,
+    Description as DocIcon,
+    Download as DownloadIcon,
+    TableChart as ExcelIcon,
+    PictureAsPdf as PdfIcon,
+    Visibility as PreviewIcon,
+    Assessment as ReportIcon,
+    TrendingUp as TrendingIcon,
+} from '@mui/icons-material';
+import {
+    alpha,
     Box,
+    Button,
     Card,
     CardContent,
-    Typography,
-    Grid,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
     Checkbox,
+    Chip,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    FormControl,
     FormControlLabel,
     FormGroup,
-    Button,
-    TextField,
-    Paper,
+    Grid,
+    IconButton,
+    InputLabel,
+    LinearProgress,
     List,
     ListItem,
     ListItemIcon,
-    ListItemText,
     ListItemSecondaryAction,
-    IconButton,
-    Chip,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    LinearProgress,
+    ListItemText,
+    MenuItem,
+    Paper,
+    Select,
+    TextField,
+    Typography,
     useTheme,
-    alpha,
 } from '@mui/material';
-import {
-    PictureAsPdf as PdfIcon,
-    Description as DocIcon,
-    TableChart as ExcelIcon,
-    Download as DownloadIcon,
-    Delete as DeleteIcon,
-    Visibility as PreviewIcon,
-    Schedule as ScheduleIcon,
-    Assessment as ReportIcon,
-    CalendarToday as CalendarIcon,
-    TrendingUp as TrendingIcon,
-    School as AcademicIcon,
-    Person as StudentIcon,
-} from '@mui/icons-material';
+import React, { useState } from 'react';
 import type { Student } from '../../../../types/student.types';
 
 interface ReportGeneratorProps {
@@ -84,27 +83,48 @@ const reportTemplates: ReportTemplate[] = [
     {
         id: 'comprehensive',
         name: 'Comprehensive Student Report',
-        description: 'Complete overview including grades, attendance, behavior, and recommendations',
+        description:
+            'Complete overview including grades, attendance, behavior, and recommendations',
         type: 'comprehensive',
-        sections: ['Academic Performance', 'Attendance Summary', 'Behavioral Insights', 'Teacher Comments', 'Recommendations'],
+        sections: [
+            'Academic Performance',
+            'Attendance Summary',
+            'Behavioral Insights',
+            'Teacher Comments',
+            'Recommendations',
+        ],
         estimatedPages: 8,
         icon: <ReportIcon />,
     },
     {
         id: 'academic_progress',
         name: 'Academic Progress Report',
-        description: 'Detailed academic performance with grade trends and subject analysis',
+        description:
+            'Detailed academic performance with grade trends and subject analysis',
         type: 'academic',
-        sections: ['Grade Summary', 'Subject Analysis', 'Assignment History', 'Performance Trends', 'Academic Recommendations'],
+        sections: [
+            'Grade Summary',
+            'Subject Analysis',
+            'Assignment History',
+            'Performance Trends',
+            'Academic Recommendations',
+        ],
         estimatedPages: 5,
         icon: <AcademicIcon />,
     },
     {
         id: 'attendance_report',
         name: 'Attendance Analysis',
-        description: 'Comprehensive attendance tracking with patterns and insights',
+        description:
+            'Comprehensive attendance tracking with patterns and insights',
         type: 'attendance',
-        sections: ['Attendance Summary', 'Daily Patterns', 'Absence Analysis', 'Tardiness Tracking', 'Improvement Suggestions'],
+        sections: [
+            'Attendance Summary',
+            'Daily Patterns',
+            'Absence Analysis',
+            'Tardiness Tracking',
+            'Improvement Suggestions',
+        ],
         estimatedPages: 3,
         icon: <CalendarIcon />,
     },
@@ -113,7 +133,13 @@ const reportTemplates: ReportTemplate[] = [
         name: 'Progress Tracker',
         description: 'Quarter-over-quarter progress with predictive analytics',
         type: 'progress',
-        sections: ['GPA Trends', 'Subject Progression', 'Goal Tracking', 'Predictive Analysis', 'Action Items'],
+        sections: [
+            'GPA Trends',
+            'Subject Progression',
+            'Goal Tracking',
+            'Predictive Analysis',
+            'Action Items',
+        ],
         estimatedPages: 4,
         icon: <TrendingIcon />,
     },
@@ -128,7 +154,11 @@ const mockRecentReports: ReportRequest[] = [
         studentId: 'student1',
         studentName: 'Emma Johnson',
         dateRange: { start: '2024-01-01', end: '2024-01-18' },
-        sections: ['Academic Performance', 'Attendance Summary', 'Behavioral Insights'],
+        sections: [
+            'Academic Performance',
+            'Attendance Summary',
+            'Behavioral Insights',
+        ],
         format: 'pdf',
         status: 'completed',
         createdAt: '2024-01-18T10:30:00Z',
@@ -179,9 +209,12 @@ export const ReportGenerator: React.FC<ReportGeneratorProps> = ({
     const [format, setFormat] = useState<'pdf' | 'doc' | 'excel'>('pdf');
     const [previewOpen, setPreviewOpen] = useState(false);
     const [generateDialogOpen, setGenerateDialogOpen] = useState(false);
-    const [recentReports, setRecentReports] = useState<ReportRequest[]>(mockRecentReports);
+    const [recentReports, setRecentReports] =
+        useState<ReportRequest[]>(mockRecentReports);
 
-    const selectedTemplateData = reportTemplates.find(t => t.id === selectedTemplate);
+    const selectedTemplateData = reportTemplates.find(
+        t => t.id === selectedTemplate
+    );
 
     const handleTemplateChange = (templateId: string) => {
         setSelectedTemplate(templateId);
@@ -246,17 +279,19 @@ export const ReportGenerator: React.FC<ReportGeneratorProps> = ({
 
         // Simulate report generation
         setTimeout(() => {
-            setRecentReports(prev => prev.map(report =>
-                report.id === newReport.id
-                    ? {
-                        ...report,
-                        status: 'completed',
-                        completedAt: new Date().toISOString(),
-                        downloadUrl: `/reports/${selectedStudent.fullName.toLowerCase().replace(' ', '_')}_${selectedTemplate}_${Date.now()}.${format}`,
-                        fileSize: '1.8 MB',
-                    }
-                    : report
-            ));
+            setRecentReports(prev =>
+                prev.map(report =>
+                    report.id === newReport.id
+                        ? {
+                              ...report,
+                              status: 'completed',
+                              completedAt: new Date().toISOString(),
+                              downloadUrl: `/reports/${selectedStudent.fullName.toLowerCase().replace(' ', '_')}_${selectedTemplate}_${Date.now()}.${format}`,
+                              fileSize: '1.8 MB',
+                          }
+                        : report
+                )
+            );
         }, 3000);
     };
 
@@ -282,7 +317,9 @@ export const ReportGenerator: React.FC<ReportGeneratorProps> = ({
             <Card className={className}>
                 <CardContent>
                     <Box sx={{ textAlign: 'center', py: 4 }}>
-                        <ReportIcon sx={{ fontSize: 64, color: 'text.disabled', mb: 2 }} />
+                        <ReportIcon
+                            sx={{ fontSize: 64, color: 'text.disabled', mb: 2 }}
+                        />
                         <Typography variant="h6" color="text.secondary">
                             Select a student to generate reports
                         </Typography>
@@ -304,55 +341,106 @@ export const ReportGenerator: React.FC<ReportGeneratorProps> = ({
                 <Grid size={{ xs: 12, lg: 8 }}>
                     <Card>
                         <CardContent>
-                            <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                            <Typography
+                                variant="h6"
+                                sx={{ fontWeight: 600, mb: 3 }}
+                            >
                                 Select Report Template
                             </Typography>
                             <Grid container spacing={2}>
-                                {reportTemplates.map((template) => (
-                                    <Grid size={{ xs: 12, sm: 6 }} key={template.id}>
+                                {reportTemplates.map(template => (
+                                    <Grid
+                                        size={{ xs: 12, sm: 6 }}
+                                        key={template.id}
+                                    >
                                         <Paper
                                             sx={{
                                                 p: 2,
                                                 cursor: 'pointer',
-                                                border: selectedTemplate === template.id
-                                                    ? `2px solid ${theme.palette.primary.main}`
-                                                    : `1px solid ${theme.palette.divider}`,
-                                                backgroundColor: selectedTemplate === template.id
-                                                    ? alpha(theme.palette.primary.main, 0.05)
-                                                    : 'background.paper',
+                                                border:
+                                                    selectedTemplate ===
+                                                    template.id
+                                                        ? `2px solid ${theme.palette.primary.main}`
+                                                        : `1px solid ${theme.palette.divider}`,
+                                                backgroundColor:
+                                                    selectedTemplate ===
+                                                    template.id
+                                                        ? alpha(
+                                                              theme.palette
+                                                                  .primary.main,
+                                                              0.05
+                                                          )
+                                                        : 'background.paper',
                                                 '&:hover': {
-                                                    borderColor: theme.palette.primary.main,
+                                                    borderColor:
+                                                        theme.palette.primary
+                                                            .main,
                                                 },
-                                                transition: 'all 0.2s ease-in-out',
+                                                transition:
+                                                    'all 0.2s ease-in-out',
                                             }}
-                                            onClick={() => handleTemplateChange(template.id)}
+                                            onClick={() =>
+                                                handleTemplateChange(
+                                                    template.id
+                                                )
+                                            }
                                         >
-                                            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    alignItems: 'flex-start',
+                                                    gap: 2,
+                                                }}
+                                            >
                                                 <Box
                                                     sx={{
                                                         p: 1,
                                                         borderRadius: 1,
-                                                        backgroundColor: 'primary.main',
+                                                        backgroundColor:
+                                                            'primary.main',
                                                         color: 'white',
                                                     }}
                                                 >
                                                     {template.icon}
                                                 </Box>
-                                                <Box sx={{ flexGrow: 1, minWidth: 0 }}>
-                                                    <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1 }}>
+                                                <Box
+                                                    sx={{
+                                                        flexGrow: 1,
+                                                        minWidth: 0,
+                                                    }}
+                                                >
+                                                    <Typography
+                                                        variant="subtitle1"
+                                                        sx={{
+                                                            fontWeight: 600,
+                                                            mb: 1,
+                                                        }}
+                                                    >
                                                         {template.name}
                                                     </Typography>
-                                                    <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                                                    <Typography
+                                                        variant="body2"
+                                                        color="text.secondary"
+                                                        sx={{ mb: 2 }}
+                                                    >
                                                         {template.description}
                                                     </Typography>
-                                                    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                                                    <Box
+                                                        sx={{
+                                                            display: 'flex',
+                                                            gap: 1,
+                                                            flexWrap: 'wrap',
+                                                        }}
+                                                    >
                                                         <Chip
                                                             label={`${template.estimatedPages} pages`}
                                                             size="small"
                                                             variant="outlined"
                                                         />
                                                         <Chip
-                                                            label={template.type}
+                                                            label={
+                                                                template.type
+                                                            }
                                                             size="small"
                                                             color="primary"
                                                             variant="outlined"
@@ -368,7 +456,10 @@ export const ReportGenerator: React.FC<ReportGeneratorProps> = ({
                             {/* Configuration */}
                             {selectedTemplate && (
                                 <Box sx={{ mt: 4 }}>
-                                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                                    <Typography
+                                        variant="h6"
+                                        sx={{ fontWeight: 600, mb: 3 }}
+                                    >
                                         Report Configuration
                                     </Typography>
                                     <Grid container spacing={3}>
@@ -378,8 +469,15 @@ export const ReportGenerator: React.FC<ReportGeneratorProps> = ({
                                                 label="Start Date"
                                                 type="date"
                                                 value={dateRange.start}
-                                                onChange={(e) => setDateRange(prev => ({ ...prev, start: e.target.value }))}
-                                                InputLabelProps={{ shrink: true }}
+                                                onChange={e =>
+                                                    setDateRange(prev => ({
+                                                        ...prev,
+                                                        start: e.target.value,
+                                                    }))
+                                                }
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
                                             />
                                         </Grid>
                                         <Grid size={{ xs: 12, sm: 6 }}>
@@ -388,33 +486,82 @@ export const ReportGenerator: React.FC<ReportGeneratorProps> = ({
                                                 label="End Date"
                                                 type="date"
                                                 value={dateRange.end}
-                                                onChange={(e) => setDateRange(prev => ({ ...prev, end: e.target.value }))}
-                                                InputLabelProps={{ shrink: true }}
+                                                onChange={e =>
+                                                    setDateRange(prev => ({
+                                                        ...prev,
+                                                        end: e.target.value,
+                                                    }))
+                                                }
+                                                InputLabelProps={{
+                                                    shrink: true,
+                                                }}
                                             />
                                         </Grid>
                                         <Grid size={{ xs: 12, sm: 6 }}>
                                             <FormControl fullWidth>
-                                                <InputLabel>Export Format</InputLabel>
+                                                <InputLabel>
+                                                    Export Format
+                                                </InputLabel>
                                                 <Select
                                                     value={format}
-                                                    onChange={(e) => setFormat(e.target.value as 'pdf' | 'doc' | 'excel')}
+                                                    onChange={e =>
+                                                        setFormat(
+                                                            e.target.value as
+                                                                | 'pdf'
+                                                                | 'doc'
+                                                                | 'excel'
+                                                        )
+                                                    }
                                                     label="Export Format"
                                                 >
                                                     <MenuItem value="pdf">
-                                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                                            <PdfIcon sx={{ color: '#d32f2f' }} />
+                                                        <Box
+                                                            sx={{
+                                                                display: 'flex',
+                                                                alignItems:
+                                                                    'center',
+                                                                gap: 1,
+                                                            }}
+                                                        >
+                                                            <PdfIcon
+                                                                sx={{
+                                                                    color: '#d32f2f',
+                                                                }}
+                                                            />
                                                             PDF Document
                                                         </Box>
                                                     </MenuItem>
                                                     <MenuItem value="doc">
-                                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                                            <DocIcon sx={{ color: '#1976d2' }} />
+                                                        <Box
+                                                            sx={{
+                                                                display: 'flex',
+                                                                alignItems:
+                                                                    'center',
+                                                                gap: 1,
+                                                            }}
+                                                        >
+                                                            <DocIcon
+                                                                sx={{
+                                                                    color: '#1976d2',
+                                                                }}
+                                                            />
                                                             Word Document
                                                         </Box>
                                                     </MenuItem>
                                                     <MenuItem value="excel">
-                                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                                            <ExcelIcon sx={{ color: '#388e3c' }} />
+                                                        <Box
+                                                            sx={{
+                                                                display: 'flex',
+                                                                alignItems:
+                                                                    'center',
+                                                                gap: 1,
+                                                            }}
+                                                        >
+                                                            <ExcelIcon
+                                                                sx={{
+                                                                    color: '#388e3c',
+                                                                }}
+                                                            />
                                                             Excel Spreadsheet
                                                         </Box>
                                                     </MenuItem>
@@ -422,45 +569,79 @@ export const ReportGenerator: React.FC<ReportGeneratorProps> = ({
                                             </FormControl>
                                         </Grid>
                                         <Grid size={{ xs: 12 }}>
-                                            <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 2 }}>
+                                            <Typography
+                                                variant="subtitle2"
+                                                sx={{ fontWeight: 600, mb: 2 }}
+                                            >
                                                 Include Sections
                                             </Typography>
                                             <FormGroup>
                                                 <Grid container>
-                                                    {selectedTemplateData?.sections.map((section) => (
-                                                        <Grid size={{ xs: 12, sm: 6 }} key={section}>
-                                                            <FormControlLabel
-                                                                control={
-                                                                    <Checkbox
-                                                                        checked={selectedSections.includes(section)}
-                                                                        onChange={() => handleSectionToggle(section)}
-                                                                    />
-                                                                }
-                                                                label={section}
-                                                            />
-                                                        </Grid>
-                                                    ))}
+                                                    {selectedTemplateData?.sections.map(
+                                                        section => (
+                                                            <Grid
+                                                                size={{
+                                                                    xs: 12,
+                                                                    sm: 6,
+                                                                }}
+                                                                key={section}
+                                                            >
+                                                                <FormControlLabel
+                                                                    control={
+                                                                        <Checkbox
+                                                                            checked={selectedSections.includes(
+                                                                                section
+                                                                            )}
+                                                                            onChange={() =>
+                                                                                handleSectionToggle(
+                                                                                    section
+                                                                                )
+                                                                            }
+                                                                        />
+                                                                    }
+                                                                    label={
+                                                                        section
+                                                                    }
+                                                                />
+                                                            </Grid>
+                                                        )
+                                                    )}
                                                 </Grid>
                                             </FormGroup>
                                         </Grid>
                                         <Grid size={{ xs: 12 }}>
-                                            <Box sx={{ display: 'flex', gap: 2 }}>
+                                            <Box
+                                                sx={{ display: 'flex', gap: 2 }}
+                                            >
                                                 <Button
                                                     variant="contained"
                                                     size="large"
-                                                    onClick={() => setGenerateDialogOpen(true)}
-                                                    disabled={selectedSections.length === 0}
+                                                    onClick={() =>
+                                                        setGenerateDialogOpen(
+                                                            true
+                                                        )
+                                                    }
+                                                    disabled={
+                                                        selectedSections.length ===
+                                                        0
+                                                    }
                                                     startIcon={<ReportIcon />}
-                                                    sx={{ textTransform: 'none' }}
+                                                    sx={{
+                                                        textTransform: 'none',
+                                                    }}
                                                 >
                                                     Generate Report
                                                 </Button>
                                                 <Button
                                                     variant="outlined"
                                                     size="large"
-                                                    onClick={() => setPreviewOpen(true)}
+                                                    onClick={() =>
+                                                        setPreviewOpen(true)
+                                                    }
                                                     startIcon={<PreviewIcon />}
-                                                    sx={{ textTransform: 'none' }}
+                                                    sx={{
+                                                        textTransform: 'none',
+                                                    }}
                                                 >
                                                     Preview
                                                 </Button>
@@ -477,11 +658,14 @@ export const ReportGenerator: React.FC<ReportGeneratorProps> = ({
                 <Grid size={{ xs: 12, lg: 4 }}>
                     <Card>
                         <CardContent>
-                            <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
+                            <Typography
+                                variant="h6"
+                                sx={{ fontWeight: 600, mb: 3 }}
+                            >
                                 Recent Reports
                             </Typography>
                             <List sx={{ p: 0 }}>
-                                {recentReports.map((report) => (
+                                {recentReports.map(report => (
                                     <ListItem
                                         key={report.id}
                                         sx={{
@@ -498,42 +682,88 @@ export const ReportGenerator: React.FC<ReportGeneratorProps> = ({
                                             primary={report.templateName}
                                             secondary={
                                                 <Box>
-                                                    <Typography variant="caption" display="block">
-                                                        {formatDate(report.dateRange.start)} - {formatDate(report.dateRange.end)}
+                                                    <Typography
+                                                        variant="caption"
+                                                        display="block"
+                                                    >
+                                                        {formatDate(
+                                                            report.dateRange
+                                                                .start
+                                                        )}{' '}
+                                                        -{' '}
+                                                        {formatDate(
+                                                            report.dateRange.end
+                                                        )}
                                                     </Typography>
-                                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1 }}>
+                                                    <Box
+                                                        sx={{
+                                                            display: 'flex',
+                                                            alignItems:
+                                                                'center',
+                                                            gap: 1,
+                                                            mt: 1,
+                                                        }}
+                                                    >
                                                         <Chip
-                                                            label={report.status}
+                                                            label={
+                                                                report.status
+                                                            }
                                                             size="small"
-                                                            color={getStatusColor(report.status)}
-                                                            sx={{ fontSize: '0.6875rem', textTransform: 'capitalize' }}
+                                                            color={getStatusColor(
+                                                                report.status
+                                                            )}
+                                                            sx={{
+                                                                fontSize:
+                                                                    '0.6875rem',
+                                                                textTransform:
+                                                                    'capitalize',
+                                                            }}
                                                         />
                                                         {report.fileSize && (
-                                                            <Typography variant="caption" color="text.secondary">
-                                                                {report.fileSize}
+                                                            <Typography
+                                                                variant="caption"
+                                                                color="text.secondary"
+                                                            >
+                                                                {
+                                                                    report.fileSize
+                                                                }
                                                             </Typography>
                                                         )}
                                                     </Box>
-                                                    {report.status === 'generating' && (
-                                                        <LinearProgress sx={{ mt: 1 }} />
+                                                    {report.status ===
+                                                        'generating' && (
+                                                        <LinearProgress
+                                                            sx={{ mt: 1 }}
+                                                        />
                                                     )}
                                                 </Box>
                                             }
                                         />
                                         <ListItemSecondaryAction>
-                                            <Box sx={{ display: 'flex', gap: 1 }}>
-                                                {report.status === 'completed' && (
+                                            <Box
+                                                sx={{ display: 'flex', gap: 1 }}
+                                            >
+                                                {report.status ===
+                                                    'completed' && (
                                                     <IconButton
                                                         size="small"
-                                                        onClick={() => downloadReport(report)}
-                                                        sx={{ color: 'primary.main' }}
+                                                        onClick={() =>
+                                                            downloadReport(
+                                                                report
+                                                            )
+                                                        }
+                                                        sx={{
+                                                            color: 'primary.main',
+                                                        }}
                                                     >
                                                         <DownloadIcon fontSize="small" />
                                                     </IconButton>
                                                 )}
                                                 <IconButton
                                                     size="small"
-                                                    onClick={() => deleteReport(report.id)}
+                                                    onClick={() =>
+                                                        deleteReport(report.id)
+                                                    }
                                                     sx={{ color: 'error.main' }}
                                                 >
                                                     <DeleteIcon fontSize="small" />
@@ -544,7 +774,10 @@ export const ReportGenerator: React.FC<ReportGeneratorProps> = ({
                                 ))}
                                 {recentReports.length === 0 && (
                                     <Box sx={{ textAlign: 'center', py: 4 }}>
-                                        <Typography variant="body2" color="text.secondary">
+                                        <Typography
+                                            variant="body2"
+                                            color="text.secondary"
+                                        >
                                             No reports generated yet
                                         </Typography>
                                     </Box>
@@ -556,15 +789,28 @@ export const ReportGenerator: React.FC<ReportGeneratorProps> = ({
             </Grid>
 
             {/* Generate Report Confirmation Dialog */}
-            <Dialog open={generateDialogOpen} onClose={() => setGenerateDialogOpen(false)} maxWidth="sm" fullWidth>
+            <Dialog
+                open={generateDialogOpen}
+                onClose={() => setGenerateDialogOpen(false)}
+                maxWidth="sm"
+                fullWidth
+            >
                 <DialogTitle>Confirm Report Generation</DialogTitle>
                 <DialogContent>
                     <Typography variant="body1" sx={{ mb: 2 }}>
-                        Generate <strong>{selectedTemplateData?.name}</strong> for <strong>{selectedStudent.fullName}</strong>?
+                        Generate <strong>{selectedTemplateData?.name}</strong>{' '}
+                        for <strong>{selectedStudent.fullName}</strong>?
                     </Typography>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 1,
+                        }}
+                    >
                         <Typography variant="body2" color="text.secondary">
-                            Date Range: {formatDate(dateRange.start)} - {formatDate(dateRange.end)}
+                            Date Range: {formatDate(dateRange.start)} -{' '}
+                            {formatDate(dateRange.end)}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                             Format: {format.toUpperCase()}
@@ -573,12 +819,15 @@ export const ReportGenerator: React.FC<ReportGeneratorProps> = ({
                             Sections: {selectedSections.length} selected
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            Estimated Size: {selectedTemplateData?.estimatedPages} pages
+                            Estimated Size:{' '}
+                            {selectedTemplateData?.estimatedPages} pages
                         </Typography>
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setGenerateDialogOpen(false)}>Cancel</Button>
+                    <Button onClick={() => setGenerateDialogOpen(false)}>
+                        Cancel
+                    </Button>
                     <Button variant="contained" onClick={generateReport}>
                         Generate Report
                     </Button>
@@ -586,11 +835,17 @@ export const ReportGenerator: React.FC<ReportGeneratorProps> = ({
             </Dialog>
 
             {/* Preview Dialog */}
-            <Dialog open={previewOpen} onClose={() => setPreviewOpen(false)} maxWidth="md" fullWidth>
+            <Dialog
+                open={previewOpen}
+                onClose={() => setPreviewOpen(false)}
+                maxWidth="md"
+                fullWidth
+            >
                 <DialogTitle>Report Preview</DialogTitle>
                 <DialogContent>
                     <Typography color="text.secondary">
-                        Report preview functionality will show a sample of the generated report layout and content.
+                        Report preview functionality will show a sample of the
+                        generated report layout and content.
                     </Typography>
                 </DialogContent>
                 <DialogActions>

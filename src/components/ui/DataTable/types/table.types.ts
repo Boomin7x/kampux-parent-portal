@@ -1,17 +1,15 @@
 import type {
-    ColumnDef,
-    SortingState,
-    ColumnFiltersState,
-    VisibilityState,
-    PaginationState,
-    Table as TanStackTable,
-    Row,
     Cell,
-    Header,
     Column,
+    ColumnDef,
+    ColumnFiltersState,
+    PaginationState,
     RowSelectionState,
+    SortingState,
+    Table as TanStackTable,
+    VisibilityState,
 } from '@tanstack/react-table';
-import type { ReactNode, ComponentType } from 'react';
+import type { ComponentType, ReactNode } from 'react';
 
 // ====================
 // Base Table Types
@@ -22,8 +20,9 @@ export interface BaseTableData {
     [key: string]: any;
 }
 
-export interface TableColumn<TData extends BaseTableData = BaseTableData>
-    extends Omit<ColumnDef<TData>, 'id'> {
+export interface TableColumn<
+    TData extends BaseTableData = BaseTableData,
+> extends Omit<ColumnDef<TData>, 'id'> {
     id: string;
     accessorKey?: keyof TData | string;
     title?: string;
@@ -38,6 +37,14 @@ export interface TableColumn<TData extends BaseTableData = BaseTableData>
     width?: number;
     minWidth?: number;
     maxWidth?: number;
+    meta?: {
+        type?: string;
+        align?: 'left' | 'center' | 'right';
+        hidden?: boolean;
+        responsive?: {
+            hideBelow?: 'sm' | 'md' | 'lg' | 'xl';
+        };
+    };
 }
 
 // ====================
@@ -229,6 +236,7 @@ export interface ServerSideConfig<TData extends BaseTableData = BaseTableData> {
     onFiltersChange?: (filters: ColumnFiltersState) => void;
     onSearchChange?: (search: string) => void;
     onColumnVisibilityChange?: (visibility: VisibilityState) => void;
+    f?: TData;
 }
 
 // ====================
@@ -258,6 +266,48 @@ export interface ToolbarAction {
     tooltip?: string;
     variant?: 'text' | 'outlined' | 'contained';
     color?: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
+}
+
+// ====================
+// Cell Value Types
+// ====================
+
+export interface RowAction {
+    label: string;
+    icon?: ReactNode;
+    onClick: () => void;
+    disabled?: boolean;
+    hidden?: boolean;
+    color?: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
+}
+
+export interface AvatarCellValue {
+    src?: string;
+    name: string;
+    size?: 'small' | 'medium' | 'large';
+    showName?: boolean;
+}
+
+export interface StatusCellValue {
+    value: string;
+    color?:
+        | 'default'
+        | 'primary'
+        | 'secondary'
+        | 'error'
+        | 'info'
+        | 'success'
+        | 'warning';
+}
+
+export interface BooleanCellValue {
+    value: string;
+    boolean: boolean;
+    showIcons?: boolean;
+}
+
+export interface ActionsCellValue {
+    actions: RowAction[];
 }
 
 // ====================
@@ -305,7 +355,7 @@ export interface DataTableProps<TData extends BaseTableData = BaseTableData> {
     enableFilters?: boolean;
     enableSorting?: boolean;
     enableColumnResizing?: boolean;
-    enableColumnReordering?: boolean;
+    enableColumnOrdering?: boolean;
     enableHiding?: boolean;
     enablePinning?: boolean;
 
@@ -345,7 +395,9 @@ export interface DataTableProps<TData extends BaseTableData = BaseTableData> {
 // Hook Return Types
 // ====================
 
-export interface UseDataTableReturn<TData extends BaseTableData = BaseTableData> {
+export interface UseDataTableReturn<
+    TData extends BaseTableData = BaseTableData,
+> {
     table: TanStackTable<TData>;
     state: {
         sorting: SortingState;

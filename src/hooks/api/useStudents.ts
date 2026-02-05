@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../../lib/axios';
 import { queryKeys } from '../../lib/queryClient';
-import { Student } from '../../types';
+import { type Student } from '../../types';
 
 // Student-related API types
 export interface StudentGrade {
@@ -96,7 +96,7 @@ export function useStudent(studentId: string) {
 
 // Get student grades
 export function useStudentGrades(studentId: string) {
-    return useQuery({
+    return useQuery<StudentGrade[]>({
         queryKey: queryKeys.studentGrades(studentId),
         queryFn: () => studentsApi.getStudentGrades(studentId),
         enabled: !!studentId,
@@ -228,7 +228,7 @@ export function useStudentStats(studentId: string) {
         }
 
         // Get recent grades (last 10)
-        stats.recentGrades = grades
+        (stats as any).recentGrades = grades
             .sort(
                 (a, b) =>
                     new Date(b.date).getTime() - new Date(a.date).getTime()

@@ -1,5 +1,5 @@
 import { api, tokenManager } from '../lib/axios';
-import { User } from '../types';
+import type { User } from '../types';
 
 // Authentication API endpoints and types
 export interface LoginRequest {

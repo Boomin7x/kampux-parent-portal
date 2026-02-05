@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/incompatible-library */
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
     CheckCircle as CheckIcon,
@@ -133,8 +134,8 @@ export const ResetPasswordStep: React.FC<ResetPasswordStepProps> = ({
                         mx: 'auto',
                     }}
                 >
-                    This password reset link is invalid or has expired. Please request a new reset link
-                    to continue.
+                    This password reset link is invalid or has expired. Please
+                    request a new reset link to continue.
                 </Typography>
 
                 <Button
@@ -150,7 +151,8 @@ export const ResetPasswordStep: React.FC<ResetPasswordStepProps> = ({
                         textTransform: 'none',
                         background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
                         '&:hover': {
-                            background: 'linear-gradient(135deg, #5b5bd6, #7c3aed)',
+                            background:
+                                'linear-gradient(135deg, #5b5bd6, #7c3aed)',
                             transform: 'translateY(-1px)',
                         },
                     }}
@@ -207,8 +209,8 @@ export const ResetPasswordStep: React.FC<ResetPasswordStepProps> = ({
                         mx: 'auto',
                     }}
                 >
-                    Your password has been successfully reset. You can now sign in with your new
-                    password.
+                    Your password has been successfully reset. You can now sign
+                    in with your new password.
                 </Typography>
 
                 <Button
@@ -224,7 +226,8 @@ export const ResetPasswordStep: React.FC<ResetPasswordStepProps> = ({
                         textTransform: 'none',
                         background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
                         '&:hover': {
-                            background: 'linear-gradient(135deg, #5b5bd6, #7c3aed)',
+                            background:
+                                'linear-gradient(135deg, #5b5bd6, #7c3aed)',
                             transform: 'translateY(-1px)',
                         },
                     }}
@@ -289,7 +292,8 @@ export const ResetPasswordStep: React.FC<ResetPasswordStepProps> = ({
                         maxWidth: 400,
                     }}
                 >
-                    Please enter your new password below. Make sure it's strong and secure.
+                    Please enter your new password below. Make sure it's strong
+                    and secure.
                 </Typography>
             </Box>
 
@@ -317,7 +321,11 @@ export const ResetPasswordStep: React.FC<ResetPasswordStepProps> = ({
                                     endAdornment: (
                                         <InputAdornment position="end">
                                             <IconButton
-                                                onClick={() => setShowPassword(!showPassword)}
+                                                onClick={() =>
+                                                    setShowPassword(
+                                                        !showPassword
+                                                    )
+                                                }
                                                 edge="end"
                                                 size="small"
                                             >
@@ -363,7 +371,9 @@ export const ResetPasswordStep: React.FC<ResetPasswordStepProps> = ({
                                     <InputAdornment position="end">
                                         <IconButton
                                             onClick={() =>
-                                                setShowConfirmPassword(!showConfirmPassword)
+                                                setShowConfirmPassword(
+                                                    !showConfirmPassword
+                                                )
                                             }
                                             edge="end"
                                             size="small"
@@ -420,7 +430,8 @@ export const ResetPasswordStep: React.FC<ResetPasswordStepProps> = ({
                         textTransform: 'none',
                         background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
                         '&:hover': {
-                            background: 'linear-gradient(135deg, #5b5bd6, #7c3aed)',
+                            background:
+                                'linear-gradient(135deg, #5b5bd6, #7c3aed)',
                             transform: 'translateY(-1px)',
                         },
                         '&:disabled': {

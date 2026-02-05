@@ -1,19 +1,18 @@
-import React from 'react';
 import {
-    Box,
-    Chip,
-    Typography,
-    IconButton,
-    Tooltip,
-    Collapse,
-    useTheme,
-    alpha,
-} from '@mui/material';
-import {
+    Clear as ClearAllIcon,
     Close as CloseIcon,
     FilterAlt as FilterIcon,
-    Clear as ClearAllIcon,
 } from '@mui/icons-material';
+import {
+    alpha,
+    Box,
+    Chip,
+    Collapse,
+    IconButton,
+    Tooltip,
+    Typography,
+    useTheme,
+} from '@mui/material';
 import type { ActiveFilter } from '../types/table.types';
 
 interface TableFiltersProps {
@@ -55,7 +54,7 @@ export function TableFilters({
         }
     };
 
-    const getFilterIcon = (filterType: string) => {
+    const getFilterIcon = (_filterType: string) => {
         // You can add different icons for different filter types
         return <FilterIcon sx={{ fontSize: 16 }} />;
     };
@@ -75,7 +74,14 @@ export function TableFilters({
                 }}
             >
                 {/* Filter indicator and label */}
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mr: 1 }}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1,
+                        mr: 1,
+                    }}
+                >
                     <FilterIcon
                         sx={{
                             fontSize: 18,
@@ -94,14 +100,28 @@ export function TableFilters({
                 </Box>
 
                 {/* Filter chips */}
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap', flexGrow: 1 }}>
-                    {activeFilters.map((filter) => (
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1,
+                        flexWrap: 'wrap',
+                        flexGrow: 1,
+                    }}
+                >
+                    {activeFilters.map(filter => (
                         <Chip
                             key={filter.id}
                             size="small"
                             icon={getFilterIcon(filter.type)}
                             label={
-                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 0.5,
+                                    }}
+                                >
                                     <Typography
                                         component="span"
                                         variant="caption"
@@ -119,7 +139,9 @@ export function TableFilters({
                             }
                             onDelete={() => onClearFilter(filter.column)}
                             deleteIcon={
-                                <CloseIcon sx={{ fontSize: '0.875rem !important' }} />
+                                <CloseIcon
+                                    sx={{ fontSize: '0.875rem !important' }}
+                                />
                             }
                             color={getFilterColor(filter.type) as any}
                             variant="outlined"

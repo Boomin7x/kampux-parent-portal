@@ -4,7 +4,10 @@ declare module 'react-window-infinite-loader' {
     export interface InfiniteLoaderProps {
         isItemLoaded: (index: number) => boolean;
         itemCount: number;
-        loadMoreItems: (startIndex: number, stopIndex: number) => Promise<void> | void;
+        loadMoreItems: (
+            startIndex: number,
+            stopIndex: number
+        ) => Promise<void> | void;
         children: (props: {
             onItemsRendered: (props: {
                 overscanStartIndex: number;

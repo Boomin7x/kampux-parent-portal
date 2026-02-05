@@ -213,8 +213,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                         className="contact-icon"
                                         sx={{
                                             color: 'rgba(255, 255, 255, 0.6)',
-                                            transition:
-                                                'transform 0.3s ease',
+                                            transition: 'transform 0.3s ease',
                                             flexShrink: 0,
                                             mt: 0.5,
                                         }}
@@ -426,14 +425,16 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                                    backgroundColor:
+                                        'rgba(255, 255, 255, 0.05)',
                                     border: '1px solid rgba(255, 255, 255, 0.1)',
                                     color: 'rgba(255, 255, 255, 0.7)',
                                     cursor: 'pointer',
                                     transition:
                                         'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                                     '&:hover': {
-                                        backgroundColor: 'rgba(99, 102, 241, 0.2)',
+                                        backgroundColor:
+                                            'rgba(99, 102, 241, 0.2)',
                                         borderColor: '#6366f1',
                                         color: '#6366f1',
                                         transform: 'translateY(-3px)',
@@ -449,6 +450,3 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
         </Box>
     );
 };
-
-
-

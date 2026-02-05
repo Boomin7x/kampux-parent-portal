@@ -13,7 +13,12 @@ export interface ExaminationOverview {
 export interface UpcomingExam {
     id: string;
     subject: string;
-    examType: 'midterm' | 'final' | 'quiz' | 'continuous_assessment' | 'practical';
+    examType:
+        | 'midterm'
+        | 'final'
+        | 'quiz'
+        | 'continuous_assessment'
+        | 'practical';
     examDate: string;
     startTime: string;
     endTime: string;
@@ -35,7 +40,12 @@ export interface UpcomingExam {
 export interface RecentExam {
     id: string;
     subject: string;
-    examType: 'midterm' | 'final' | 'quiz' | 'continuous_assessment' | 'practical';
+    examType:
+        | 'midterm'
+        | 'final'
+        | 'quiz'
+        | 'continuous_assessment'
+        | 'practical';
     examDate: string;
     venue: ExamVenue;
     teacher: ExamTeacher;
@@ -52,7 +62,12 @@ export interface ExamAnnouncement {
     id: string;
     title: string;
     message: string;
-    type: 'general' | 'subject_specific' | 'venue_change' | 'schedule_update' | 'instructions';
+    type:
+        | 'general'
+        | 'subject_specific'
+        | 'venue_change'
+        | 'schedule_update'
+        | 'instructions';
     priority: 'high' | 'medium' | 'low';
     targetAudience: 'all_students' | 'specific_grade' | 'specific_subject';
     subjects?: string[];
@@ -69,7 +84,12 @@ export interface ExamCalendarEvent {
     id: string;
     title: string;
     subject?: string;
-    examType: 'midterm' | 'final' | 'quiz' | 'continuous_assessment' | 'practical';
+    examType:
+        | 'midterm'
+        | 'final'
+        | 'quiz'
+        | 'continuous_assessment'
+        | 'practical';
     startDate: string;
     endDate: string;
     startTime: string;
@@ -111,7 +131,11 @@ export interface ExamTeacher {
 
 export interface ExamInstruction {
     id: string;
-    category: 'general' | 'subject_specific' | 'venue_specific' | 'special_requirements';
+    category:
+        | 'general'
+        | 'subject_specific'
+        | 'venue_specific'
+        | 'special_requirements';
     title: string;
     description: string;
     priority: 'high' | 'medium' | 'low';
