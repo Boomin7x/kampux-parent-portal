@@ -75,6 +75,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({
 
     // Form submission handler
     const onSubmit = async (data: SignInFormData) => {
+        const password = md5(data?.password);
         setIsSubmitting(true);
         try {
             console.log('Sign-in data:', data);
@@ -82,7 +83,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({
             const result = await mutateAsync({
                 hubConnectionId: '',
                 language: ILanguage.EN,
-                password: md5(data?.password),
+                password: password,
                 tenantAlias: 'univ',
                 userName: data?.email,
             });
@@ -104,7 +105,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({
 
             const tokenResult = await getTokenMutateAsync({
                 userName: data?.email,
-                password: data?.password,
+                password: password,
                 tenantAlias: 'univ',
                 hubConnectionId: '',
                 language: ILanguage.EN,
