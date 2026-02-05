@@ -43,6 +43,8 @@ const API_BASE_URL =
     import.meta.env.VITE_API_BASE_URL ||
     configFile?.VITE_API_BASE_URL ||
     'https://kampux-api.univ-soft.com';
+
+console.log({ API_BASE_URL });
 const API_TIMEOUT = 30000; // 30 seconds
 
 // Request ID generator for debugging and request tracking
