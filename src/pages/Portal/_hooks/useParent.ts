@@ -7,6 +7,7 @@ import {
     type GetBillingsResponse,
     type GetCodificationItemsResponse,
     type GetStudentsResponse,
+    type GetStudentMarksResponse,
     type GetTellerOperationsResponse,
     type GetTimeTableResponse,
 } from '../_service/parentService';
@@ -26,6 +27,7 @@ export const PARENT_QUERY_KEYS = {
         'codification-items',
         codes,
     ],
+    studentMarks: (studentId: string) => ['parent', 'marks', studentId],
 } as const;
 
 // Custom hook to get students linked to parent
@@ -101,6 +103,24 @@ export const useGetCodificationItems = (
     });
 };
 
+// Custom hook to get student marks/results
+export const useGetStudentMarks = (
+    studentId: string | number,
+    enabled: boolean = true
+) => {
+    const studentIdString = String(studentId);
+
+    return useQuery<GetStudentMarksResponse, Error>({
+        queryKey: PARENT_QUERY_KEYS.studentMarks(studentIdString),
+        queryFn: () => parentService.getMarksByStudent(studentId),
+        enabled: enabled && !!studentId,
+        staleTime: 5 * 60 * 1000, // 5 minutes (marks can be updated regularly)
+        gcTime: 15 * 60 * 1000, // 15 minutes
+        retry: 3, // Retry failed requests up to 3 times
+        retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff
+    });
+};
+
 // Custom hook to create complaint
 export const useCreateComplaint = () => {
     const queryClient = useQueryClient();
@@ -129,23 +149,28 @@ export const useStudentData = (studentId: string) => {
         studentId,
         !!studentId
     );
+    const marksQuery = useGetStudentMarks(studentId, !!studentId);
 
     return {
         students: studentsQuery,
         billings: billingsQuery,
         tellerOperations: tellerOperationsQuery,
+        marks: marksQuery,
         isLoading:
             studentsQuery.isLoading ||
             billingsQuery.isLoading ||
-            tellerOperationsQuery.isLoading,
+            tellerOperationsQuery.isLoading ||
+            marksQuery.isLoading,
         hasError:
             studentsQuery.isError ||
             billingsQuery.isError ||
-            tellerOperationsQuery.isError,
+            tellerOperationsQuery.isError ||
+            marksQuery.isError,
         error:
             studentsQuery.error ||
             billingsQuery.error ||
-            tellerOperationsQuery.error,
+            tellerOperationsQuery.error ||
+            marksQuery.error,
     };
 };
 
@@ -170,11 +195,17 @@ export const useRefreshStudentData = () => {
             queryClient.invalidateQueries({
                 queryKey: PARENT_QUERY_KEYS.tellerOperations(studentId),
             });
+            queryClient.invalidateQueries({
+                queryKey: PARENT_QUERY_KEYS.studentMarks(studentId),
+            });
         } else {
             // Invalidate all billings and teller operations
             queryClient.invalidateQueries({ queryKey: ['parent', 'billings'] });
             queryClient.invalidateQueries({
                 queryKey: ['parent', 'teller-operations'],
+            });
+            queryClient.invalidateQueries({
+                queryKey: ['parent', 'marks'],
             });
             // Invalidate all codification items
             queryClient.invalidateQueries({

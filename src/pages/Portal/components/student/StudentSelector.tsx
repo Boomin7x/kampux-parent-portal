@@ -1,22 +1,19 @@
-import { SwapHoriz as SwitchIcon } from '@mui/icons-material';
+import { CheckCircle } from '@mui/icons-material';
 import {
     alpha,
     Avatar,
     Box,
-    Button,
-    Card,
-    CardContent,
-    Chip,
-    IconButton,
-    ListItemIcon,
-    ListItemText,
-    Menu,
-    MenuItem,
+    Grid,
+    Stack,
     Typography,
     useTheme,
+    type Theme,
 } from '@mui/material';
-import React, { useState } from 'react';
+// import Grid from '@mui/material/Unstable_Grid2'; // v2
+import React from 'react';
 import type { Student } from '../../../../types/student.types';
+
+// --- PROPS & DATA TYPES ---
 
 interface StudentSelectorProps {
     students: Student[];
@@ -30,20 +27,17 @@ interface StudentQuickStats {
     currentGPA: number;
     attendanceRate: number;
     upcomingAssignments: number;
-    unreadMessages: number;
-    lastGradeUpdate: string;
     alertCount: number;
 }
 
-// Mock quick stats data
+// --- MOCK DATA ---
+
 const mockQuickStats: StudentQuickStats[] = [
     {
         studentId: 'student1',
         currentGPA: 3.7,
         attendanceRate: 95,
         upcomingAssignments: 3,
-        unreadMessages: 1,
-        lastGradeUpdate: '2024-01-18T10:30:00Z',
         alertCount: 1,
     },
     {
@@ -51,11 +45,188 @@ const mockQuickStats: StudentQuickStats[] = [
         currentGPA: 3.9,
         attendanceRate: 98,
         upcomingAssignments: 2,
-        unreadMessages: 0,
-        lastGradeUpdate: '2024-01-17T14:20:00Z',
         alertCount: 0,
     },
 ];
+
+// --- HELPER FUNCTIONS ---
+
+const getStudentStats = (studentId: string): StudentQuickStats | undefined => {
+    return mockQuickStats.find(stats => stats.studentId === studentId);
+};
+
+const getGradeColor = (gpa: number, theme: Theme): string => {
+    if (gpa >= 3.5) return theme.palette.success.main;
+    if (gpa >= 2.5) return theme.palette.warning.main;
+    return theme.palette.error.main;
+};
+
+// --- SUB-COMPONENTS ---
+
+const StudentInfo: React.FC<{ student: Student; isSelected: boolean }> = ({
+    student,
+    isSelected,
+}) => (
+    <Stack direction="row" spacing={1.5} alignItems="center">
+        <Avatar
+            src={student.avatar}
+            sx={{
+                width: 36,
+                height: 36,
+                fontSize: '0.875rem',
+                fontWeight: 600,
+                bgcolor: isSelected ? 'primary.main' : 'background.default',
+                color: isSelected ? 'white' : 'text.primary',
+                border: 1,
+                borderColor: isSelected ? 'primary.dark' : 'divider',
+            }}
+        >
+            {student.firstName.charAt(0)}
+            {student.lastName.charAt(0)}
+        </Avatar>
+        <Stack alignItems="flex-start">
+            <Typography
+                variant="body2"
+                sx={{
+                    fontWeight: isSelected ? 600 : 500,
+                    color: isSelected ? 'primary.main' : 'text.primary',
+                    lineHeight: 1.3,
+                    fontSize: '0.875rem',
+                }}
+            >
+                {student.fullName}
+            </Typography>
+            <Typography
+                variant="caption"
+                sx={{
+                    color: 'text.secondary',
+                    lineHeight: 1.2,
+                    fontSize: '0.75rem',
+                }}
+            >
+                Grade {student.grade}
+            </Typography>
+        </Stack>
+    </Stack>
+);
+
+const StatItem: React.FC<{
+    value: string | number;
+    label: string;
+    color?: string;
+}> = ({ value, label, color = 'text.primary' }) => (
+    <Box textAlign="center">
+        <Typography
+            variant="subtitle2"
+            sx={{
+                fontWeight: 600,
+                color,
+                lineHeight: 1.2,
+                fontSize: '0.8125rem',
+            }}
+        >
+            {value}
+        </Typography>
+        <Typography
+            variant="caption"
+            sx={{ fontSize: '0.625rem', color: 'text.secondary' }}
+        >
+            {label}
+        </Typography>
+    </Box>
+);
+
+const StudentStats: React.FC<{
+    stats: StudentQuickStats;
+    theme: Theme;
+}> = ({ stats, theme }) => (
+    <Stack
+        direction="row"
+        spacing={2}
+        justifyContent="space-around"
+        sx={{
+            width: '100%',
+            pt: 1,
+            mt: 1,
+            borderTop: 1,
+            borderColor: 'divider',
+        }}
+    >
+        <StatItem
+            value={stats.currentGPA.toFixed(1)}
+            label="GPA"
+            color={getGradeColor(stats.currentGPA, theme)}
+        />
+        <StatItem
+            value={`${stats.attendanceRate}%`}
+            label="Attend."
+            color={stats.attendanceRate > 90 ? 'success.dark' : 'warning.dark'}
+        />
+        {stats.alertCount > 0 && (
+            <StatItem
+                value={stats.alertCount}
+                label="Alerts"
+                color="error.dark"
+            />
+        )}
+    </Stack>
+);
+
+const StudentCard: React.FC<{
+    student: Student;
+    isSelected: boolean;
+    onSelect: () => void;
+}> = ({ student, isSelected, onSelect }) => {
+    const stats = getStudentStats(student.id);
+    const theme = useTheme();
+
+    return (
+        <Box
+            onClick={onSelect}
+            sx={{
+                p: 1.5,
+                borderRadius: 1, // Small border radius
+                border: 1,
+                borderColor: isSelected ? 'primary.main' : 'divider',
+                backgroundColor: isSelected
+                    ? alpha(theme.palette.primary.main, 0.05)
+                    : 'background.paper',
+                cursor: 'pointer',
+                position: 'relative',
+                width: '100%',
+                height: '100%',
+                transition: theme.transitions.create([
+                    'border-color',
+                    'background-color',
+                ]),
+                '&:hover': {
+                    borderColor: isSelected
+                        ? 'primary.main'
+                        : alpha(theme.palette.primary.main, 0.5),
+                    backgroundColor: isSelected
+                        ? alpha(theme.palette.primary.main, 0.05)
+                        : alpha(theme.palette.grey[500], 0.05),
+                },
+            }}
+        >
+            {isSelected && (
+                <CheckCircle
+                    sx={{
+                        fontSize: 16,
+                        color: 'primary.main',
+                        position: 'absolute',
+                        top: 6,
+                        right: 6,
+                    }}
+                />
+            )}
+            <StudentInfo student={student} isSelected={isSelected} />
+            {stats && <StudentStats stats={stats} theme={theme} />}
+        </Box>
+    );
+};
+
+// --- MAIN COMPONENT ---
 
 export const StudentSelector: React.FC<StudentSelectorProps> = ({
     students,
@@ -63,520 +234,73 @@ export const StudentSelector: React.FC<StudentSelectorProps> = ({
     onStudentChange,
     className = '',
 }) => {
-    const theme = useTheme();
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-    const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-    };
-
-    const handleStudentSelect = (student: Student) => {
-        onStudentChange(student);
-        handleMenuClose();
-    };
-
-    const getStudentStats = (
-        studentId: string
-    ): StudentQuickStats | undefined => {
-        return mockQuickStats.find(stats => stats.studentId === studentId);
-    };
-
-    const getGradeColor = (gpa: number) => {
-        if (gpa >= 3.5) return theme.palette.success.main;
-        if (gpa >= 2.5) return theme.palette.warning.main;
-        return theme.palette.error.main;
-    };
-
-    const getAttendanceColor = (rate: number) => {
-        if (rate >= 95) return theme.palette.success.main;
-        if (rate >= 90) return theme.palette.warning.main;
-        return theme.palette.error.main;
-    };
-    console.log({ students });
-
     if (!students.length) {
-        return (
-            <Card className={className}>
-                <CardContent>
-                    <Typography color="text.secondary">
-                        No students found
-                    </Typography>
-                </CardContent>
-            </Card>
-        );
-    }
-
-    // If only one student, show compact view
-    if (students.length === 1) {
-        const student = students[0];
-        const stats = getStudentStats(student.id);
-
         return (
             <Box
                 className={className}
                 sx={{
-                    p: 1.5,
+                    p: 2,
+                    textAlign: 'center',
                     backgroundColor: 'background.paper',
                     borderRadius: 1,
-                    border: 1,
-                    borderColor: alpha(theme.palette.primary.main, 0.3),
                 }}
             >
-                <Box
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 1.5,
-                        cursor: 'pointer',
-                    }}
-                    onClick={() => handleStudentSelect(student)}
+                <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ fontSize: '0.875rem' }}
                 >
-                    <Avatar
-                        src={student.avatar}
-                        sx={{
-                            width: 32,
-                            height: 32,
-                            backgroundColor: 'primary.main',
-                        }}
-                    >
-                        {student.firstName.charAt(0)}
-                        {student.lastName.charAt(0)}
-                    </Avatar>
-                    <Box sx={{ flexGrow: 1 }}>
-                        <Typography
-                            variant="subtitle1"
-                            sx={{ fontWeight: 600, lineHeight: 1.2 }}
-                        >
-                            {student.fullName}
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary">
-                            Grade {student.grade} •{' '}
-                            {student.homeroomTeacher.name}
-                        </Typography>
-                    </Box>
-                    {stats && (
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 1,
-                            }}
-                        >
-                            <Typography
-                                variant="caption"
-                                sx={{
-                                    fontWeight: 600,
-                                    color: getGradeColor(stats.currentGPA),
-                                }}
-                            >
-                                {stats.currentGPA.toFixed(1)}
-                            </Typography>
-                            <Typography
-                                variant="caption"
-                                sx={{
-                                    fontWeight: 600,
-                                    color: getAttendanceColor(
-                                        stats.attendanceRate
-                                    ),
-                                }}
-                            >
-                                {stats.attendanceRate}%
-                            </Typography>
-                            {stats.alertCount > 0 && (
-                                <Chip
-                                    label={stats.alertCount}
-                                    color="error"
-                                    size="small"
-                                    sx={{ height: 18, fontSize: '0.6875rem' }}
-                                />
-                            )}
-                        </Box>
-                    )}
-                </Box>
+                    No students found for this parent.
+                </Typography>
             </Box>
         );
     }
 
-    // Multiple students view - compact header with quick switch
     return (
-        <Box className={className}>
-            {/* Compact Selected Student Display */}
-            {selectedStudent && (
-                <Box
+        <Box className={className} sx={{ width: '100%' }}>
+            <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                sx={{ mb: 1.5, px: 0.5 }}
+            >
+                <Typography
+                    variant="overline"
                     sx={{
-                        mb: 2,
-                        p: 1.5,
-                        backgroundColor: 'background.paper',
-                        borderRadius: 1,
-                        border: 1,
-                        borderColor: alpha(theme.palette.primary.main, 0.3),
+                        fontWeight: 600,
+                        color: 'text.secondary',
+                        fontSize: '0.625rem',
                     }}
                 >
-                    <Box
-                        sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}
+                    Select a Student
+                </Typography>
+                <Typography
+                    variant="caption"
+                    sx={{ color: 'text.secondary', fontSize: '0.75rem' }}
+                >
+                    {students.length} students
+                </Typography>
+            </Stack>
+
+            <Grid container spacing={1.5}>
+                {students.map(student => (
+                    <Grid
+                        key={student.id}
+                        size={{
+                            xs: 12,
+                            sm: 6,
+                            md: 4,
+                            lg: 3,
+                        }}
                     >
-                        <Avatar
-                            src={selectedStudent.avatar}
-                            sx={{
-                                width: 32,
-                                height: 32,
-                                backgroundColor: 'primary.main',
-                            }}
-                        >
-                            {selectedStudent.firstName.charAt(0)}
-                            {selectedStudent.lastName.charAt(0)}
-                        </Avatar>
-                        <Box sx={{ flexGrow: 1 }}>
-                            <Typography
-                                variant="subtitle1"
-                                sx={{ fontWeight: 600, lineHeight: 1.2 }}
-                            >
-                                {selectedStudent.fullName}
-                            </Typography>
-                            <Typography
-                                variant="caption"
-                                color="text.secondary"
-                            >
-                                Grade {selectedStudent.grade} •{' '}
-                                {selectedStudent.homeroomTeacher.name}
-                            </Typography>
-                        </Box>
-
-                        {/* Inline Quick Stats */}
-                        {(() => {
-                            const stats = getStudentStats(selectedStudent.id);
-                            return (
-                                <Box
-                                    sx={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: 1.5,
-                                    }}
-                                >
-                                    {stats && (
-                                        <>
-                                            <Box sx={{ textAlign: 'center' }}>
-                                                <Typography
-                                                    variant="caption"
-                                                    sx={{
-                                                        fontWeight: 600,
-                                                        color: getGradeColor(
-                                                            stats.currentGPA
-                                                        ),
-                                                        display: 'block',
-                                                    }}
-                                                >
-                                                    {stats.currentGPA.toFixed(
-                                                        1
-                                                    )}
-                                                </Typography>
-                                                <Typography
-                                                    variant="caption"
-                                                    color="text.secondary"
-                                                    sx={{
-                                                        fontSize: '0.6875rem',
-                                                    }}
-                                                >
-                                                    GPA
-                                                </Typography>
-                                            </Box>
-                                            <Box sx={{ textAlign: 'center' }}>
-                                                <Typography
-                                                    variant="caption"
-                                                    sx={{
-                                                        fontWeight: 600,
-                                                        color: getAttendanceColor(
-                                                            stats.attendanceRate
-                                                        ),
-                                                        display: 'block',
-                                                    }}
-                                                >
-                                                    {stats.attendanceRate}%
-                                                </Typography>
-                                                <Typography
-                                                    variant="caption"
-                                                    color="text.secondary"
-                                                    sx={{
-                                                        fontSize: '0.6875rem',
-                                                    }}
-                                                >
-                                                    Attend
-                                                </Typography>
-                                            </Box>
-                                            <Box sx={{ textAlign: 'center' }}>
-                                                <Typography
-                                                    variant="caption"
-                                                    sx={{
-                                                        fontWeight: 600,
-                                                        display: 'block',
-                                                    }}
-                                                >
-                                                    {stats.upcomingAssignments}
-                                                </Typography>
-                                                <Typography
-                                                    variant="caption"
-                                                    color="text.secondary"
-                                                    sx={{
-                                                        fontSize: '0.6875rem',
-                                                    }}
-                                                >
-                                                    Due
-                                                </Typography>
-                                            </Box>
-                                            {stats.alertCount > 0 && (
-                                                <Chip
-                                                    label={stats.alertCount}
-                                                    color="error"
-                                                    size="small"
-                                                    sx={{
-                                                        height: 18,
-                                                        fontSize: '0.6875rem',
-                                                    }}
-                                                />
-                                            )}
-                                        </>
-                                    )}
-                                    <IconButton
-                                        size="small"
-                                        onClick={handleMenuOpen}
-                                        sx={{
-                                            ml: 'auto',
-                                            p: 0.5,
-                                            backgroundColor: alpha(
-                                                theme.palette.primary.main,
-                                                0.1
-                                            ),
-                                            '&:hover': {
-                                                backgroundColor: alpha(
-                                                    theme.palette.primary.main,
-                                                    0.2
-                                                ),
-                                            },
-                                        }}
-                                    >
-                                        <SwitchIcon sx={{ fontSize: 14 }} />
-                                    </IconButton>
-                                </Box>
-                            );
-                        })()}
-                    </Box>
-                </Box>
-            )}
-
-            {/* Quick Student List - Only show when multiple students */}
-            {students.length > 1 && (
-                <Box sx={{ mb: 1 }}>
-                    <Typography
-                        variant="subtitle2"
-                        sx={{ fontWeight: 600, mb: 1, color: 'text.secondary' }}
-                    >
-                        Quick Switch ({students.length} students)
-                    </Typography>
-                    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-                        {students
-                            .filter(
-                                student => student.id !== selectedStudent?.id
-                            )
-                            .slice(0, 3)
-                            .map(student => {
-                                const stats = getStudentStats(student.id);
-                                return (
-                                    <Box
-                                        key={student.id}
-                                        onClick={() => onStudentChange(student)}
-                                        sx={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: 1,
-                                            p: 1,
-                                            backgroundColor: 'background.paper',
-                                            borderRadius: 1,
-                                            border: 1,
-                                            borderColor: 'grey.200',
-                                            cursor: 'pointer',
-                                            transition: 'all 0.2s ease',
-                                            '&:hover': {
-                                                borderColor: 'primary.main',
-                                                backgroundColor: alpha(
-                                                    theme.palette.primary.main,
-                                                    0.05
-                                                ),
-                                            },
-                                        }}
-                                    >
-                                        <Avatar
-                                            src={student.avatar}
-                                            sx={{
-                                                width: 24,
-                                                height: 24,
-                                                backgroundColor: 'primary.main',
-                                                fontSize: '0.75rem',
-                                            }}
-                                        >
-                                            {student.firstName.charAt(0)}
-                                            {student.lastName.charAt(0)}
-                                        </Avatar>
-                                        <Box>
-                                            <Typography
-                                                variant="caption"
-                                                sx={{
-                                                    fontWeight: 600,
-                                                    display: 'block',
-                                                    lineHeight: 1.2,
-                                                }}
-                                            >
-                                                {student.firstName}
-                                            </Typography>
-                                            <Typography
-                                                variant="caption"
-                                                color="text.secondary"
-                                                sx={{ fontSize: '0.6875rem' }}
-                                            >
-                                                Grade {student.grade}
-                                            </Typography>
-                                        </Box>
-                                        {stats && stats.alertCount > 0 && (
-                                            <Chip
-                                                label={stats.alertCount}
-                                                color="error"
-                                                size="small"
-                                                sx={{
-                                                    height: 16,
-                                                    fontSize: '0.625rem',
-                                                    minWidth: 16,
-                                                }}
-                                            />
-                                        )}
-                                    </Box>
-                                );
-                            })}
-                        {students.length > 4 && (
-                            <Button
-                                size="small"
-                                onClick={handleMenuOpen}
-                                sx={{
-                                    minHeight: 32,
-                                    fontSize: '0.75rem',
-                                    textTransform: 'none',
-                                }}
-                            >
-                                +{students.length - 4} more
-                            </Button>
-                        )}
-                    </Box>
-                </Box>
-            )}
-
-            {/* Compact Student Selection Menu */}
-            <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleMenuClose}
-                PaperProps={{
-                    sx: {
-                        minWidth: 280,
-                        maxHeight: 320,
-                    },
-                }}
-            >
-                {students.map(student => {
-                    const stats = getStudentStats(student.id);
-                    const isSelected = selectedStudent?.id === student.id;
-
-                    console.log({ stats, isSelected });
-
-                    return (
-                        <MenuItem
-                            key={student.id}
-                            onClick={() => handleStudentSelect(student)}
-                            selected={isSelected}
-                            sx={{ py: 1, px: 1.5 }}
-                        >
-                            <ListItemIcon sx={{ minWidth: 40 }}>
-                                <Avatar
-                                    src={student.avatar}
-                                    sx={{
-                                        width: 28,
-                                        height: 28,
-                                        backgroundColor: 'primary.main',
-                                        fontSize: '0.75rem',
-                                    }}
-                                >
-                                    {student.firstName.charAt(0)}
-                                    {student.lastName.charAt(0)}
-                                </Avatar>
-                            </ListItemIcon>
-                            <ListItemText
-                                primary={
-                                    <Box
-                                        sx={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'space-between',
-                                        }}
-                                    >
-                                        <Typography
-                                            variant="body2"
-                                            sx={{ fontWeight: 600 }}
-                                        >
-                                            {student.fullName}
-                                        </Typography>
-                                        {stats && (
-                                            <Box
-                                                sx={{
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    gap: 0.5,
-                                                }}
-                                            >
-                                                <Typography
-                                                    variant="caption"
-                                                    sx={{
-                                                        fontWeight: 600,
-                                                        color: getGradeColor(
-                                                            stats.currentGPA
-                                                        ),
-                                                    }}
-                                                >
-                                                    {stats.currentGPA.toFixed(
-                                                        1
-                                                    )}
-                                                </Typography>
-                                                {stats.alertCount > 0 && (
-                                                    <Chip
-                                                        label={stats.alertCount}
-                                                        color="error"
-                                                        size="small"
-                                                        sx={{
-                                                            height: 16,
-                                                            fontSize:
-                                                                '0.6875rem',
-                                                            minWidth: 16,
-                                                        }}
-                                                    />
-                                                )}
-                                            </Box>
-                                        )}
-                                    </Box>
-                                }
-                                secondary={
-                                    <Typography
-                                        variant="caption"
-                                        color="text.secondary"
-                                    >
-                                        Grade {student.grade} •{' '}
-                                        {student.homeroomTeacher.name}
-                                    </Typography>
-                                }
-                            />
-                        </MenuItem>
-                    );
-                })}
-            </Menu>
+                        <StudentCard
+                            student={student}
+                            isSelected={selectedStudent?.id === student.id}
+                            onSelect={() => onStudentChange(student)}
+                        />
+                    </Grid>
+                ))}
+            </Grid>
         </Box>
     );
 };

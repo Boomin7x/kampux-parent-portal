@@ -16,7 +16,6 @@ import { authSchemas } from '../../../utils/validation/schemas';
 import { useGetTokenQuery, useUserExistsQuery } from '../_hooks/useAuthQueries';
 import { ILanguage } from '../_model/authModel';
 import { FormField } from './shared/FormField';
-import { SocialAuth } from './shared/SocialAuth';
 import { authStyles, formAnimations } from './shared/authStyles';
 
 // Sign-in form data interface
@@ -149,15 +148,6 @@ export const SignInForm: React.FC<SignInFormProps> = ({
         }
     };
 
-    // Google sign-in handler
-    const handleGoogleSignIn = () => {
-        // TODO: Implement Google SSO
-        console.log('Google sign-in clicked');
-        toast.info('Google Sign-in', {
-            description: 'Google SSO will be implemented soon.',
-        });
-    };
-
     return (
         <Box
             className={className}
@@ -237,13 +227,6 @@ export const SignInForm: React.FC<SignInFormProps> = ({
             >
                 {isSubmitting ? 'Signing In...' : 'Sign In'}
             </Button>
-
-            {/* Social Authentication */}
-            <SocialAuth
-                onGoogleSignIn={handleGoogleSignIn}
-                isLoading={isSubmitting}
-                mode="signin"
-            />
         </Box>
     );
 };

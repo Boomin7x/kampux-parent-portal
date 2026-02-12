@@ -3,31 +3,53 @@ import {
     School as SchoolIcon,
 } from '@mui/icons-material';
 import {
+    Alert,
     Box,
-    Button,
     Container,
     Grid,
     IconButton,
     Paper,
+    Step,
+    StepLabel,
+    Stepper,
     Typography,
     useMediaQuery,
     useTheme,
 } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import type { ILanguage } from './_model/authModel';
 import { AuthBackground } from './components/AuthBackground';
-import { SignUpForm } from './components/SignUpForm';
+import { EmailRegistrationStep } from './components/EmailRegistrationStep';
+import { OTPAccountStep } from './components/OTPAccountStep';
 
 interface SignupPageProps {
     className?: string;
 }
+
+const steps = ['Enter Email', 'Verify & Create Account'];
 
 const SignupPage: React.FC<SignupPageProps> = ({ className = '' }) => {
     const theme = useTheme();
     const navigate = useNavigate();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-    // const { state, actions } = useAuthFlow();
+    const [activeStep, setActiveStep] = useState(0);
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+
+    // Data passed between steps
+    const [stepData, setStepData] = useState<{
+        token: string;
+        email: string;
+        language: ILanguage;
+        tenantAlias: string;
+    }>({
+        token: '',
+        email: '',
+        language: 'en-US' as ILanguage,
+        tenantAlias: '',
+    });
 
     const handleBackToWebsite = () => {
         navigate('/');
@@ -35,6 +57,49 @@ const SignupPage: React.FC<SignupPageProps> = ({ className = '' }) => {
 
     const handleBackToLogin = () => {
         navigate('/auth');
+    };
+
+    const handleEmailStepSuccess = (
+        token: string,
+        email: string,
+        language: ILanguage,
+        tenantAlias: string
+    ) => {
+        setStepData({ token, email, language, tenantAlias });
+        setActiveStep(1);
+        setError('');
+        setSuccess(
+            'Verification code sent successfully! Please check your email.'
+        );
+
+        // Clear success message after 3 seconds
+        setTimeout(() => setSuccess(''), 3000);
+    };
+
+    const handleAccountCreationSuccess = () => {
+        setSuccess('Account created successfully! Redirecting to login...');
+        setError('');
+
+        // Redirect to login page after 2 seconds
+        setTimeout(() => {
+            navigate('/auth', {
+                state: {
+                    message:
+                        'Account created successfully! Please sign in with your credentials.',
+                },
+            });
+        }, 2000);
+    };
+
+    const handleError = (errorMessage: string) => {
+        setError(errorMessage);
+        setSuccess('');
+    };
+
+    const handleBackToEmailStep = () => {
+        setActiveStep(0);
+        setError('');
+        setSuccess('');
     };
 
     return (
@@ -114,7 +179,7 @@ const SignupPage: React.FC<SignupPageProps> = ({ className = '' }) => {
                                             color: 'primary.main',
                                         }}
                                     >
-                                        Excellence Academy
+                                        Parent Portal
                                     </Typography>
                                 </Box>
                             )}
@@ -141,22 +206,86 @@ const SignupPage: React.FC<SignupPageProps> = ({ className = '' }) => {
                                         color: 'text.secondary',
                                         fontSize: '1rem',
                                         lineHeight: 1.6,
+                                        mb: 3,
                                     }}
                                 >
-                                    Join our parent portal to stay connected
-                                    with your child's educational journey.
+                                    Join thousands of parents staying connected
+                                    with their child's education
                                 </Typography>
                             </Box>
 
-                            {/* Sign-Up Form */}
-                            <SignUpForm
-                                onSuccess={userData => {
-                                    // Navigate to email verification with user data
-                                    navigate(
-                                        `/auth/verify-email?email=${encodeURIComponent(userData.email)}`
-                                    );
-                                }}
-                            />
+                            {/* Progress Stepper */}
+                            <Stepper activeStep={activeStep} sx={{ mb: 4 }}>
+                                {steps.map((label, index) => (
+                                    <Step key={label}>
+                                        <StepLabel
+                                            sx={{
+                                                '& .MuiStepLabel-label': {
+                                                    fontSize: {
+                                                        xs: '0.75rem',
+                                                        sm: '0.875rem',
+                                                    },
+                                                    fontWeight:
+                                                        activeStep === index
+                                                            ? 600
+                                                            : 400,
+                                                },
+                                            }}
+                                        >
+                                            {label}
+                                        </StepLabel>
+                                    </Step>
+                                ))}
+                            </Stepper>
+
+                            {/* Error Alert */}
+                            {error && (
+                                <Alert
+                                    severity="error"
+                                    sx={{
+                                        mb: 3,
+                                        borderRadius: 2,
+                                    }}
+                                    onClose={() => setError('')}
+                                >
+                                    {error}
+                                </Alert>
+                            )}
+
+                            {/* Success Alert */}
+                            {success && (
+                                <Alert
+                                    severity="success"
+                                    sx={{
+                                        mb: 3,
+                                        borderRadius: 2,
+                                    }}
+                                >
+                                    {success}
+                                </Alert>
+                            )}
+
+                            {/* Step Content */}
+                            <Box sx={{ minHeight: 300 }}>
+                                {activeStep === 0 && (
+                                    <EmailRegistrationStep
+                                        onSuccess={handleEmailStepSuccess}
+                                        onError={handleError}
+                                    />
+                                )}
+
+                                {activeStep === 1 && (
+                                    <OTPAccountStep
+                                        token={stepData.token}
+                                        email={stepData.email}
+                                        language={stepData.language}
+                                        tenantAlias={stepData.tenantAlias}
+                                        onSuccess={handleAccountCreationSuccess}
+                                        onError={handleError}
+                                        onBack={handleBackToEmailStep}
+                                    />
+                                )}
+                            </Box>
 
                             {/* Footer */}
                             <Box sx={{ textAlign: 'center', mt: 4 }}>
@@ -164,25 +293,28 @@ const SignupPage: React.FC<SignupPageProps> = ({ className = '' }) => {
                                     variant="body2"
                                     sx={{
                                         color: 'text.secondary',
-                                        fontSize: '0.875rem',
+                                        fontSize: '0.8125rem',
                                     }}
                                 >
                                     Already have an account?{' '}
-                                    <Button
-                                        variant="text"
-                                        size="small"
+                                    <Typography
+                                        component="button"
+                                        variant="body2"
                                         onClick={handleBackToLogin}
                                         sx={{
-                                            p: 0,
-                                            minWidth: 'auto',
                                             color: 'primary.main',
-                                            textTransform: 'none',
-                                            fontSize: '0.875rem',
-                                            fontWeight: 500,
+                                            fontWeight: 600,
+                                            textDecoration: 'none',
+                                            cursor: 'pointer',
+                                            border: 'none',
+                                            background: 'none',
+                                            '&:hover': {
+                                                textDecoration: 'underline',
+                                            },
                                         }}
                                     >
                                         Sign In
-                                    </Button>
+                                    </Typography>
                                 </Typography>
                             </Box>
 
@@ -196,19 +328,38 @@ const SignupPage: React.FC<SignupPageProps> = ({ className = '' }) => {
                                     }}
                                 >
                                     Need help?{' '}
-                                    <Button
-                                        variant="text"
-                                        size="small"
+                                    <Typography
+                                        component="button"
+                                        variant="body2"
                                         sx={{
-                                            p: 0,
-                                            minWidth: 'auto',
                                             color: 'primary.main',
-                                            textTransform: 'none',
+                                            textDecoration: 'none',
+                                            cursor: 'pointer',
+                                            border: 'none',
+                                            background: 'none',
                                             fontSize: '0.875rem',
+                                            '&:hover': {
+                                                textDecoration: 'underline',
+                                            },
                                         }}
                                     >
                                         Contact School Administration
-                                    </Button>
+                                    </Typography>
+                                </Typography>
+                            </Box>
+
+                            {/* Security Notice */}
+                            <Box sx={{ textAlign: 'center', mt: 3 }}>
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        color: 'text.secondary',
+                                        fontSize: '0.75rem',
+                                        display: 'block',
+                                    }}
+                                >
+                                    By creating an account, you agree to our
+                                    Terms of Service and Privacy Policy
                                 </Typography>
                             </Box>
                         </Container>

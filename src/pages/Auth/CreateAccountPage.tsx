@@ -20,18 +20,12 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { ILanguage } from './_model/authModel';
 import { AuthBackground } from './components/AuthBackground';
-import { ForgotPasswordEmailStep } from './components/ForgotPasswordEmailStep';
-import { ForgotPasswordResetStep } from './components/ForgotPasswordResetStep';
+import { EmailRegistrationStep } from './components/EmailRegistrationStep';
+import { OTPAccountStep } from './components/OTPAccountStep';
 
-interface ForgotPasswordPageProps {
-    className?: string;
-}
+const steps = ['Enter Email', 'Verify & Create Account'];
 
-const steps = ['Enter Email', 'Reset Password'];
-
-const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
-    className = '',
-}) => {
+export const CreateAccountPage: React.FC = () => {
     const theme = useTheme();
     const navigate = useNavigate();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -62,23 +56,23 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
         setActiveStep(1);
         setError('');
         setSuccess(
-            'Reset code sent successfully! Please check your email.'
+            'Verification code sent successfully! Please check your email.'
         );
 
         // Clear success message after 3 seconds
         setTimeout(() => setSuccess(''), 3000);
     };
 
-    const handlePasswordResetSuccess = () => {
-        setSuccess('Password reset successfully! Redirecting to login...');
+    const handleAccountCreationSuccess = () => {
+        setSuccess('Account created successfully! Redirecting to login...');
         setError('');
 
         // Redirect to login page after 2 seconds
         setTimeout(() => {
-            navigate('/auth', {
+            navigate('/auth/login', {
                 state: {
                     message:
-                        'Password reset successfully! Please sign in with your new password.',
+                        'Account created successfully! Please sign in with your credentials.',
                 },
             });
         }, 2000);
@@ -100,12 +94,15 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
     };
 
     const handleBackToLogin = () => {
-        navigate('/auth');
+        navigate('/auth/login');
+    };
+
+    const handleForgotPassword = () => {
+        navigate('/auth/forgot-password');
     };
 
     return (
         <Box
-            className={className}
             sx={{
                 minHeight: '100vh',
                 backgroundColor: '#fefefe',
@@ -199,7 +196,7 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
                                         },
                                     }}
                                 >
-                                    Reset Your Password
+                                    Create Your Account
                                 </Typography>
                                 <Typography
                                     variant="body1"
@@ -210,7 +207,8 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
                                         mb: 3,
                                     }}
                                 >
-                                    Secure and easy password recovery process
+                                    Join thousands of parents staying connected
+                                    with their child's education
                                 </Typography>
                             </Box>
 
@@ -268,19 +266,19 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
                             {/* Step Content */}
                             <Box sx={{ minHeight: 300 }}>
                                 {activeStep === 0 && (
-                                    <ForgotPasswordEmailStep
+                                    <EmailRegistrationStep
                                         onSuccess={handleEmailStepSuccess}
                                         onError={handleError}
                                     />
                                 )}
 
                                 {activeStep === 1 && (
-                                    <ForgotPasswordResetStep
+                                    <OTPAccountStep
                                         token={stepData.token}
                                         email={stepData.email}
                                         language={stepData.language}
                                         tenantAlias={stepData.tenantAlias}
-                                        onSuccess={handlePasswordResetSuccess}
+                                        onSuccess={handleAccountCreationSuccess}
                                         onError={handleError}
                                         onBack={handleBackToEmailStep}
                                     />
@@ -296,7 +294,7 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
                                         fontSize: '0.8125rem',
                                     }}
                                 >
-                                    Remember your password?{' '}
+                                    Already have an account?{' '}
                                     <Typography
                                         component="button"
                                         variant="body2"
@@ -313,7 +311,39 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
                                             },
                                         }}
                                     >
-                                        Back to Login
+                                        Sign In
+                                    </Typography>
+                                </Typography>
+                            </Box>
+
+                            {/* Forgot Password Link */}
+                            <Box sx={{ textAlign: 'center', mt: 2 }}>
+                                <Typography
+                                    variant="body2"
+                                    sx={{
+                                        color: 'text.secondary',
+                                        fontSize: '0.875rem',
+                                    }}
+                                >
+                                    Already have an account but forgot your
+                                    password?{' '}
+                                    <Typography
+                                        component="button"
+                                        variant="body2"
+                                        onClick={handleForgotPassword}
+                                        sx={{
+                                            color: 'primary.main',
+                                            textDecoration: 'none',
+                                            cursor: 'pointer',
+                                            border: 'none',
+                                            background: 'none',
+                                            fontSize: '0.875rem',
+                                            '&:hover': {
+                                                textDecoration: 'underline',
+                                            },
+                                        }}
+                                    >
+                                        Reset Password
                                     </Typography>
                                 </Typography>
                             </Box>
@@ -358,7 +388,8 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
                                         display: 'block',
                                     }}
                                 >
-                                    Password reset codes expire after 10 minutes for security
+                                    By creating an account, you agree to our
+                                    Terms of Service and Privacy Policy
                                 </Typography>
                             </Box>
                         </Container>
@@ -368,5 +399,3 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
         </Box>
     );
 };
-
-export default ForgotPasswordPage;

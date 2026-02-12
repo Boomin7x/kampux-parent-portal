@@ -2,7 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { LandingPage } from '../pages/LandingPage';
 import AuthPage from '../pages/Auth/AuthPage';
 import LoginPage from '../pages/Auth/LoginPage';
-import SignupPage from '../pages/Auth/SignupPage';
+import { CreateAccountPage } from '../pages/Auth/CreateAccountPage';
 import ForgotPasswordPage from '../pages/Auth/ForgotPasswordPage';
 import ResetPasswordPage from '../pages/Auth/ResetPasswordPage';
 import EmailVerificationPage from '../pages/Auth/EmailVerificationPage';
@@ -19,8 +19,12 @@ const router = createBrowserRouter([
         element: <AuthPage />,
     },
     {
+        path: '/auth/login',
+        element: <LoginPage />,
+    },
+    {
         path: '/auth/signup',
-        element: <SignupPage />,
+        element: <CreateAccountPage />,
     },
     {
         path: '/auth/forgot-password',

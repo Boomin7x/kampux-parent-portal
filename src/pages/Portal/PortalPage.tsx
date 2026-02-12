@@ -5,6 +5,7 @@ import { useStudentStore } from '../../stores/studentStore';
 import type { Student } from '../../types/student.types';
 import { convertAPIStudentsToUI } from '../../utils/studentAdapter';
 import { useGetStudents } from './_hooks/useParent';
+import { StudentMarks } from './components/academic/StudentMarks';
 import { AttendanceCalendar } from './components/attendance/AttendanceCalendar';
 import { WeeklyTimetable } from './components/attendance/WeeklyTimetable';
 import { BillingOverview } from './components/billing/BillingOverview';
@@ -332,7 +333,24 @@ const PortalPage: React.FC = () => {
                         {/* Academic Results Routes */}
                         <Route
                             path="results"
-                            element={<Navigate to="overview" replace />}
+                            element={<Navigate to="marks" replace />}
+                        />
+                        <Route
+                            path="results/marks"
+                            element={
+                                selectedStudentId ? (
+                                    <StudentMarks
+                                        studentId={selectedStudentId}
+                                    />
+                                ) : (
+                                    <Box sx={{ p: 3 }}>
+                                        <Typography>
+                                            Please select a student to view
+                                            marks
+                                        </Typography>
+                                    </Box>
+                                )
+                            }
                         />
                         <Route
                             path="results/overview"

@@ -431,6 +431,139 @@ export interface CodificationItem {
 
 export type GetCodificationItemsResponse = CodificationItem[];
 
+// Student Marks/Results interfaces - Updated to match actual API response structure
+
+// Competency assessment within a mark
+export interface RegistrationMarkCompetence {
+    id: number;
+    registrationMarkId: number;
+    competenceId: number;
+    competenceCode: string;
+    competenceName: string;
+    competenceDescription: string;
+    mark: number;
+    maxMark: number;
+    coefficient: number;
+    weightedMark: number;
+    rank: number | null;
+    markExist: boolean;
+    competenceTypeCode: string;
+    competenceTypeName: string;
+    competenceOrder: number;
+    parentCompetenceId: number | null;
+    parentCompetenceCode: string | null;
+    parentCompetenceName: string | null;
+    level: number;
+    isLeaf: boolean;
+}
+
+// Individual student mark record
+export interface StudentMark {
+    id: number;
+    studentId: number;
+    registrationId: number;
+
+    // Student information
+    firstName: string;
+    lastName: string;
+    birthDate: string;
+
+    // Subject details
+    subjectId: number;
+    subjectCode: string;
+    subjectLongName: string;
+    subjectShortName: string;
+    coefficient: number;
+
+    // Exam information
+    examId: number;
+    examMaxMark: number;
+    schoolYearPeriodExamId: number;
+    schoolYearPeriodExamName: string;
+    schoolYearPeriodId: number;
+    schoolYearPeriodName: string;
+
+    // Mark details
+    currentMark: number;
+    mark: number;
+    rank: number;
+    markExist: boolean;
+
+    // Competency breakdown
+    registrationMarkCompetences: RegistrationMarkCompetence[];
+
+    // Additional metadata
+    schoolYearId: number;
+    schoolYearName: string;
+    schoolYearClassId: number;
+    schoolYearClassName: string;
+
+    // Computed fields for backward compatibility
+    markValue?: number; // alias for currentMark
+    maxMark?: number; // alias for examMaxMark
+    subjectName?: string; // alias for subjectLongName
+    examName?: string; // alias for schoolYearPeriodExamName
+    periodName?: string; // alias for schoolYearPeriodName
+    classRank?: number; // alias for rank
+    academicYear?: string; // alias for schoolYearName
+    semester?: string; // alias for schoolYearPeriodName
+    term?: string; // alias for schoolYearPeriodName
+}
+
+// API Response structure - array of student marks
+export type GetStudentMarksResponse = StudentMark[];
+
+// Extended response with metadata for UI components
+export interface StudentMarksWithAnalytics {
+    marks: StudentMark[];
+    analytics: {
+        overallAverage: number;
+        bestSubject: {
+            name: string;
+            average: number;
+            rank: number;
+        } | null;
+        worstSubject: {
+            name: string;
+            average: number;
+            rank: number;
+        } | null;
+        competencyBreakdown: {
+            competenceCode: string;
+            competenceName: string;
+            averageMark: number;
+            maxPossible: number;
+            percentage: number;
+            level: number;
+        }[];
+        trendAnalysis: {
+            periodName: string;
+            average: number;
+            rank: number;
+            improvement: number;
+        }[];
+        subjectAnalysis: {
+            subjectCode: string;
+            subjectName: string;
+            totalMarks: number;
+            averageMark: number;
+            bestMark: number;
+            worstMark: number;
+            coefficient: number;
+            weightedAverage: number;
+            rank: number;
+        }[];
+    };
+    metadata: {
+        studentId: number;
+        studentName: string;
+        academicYear: string;
+        totalExams: number;
+        totalSubjects: number;
+        lastUpdated: string;
+    };
+}
+
 // Parent Service
 export const parentService = {
     /**
@@ -528,6 +661,18 @@ export const parentService = {
             await parentApiClient.get<GetCodificationItemsResponse>(
                 `/get-codificationItems-by-codificationCodes/${encodeURIComponent(codesParam)}`
             );
+        return response.data;
+    },
+
+    /**
+     * Get marks/results by student ID
+     */
+    getMarksByStudent: async (
+        studentId: string | number
+    ): Promise<GetStudentMarksResponse> => {
+        const response = await parentApiClient.get<GetStudentMarksResponse>(
+            `/get-marks-by-student?studentId=${studentId}`
+        );
         return response.data;
     },
 };

@@ -238,6 +238,9 @@ export const authApiClient = createApiClient(`${API_BASE_URL}/api/identity`);
 export const parentApiClient = createApiClient(
     `${API_BASE_URL}/public-api/parent/v1`
 );
+export const registerApiClient = createApiClient(
+    `${API_BASE_URL}/public-api/token/v1`
+);
 
 // Utility functions for common HTTP methods
 export const api = {

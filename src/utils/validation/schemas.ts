@@ -162,6 +162,66 @@ export const authSchemas = {
             .matches(/^\d{6}$/, 'Verification code must be exactly 6 digits')
             .length(6, 'Verification code must be exactly 6 digits'),
     }),
+
+    // Email registration step schema
+    emailRegistration: yup.object({
+        email: validators.email,
+        tenantAlias: yup
+            .string()
+            .required('School/Organization code is required')
+            .trim(),
+        language: yup
+            .string()
+            .required('Language is required')
+            .oneOf(['en-US', 'fr-FR'], 'Please select a valid language'),
+    }),
+
+    // OTP account creation step schema
+    otpAccountCreation: yup.object({
+        otp: yup
+            .string()
+            .required('Verification code is required')
+            .matches(/^\d{6}$/, 'Please enter a valid 6-digit code')
+            .length(6, 'Please enter a valid 6-digit code'),
+        password: yup
+            .string()
+            .required('Password is required')
+            .min(8, 'Password must be at least 8 characters'),
+        confirmPassword: yup
+            .string()
+            .required('Please confirm your password')
+            .oneOf([yup.ref('password')], 'Passwords do not match'),
+    }),
+
+    // Forgot password email step schema
+    forgotPasswordEmail: yup.object({
+        email: validators.email,
+        tenantAlias: yup
+            .string()
+            .required('School/Organization code is required')
+            .trim(),
+        language: yup
+            .string()
+            .required('Language is required')
+            .oneOf(['en-US', 'fr-FR'], 'Please select a valid language'),
+    }),
+
+    // Forgot password reset step schema
+    forgotPasswordReset: yup.object({
+        otp: yup
+            .string()
+            .required('Verification code is required')
+            .matches(/^\d{6}$/, 'Please enter a valid 6-digit code')
+            .length(6, 'Please enter a valid 6-digit code'),
+        password: yup
+            .string()
+            .required('New password is required')
+            .min(8, 'Password must be at least 8 characters'),
+        confirmPassword: yup
+            .string()
+            .required('Please confirm your password')
+            .oneOf([yup.ref('password')], 'Passwords do not match'),
+    }),
 };
 
 // Student-related schemas
@@ -329,6 +389,18 @@ export type ResetPasswordFormData = yup.InferType<
 >;
 export type EmailVerificationFormData = yup.InferType<
     typeof authSchemas.emailVerification
+>;
+export type EmailRegistrationFormData = yup.InferType<
+    typeof authSchemas.emailRegistration
+>;
+export type OTPAccountCreationFormData = yup.InferType<
+    typeof authSchemas.otpAccountCreation
+>;
+export type ForgotPasswordEmailFormData = yup.InferType<
+    typeof authSchemas.forgotPasswordEmail
+>;
+export type ForgotPasswordResetFormData = yup.InferType<
+    typeof authSchemas.forgotPasswordReset
 >;
 export type StudentInfoFormData = yup.InferType<
     typeof studentSchemas.studentInfo

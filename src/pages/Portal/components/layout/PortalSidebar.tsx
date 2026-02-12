@@ -1,14 +1,17 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import {
     EventAvailable as AttendanceIcon,
     AccountBalance as BillingIcon,
     Check as CheckIcon,
     Dashboard as DashboardIcon,
-    Description as StudentSheetIcon,
     ExpandLess,
     ExpandMore,
     Payment as FeesIcon,
     Home as HomeIcon,
+    Grade as MarksIcon,
     Receipt as PaymentIcon,
+    Assessment as ResultsIcon,
+    Description as StudentSheetIcon,
     Schedule as TimetableIcon,
 } from '@mui/icons-material';
 import {
@@ -67,54 +70,38 @@ const navigationItems: NavigationItem[] = [
             },
         ],
     },
-    // {
-    //     id: 'examinations',
-    //     label: 'Examinations',
-    //     icon: <ExaminationIcon />,
-    //     path: 'examinations',
-    //     children: [
-    //         {
-    //             id: 'examinations-announcements',
-    //             label: 'Exam Announcements',
-    //             icon: <ExamCalendarIcon />,
-    //             path: 'examinations/announcements',
-    //             badge: 2,
-    //         },
-    //         {
-    //             id: 'examinations-calendar',
-    //             label: 'Exam Calendar',
-    //             icon: <ExamCalendarIcon />,
-    //             path: 'examinations/calendar',
-    //         },
-    //     ],
-    // },
-    // {
-    //     id: 'results',
-    //     label: 'Academic Results',
-    //     icon: <ResultsIcon />,
-    //     path: 'results',
-    //     children: [
-    //         {
-    //             id: 'results-overview',
-    //             label: 'Results Overview',
-    //             icon: <GradesIcon />,
-    //             path: 'results/overview',
-    //             badge: 1,
-    //         },
-    //         {
-    //             id: 'results-sequential',
-    //             label: 'Sequential Assessments',
-    //             icon: <ProgressIcon />,
-    //             path: 'results/sequential',
-    //         },
-    //         {
-    //             id: 'results-term',
-    //             label: 'Term Reports',
-    //             icon: <ResultsIcon />,
-    //             path: 'results/term',
-    //         },
-    //     ],
-    // },
+    {
+        id: 'results',
+        label: 'Academic Results',
+        icon: <ResultsIcon />,
+        path: 'results',
+        children: [
+            {
+                id: 'results-marks',
+                label: 'Student Marks',
+                icon: <MarksIcon />,
+                path: 'results/marks',
+            },
+            // {
+            //     id: 'results-overview',
+            //     label: 'Results Overview',
+            //     icon: <GradesIcon />,
+            //     path: 'results/overview',
+            // },
+            // {
+            //     id: 'results-sequential',
+            //     label: 'Sequential Assessments',
+            //     icon: <ProgressIcon />,
+            //     path: 'results/sequential',
+            // },
+            // {
+            //     id: 'results-term',
+            //     label: 'Term Reports',
+            //     icon: <ResultsIcon />,
+            //     path: 'results/term',
+            // },
+        ],
+    },
     {
         id: 'timetable',
         label: 'Timetable',

@@ -155,3 +155,104 @@ export interface StudentDetailResponse {
     schedule: ClassSchedule;
     academicYear: AcademicYear;
 }
+
+// Student Sheet Types
+export interface BaseSheet {
+    type: string;
+    schoolYearPeriodName: string;
+    schoolYearClassId: number | null;
+    gender: string | null;
+    id: number;
+    registrationId: number;
+    schoolYearPeriodId: number;
+    issueDate: string | null;
+    isCancelled: boolean;
+    cancellationDate: string | null;
+    cancellationPurpose: string;
+    discriminator: string | null;
+}
+
+export interface AbsenceSheet extends BaseSheet {
+    type: 'absence';
+    absenceType: string;
+    absencePurpose: string;
+    absencePurposeDescription: string;
+    justifedAbsence: boolean;
+    absenceStartDate: string;
+    absenceEndDate: string;
+    absenceDurationUnit: string | null;
+    absenceDurationValue: number | null;
+    disciplinaryType: null;
+    disciplinaryEventSummary: null;
+    disciplinaryEventDescription: null;
+    disciplinaryEventDate: null;
+    observationPurpose: null;
+    observationDescription: null;
+    observationDate: null;
+}
+
+export interface DisciplinarySheet extends BaseSheet {
+    type: 'disciplinary';
+    absenceType: null;
+    absencePurpose: null;
+    absencePurposeDescription: null;
+    justifedAbsence: null;
+    absenceStartDate: null;
+    absenceEndDate: null;
+    absenceDurationUnit: null;
+    absenceDurationValue: null;
+    disciplinaryType: string;
+    disciplinaryEventSummary: string;
+    disciplinaryEventDescription: string;
+    disciplinaryEventDate: string | null;
+    observationPurpose: null;
+    observationDescription: null;
+    observationDate: null;
+}
+
+export interface ObservationSheet extends BaseSheet {
+    type: 'observation';
+    absenceType: null;
+    absencePurpose: null;
+    absencePurposeDescription: null;
+    justifedAbsence: null;
+    absenceStartDate: null;
+    absenceEndDate: null;
+    absenceDurationUnit: null;
+    absenceDurationValue: null;
+    disciplinaryType: null;
+    disciplinaryEventSummary: null;
+    disciplinaryEventDescription: null;
+    disciplinaryEventDate: null;
+    observationPurpose: string;
+    observationDescription: string;
+    observationDate: string;
+}
+
+export interface ComplaintRecord {
+    id: number;
+    registrationId: number;
+    complaintDate: string | null;
+    complaintCategoryCode: string;
+    summary: string | null;
+    description: string;
+    assignedTeacherId: number | null;
+    haveBeenResolved: boolean;
+    resolutionDate: string | null;
+    resolutionDescription: string;
+    isCancelled: boolean;
+    cancellationDate: string | null;
+    cancellationPurpose: string | null;
+}
+
+export interface SanctionRecord {
+    // Will be defined when sanctions data structure is provided
+}
+
+export interface StudentSheetsData {
+    registrationSanctions: SanctionRecord[];
+    registrationAbsenceSheets: AbsenceSheet[];
+    registrationDisciplinarySheets: DisciplinarySheet[];
+    registrationObservationSheets: ObservationSheet[];
+    registrationComplaints: ComplaintRecord[];
+}

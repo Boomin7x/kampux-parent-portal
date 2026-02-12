@@ -14,6 +14,45 @@ export interface IUserExistResponse {
     succeeded: boolean;
 }
 
+export interface ICreateAccount {
+    email: string;
+    language: 'fr-FR' | 'en-US';
+    tenantAlias: string;
+    hubConnectionId: string | null;
+}
+
+export interface ICreateAccountRequestOtp {
+    email: string;
+    language: 'fr-FR' | 'en-US';
+    tenantAlias: string;
+    hubConnectionId: string | null;
+}
+
+export interface IConfirmCreateAccountOtp {
+    token: string;
+    otp: string;
+    email: string;
+    language: 'fr-FR' | 'en-US';
+    tenantAlias: string;
+    passwordMD5: string;
+}
+
+export interface IForgotPasswordRequestOtp {
+    email: string;
+    language: 'fr-FR' | 'en-US';
+    tenantAlias: string;
+    hubConnectionId: string | null;
+}
+
+export interface IForgotPasswordReset {
+    token: string;
+    otp: string;
+    email: string;
+    language: 'fr-FR' | 'en-US';
+    tenantAlias: string;
+    passwordMD5: string;
+}
+
 export enum ILanguage {
     FR = 'fr-FR',
     EN = 'en-US',
