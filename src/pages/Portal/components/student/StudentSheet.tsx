@@ -45,7 +45,7 @@ function TabPanel(props: TabPanelProps) {
             aria-labelledby={`student-tab-${index}`}
             {...other}
         >
-            {value === index && <Box sx={{ py: 3 }}>{children}</Box>}
+            {value === index && <Box sx={{ py: 1.5 }}>{children}</Box>}
         </div>
     );
 }
@@ -82,7 +82,7 @@ const RecordsList = ({
             <Box
                 sx={{
                     textAlign: 'center',
-                    py: 3,
+                    py: 1.5,
                     backgroundColor: 'primary.50',
                     borderRadius: 1,
                     border: '1px solid',
@@ -117,8 +117,8 @@ const RecordsList = ({
                     display: 'flex',
                     alignItems: 'center',
                     gap: 1,
-                    mb: 2,
-                    pb: 1,
+                    mb: 1,
+                    pb: 0.5,
                     borderBottom: '1px solid',
                     borderColor: 'divider',
                 }}
@@ -131,7 +131,7 @@ const RecordsList = ({
                     {title} ({records.length})
                 </Typography>
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }}>
                 {records.map(renderRecord)}
             </Box>
         </Box>
@@ -150,7 +150,24 @@ const RecordCard = ({
     cancellationDate,
     borderColor,
     bgColor,
+    duration,
+    category,
+    issueDate,
 }: any) => {
+    const formatDate = (dateString: string) => {
+        if (!dateString || dateString === '0001-01-01 00:00:00.000')
+            return null;
+        try {
+            return new Date(dateString).toLocaleDateString('fr-FR');
+        } catch {
+            return null;
+        }
+    };
+
+    const formattedDate = formatDate(date);
+    const formattedIssueDate = formatDate(issueDate);
+    const formattedCancellationDate = formatDate(cancellationDate);
+
     return (
         <Box
             sx={{
@@ -181,21 +198,78 @@ const RecordCard = ({
                     >
                         {title}
                     </Typography>
-                    <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{ fontSize: '0.75rem' }}
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            gap: 1,
+                            alignItems: 'center',
+                        }}
                     >
-                        {subtitle}
-                        {date && (
-                            <>
-                                {' • '}
-                                {new Date(date).toLocaleDateString('fr-FR')}
-                            </>
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            sx={{ fontSize: '0.75rem' }}
+                        >
+                            {subtitle}
+                        </Typography>
+                        {category && (
+                            <Chip
+                                label={category}
+                                size="small"
+                                variant="outlined"
+                                sx={{
+                                    height: 14,
+                                    fontSize: '0.625rem',
+                                    '& .MuiChip-label': { px: 0.5 },
+                                }}
+                            />
                         )}
-                    </Typography>
+                    </Box>
+                    <Box
+                        sx={{
+                            mt: 0.5,
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            gap: 1,
+                        }}
+                    >
+                        {formattedDate && (
+                            <Typography
+                                variant="caption"
+                                sx={{
+                                    fontSize: '0.6875rem',
+                                    color: 'text.secondary',
+                                }}
+                            >
+                                Date: {formattedDate}
+                            </Typography>
+                        )}
+                        {formattedIssueDate && (
+                            <Typography
+                                variant="caption"
+                                sx={{
+                                    fontSize: '0.6875rem',
+                                    color: 'text.secondary',
+                                }}
+                            >
+                                • Issued: {formattedIssueDate}
+                            </Typography>
+                        )}
+                        {duration && (
+                            <Typography
+                                variant="caption"
+                                sx={{
+                                    fontSize: '0.6875rem',
+                                    color: 'text.secondary',
+                                }}
+                            >
+                                • Duration: {duration}
+                            </Typography>
+                        )}
+                    </Box>
                 </Box>
-                <Box sx={{ display: 'flex', gap: 0.5 }}>
+                <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
                     {status && (
                         <Chip
                             label={status}
@@ -268,8 +342,8 @@ const RecordCard = ({
                         sx={{ fontSize: '0.75rem' }}
                     >
                         {cancellationReason}
-                        {cancellationDate &&
-                            ` (${new Date(cancellationDate).toLocaleDateString('fr-FR')})`}
+                        {formattedCancellationDate &&
+                            ` (${formattedCancellationDate})`}
                     </Typography>
                 </Box>
             )}
@@ -556,15 +630,15 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
     // const activeSheets = sheetTypes.filter(sheet => sheet.count > 0);
 
     return (
-        <Box sx={{ width: '100%', py: 2 }}>
+        <Box sx={{ width: '100%', py: 1 }}>
             {/* Header Section */}
-            <Box sx={{ mb: 3 }}>
+            <Box sx={{ mb: 1.5 }}>
                 <Box
                     sx={{
                         display: 'flex',
                         alignItems: 'center',
-                        gap: 2,
-                        mb: 1,
+                        gap: 1.5,
+                        mb: 0.5,
                     }}
                 >
                     <Typography
@@ -572,7 +646,7 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                         sx={{
                             fontWeight: 600,
                             color: 'text.primary',
-                            fontSize: '1.25rem',
+                            fontSize: '1.125rem',
                         }}
                     >
                         Student Records
@@ -604,9 +678,9 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
             <Box
                 sx={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                    gap: 2,
-                    mb: 3,
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+                    gap: 1,
+                    mb: 1.5,
                 }}
             >
                 <Box
@@ -700,8 +774,8 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
             <Box
                 sx={{
                     display: 'grid',
-                    gap: 2,
-                    mb: 3,
+                    gap: 1,
+                    mb: 1.5,
                     gridTemplateColumns: {
                         xs: 'repeat(1, 1fr)',
                         sm: 'repeat(2, 1fr)',
@@ -714,7 +788,7 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                     <Box
                         key={sheet.id}
                         sx={{
-                            p: 2,
+                            p: 1,
                             borderRadius: 1,
                             backgroundColor: sheet.bgColor,
                             border: '1px solid',
@@ -736,11 +810,18 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                         }}
                         onClick={() => {
                             if (sheet.count > 0) {
-                                const tabIndex =
-                                    sheetTypes.findIndex(
-                                        s => s.id === sheet.id
-                                    ) + 1;
-                                setCurrentTab(tabIndex);
+                                // Map sheet IDs to correct tab indices
+                                const tabMapping: Record<string, number> = {
+                                    absences: 1,
+                                    disciplinary: 2,
+                                    observations: 3,
+                                    complaints: 4,
+                                    sanctions: 5,
+                                };
+                                const tabIndex = tabMapping[sheet.id];
+                                if (tabIndex !== undefined) {
+                                    setCurrentTab(tabIndex);
+                                }
                             }
                         }}
                     >
@@ -748,7 +829,7 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                             sx={{
                                 display: 'flex',
                                 alignItems: 'flex-start',
-                                gap: 1.5,
+                                gap: 1,
                                 flexGrow: 1, // Allow content to grow
                             }}
                         >
@@ -766,7 +847,7 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'space-between',
-                                        mb: 0.5,
+                                        mb: 0.25,
                                     }}
                                 >
                                     <Typography
@@ -774,8 +855,8 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                         sx={{
                                             fontWeight: 600,
                                             color: 'text.primary',
-                                            fontSize: '0.875rem',
-                                            lineHeight: 1.2,
+                                            fontSize: '0.8125rem',
+                                            lineHeight: 1.1,
                                         }}
                                     >
                                         {sheet.title}
@@ -803,8 +884,8 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                     variant="caption"
                                     sx={{
                                         color: 'text.secondary',
-                                        fontSize: '0.75rem',
-                                        lineHeight: 1.3,
+                                        fontSize: '0.6875rem',
+                                        lineHeight: 1.2,
                                         display: 'block',
                                     }}
                                 >
@@ -812,12 +893,12 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                 </Typography>
 
                                 {sheet.count === 0 && (
-                                    <Box sx={{ mt: 'auto', pt: 1 }}>
+                                    <Box sx={{ mt: 'auto', pt: 0.5 }}>
                                         <Typography
                                             variant="caption"
                                             sx={{
                                                 color: 'success.main',
-                                                fontSize: '0.6875rem',
+                                                fontSize: '0.625rem',
                                                 fontWeight: 500,
                                                 display: 'flex',
                                                 alignItems: 'center',
@@ -838,22 +919,22 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
             </Box>
 
             {/* Tab Navigation */}
-            <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 1 }}>
                 <Tabs
                     value={currentTab}
                     onChange={handleTabChange}
                     variant="scrollable"
                     scrollButtons="auto"
                     sx={{
-                        minHeight: 36,
+                        minHeight: 32,
                         '& .MuiTab-root': {
                             textTransform: 'none',
                             fontWeight: 500,
-                            fontSize: '0.8125rem',
-                            minHeight: 36,
+                            fontSize: '0.75rem',
+                            minHeight: 32,
                             minWidth: 0,
-                            px: 2,
-                            py: 1,
+                            px: 1.5,
+                            py: 0.5,
                             '&.Mui-selected': {
                                 color: 'primary.main',
                             },
@@ -889,7 +970,7 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
 
             {/* Tab Panels */}
             <TabPanel value={currentTab} index={0}>
-                {/* Detailed Records Section */}
+                {/* Overview Section */}
                 {hasAnyRecords && (
                     <Box>
                         <Typography
@@ -897,108 +978,332 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                             sx={{
                                 fontWeight: 600,
                                 color: 'text.primary',
-                                mb: 2,
+                                mb: 1.5,
                                 fontSize: '0.875rem',
                             }}
                         >
-                            All Records Summary
+                            Record Summary
                         </Typography>
 
-                        {/* Complaints Section */}
-                        {data?.registrationComplaints &&
-                            data.registrationComplaints.length > 0 && (
-                                <Box sx={{ mb: 3 }}>
+                        {/* Statistics Grid */}
+                        <Box
+                            sx={{
+                                display: 'grid',
+                                gridTemplateColumns: {
+                                    xs: '1fr 1fr',
+                                    sm: '1fr 1fr 1fr 1fr 1fr',
+                                },
+                                gap: 1,
+                                mb: 2,
+                                p: 1,
+                                backgroundColor: '#f8fafc',
+                                borderRadius: 1,
+                                border: '1px solid #e2e8f0',
+                            }}
+                        >
+                            <Box sx={{ textAlign: 'center' }}>
+                                <Typography
+                                    variant="h6"
+                                    sx={{
+                                        fontSize: '1.25rem',
+                                        fontWeight: 600,
+                                        color: '#dc2626',
+                                    }}
+                                >
+                                    {data?.registrationSanctions?.length || 0}
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        fontSize: '0.6875rem',
+                                        color: '#64748b',
+                                    }}
+                                >
+                                    Sanctions
+                                </Typography>
+                            </Box>
+                            <Box sx={{ textAlign: 'center' }}>
+                                <Typography
+                                    variant="h6"
+                                    sx={{
+                                        fontSize: '1.25rem',
+                                        fontWeight: 600,
+                                        color: '#ea580c',
+                                    }}
+                                >
+                                    {data?.registrationDisciplinarySheets
+                                        ?.length || 0}
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        fontSize: '0.6875rem',
+                                        color: '#64748b',
+                                    }}
+                                >
+                                    Disciplinary
+                                </Typography>
+                            </Box>
+                            <Box sx={{ textAlign: 'center' }}>
+                                <Typography
+                                    variant="h6"
+                                    sx={{
+                                        fontSize: '1.25rem',
+                                        fontWeight: 600,
+                                        color: '#0891b2',
+                                    }}
+                                >
+                                    {data?.registrationAbsenceSheets?.length ||
+                                        0}
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        fontSize: '0.6875rem',
+                                        color: '#64748b',
+                                    }}
+                                >
+                                    Absences
+                                </Typography>
+                            </Box>
+                            <Box sx={{ textAlign: 'center' }}>
+                                <Typography
+                                    variant="h6"
+                                    sx={{
+                                        fontSize: '1.25rem',
+                                        fontWeight: 600,
+                                        color: '#059669',
+                                    }}
+                                >
+                                    {data?.registrationObservationSheets
+                                        ?.length || 0}
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        fontSize: '0.6875rem',
+                                        color: '#64748b',
+                                    }}
+                                >
+                                    Observations
+                                </Typography>
+                            </Box>
+                            <Box sx={{ textAlign: 'center' }}>
+                                <Typography
+                                    variant="h6"
+                                    sx={{
+                                        fontSize: '1.25rem',
+                                        fontWeight: 600,
+                                        color: '#7c3aed',
+                                    }}
+                                >
+                                    {data?.registrationComplaints?.length || 0}
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        fontSize: '0.6875rem',
+                                        color: '#64748b',
+                                    }}
+                                >
+                                    Complaints
+                                </Typography>
+                            </Box>
+                        </Box>
+
+                        {/* Recent Activity Compact List */}
+                        <Typography
+                            variant="caption"
+                            sx={{
+                                fontWeight: 600,
+                                color: 'text.primary',
+                                mb: 1,
+                                display: 'block',
+                                fontSize: '0.75rem',
+                            }}
+                        >
+                            Latest Records
+                        </Typography>
+
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: 0.5,
+                            }}
+                        >
+                            {/* Combine all records and show latest 5 */}
+                            {[
+                                ...(data?.registrationSanctions?.map(
+                                    (item: any) => ({
+                                        ...item,
+                                        type: 'Sanction',
+                                        color: '#dc2626',
+                                        date: item.sanctionDate,
+                                        title: item.sanctionName || 'Sanction',
+                                        description: item.sanctionDescription,
+                                    })
+                                ) || []),
+                                ...(data?.registrationDisciplinarySheets?.map(
+                                    (item: any) => ({
+                                        ...item,
+                                        type: 'Disciplinary',
+                                        color: '#ea580c',
+                                        date: item.incidentDate,
+                                        title: item.incidentType || 'Incident',
+                                        description: item.incidentDescription,
+                                    })
+                                ) || []),
+                                ...(data?.registrationAbsenceSheets?.map(
+                                    (item: any) => ({
+                                        ...item,
+                                        type: 'Absence',
+                                        color: '#0891b2',
+                                        date: item.absenceDate,
+                                        title: item.absenceType || 'Absence',
+                                        description: item.absencePurpose,
+                                    })
+                                ) || []),
+                                ...(data?.registrationObservationSheets?.map(
+                                    (item: any) => ({
+                                        ...item,
+                                        type: 'Observation',
+                                        color: '#059669',
+                                        date: item.observationDate,
+                                        title:
+                                            item.observationType ||
+                                            'Observation',
+                                        description:
+                                            item.observationDescription,
+                                    })
+                                ) || []),
+                                ...(data?.registrationComplaints?.map(
+                                    (item: any) => ({
+                                        ...item,
+                                        type: 'Complaint',
+                                        color: '#7c3aed',
+                                        date: item.complaintDate,
+                                        title:
+                                            item.complaintType || 'Complaint',
+                                        description: item.complaintDescription,
+                                    })
+                                ) || []),
+                            ]
+                                .sort(
+                                    (a, b) =>
+                                        new Date(b.date).getTime() -
+                                        new Date(a.date).getTime()
+                                )
+                                .slice(0, 6)
+                                .map((record: any, idx: number) => (
                                     <Box
+                                        key={`${record.type}-${record.id}-${idx}`}
                                         sx={{
                                             display: 'flex',
                                             alignItems: 'center',
-                                            gap: 1,
-                                            mb: 1.5,
-                                        }}
-                                    >
-                                        <ComplaintIcon
-                                            sx={{
-                                                fontSize: 16,
-                                                color: '#7c3aed',
-                                            }}
-                                        />
-                                        <Typography
-                                            variant="caption"
-                                            sx={{
-                                                fontWeight: 600,
-                                                color: 'text.primary',
-                                                fontSize: '0.75rem',
-                                            }}
-                                        >
-                                            Complaints (
-                                            {data.registrationComplaints.length}
-                                            )
-                                        </Typography>
-                                    </Box>
-                                    <Box
-                                        sx={{
-                                            display: 'flex',
-                                            flexDirection: 'column',
+                                            p: 0.75,
+                                            backgroundColor: '#fafafa',
+                                            borderRadius: 0.5,
+                                            border: '1px solid #e5e7eb',
+                                            borderLeft: `3px solid ${record.color}`,
                                             gap: 1,
                                         }}
                                     >
-                                        {data.registrationComplaints
-                                            .slice(0, 3)
-                                            .map(complaint => (
-                                                <ComplaintCard
-                                                    key={complaint.id}
-                                                    complaint={complaint}
-                                                />
-                                            ))}
-                                    </Box>
-                                    {data.registrationComplaints.length > 3 && (
+                                        <Box sx={{ flex: '0 0 80px' }}>
+                                            <Typography
+                                                variant="caption"
+                                                sx={{
+                                                    fontSize: '0.6875rem',
+                                                    fontWeight: 600,
+                                                    color: record.color,
+                                                }}
+                                            >
+                                                {record.type}
+                                            </Typography>
+                                            <Typography
+                                                variant="caption"
+                                                sx={{
+                                                    fontSize: '0.625rem',
+                                                    color: '#64748b',
+                                                    display: 'block',
+                                                }}
+                                            >
+                                                {new Date(
+                                                    record.date
+                                                ).toLocaleDateString('fr-FR')}
+                                            </Typography>
+                                        </Box>
+                                        <Box sx={{ flex: 1, minWidth: 0 }}>
+                                            <Typography
+                                                variant="caption"
+                                                sx={{
+                                                    fontSize: '0.75rem',
+                                                    fontWeight: 500,
+                                                    color: 'text.primary',
+                                                    display: 'block',
+                                                }}
+                                            >
+                                                {record.title}
+                                            </Typography>
+                                            {record.description && (
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                        fontSize: '0.6875rem',
+                                                        color: '#64748b',
+                                                        display: 'block',
+                                                        overflow: 'hidden',
+                                                        textOverflow:
+                                                            'ellipsis',
+                                                        whiteSpace: 'nowrap',
+                                                    }}
+                                                >
+                                                    {record.description}
+                                                </Typography>
+                                            )}
+                                        </Box>
                                         <Typography
                                             variant="caption"
-                                            color="text.secondary"
-                                            sx={{ mt: 1, display: 'block' }}
+                                            sx={{
+                                                fontSize: '0.6875rem',
+                                                color: '#9ca3af',
+                                                fontFamily: 'monospace',
+                                            }}
                                         >
-                                            And{' '}
-                                            {data.registrationComplaints
-                                                .length - 3}{' '}
-                                            more complaints. View the Complaints
-                                            tab for details.
+                                            #{record.id}
                                         </Typography>
-                                    )}
-                                </Box>
-                            )}
+                                    </Box>
+                                ))}
+                        </Box>
 
-                        {/* Other records summary can be added here */}
-                        {(!data?.registrationComplaints ||
-                            data.registrationComplaints.length === 0) &&
-                            (!data?.registrationAbsenceSheets ||
-                                data.registrationAbsenceSheets.length === 0) &&
-                            (!data?.registrationDisciplinarySheets ||
-                                data.registrationDisciplinarySheets.length ===
-                                    0) &&
-                            (!data?.registrationObservationSheets ||
-                                data.registrationObservationSheets.length ===
-                                    0) &&
-                            (!data?.registrationSanctions ||
-                                data.registrationSanctions.length === 0) && (
-                                <Typography
-                                    variant="body2"
-                                    color="text.secondary"
-                                    sx={{ textAlign: 'center', py: 4 }}
-                                >
-                                    No detailed records to display.
-                                </Typography>
-                            )}
+                        {/* View Details Link */}
+                        <Typography
+                            variant="caption"
+                            sx={{
+                                mt: 1,
+                                display: 'block',
+                                textAlign: 'center',
+                                color: '#6366f1',
+                                fontSize: '0.6875rem',
+                            }}
+                        >
+                            Click on individual tabs above for detailed views
+                        </Typography>
                     </Box>
                 )}
 
                 {!hasAnyRecords && (
-                    <Box sx={{ textAlign: 'center', py: 6 }}>
+                    <Box sx={{ textAlign: 'center', py: 3 }}>
                         <CheckCircleIcon
-                            sx={{ fontSize: 48, color: 'success.main', mb: 2 }}
+                            sx={{ fontSize: 32, color: 'success.main', mb: 1 }}
                         />
                         <Typography
                             variant="h6"
-                            sx={{ mb: 1, color: 'success.main' }}
+                            sx={{
+                                mb: 0.5,
+                                color: 'success.main',
+                                fontSize: '1rem',
+                            }}
                         >
                             Excellent Record!
                         </Typography>
@@ -1017,90 +1322,661 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                     icon={<AbsenceIcon />}
                     records={data?.registrationAbsenceSheets || []}
                     selectedStudent={selectedStudent}
-                    renderRecord={(absence: any, idx: number) => (
-                        <RecordCard
-                            key={'absence.id' + idx}
-                            title={absence.absenceType}
-                            subtitle={`Period: ${absence.schoolYearPeriodName}`}
-                            date={absence.absenceStartDate}
-                            description={
-                                absence.absencePurposeDescription ||
-                                absence.absencePurpose
+                    renderRecord={(absence: any, idx: number) => {
+                        const getTitle = () => {
+                            return absence.absenceType || 'Absence';
+                        };
+
+                        const getDescription = () => {
+                            const parts = [];
+                            if (absence.absencePurpose) {
+                                parts.push(`Reason: ${absence.absencePurpose}`);
                             }
-                            status={
-                                absence.justifedAbsence
-                                    ? 'Justified'
-                                    : 'Unjustified'
+                            if (absence.absencePurposeDescription) {
+                                parts.push(
+                                    `Details: ${absence.absencePurposeDescription}`
+                                );
                             }
-                            statusColor={
-                                absence.justifedAbsence ? '#10b981' : '#f59e0b'
+                            return parts.join(' | ') || null;
+                        };
+
+                        const getDuration = () => {
+                            if (
+                                absence.absenceDurationValue &&
+                                absence.absenceDurationUnit
+                            ) {
+                                return `${absence.absenceDurationValue} ${absence.absenceDurationUnit}`;
                             }
-                            isCancelled={absence.isCancelled}
-                            cancellationReason={absence.cancellationPurpose}
-                            cancellationDate={absence.cancellationDate}
-                            borderColor="#ea580c"
-                            bgColor="#fff7ed"
-                        />
-                    )}
+                            if (
+                                absence.absenceEndDate &&
+                                absence.absenceEndDate !==
+                                    '0001-01-01 00:00:00.000'
+                            ) {
+                                const start = new Date(
+                                    absence.absenceStartDate
+                                );
+                                const end = new Date(absence.absenceEndDate);
+                                const days = Math.ceil(
+                                    (end.getTime() - start.getTime()) /
+                                        (1000 * 60 * 60 * 24)
+                                );
+                                return days > 0 ? `${days} day(s)` : null;
+                            }
+                            return null;
+                        };
+
+                        return (
+                            <RecordCard
+                                key={absence.id || idx}
+                                title={getTitle()}
+                                subtitle={`Period: ${absence.schoolYearPeriodName}`}
+                                date={absence.absenceStartDate}
+                                description={getDescription()}
+                                status={
+                                    absence.justifedAbsence
+                                        ? 'Justified'
+                                        : 'Unjustified'
+                                }
+                                statusColor={
+                                    absence.justifedAbsence
+                                        ? '#10b981'
+                                        : '#f59e0b'
+                                }
+                                duration={getDuration()}
+                                issueDate={absence.issueDate}
+                                isCancelled={absence.isCancelled}
+                                cancellationReason={absence.cancellationPurpose}
+                                cancellationDate={absence.cancellationDate}
+                                borderColor="#ea580c"
+                                bgColor="#fff7ed"
+                            />
+                        );
+                    }}
                 />
             </TabPanel>
 
             {/* Disciplinary Tab */}
             <TabPanel value={currentTab} index={2}>
-                <RecordsList
-                    title="Disciplinary Reports"
-                    icon={<WarningIcon />}
-                    records={data?.registrationDisciplinarySheets || []}
-                    selectedStudent={selectedStudent}
-                    renderRecord={(disciplinary: any, idx: number) => (
-                        <RecordCard
-                            key={'disciplinary.id' + idx}
-                            title={
-                                disciplinary.disciplinaryType ||
-                                'Disciplinary Action'
-                            }
-                            subtitle={`Period: ${disciplinary.schoolYearPeriodName}`}
-                            date={disciplinary.disciplinaryEventDate}
-                            description={
-                                disciplinary.disciplinaryEventDescription ||
-                                disciplinary.disciplinaryEventSummary
-                            }
-                            isCancelled={disciplinary.isCancelled}
-                            cancellationReason={
-                                disciplinary.cancellationPurpose
-                            }
-                            cancellationDate={disciplinary.cancellationDate}
-                            borderColor="#dc2626"
-                            bgColor="#fef2f2"
+                {data?.registrationDisciplinarySheets &&
+                data.registrationDisciplinarySheets.length > 0 ? (
+                    <Box>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 1,
+                                mb: 1,
+                            }}
+                        >
+                            <WarningIcon
+                                sx={{ fontSize: 14, color: '#dc2626' }}
+                            />
+                            <Typography
+                                variant="caption"
+                                sx={{ fontWeight: 600, fontSize: '0.75rem' }}
+                            >
+                                Disciplinary Records (
+                                {data.registrationDisciplinarySheets.length})
+                            </Typography>
+                        </Box>
+
+                        {/* Compact List View */}
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: 0.5,
+                            }}
+                        >
+                            {data.registrationDisciplinarySheets.map(
+                                (incident: any, idx: number) => {
+                                    const getSeverityColor = (type: string) => {
+                                        switch (type?.toLowerCase()) {
+                                            case 'trouble':
+                                                return '#dc2626';
+                                            case 'jeu':
+                                                return '#ea580c';
+                                            default:
+                                                return '#6b7280';
+                                        }
+                                    };
+
+                                    const color = getSeverityColor(
+                                        incident.disciplinaryType
+                                    );
+
+                                    return (
+                                        <Box
+                                            key={incident.id || idx}
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                p: 0.75,
+                                                backgroundColor: '#fafafa',
+                                                borderRadius: 0.5,
+                                                border: '1px solid #e5e7eb',
+                                                borderLeft: `3px solid ${color}`,
+                                                '&:hover': {
+                                                    backgroundColor: '#f5f5f5',
+                                                },
+                                            }}
+                                        >
+                                            {/* Type & Period */}
+                                            <Box sx={{ minWidth: 120, mr: 1 }}>
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                        fontWeight: 600,
+                                                        fontSize: '0.6875rem',
+                                                        color,
+                                                    }}
+                                                >
+                                                    {incident.disciplinaryType ||
+                                                        'General'}
+                                                </Typography>
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                        fontSize: '0.625rem',
+                                                        color: 'text.secondary',
+                                                        display: 'block',
+                                                    }}
+                                                >
+                                                    {
+                                                        incident.schoolYearPeriodName
+                                                    }
+                                                </Typography>
+                                            </Box>
+
+                                            {/* Content */}
+                                            <Box sx={{ flex: 1, mr: 1 }}>
+                                                {incident.disciplinaryEventSummary && (
+                                                    <Typography
+                                                        variant="caption"
+                                                        sx={{
+                                                            fontSize:
+                                                                '0.6875rem',
+                                                            fontWeight: 500,
+                                                        }}
+                                                    >
+                                                        {
+                                                            incident.disciplinaryEventSummary
+                                                        }
+                                                    </Typography>
+                                                )}
+                                                {incident.disciplinaryEventDescription &&
+                                                    incident.disciplinaryEventDescription !==
+                                                        incident.disciplinaryEventSummary && (
+                                                        <Typography
+                                                            variant="caption"
+                                                            sx={{
+                                                                fontSize:
+                                                                    '0.625rem',
+                                                                color: 'text.secondary',
+                                                                display:
+                                                                    'block',
+                                                            }}
+                                                        >
+                                                            {
+                                                                incident.disciplinaryEventDescription
+                                                            }
+                                                        </Typography>
+                                                    )}
+                                            </Box>
+
+                                            {/* ID & Status */}
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: 0.5,
+                                                }}
+                                            >
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                        fontSize: '0.625rem',
+                                                        color: 'text.secondary',
+                                                    }}
+                                                >
+                                                    #{incident.id}
+                                                </Typography>
+                                                {incident.isCancelled && (
+                                                    <Chip
+                                                        label="Cancelled"
+                                                        size="small"
+                                                        sx={{
+                                                            height: 14,
+                                                            fontSize:
+                                                                '0.625rem',
+                                                            backgroundColor:
+                                                                '#6b7280',
+                                                            color: 'white',
+                                                            '& .MuiChip-label':
+                                                                { px: 0.5 },
+                                                        }}
+                                                    />
+                                                )}
+                                            </Box>
+                                        </Box>
+                                    );
+                                }
+                            )}
+                        </Box>
+
+                        {/* Compact Summary */}
+                        <Box
+                            sx={{
+                                mt: 1,
+                                p: 0.75,
+                                backgroundColor: '#f8fafc',
+                                borderRadius: 0.5,
+                                border: '1px solid #e2e8f0',
+                            }}
+                        >
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    gap: 2,
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        fontSize: '0.625rem',
+                                        fontWeight: 600,
+                                    }}
+                                >
+                                    Summary:
+                                </Typography>
+                                {(() => {
+                                    const stats =
+                                        data.registrationDisciplinarySheets.reduce(
+                                            (acc: any, inc: any) => {
+                                                acc.types[
+                                                    inc.disciplinaryType ||
+                                                        'Other'
+                                                ] =
+                                                    (acc.types[
+                                                        inc.disciplinaryType ||
+                                                            'Other'
+                                                    ] || 0) + 1;
+                                                if (inc.isCancelled)
+                                                    acc.cancelled++;
+                                                return acc;
+                                            },
+                                            { types: {}, cancelled: 0 }
+                                        );
+
+                                    const mostCommon = Object.entries(
+                                        stats.types
+                                    ).sort(
+                                        ([, a], [, b]) =>
+                                            (b as number) - (a as number)
+                                    )[0];
+
+                                    return (
+                                        <>
+                                            <Typography
+                                                variant="caption"
+                                                sx={{
+                                                    fontSize: '0.625rem',
+                                                    color: '#dc2626',
+                                                }}
+                                            >
+                                                Most: {mostCommon?.[0] || 'N/A'}{' '}
+                                                {(mostCommon?.[1] as string) ||
+                                                    0}
+                                            </Typography>
+                                            {stats.cancelled > 0 && (
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                        fontSize: '0.625rem',
+                                                        color: '#6b7280',
+                                                    }}
+                                                >
+                                                    Cancelled: {stats.cancelled}
+                                                </Typography>
+                                            )}
+                                        </>
+                                    );
+                                })()}
+                            </Box>
+                        </Box>
+                    </Box>
+                ) : (
+                    <Box
+                        sx={{
+                            textAlign: 'center',
+                            py: 1.5,
+                            backgroundColor: 'success.50',
+                            borderRadius: 0.5,
+                            border: '1px solid',
+                            borderColor: 'success.100',
+                        }}
+                    >
+                        <CheckCircleIcon
+                            sx={{
+                                fontSize: 16,
+                                color: 'success.main',
+                                mb: 0.5,
+                            }}
                         />
-                    )}
-                />
+                        <Typography
+                            variant="caption"
+                            sx={{
+                                fontWeight: 600,
+                                display: 'block',
+                                color: 'success.main',
+                                fontSize: '0.75rem',
+                            }}
+                        >
+                            No Disciplinary Issues
+                        </Typography>
+                        <Typography
+                            variant="caption"
+                            color="text.secondary"
+                            sx={{ fontSize: '0.6875rem' }}
+                        >
+                            {selectedStudent.fullName} has excellent behavior.
+                        </Typography>
+                    </Box>
+                )}
             </TabPanel>
 
             {/* Observations Tab */}
             <TabPanel value={currentTab} index={3}>
-                <RecordsList
-                    title="Observation Notes"
-                    icon={<InfoIcon />}
-                    records={data?.registrationObservationSheets || []}
-                    selectedStudent={selectedStudent}
-                    renderRecord={(observation: any, idx: number) => (
-                        <RecordCard
-                            key={'observation.id' + idx}
-                            title={
-                                observation.observationPurpose || 'Observation'
-                            }
-                            subtitle={`Period: ${observation.schoolYearPeriodName}`}
-                            date={observation.observationDate}
-                            description={observation.observationDescription}
-                            isCancelled={observation.isCancelled}
-                            cancellationReason={observation.cancellationPurpose}
-                            cancellationDate={observation.cancellationDate}
-                            borderColor="#2563eb"
-                            bgColor="#eff6ff"
+                {data?.registrationObservationSheets &&
+                data.registrationObservationSheets.length > 0 ? (
+                    <Box>
+                        <Box sx={{ mb: 1.5 }}>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 1,
+                                    mb: 1,
+                                }}
+                            >
+                                <InfoIcon
+                                    sx={{ fontSize: 16, color: '#059669' }}
+                                />
+                                <Typography
+                                    variant="subtitle2"
+                                    sx={{
+                                        fontWeight: 600,
+                                        fontSize: '0.8125rem',
+                                    }}
+                                >
+                                    Observation Records (
+                                    {data.registrationObservationSheets.length})
+                                </Typography>
+                            </Box>
+                        </Box>
+
+                        {/* Observations List */}
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: 0.5,
+                            }}
+                        >
+                            {data.registrationObservationSheets.map(
+                                (observation: any, idx: number) => {
+                                    const getPurposeColor = (
+                                        purpose: string
+                                    ) => {
+                                        const colors: Record<string, string> = {
+                                            behavioral: '#dc2626',
+                                            academic: '#2563eb',
+                                            social: '#059669',
+                                            disciplinary: '#ea580c',
+                                            general: '#6b7280',
+                                        };
+                                        return (
+                                            colors[purpose?.toLowerCase()] ||
+                                            '#6b7280'
+                                        );
+                                    };
+
+                                    const color = getPurposeColor(
+                                        observation.observationPurpose
+                                    );
+
+                                    return (
+                                        <Box
+                                            key={observation.id || idx}
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                p: 0.75,
+                                                backgroundColor: '#fafafa',
+                                                borderRadius: 0.5,
+                                                border: '1px solid #e5e7eb',
+                                                borderLeft: `3px solid ${color}`,
+                                                gap: 1,
+                                            }}
+                                        >
+                                            {/* Type & Date */}
+                                            <Box sx={{ minWidth: 100, mr: 1 }}>
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                        fontWeight: 600,
+                                                        fontSize: '0.6875rem',
+                                                        color,
+                                                    }}
+                                                >
+                                                    {observation.observationPurpose ||
+                                                        'General'}
+                                                </Typography>
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                        fontSize: '0.625rem',
+                                                        color: 'text.secondary',
+                                                        display: 'block',
+                                                    }}
+                                                >
+                                                    {new Date(
+                                                        observation.observationDate
+                                                    ).toLocaleDateString(
+                                                        'fr-FR'
+                                                    )}
+                                                </Typography>
+                                            </Box>
+
+                                            {/* Content */}
+                                            <Box sx={{ flex: 1, mr: 1 }}>
+                                                {observation.observationDescription && (
+                                                    <Typography
+                                                        variant="caption"
+                                                        sx={{
+                                                            fontSize:
+                                                                '0.6875rem',
+                                                            fontWeight: 500,
+                                                            color: 'text.primary',
+                                                            display: 'block',
+                                                        }}
+                                                    >
+                                                        {
+                                                            observation.observationDescription
+                                                        }
+                                                    </Typography>
+                                                )}
+                                                {observation.schoolYearPeriodName && (
+                                                    <Typography
+                                                        variant="caption"
+                                                        sx={{
+                                                            fontSize:
+                                                                '0.625rem',
+                                                            color: 'text.secondary',
+                                                            display: 'block',
+                                                        }}
+                                                    >
+                                                        Period:{' '}
+                                                        {
+                                                            observation.schoolYearPeriodName
+                                                        }
+                                                    </Typography>
+                                                )}
+                                            </Box>
+
+                                            {/* ID & Status */}
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: 0.5,
+                                                }}
+                                            >
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                        fontSize: '0.625rem',
+                                                        color: 'text.secondary',
+                                                    }}
+                                                >
+                                                    #{observation.id}
+                                                </Typography>
+                                                {observation.isCancelled && (
+                                                    <Chip
+                                                        label="Cancelled"
+                                                        size="small"
+                                                        sx={{
+                                                            height: 14,
+                                                            fontSize:
+                                                                '0.625rem',
+                                                            backgroundColor:
+                                                                '#6b7280',
+                                                            color: 'white',
+                                                            '& .MuiChip-label':
+                                                                { px: 0.5 },
+                                                        }}
+                                                    />
+                                                )}
+                                            </Box>
+                                        </Box>
+                                    );
+                                }
+                            )}
+                        </Box>
+
+                        {/* Compact Summary */}
+                        <Box
+                            sx={{
+                                mt: 1,
+                                p: 0.75,
+                                backgroundColor: '#f8fafc',
+                                borderRadius: 0.5,
+                                border: '1px solid #e2e8f0',
+                            }}
+                        >
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    gap: 2,
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        fontSize: '0.625rem',
+                                        fontWeight: 600,
+                                    }}
+                                >
+                                    Summary:
+                                </Typography>
+                                {(() => {
+                                    const stats =
+                                        data.registrationObservationSheets.reduce(
+                                            (acc: any, obs: any) => {
+                                                acc.purposes[
+                                                    obs.observationPurpose ||
+                                                        'General'
+                                                ] =
+                                                    (acc.purposes[
+                                                        obs.observationPurpose ||
+                                                            'General'
+                                                    ] || 0) + 1;
+                                                if (obs.isCancelled)
+                                                    acc.cancelled++;
+                                                return acc;
+                                            },
+                                            { purposes: {}, cancelled: 0 }
+                                        );
+
+                                    const mostCommon = Object.entries(
+                                        stats.purposes
+                                    ).sort(
+                                        ([, a], [, b]) =>
+                                            (b as number) - (a as number)
+                                    )[0];
+
+                                    return (
+                                        <>
+                                            <Typography
+                                                variant="caption"
+                                                sx={{
+                                                    fontSize: '0.625rem',
+                                                    color: '#059669',
+                                                }}
+                                            >
+                                                Most: {mostCommon?.[0] || 'N/A'}{' '}
+                                                {(mostCommon?.[1] as string) ||
+                                                    0}
+                                            </Typography>
+                                            {stats.cancelled > 0 && (
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                        fontSize: '0.625rem',
+                                                        color: '#6b7280',
+                                                    }}
+                                                >
+                                                    Cancelled: {stats.cancelled}
+                                                </Typography>
+                                            )}
+                                        </>
+                                    );
+                                })()}
+                            </Box>
+                        </Box>
+                    </Box>
+                ) : (
+                    <Box
+                        sx={{
+                            textAlign: 'center',
+                            py: 1.5,
+                            backgroundColor: 'success.50',
+                            borderRadius: 0.5,
+                            border: '1px solid',
+                            borderColor: 'success.100',
+                        }}
+                    >
+                        <CheckCircleIcon
+                            sx={{
+                                fontSize: 16,
+                                color: 'success.main',
+                                mb: 0.5,
+                            }}
                         />
-                    )}
-                />
+                        <Typography
+                            variant="caption"
+                            sx={{
+                                fontSize: '0.75rem',
+                                fontWeight: 600,
+                                color: 'success.main',
+                            }}
+                        >
+                            No observations recorded
+                        </Typography>
+                    </Box>
+                )}
             </TabPanel>
 
             {/* Complaints Tab */}
@@ -1121,27 +1997,536 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
 
             {/* Sanctions Tab */}
             <TabPanel value={currentTab} index={5}>
-                <RecordsList
-                    title="Sanctions"
-                    icon={<SanctionIcon />}
-                    records={data?.registrationSanctions || []}
-                    selectedStudent={selectedStudent}
-                    renderRecord={(_sanction: any, idx: number) => (
-                        <Box
-                            key={'sanction.id' + idx}
+                {data?.registrationSanctions &&
+                data.registrationSanctions.length > 0 ? (
+                    <Box>
+                        <Box sx={{ mb: 1.5 }}>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 1,
+                                    mb: 1,
+                                }}
+                            >
+                                <SanctionIcon
+                                    sx={{ fontSize: 16, color: '#dc2626' }}
+                                />
+                                <Typography
+                                    variant="subtitle2"
+                                    sx={{
+                                        fontWeight: 600,
+                                        fontSize: '0.8125rem',
+                                    }}
+                                >
+                                    Sanctions Overview (
+                                    {data.registrationSanctions.length})
+                                </Typography>
+                            </Box>
+                            <Box
+                                sx={{
+                                    display: 'grid',
+                                    gridTemplateColumns: {
+                                        xs: '1fr',
+                                        md: '2fr 1fr',
+                                    },
+                                    gap: 1.5,
+                                }}
+                            >
+                                {/* Timeline View */}
+                                <Box>
+                                    <Typography
+                                        variant="caption"
+                                        sx={{
+                                            fontWeight: 600,
+                                            mb: 0.5,
+                                            display: 'block',
+                                            fontSize: '0.6875rem',
+                                        }}
+                                    >
+                                        Sanction Timeline
+                                    </Typography>
+                                    <Box sx={{ position: 'relative', pl: 2 }}>
+                                        {/* Timeline line */}
+                                        <Box
+                                            sx={{
+                                                position: 'absolute',
+                                                left: 6,
+                                                top: 8,
+                                                bottom: 0,
+                                                width: 2,
+                                                backgroundColor: '#dc2626',
+                                                opacity: 0.3,
+                                            }}
+                                        />
+                                        {data.registrationSanctions.map(
+                                            (sanction: any, idx: number) => {
+                                                const formatDate = (
+                                                    dateStr: string
+                                                ) => {
+                                                    if (!dateStr)
+                                                        return 'Date not specified';
+                                                    try {
+                                                        return new Date(
+                                                            dateStr
+                                                        ).toLocaleDateString(
+                                                            'fr-FR',
+                                                            {
+                                                                day: '2-digit',
+                                                                month: 'short',
+                                                                year: 'numeric',
+                                                            }
+                                                        );
+                                                    } catch {
+                                                        return 'Invalid date';
+                                                    }
+                                                };
+
+                                                return (
+                                                    <Box
+                                                        key={sanction.id || idx}
+                                                        sx={{
+                                                            position:
+                                                                'relative',
+                                                            pb: 1.5,
+                                                        }}
+                                                    >
+                                                        {/* Timeline dot */}
+                                                        <Box
+                                                            sx={{
+                                                                position:
+                                                                    'absolute',
+                                                                left: -8,
+                                                                top: 4,
+                                                                width: 8,
+                                                                height: 8,
+                                                                borderRadius:
+                                                                    '50%',
+                                                                backgroundColor:
+                                                                    sanction.isCancelled
+                                                                        ? '#6b7280'
+                                                                        : '#dc2626',
+                                                                border: '2px solid #ffffff',
+                                                                boxShadow:
+                                                                    '0 0 0 1px #dc2626',
+                                                            }}
+                                                        />
+                                                        <Box
+                                                            sx={{
+                                                                p: 1,
+                                                                backgroundColor:
+                                                                    sanction.isCancelled
+                                                                        ? '#f9fafb'
+                                                                        : '#fef2f2',
+                                                                borderRadius: 1,
+                                                                border: '1px solid',
+                                                                borderColor:
+                                                                    sanction.isCancelled
+                                                                        ? '#e5e7eb'
+                                                                        : '#fecaca',
+                                                            }}
+                                                        >
+                                                            <Box
+                                                                sx={{
+                                                                    display:
+                                                                        'flex',
+                                                                    justifyContent:
+                                                                        'space-between',
+                                                                    alignItems:
+                                                                        'flex-start',
+                                                                    mb: 0.5,
+                                                                }}
+                                                            >
+                                                                <Typography
+                                                                    variant="subtitle2"
+                                                                    sx={{
+                                                                        fontWeight: 600,
+                                                                        fontSize:
+                                                                            '0.75rem',
+                                                                    }}
+                                                                >
+                                                                    {sanction.description ||
+                                                                        `Sanction #${sanction.id}`}
+                                                                </Typography>
+                                                                <Box
+                                                                    sx={{
+                                                                        display:
+                                                                            'flex',
+                                                                        gap: 0.5,
+                                                                        alignItems:
+                                                                            'center',
+                                                                    }}
+                                                                >
+                                                                    {sanction.sanctionCategoryCode && (
+                                                                        <Chip
+                                                                            label={
+                                                                                sanction.sanctionCategoryCode
+                                                                            }
+                                                                            size="small"
+                                                                            sx={{
+                                                                                height: 14,
+                                                                                fontSize:
+                                                                                    '0.625rem',
+                                                                                backgroundColor:
+                                                                                    '#dc2626',
+                                                                                color: 'white',
+                                                                                '& .MuiChip-label':
+                                                                                    {
+                                                                                        px: 0.5,
+                                                                                    },
+                                                                            }}
+                                                                        />
+                                                                    )}
+                                                                    {sanction.isCancelled && (
+                                                                        <Chip
+                                                                            label="Cancelled"
+                                                                            size="small"
+                                                                            sx={{
+                                                                                height: 14,
+                                                                                fontSize:
+                                                                                    '0.625rem',
+                                                                                backgroundColor:
+                                                                                    '#6b7280',
+                                                                                color: 'white',
+                                                                                '& .MuiChip-label':
+                                                                                    {
+                                                                                        px: 0.5,
+                                                                                    },
+                                                                            }}
+                                                                        />
+                                                                    )}
+                                                                </Box>
+                                                            </Box>
+                                                            <Typography
+                                                                variant="caption"
+                                                                sx={{
+                                                                    fontSize:
+                                                                        '0.625rem',
+                                                                    color: 'text.secondary',
+                                                                    display:
+                                                                        'block',
+                                                                }}
+                                                            >
+                                                                {
+                                                                    sanction.schoolYearPeriodName
+                                                                }{' '}
+                                                                •{' '}
+                                                                {formatDate(
+                                                                    sanction.sanctionDate
+                                                                )}
+                                                            </Typography>
+                                                            {(sanction.sanctionDurationValue ||
+                                                                sanction.sanctionDurationUnit) && (
+                                                                <Typography
+                                                                    variant="caption"
+                                                                    sx={{
+                                                                        fontSize:
+                                                                            '0.625rem',
+                                                                        color: '#dc2626',
+                                                                        fontWeight: 500,
+                                                                        display:
+                                                                            'block',
+                                                                        mt: 0.25,
+                                                                    }}
+                                                                >
+                                                                    Duration:{' '}
+                                                                    {
+                                                                        sanction.sanctionDurationValue
+                                                                    }{' '}
+                                                                    {
+                                                                        sanction.sanctionDurationUnit
+                                                                    }
+                                                                </Typography>
+                                                            )}
+                                                            {sanction.isCancelled &&
+                                                                sanction.cancellationPurpose && (
+                                                                    <Typography
+                                                                        variant="caption"
+                                                                        sx={{
+                                                                            fontSize:
+                                                                                '0.625rem',
+                                                                            color: 'text.secondary',
+                                                                            display:
+                                                                                'block',
+                                                                            mt: 0.5,
+                                                                            fontStyle:
+                                                                                'italic',
+                                                                        }}
+                                                                    >
+                                                                        Reason
+                                                                        for
+                                                                        cancellation:{' '}
+                                                                        {
+                                                                            sanction.cancellationPurpose
+                                                                        }
+                                                                    </Typography>
+                                                                )}
+                                                        </Box>
+                                                    </Box>
+                                                );
+                                            }
+                                        )}
+                                    </Box>
+                                </Box>
+
+                                {/* Summary Stats */}
+                                <Box>
+                                    <Typography
+                                        variant="caption"
+                                        sx={{
+                                            fontWeight: 600,
+                                            mb: 0.5,
+                                            display: 'block',
+                                            fontSize: '0.6875rem',
+                                        }}
+                                    >
+                                        Summary Statistics
+                                    </Typography>
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap: 0.75,
+                                        }}
+                                    >
+                                        {(() => {
+                                            const stats =
+                                                data.registrationSanctions.reduce(
+                                                    (
+                                                        acc: any,
+                                                        sanction: any
+                                                    ) => {
+                                                        const category =
+                                                            sanction.sanctionCategoryCode ||
+                                                            'Other';
+                                                        const period =
+                                                            sanction.schoolYearPeriodName ||
+                                                            'Unknown';
+                                                        acc.categories[
+                                                            category
+                                                        ] =
+                                                            (acc.categories[
+                                                                category
+                                                            ] || 0) + 1;
+                                                        acc.periods[period] =
+                                                            (acc.periods[
+                                                                period
+                                                            ] || 0) + 1;
+                                                        if (
+                                                            sanction.isCancelled
+                                                        )
+                                                            acc.cancelled += 1;
+                                                        return acc;
+                                                    },
+                                                    {
+                                                        categories: {},
+                                                        periods: {},
+                                                        cancelled: 0,
+                                                    }
+                                                );
+
+                                            return (
+                                                <>
+                                                    <Box
+                                                        sx={{
+                                                            p: 0.75,
+                                                            backgroundColor:
+                                                                '#fef2f2',
+                                                            borderRadius: 1,
+                                                            border: '1px solid #fecaca',
+                                                        }}
+                                                    >
+                                                        <Typography
+                                                            variant="caption"
+                                                            sx={{
+                                                                fontWeight: 600,
+                                                                fontSize:
+                                                                    '0.625rem',
+                                                                display:
+                                                                    'block',
+                                                                mb: 0.25,
+                                                            }}
+                                                        >
+                                                            By Category
+                                                        </Typography>
+                                                        {Object.entries(
+                                                            stats.categories
+                                                        ).map(
+                                                            ([
+                                                                category,
+                                                                count,
+                                                            ]: [
+                                                                string,
+                                                                any,
+                                                            ]) => (
+                                                                <Box
+                                                                    key={
+                                                                        category
+                                                                    }
+                                                                    sx={{
+                                                                        display:
+                                                                            'flex',
+                                                                        justifyContent:
+                                                                            'space-between',
+                                                                    }}
+                                                                >
+                                                                    <Typography
+                                                                        variant="caption"
+                                                                        sx={{
+                                                                            fontSize:
+                                                                                '0.625rem',
+                                                                        }}
+                                                                    >
+                                                                        {
+                                                                            category
+                                                                        }
+                                                                    </Typography>
+                                                                    <Typography
+                                                                        variant="caption"
+                                                                        sx={{
+                                                                            fontSize:
+                                                                                '0.625rem',
+                                                                            fontWeight: 600,
+                                                                        }}
+                                                                    >
+                                                                        {count}
+                                                                    </Typography>
+                                                                </Box>
+                                                            )
+                                                        )}
+                                                    </Box>
+                                                    <Box
+                                                        sx={{
+                                                            p: 0.75,
+                                                            backgroundColor:
+                                                                '#f0f9ff',
+                                                            borderRadius: 1,
+                                                            border: '1px solid #bae6fd',
+                                                        }}
+                                                    >
+                                                        <Typography
+                                                            variant="caption"
+                                                            sx={{
+                                                                fontWeight: 600,
+                                                                fontSize:
+                                                                    '0.625rem',
+                                                                display:
+                                                                    'block',
+                                                                mb: 0.25,
+                                                            }}
+                                                        >
+                                                            By Period
+                                                        </Typography>
+                                                        {Object.entries(
+                                                            stats.periods
+                                                        ).map(
+                                                            ([period, count]: [
+                                                                string,
+                                                                any,
+                                                            ]) => (
+                                                                <Box
+                                                                    key={period}
+                                                                    sx={{
+                                                                        display:
+                                                                            'flex',
+                                                                        justifyContent:
+                                                                            'space-between',
+                                                                    }}
+                                                                >
+                                                                    <Typography
+                                                                        variant="caption"
+                                                                        sx={{
+                                                                            fontSize:
+                                                                                '0.625rem',
+                                                                        }}
+                                                                    >
+                                                                        {period}
+                                                                    </Typography>
+                                                                    <Typography
+                                                                        variant="caption"
+                                                                        sx={{
+                                                                            fontSize:
+                                                                                '0.625rem',
+                                                                            fontWeight: 600,
+                                                                        }}
+                                                                    >
+                                                                        {count}
+                                                                    </Typography>
+                                                                </Box>
+                                                            )
+                                                        )}
+                                                    </Box>
+                                                    {stats.cancelled > 0 && (
+                                                        <Box
+                                                            sx={{
+                                                                p: 0.75,
+                                                                backgroundColor:
+                                                                    '#f9fafb',
+                                                                borderRadius: 1,
+                                                                border: '1px solid #e5e7eb',
+                                                            }}
+                                                        >
+                                                            <Typography
+                                                                variant="caption"
+                                                                sx={{
+                                                                    fontWeight: 600,
+                                                                    fontSize:
+                                                                        '0.625rem',
+                                                                }}
+                                                            >
+                                                                Cancelled:{' '}
+                                                                {
+                                                                    stats.cancelled
+                                                                }
+                                                            </Typography>
+                                                        </Box>
+                                                    )}
+                                                </>
+                                            );
+                                        })()}
+                                    </Box>
+                                </Box>
+                            </Box>
+                        </Box>
+                    </Box>
+                ) : (
+                    <Box
+                        sx={{
+                            textAlign: 'center',
+                            py: 2,
+                            backgroundColor: 'success.50',
+                            borderRadius: 1,
+                            border: '1px solid',
+                            borderColor: 'success.100',
+                        }}
+                    >
+                        <CheckCircleIcon
                             sx={{
-                                p: 2,
-                                bgcolor: '#fef2f2',
-                                borderRadius: 1,
-                                mb: 1,
+                                fontSize: 20,
+                                color: 'success.main',
+                                mb: 0.5,
+                            }}
+                        />
+                        <Typography
+                            variant="subtitle2"
+                            sx={{
+                                fontWeight: 600,
+                                mb: 0.25,
+                                color: 'success.main',
                             }}
                         >
-                            <Typography variant="body2">
-                                Sanction record structure not yet defined
-                            </Typography>
-                        </Box>
-                    )}
-                />
+                            No Sanctions
+                        </Typography>
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            sx={{ fontSize: '0.6875rem' }}
+                        >
+                            {selectedStudent.fullName} has a clean disciplinary
+                            record with no sanctions.
+                        </Typography>
+                    </Box>
+                )}
             </TabPanel>
         </Box>
     );
