@@ -11,70 +11,27 @@ import {
 import { Box, Link, Typography } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { footerContent } from '../../content/landing/footerContent';
 
 // Footer props
 interface FooterProps {
     className?: string;
 }
 
-// Footer links configuration
-const footerLinks = {
-    about: [
-        { label: 'Our Story', href: '#about' },
-        { label: 'Mission & Values', href: '#about' },
-        { label: 'Leadership', href: '#faculty' },
-        { label: 'Careers', href: '#' },
-    ],
-    academics: [
-        { label: 'Programs', href: '#programs' },
-        { label: 'Curriculum', href: '#programs' },
-        { label: 'Academic Excellence', href: '#programs' },
-        { label: 'Student Resources', href: '#' },
-    ],
-    studentLife: [
-        { label: 'Activities', href: '#student-life' },
-        { label: 'Athletics', href: '#student-life' },
-        { label: 'Arts & Culture', href: '#student-life' },
-        { label: 'Clubs', href: '#student-life' },
-    ],
-    resources: [
-        { label: 'Parent Portal', href: '/auth' },
-        { label: 'Calendar', href: '#' },
-        { label: 'News & Events', href: '#events-announcements' },
-        { label: 'Contact', href: '#contact' },
-    ],
+// Icon mapping helper
+const getIconComponent = (iconName: string) => {
+    switch (iconName) {
+        case 'Phone': return <PhoneIcon />;
+        case 'Email': return <EmailIcon />;
+        case 'LocationOn': return <LocationIcon />;
+        case 'Facebook': return <FacebookIcon />;
+        case 'Twitter': return <TwitterIcon />;
+        case 'Instagram': return <InstagramIcon />;
+        case 'LinkedIn': return <LinkedInIcon />;
+        case 'YouTube': return <YouTubeIcon />;
+        default: return <PhoneIcon />;
+    }
 };
-
-// Contact information
-const contactInfo = [
-    {
-        icon: <PhoneIcon />,
-        label: 'Phone',
-        value: '(555) 123-4567',
-        href: 'tel:+15551234567',
-    },
-    {
-        icon: <EmailIcon />,
-        label: 'Email',
-        value: 'info@excellenceacademy.edu',
-        href: 'mailto:info@excellenceacademy.edu',
-    },
-    {
-        icon: <LocationIcon />,
-        label: 'Address',
-        value: '123 Education Boulevard, Learning City, LC 12345',
-        href: '#',
-    },
-];
-
-// Social media links
-const socialLinks = [
-    { icon: <FacebookIcon />, href: '#', label: 'Facebook' },
-    { icon: <TwitterIcon />, href: '#', label: 'Twitter' },
-    { icon: <InstagramIcon />, href: '#', label: 'Instagram' },
-    { icon: <LinkedInIcon />, href: '#', label: 'LinkedIn' },
-    { icon: <YouTubeIcon />, href: '#', label: 'YouTube' },
-];
 
 // Main Footer component
 export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
@@ -102,7 +59,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
             className={className}
             sx={{
                 position: 'relative',
-                backgroundColor: '#1a1a1a',
+                backgroundColor: footerContent.styling.backgroundColor,
                 pt: { xs: 12, md: 16 },
                 pb: { xs: 6, md: 8 },
                 overflow: 'hidden',
@@ -144,20 +101,20 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 lineHeight: 1.1,
                             }}
                         >
-                            Excellence
+                            {footerContent.brand.name.primary}
                             <br />
                             <Box
                                 component="span"
                                 sx={{
                                     background:
-                                        'linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #10b981 100%)',
+                                        footerContent.styling.brandGradient,
                                     backgroundClip: 'text',
                                     WebkitBackgroundClip: 'text',
                                     WebkitTextFillColor: 'transparent',
                                     fontWeight: 300,
                                 }}
                             >
-                                Academy
+                                {footerContent.brand.name.secondary}
                             </Box>
                         </Typography>
 
@@ -171,8 +128,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 maxWidth: '300px',
                             }}
                         >
-                            Shaping tomorrow's leaders through academic
-                            excellence and character development.
+                            {footerContent.brand.tagline}
                         </Typography>
 
                         {/* Contact Info */}
@@ -183,7 +139,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 gap: 2,
                             }}
                         >
-                            {contactInfo.map((contact, index) => (
+                            {footerContent.contactInfo.map((contact, index) => (
                                 <Box
                                     key={index}
                                     onClick={() =>
@@ -218,7 +174,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                             mt: 0.5,
                                         }}
                                     >
-                                        {contact.icon}
+                                        {getIconComponent(contact.icon)}
                                     </Box>
                                     <Box>
                                         <Typography
@@ -269,7 +225,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 gap: 2,
                             }}
                         >
-                            {footerLinks.about.map((link, index) => (
+                            {footerContent.links.about.map((link, index) => (
                                 <Link
                                     key={index}
                                     onClick={() => handleLinkClick(link.href)}
@@ -311,7 +267,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 gap: 2,
                             }}
                         >
-                            {footerLinks.academics.map((link, index) => (
+                            {footerContent.links.academics.map((link, index) => (
                                 <Link
                                     key={index}
                                     onClick={() => handleLinkClick(link.href)}
@@ -353,7 +309,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 gap: 2,
                             }}
                         >
-                            {footerLinks.resources.map((link, index) => (
+                            {footerContent.links.resources.map((link, index) => (
                                 <Link
                                     key={index}
                                     onClick={() => handleLinkClick(link.href)}
@@ -402,8 +358,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                             color: 'rgba(255, 255, 255, 0.6)',
                         }}
                     >
-                        © {new Date().getFullYear()} Excellence Academy. All
-                        rights reserved.
+                        © {footerContent.copyright.year} {footerContent.copyright.text}
                     </Typography>
 
                     {/* Social Media Links */}
@@ -414,7 +369,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                             alignItems: 'center',
                         }}
                     >
-                        {socialLinks.map((social, index) => (
+                        {footerContent.socialLinks.map((social, index) => (
                             <Box
                                 key={index}
                                 onClick={() => handleLinkClick(social.href)}
@@ -441,7 +396,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                     },
                                 }}
                             >
-                                {social.icon}
+                                {getIconComponent(social.icon)}
                             </Box>
                         ))}
                     </Box>

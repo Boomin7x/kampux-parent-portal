@@ -1,30 +1,108 @@
 import { Box, Button, Typography } from '@mui/material';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+    heroSectionContent,
+    type IHeroSectionContent,
+} from '../../content/landing/heroSection';
 import { useIntersectionObserver } from '../../hooks/ui/useIntersectionObserver';
+import useGetHeroInformation from '../../pages/Landing/_hooks/useGetHeroInformation';
+import type { HeroApiResponse } from '../../pages/Landing/_models/HeroSection';
+
+// API Response Interface
 
 // Hero Section props
 interface HeroSectionProps {
     className?: string;
 }
 
+const transformApiToHeroContent = (
+    apiData: HeroApiResponse[]
+): IHeroSectionContent => {
+    if (!apiData || apiData.length === 0) return heroSectionContent;
+
+    const data = apiData[0]; // Get first item
+
+    return {
+        overline: data.overline,
+        title: {
+            primary: data.title_primary,
+            secondary: data.title_secondary,
+        },
+        subtitle: data.subtitle,
+        buttons: {
+            primary: {
+                text: data.buttons_primary_text,
+                action: data.buttons_primary_action,
+            },
+            secondary: {
+                text: data.buttons_secondary_text,
+                action: data.buttons_secondary_action,
+            },
+        },
+        stats: [
+            { number: data.stats_number_0, label: data.stats_label_0 },
+            { number: data.stats_number_1, label: data.stats_label_1 },
+            { number: data.stats_number_2, label: data.stats_label_2 },
+            { number: data.stats_number_3, label: data.stats_label_3 },
+        ],
+
+        backgroundImage: heroSectionContent.backgroundImage,
+        scrollIndicator: {
+            text: data.scrollIndicator_text,
+            targetSection: data.scrollIndicator_targetSection,
+        },
+    };
+};
+
 // Main Hero Section component
 export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
     const navigate = useNavigate();
+
+    const { data, isLoading } = useGetHeroInformation();
+
+    // Transform API data to heroSectionContent format
+    const dynamicContent = useMemo(() => {
+        if (isLoading || !data) {
+            return heroSectionContent; // Fallback to static content while loading
+        }
+        return transformApiToHeroContent(data);
+    }, [data, isLoading]);
+
     const { isIntersecting, targetRef } = useIntersectionObserver({
         threshold: 0.1,
         freezeOnceVisible: true,
     });
 
-    // Handle CTA clicks
     const handleParentPortalClick = () => {
         navigate('/auth');
     };
 
-    const handleScrollToAbout = () => {
-        const aboutSection = document.querySelector('#about');
-        if (aboutSection) {
-            aboutSection.scrollIntoView({
+    const handleSecondaryButtonClick = () => {
+        const action = dynamicContent.buttons.secondary.action;
+
+        if (action === 'scroll-to-about' || action.startsWith('scroll-to-')) {
+            const targetId = action.replace('scroll-to-', '');
+            const targetSection = document.querySelector(`#${targetId}`);
+            if (targetSection) {
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                });
+            }
+        } else if (action.startsWith('/')) {
+            navigate(action);
+        } else {
+            console.log('Secondary button action:', action);
+        }
+    };
+
+    const handleScrollIndicatorClick = () => {
+        const targetSection = document.querySelector(
+            `#${dynamicContent.scrollIndicator.targetSection}`
+        );
+        if (targetSection) {
+            targetSection.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start',
             });
@@ -42,7 +120,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
                 height: '100vh',
                 minHeight: '800px',
                 overflow: 'hidden',
-                backgroundImage: 'url("/porter-raab-Ucr4Yp-t364-unsplash.jpg")',
+                backgroundImage: `url("${dynamicContent.backgroundImage}")`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center center',
                 backgroundRepeat: 'no-repeat',
@@ -99,7 +177,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
                             textTransform: 'uppercase',
                         }}
                     >
-                        Excellence Academy • Est. 1985
+                        {dynamicContent.overline}
                     </Typography>
 
                     {/* Main Headline - Ultra Large */}
@@ -120,7 +198,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
                             textShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
                         }}
                     >
-                        Shape
+                        {dynamicContent.title.primary}
                         <br />
                         <Box
                             component="span"
@@ -133,7 +211,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
                                 fontWeight: 300,
                             }}
                         >
-                            Tomorrow
+                            {dynamicContent.title.secondary}
                         </Box>
                     </Typography>
 
@@ -159,8 +237,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
                             transitionDelay: '0.6s',
                         }}
                     >
-                        Where academic excellence meets character development,
-                        creating leaders for tomorrow's world.
+                        {dynamicContent.subtitle}
                     </Typography>
 
                     {/* CTA Buttons */}
@@ -203,13 +280,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
                                 },
                             }}
                         >
-                            Access Parent Portal
+                            {dynamicContent.buttons.primary.text}
                         </Button>
 
                         <Button
                             variant="outlined"
                             size="large"
-                            onClick={handleScrollToAbout}
+                            onClick={handleSecondaryButtonClick}
                             sx={{
                                 px: { xs: 5, md: 8 },
                                 py: { xs: 2.5, md: 3 },
@@ -229,7 +306,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
                                 },
                             }}
                         >
-                            Discover More
+                            {dynamicContent.buttons.secondary.text}
                         </Button>
                     </Box>
 
@@ -248,12 +325,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
                             transitionDelay: '1.2s',
                         }}
                     >
-                        {[
-                            { number: '98%', label: 'University Acceptance' },
-                            { number: '1:8', label: 'Student to Teacher' },
-                            { number: '45+', label: 'Programs & Activities' },
-                            { number: '25+', label: 'Years of Excellence' },
-                        ].map((stat, index) => (
+                        {dynamicContent.stats.map((stat, index) => (
                             <Box
                                 key={stat.label}
                                 sx={{
@@ -327,7 +399,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
                     transition: 'opacity 1.5s ease-in-out',
                     transitionDelay: '2s',
                 }}
-                onClick={handleScrollToAbout}
+                onClick={handleScrollIndicatorClick}
             >
                 <Box
                     sx={{
@@ -351,7 +423,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
                             textTransform: 'uppercase',
                         }}
                     >
-                        Scroll to explore
+                        {dynamicContent.scrollIndicator.text}
                     </Typography>
                     <Box
                         className="scroll-line"

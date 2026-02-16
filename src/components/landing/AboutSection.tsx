@@ -1,5 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import React from 'react';
+import { aboutSectionContent } from '../../content/landing/aboutSection';
 import { useIntersectionObserver } from '../../hooks/ui/useIntersectionObserver';
 
 // About Section props
@@ -63,7 +64,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
                             textTransform: 'uppercase',
                         }}
                     >
-                        About Excellence Academy
+                        {aboutSectionContent.overline}
                     </Typography>
 
                     {/* Main Headline */}
@@ -85,7 +86,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
                             maxWidth: { xs: '100%', lg: '80%' },
                         }}
                     >
-                        Shaping
+                        {aboutSectionContent.title.primary}
                         <br />
                         <Box
                             component="span"
@@ -98,7 +99,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
                                 fontWeight: 300,
                             }}
                         >
-                            Excellence
+                            {aboutSectionContent.title.secondary}
                         </Box>
                     </Typography>
 
@@ -123,8 +124,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
                             transitionDelay: '0.5s',
                         }}
                     >
-                        Empowering students through innovative education and
-                        dedicated mentorship.
+                        {aboutSectionContent.subtitle}
                     </Typography>
                 </Box>
 
@@ -164,8 +164,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
                                 sx={{
                                     gridColumn: '1 / -1',
                                     aspectRatio: '16/10',
-                                    backgroundImage:
-                                        'url("/pexels-rdne-8500421.jpg")',
+                                    backgroundImage: `url("${aboutSectionContent.images[0].src}")`,
                                     backgroundSize: 'cover',
                                     backgroundPosition: 'center',
                                     borderRadius: 2,
@@ -176,8 +175,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
                             <Box
                                 sx={{
                                     aspectRatio: '4/3',
-                                    backgroundImage:
-                                        'url("/shraga-kopstein-eUa90rsmjIs-unsplash.jpg")',
+                                    backgroundImage: `url("${aboutSectionContent.images[1].src}")`,
                                     backgroundSize: 'cover',
                                     backgroundPosition: 'center',
                                     borderRadius: 2,
@@ -186,8 +184,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
                             <Box
                                 sx={{
                                     aspectRatio: '4/3',
-                                    backgroundImage:
-                                        'url("/joydeep-sensarma-utyOEK4GwDM-unsplash.jpg")',
+                                    backgroundImage: `url("${aboutSectionContent.images[2].src}")`,
                                     backgroundSize: 'cover',
                                     backgroundPosition: 'center',
                                     borderRadius: 2,
@@ -221,7 +218,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
                                     mb: 2,
                                 }}
                             >
-                                Established 1985
+                                {aboutSectionContent.quote.year}
                             </Typography>
                             <Box
                                 sx={{
@@ -243,8 +240,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
                                     mx: 'auto',
                                 }}
                             >
-                                "Excellence is not a skill, it's an attitude
-                                that shapes every moment of learning."
+                                "{aboutSectionContent.quote.text}"
                             </Typography>
                         </Box>
                     </Box>
@@ -276,7 +272,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
                                 lineHeight: 1.1,
                             }}
                         >
-                            Our Story
+                            {aboutSectionContent.story.title}
                         </Typography>
 
                         {/* Mission Content */}
@@ -290,11 +286,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
                                 fontWeight: 400,
                             }}
                         >
-                            Excellence Academy is dedicated to providing a
-                            comprehensive, challenging, and supportive
-                            educational experience. We foster critical thinking,
-                            creativity, and character development while
-                            maintaining the highest academic standards.
+                            {aboutSectionContent.story.content}
                         </Typography>
 
                         {/* Values as Clean List */}
@@ -307,7 +299,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
                                 color: '#1a1a1a',
                             }}
                         >
-                            What Drives Us
+                            {aboutSectionContent.values.title}
                         </Typography>
 
                         <Box
@@ -317,52 +309,49 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
                                 gap: 2.5,
                             }}
                         >
-                            {[
-                                'Academic Excellence & Innovation',
-                                'Character Development & Integrity',
-                                'Community Collaboration & Support',
-                                'Individual Growth & Achievement',
-                            ].map((value, index) => (
-                                <Box
-                                    key={index}
-                                    sx={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: 3,
-                                        opacity: isIntersecting ? 1 : 0,
-                                        transform: isIntersecting
-                                            ? 'translateX(0)'
-                                            : 'translateX(20px)',
-                                        transition:
-                                            'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
-                                        transitionDelay: `${1.4 + index * 0.1}s`,
-                                    }}
-                                >
+                            {aboutSectionContent.values.list.map(
+                                (value, index) => (
                                     <Box
+                                        key={index}
                                         sx={{
-                                            width: 4,
-                                            height: 4,
-                                            borderRadius: '50%',
-                                            backgroundColor: '#6366f1',
-                                            flexShrink: 0,
-                                        }}
-                                    />
-                                    <Typography
-                                        variant="body1"
-                                        sx={{
-                                            fontSize: {
-                                                xs: '0.95rem',
-                                                md: '1rem',
-                                            },
-                                            lineHeight: 1.5,
-                                            color: 'rgba(0, 0, 0, 0.8)',
-                                            fontWeight: 500,
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 3,
+                                            opacity: isIntersecting ? 1 : 0,
+                                            transform: isIntersecting
+                                                ? 'translateX(0)'
+                                                : 'translateX(20px)',
+                                            transition:
+                                                'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+                                            transitionDelay: `${1.4 + index * 0.1}s`,
                                         }}
                                     >
-                                        {value}
-                                    </Typography>
-                                </Box>
-                            ))}
+                                        <Box
+                                            sx={{
+                                                width: 4,
+                                                height: 4,
+                                                borderRadius: '50%',
+                                                backgroundColor: '#6366f1',
+                                                flexShrink: 0,
+                                            }}
+                                        />
+                                        <Typography
+                                            variant="body1"
+                                            sx={{
+                                                fontSize: {
+                                                    xs: '0.95rem',
+                                                    md: '1rem',
+                                                },
+                                                lineHeight: 1.5,
+                                                color: 'rgba(0, 0, 0, 0.8)',
+                                                fontWeight: 500,
+                                            }}
+                                        >
+                                            {value}
+                                        </Typography>
+                                    </Box>
+                                )
+                            )}
                         </Box>
                     </Box>
                 </Box>

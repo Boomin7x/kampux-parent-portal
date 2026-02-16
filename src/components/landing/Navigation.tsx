@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { navigationContent } from '../../content/landing/navigationContent';
 import { useIsAuthenticated } from '../../pages/Auth/_hooks/useAuth';
 import AuthenticatedUserDisplay from './AuthenticatedUserDisplay';
 
@@ -30,15 +31,8 @@ interface NavigationProps {
     className?: string;
 }
 
-// Navigation items configuration
-const navItems: NavItem[] = [
-    { label: 'About', href: '#about' },
-    { label: 'Programs', href: '#programs' },
-    { label: 'Faculty', href: '#faculty' },
-    { label: 'Student Life', href: '#student-life' },
-    { label: 'Facilities', href: '#facilities' },
-    { label: 'Contact', href: '#contact' },
-];
+// Using navigation content from external source
+const navItems: NavItem[] = navigationContent.navItems;
 
 // Main Navigation component
 export const Navigation: React.FC<NavigationProps> = ({
@@ -57,7 +51,7 @@ export const Navigation: React.FC<NavigationProps> = ({
     useEffect(() => {
         const handleScroll = () => {
             const offset = window.scrollY;
-            setScrolled(offset > 100);
+            setScrolled(offset > navigationContent.styling.scrollThreshold);
         };
 
         window.addEventListener('scroll', handleScroll);
@@ -92,7 +86,7 @@ export const Navigation: React.FC<NavigationProps> = ({
     const drawer = (
         <Box
             sx={{
-                width: 320,
+                width: navigationContent.mobileNav.drawerWidth,
                 height: '100%',
                 background: 'rgba(26, 26, 26, 0.98)',
                 backdropFilter: 'blur(20px)',
@@ -126,7 +120,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                             fontSize: '1rem',
                         }}
                     >
-                        EA
+                        {navigationContent.brand.logoText}
                     </Box>
                     <Typography
                         variant="h6"
@@ -136,7 +130,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                             fontSize: '1rem',
                         }}
                     >
-                        Excellence Academy
+                        {navigationContent.brand.name}
                     </Typography>
                 </Box>
                 <IconButton
@@ -166,7 +160,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                         mb: 4,
                     }}
                 >
-                    Navigation
+                    {navigationContent.mobileNav.menuLabel}
                 </Typography>
                 <List sx={{ p: 0 }}>
                     {navItems.map((item, _index) => (
@@ -232,7 +226,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                                 },
                             }}
                         >
-                            Access Portal
+                            {navigationContent.auth.portalButtonTextMobile}
                         </Button>
                     )}
                 </Box>
@@ -305,7 +299,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                                 boxShadow: '0 2px 8px rgba(99, 102, 241, 0.2)',
                             }}
                         >
-                            EA
+                            {navigationContent.brand.logoText}
                         </Box>
                         <Typography
                             variant="h6"
@@ -319,7 +313,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                                 transition: 'color 0.3s ease',
                             }}
                         >
-                            Excellence Academy
+                            {navigationContent.brand.name}
                         </Typography>
                     </Box>
 
@@ -419,7 +413,10 @@ export const Navigation: React.FC<NavigationProps> = ({
                                             },
                                         }}
                                     >
-                                        Portal
+                                        {
+                                            navigationContent.auth
+                                                .portalButtonText
+                                        }
                                     </Button>
                                 )}
                             </Box>
@@ -477,7 +474,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                     display: { xs: 'block', md: 'none' },
                     '& .MuiDrawer-paper': {
                         boxSizing: 'border-box',
-                        width: 320,
+                        width: navigationContent.mobileNav.drawerWidth,
                         backgroundColor: 'transparent',
                         boxShadow: 'none',
                     },

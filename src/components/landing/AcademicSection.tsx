@@ -18,135 +18,32 @@ import {
     Pagination,
 } from 'swiper/modules';
 import { Swiper, SwiperSlide, type SwiperProps } from 'swiper/react';
+import { academicSectionContent } from '../../content/landing/academicSection';
 import { useIntersectionObserver } from '../../hooks/ui/useIntersectionObserver';
 import '../swiper/swiperStyles.css';
-
-// Academic program interface
-interface AcademicProgram {
-    id: string;
-    title: string;
-    description: string;
-    icon: React.ReactNode;
-    color: string;
-    features: string[];
-    level: string;
-    backgroundImage?: string;
-    stats: { label: string; value: string }[];
-}
 
 // Academic Section props
 interface AcademicSectionProps {
     className?: string;
 }
 
-// Academic programs data
-const academicPrograms: AcademicProgram[] = [
-    {
-        id: 'elementary',
-        title: 'Elementary Excellence',
-        description:
-            'Building strong foundations through hands-on learning, creativity, and character development in our nurturing elementary environment.',
-        icon: <AdvancedIcon />,
-        color: '#6366f1',
-        level: 'Grades K-5',
-        backgroundImage: '/pexels-rdne-8500421.jpg',
-        features: [
-            'Small Classes',
-            'STEAM Learning',
-            'Character Building',
-            'Creative Arts',
-        ],
-        stats: [
-            { label: 'Class Size', value: '12:1' },
-            { label: 'Programs', value: '8+' },
-        ],
-    },
-    {
-        id: 'middle',
-        title: 'Middle School Growth',
-        description:
-            'Developing critical thinking and leadership skills during these crucial formative years with personalized attention and advanced curricula.',
-        icon: <LiteratureIcon />,
-        color: '#8b5cf6',
-        level: 'Grades 6-8',
-        backgroundImage: '/shraga-kopstein-eUa90rsmjIs-unsplash.jpg',
-        features: [
-            'Advanced Academics',
-            'Leadership',
-            'Technology',
-            'Social Development',
-        ],
-        stats: [
-            { label: 'Honor Students', value: '85%' },
-            { label: 'Clubs', value: '15+' },
-        ],
-    },
-    {
-        id: 'high',
-        title: 'College Preparatory',
-        description:
-            'Comprehensive preparation for higher education with AP courses, college counseling, and real-world application opportunities.',
-        icon: <AdvancedIcon />,
-        color: '#ec4899',
-        level: 'Grades 9-12',
-        backgroundImage: '/joydeep-sensarma-utyOEK4GwDM-unsplash.jpg',
-        features: [
-            'AP Courses',
-            'College Prep',
-            'Career Guidance',
-            'Internships',
-        ],
-        stats: [
-            { label: 'College Accept', value: '100%' },
-            { label: 'Scholarships', value: '$2.4M' },
-        ],
-    },
-    {
-        id: 'stem',
-        title: 'STEM Innovation',
-        description:
-            'Cutting-edge Science, Technology, Engineering, and Mathematics programs with state-of-the-art labs and research opportunities.',
-        icon: <ScienceIcon />,
-        color: '#10b981',
-        level: 'All Grades',
-        backgroundImage: '/azzedine-rouichi-KDM09YR4_bY-unsplash.jpg',
-        features: ['Research Labs', 'Robotics', 'Coding', 'Innovation'],
-        stats: [
-            { label: 'Competitions', value: '12+' },
-            { label: 'Awards', value: '45+' },
-        ],
-    },
-    {
-        id: 'arts',
-        title: 'Creative Expression',
-        description:
-            'Comprehensive arts education fostering creativity through visual arts, music, theater, and digital media in dedicated studio spaces.',
-        icon: <ArtsIcon />,
-        color: '#f59e0b',
-        level: 'All Grades',
-        backgroundImage: '/pexels-mary-taylor-5896578.jpg',
-        features: ['Visual Arts', 'Music', 'Theater', 'Digital Media'],
-        stats: [
-            { label: 'Exhibitions', value: '6+' },
-            { label: 'Performances', value: '20+' },
-        ],
-    },
-    {
-        id: 'athletics',
-        title: 'Athletic Excellence',
-        description:
-            'Comprehensive athletics promoting fitness, teamwork, and competitive excellence with championship-level coaching and facilities.',
-        icon: <SportsIcon />,
-        color: '#ef4444',
-        level: 'All Grades',
-        backgroundImage: '/pexels-rdne-8500421.jpg',
-        features: ['Team Sports', 'Fitness', 'Championships', 'Scholarships'],
-        stats: [
-            { label: 'Sports', value: '18+' },
-            { label: 'Championships', value: '32+' },
-        ],
-    },
-];
+// Icon mapping helper
+const getIconComponent = (iconName: string) => {
+    switch (iconName) {
+        case 'School':
+            return <AdvancedIcon />;
+        case 'MenuBook':
+            return <LiteratureIcon />;
+        case 'Science':
+            return <ScienceIcon />;
+        case 'Palette':
+            return <ArtsIcon />;
+        case 'Sports':
+            return <SportsIcon />;
+        default:
+            return <AdvancedIcon />;
+    }
+};
 
 // Main Academic Section component
 export const AcademicSection: React.FC<AcademicSectionProps> = ({
@@ -248,7 +145,7 @@ export const AcademicSection: React.FC<AcademicSectionProps> = ({
                             textTransform: 'uppercase',
                         }}
                     >
-                        Academic Programs
+                        {academicSectionContent.overline}
                     </Typography>
 
                     {/* Main Headline */}
@@ -270,7 +167,7 @@ export const AcademicSection: React.FC<AcademicSectionProps> = ({
                             maxWidth: { xs: '100%', lg: '80%' },
                         }}
                     >
-                        Excellence
+                        {academicSectionContent.title.primary}
                         <br />
                         <Box
                             component="span"
@@ -283,9 +180,9 @@ export const AcademicSection: React.FC<AcademicSectionProps> = ({
                                 fontWeight: 300,
                             }}
                         >
-                            Across
+                            {academicSectionContent.title.secondary}
                         </Box>{' '}
-                        Every Level
+                        {academicSectionContent.title.tertiary}
                     </Typography>
 
                     {/* Large Subtitle */}
@@ -309,8 +206,7 @@ export const AcademicSection: React.FC<AcademicSectionProps> = ({
                             transitionDelay: '0.5s',
                         }}
                     >
-                        Comprehensive programs designed to challenge, inspire,
-                        and prepare students for lifelong success.
+                        {academicSectionContent.subtitle}
                     </Typography>
                 </Box>
 
@@ -330,7 +226,7 @@ export const AcademicSection: React.FC<AcademicSectionProps> = ({
                         {...swiperConfig}
                         className="academic-programs-swiper"
                     >
-                        {academicPrograms.map(program => (
+                        {academicSectionContent.programs.map(program => (
                             <SwiperSlide key={program.id}>
                                 <Box
                                     sx={{
@@ -397,7 +293,7 @@ export const AcademicSection: React.FC<AcademicSectionProps> = ({
                                                     },
                                                 }}
                                             >
-                                                {program.icon}
+                                                {getIconComponent(program.icon)}
                                             </Box>
 
                                             {/* Program Title */}
@@ -609,10 +505,9 @@ export const AcademicSection: React.FC<AcademicSectionProps> = ({
                                 }}
                             >
                                 {String(activeIndex + 1).padStart(2, '0')} /{' '}
-                                {String(academicPrograms.length).padStart(
-                                    2,
-                                    '0'
-                                )}
+                                {String(
+                                    academicSectionContent.programs.length
+                                ).padStart(2, '0')}
                             </Typography>
                         </Box>
 

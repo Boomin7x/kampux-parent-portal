@@ -1,5 +1,7 @@
 {
     "VITE_API_BASE_URL": "https://kampux-api.univ-soft.com",
+    "VITE_SKRAPI_BASE_URL": "https://skrapi-api.univ-soft.com/api/production/content/v1/",
+    "VITE_SKRAPI_TOKEN": "f2z9y9ihyzjj1kl4u7yv9vtbps",
 
     "NODE_ENV": "development",
 

@@ -15,6 +15,8 @@ type IConfig = {
     VITE_ENABLE_MOCK_API: boolean;
     VITE_GA_TRACKING_ID: string;
     VITE_SENTRY_DSN: string;
+    VITE_SKRAPI_BASE_URL: string;
+    VITE_SKRAPI_TOKEN: string;
 };
 const Config = async (): Promise<IConfig> => {
     try {
@@ -43,6 +45,11 @@ const API_BASE_URL =
     import.meta.env.VITE_API_BASE_URL ||
     configFile?.VITE_API_BASE_URL ||
     'https://kampux-api.univ-soft.com';
+
+const SKRAPI_BASE_URL =
+    import.meta.env.VITE_SKRAPI_BASE_URL || configFile?.VITE_SKRAPI_BASE_URL;
+const SKRAPI_TOKEN =
+    import.meta.env.VITE_SKRAPI_TOKEN || configFile?.VITE_SKRAPI_TOKEN;
 
 console.log({ API_BASE_URL });
 const API_TIMEOUT = 30000; // 30 seconds
@@ -242,6 +249,8 @@ export const registerApiClient = createApiClient(
     `${API_BASE_URL}/public-api/token/v1`
 );
 
+export const webApiClient = createApiClient(SKRAPI_BASE_URL + SKRAPI_TOKEN);
+
 // Utility functions for common HTTP methods
 export const api = {
     get: <T = any>(url: string, config?: AxiosRequestConfig): Promise<T> =>
@@ -289,7 +298,6 @@ export const uploadFile = async (
     });
 };
 
-// Type declarations for Axios extensions
 declare module 'axios' {
     interface InternalAxiosRequestConfig {
         metadata?: {

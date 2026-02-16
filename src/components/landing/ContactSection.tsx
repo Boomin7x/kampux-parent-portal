@@ -9,61 +9,33 @@ import {
 import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { contactSectionContent } from '../../content/landing/contactSection';
 import { useIntersectionObserver } from '../../hooks/ui/useIntersectionObserver';
-
-// Contact info interface
-interface ContactInfo {
-    id: string;
-    title: string;
-    value: string;
-    icon: React.ReactNode;
-    color: string;
-    action?: string;
-    description?: string;
-}
 
 // Contact Section props
 interface ContactSectionProps {
     className?: string;
 }
 
-// Contact information data
-const contactInfo: ContactInfo[] = [
-    {
-        id: 'phone',
-        title: 'Call Us',
-        value: '(555) 123-4567',
-        description: 'Available during office hours',
-        icon: <PhoneIcon />,
-        color: '#6366f1',
-        action: 'tel:+15551234567',
-    },
-    {
-        id: 'email',
-        title: 'Email Us',
-        value: 'info@excellenceacademy.edu',
-        description: 'General inquiries & support',
-        icon: <EmailIcon />,
-        color: '#8b5cf6',
-        action: 'mailto:info@excellenceacademy.edu',
-    },
-    {
-        id: 'location',
-        title: 'Visit Us',
-        value: '123 Education Boulevard',
-        description: 'Learning City, LC 12345',
-        icon: <LocationIcon />,
-        color: '#10b981',
-    },
-    {
-        id: 'hours',
-        title: 'Office Hours',
-        value: 'Monday - Friday',
-        description: '8:00 AM - 4:00 PM',
-        icon: <ScheduleIcon />,
-        color: '#f59e0b',
-    },
-];
+// Icon mapping helper
+const getIconComponent = (iconName: string) => {
+    switch (iconName) {
+        case 'Phone':
+            return <PhoneIcon />;
+        case 'Email':
+            return <EmailIcon />;
+        case 'LocationOn':
+            return <LocationIcon />;
+        case 'Schedule':
+            return <ScheduleIcon />;
+        case 'School':
+            return <PortalIcon />;
+        case 'TourOutlined':
+            return <TourIcon />;
+        default:
+            return <PhoneIcon />;
+    }
+};
 
 // Main Contact Section component
 export const ContactSection: React.FC<ContactSectionProps> = ({
@@ -105,8 +77,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                 position: 'relative',
                 py: { xs: 12, md: 20 },
                 backgroundColor: '#1a1a1a',
-                backgroundImage:
-                    'url("/azzedine-rouichi-KDM09YR4_bY-unsplash.jpg")',
+                backgroundImage: `url("${contactSectionContent.backgroundImage}")`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 overflow: 'hidden',
@@ -159,7 +130,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                             textTransform: 'uppercase',
                         }}
                     >
-                        Contact Excellence Academy
+                        {contactSectionContent.overline}
                     </Typography>
 
                     {/* Main Headline */}
@@ -181,7 +152,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                             maxWidth: { xs: '100%', lg: '80%' },
                         }}
                     >
-                        Connect
+                        {contactSectionContent.title.primary}
                         <br />
                         <Box
                             component="span"
@@ -194,7 +165,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                                 fontWeight: 300,
                             }}
                         >
-                            With Us
+                            {contactSectionContent.title.secondary}
                         </Box>
                     </Typography>
 
@@ -219,8 +190,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                             transitionDelay: '0.5s',
                         }}
                     >
-                        Ready to begin your educational journey? We're here to
-                        guide you every step of the way.
+                        {contactSectionContent.subtitle}
                     </Typography>
                 </Box>
 
@@ -270,106 +240,109 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                                 gap: 6,
                             }}
                         >
-                            {contactInfo.map((contact, index) => (
-                                <Box
-                                    key={contact.id}
-                                    onClick={() =>
-                                        handleContactClick(contact.action)
-                                    }
-                                    sx={{
-                                        display: 'flex',
-                                        alignItems: 'flex-start',
-                                        gap: 4,
-                                        opacity: isIntersecting ? 1 : 0,
-                                        transform: isIntersecting
-                                            ? 'translateY(0)'
-                                            : 'translateY(30px)',
-                                        transition:
-                                            'all 1s cubic-bezier(0.4, 0, 0.2, 1)',
-                                        transitionDelay: `${1 + index * 0.1}s`,
-                                        cursor: contact.action
-                                            ? 'pointer'
-                                            : 'default',
-                                        '&:hover': {
-                                            '& .contact-icon': {
-                                                transform: contact.action
-                                                    ? 'scale(1.1)'
-                                                    : 'scale(1)',
-                                                backgroundColor: contact.action
-                                                    ? contact.color
-                                                    : undefined,
-                                            },
-                                        },
-                                    }}
-                                >
-                                    {/* Icon */}
+                            {contactSectionContent.contactInfo.map(
+                                (contact, index) => (
                                     <Box
-                                        className="contact-icon"
+                                        key={contact.id}
+                                        onClick={() =>
+                                            handleContactClick(contact.action)
+                                        }
                                         sx={{
-                                            width: 60,
-                                            height: 60,
-                                            borderRadius: '50%',
-                                            background:
-                                                'rgba(255, 255, 255, 0.1)',
-                                            backdropFilter: 'blur(10px)',
-                                            border: '1px solid rgba(255, 255, 255, 0.2)',
                                             display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            flexShrink: 0,
+                                            alignItems: 'flex-start',
+                                            gap: 4,
+                                            opacity: isIntersecting ? 1 : 0,
+                                            transform: isIntersecting
+                                                ? 'translateY(0)'
+                                                : 'translateY(30px)',
                                             transition:
-                                                'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                            '& svg': {
-                                                fontSize: '1.5rem',
-                                                color: 'white',
+                                                'all 1s cubic-bezier(0.4, 0, 0.2, 1)',
+                                            transitionDelay: `${1 + index * 0.1}s`,
+                                            cursor: contact.action
+                                                ? 'pointer'
+                                                : 'default',
+                                            '&:hover': {
+                                                '& .contact-icon': {
+                                                    transform: contact.action
+                                                        ? 'scale(1.1)'
+                                                        : 'scale(1)',
+                                                    backgroundColor:
+                                                        contact.action
+                                                            ? contact.color
+                                                            : undefined,
+                                                },
                                             },
                                         }}
                                     >
-                                        {contact.icon}
-                                    </Box>
-
-                                    {/* Contact Info */}
-                                    <Box>
-                                        <Typography
+                                        {/* Icon */}
+                                        <Box
+                                            className="contact-icon"
                                             sx={{
-                                                fontSize: '0.75rem',
-                                                fontWeight: 600,
-                                                color: contact.color,
-                                                textTransform: 'uppercase',
-                                                letterSpacing: '0.1em',
-                                                mb: 1,
-                                            }}
-                                        >
-                                            {contact.title}
-                                        </Typography>
-                                        <Typography
-                                            sx={{
-                                                fontSize: {
-                                                    xs: '1.125rem',
-                                                    md: '1.25rem',
+                                                width: 60,
+                                                height: 60,
+                                                borderRadius: '50%',
+                                                background:
+                                                    'rgba(255, 255, 255, 0.1)',
+                                                backdropFilter: 'blur(10px)',
+                                                border: '1px solid rgba(255, 255, 255, 0.2)',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                flexShrink: 0,
+                                                transition:
+                                                    'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                                '& svg': {
+                                                    fontSize: '1.5rem',
+                                                    color: 'white',
                                                 },
-                                                fontWeight: 600,
-                                                color: '#ffffff',
-                                                mb: 1,
-                                                lineHeight: 1.3,
                                             }}
                                         >
-                                            {contact.value}
-                                        </Typography>
-                                        {contact.description && (
+                                            {getIconComponent(contact.icon)}
+                                        </Box>
+
+                                        {/* Contact Info */}
+                                        <Box>
                                             <Typography
                                                 sx={{
-                                                    fontSize: '0.875rem',
-                                                    color: 'rgba(255, 255, 255, 0.7)',
-                                                    lineHeight: 1.4,
+                                                    fontSize: '0.75rem',
+                                                    fontWeight: 600,
+                                                    color: contact.color,
+                                                    textTransform: 'uppercase',
+                                                    letterSpacing: '0.1em',
+                                                    mb: 1,
                                                 }}
                                             >
-                                                {contact.description}
+                                                {contact.title}
                                             </Typography>
-                                        )}
+                                            <Typography
+                                                sx={{
+                                                    fontSize: {
+                                                        xs: '1.125rem',
+                                                        md: '1.25rem',
+                                                    },
+                                                    fontWeight: 600,
+                                                    color: '#ffffff',
+                                                    mb: 1,
+                                                    lineHeight: 1.3,
+                                                }}
+                                            >
+                                                {contact.value}
+                                            </Typography>
+                                            {contact.description && (
+                                                <Typography
+                                                    sx={{
+                                                        fontSize: '0.875rem',
+                                                        color: 'rgba(255, 255, 255, 0.7)',
+                                                        lineHeight: 1.4,
+                                                    }}
+                                                >
+                                                    {contact.description}
+                                                </Typography>
+                                            )}
+                                        </Box>
                                     </Box>
-                                </Box>
-                            ))}
+                                )
+                            )}
                         </Box>
                     </Box>
 
@@ -399,7 +372,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                                 lineHeight: 1.1,
                             }}
                         >
-                            Take Action
+                            {contactSectionContent.actions.title}
                         </Typography>
 
                         {/* Parent Portal Action */}
@@ -463,7 +436,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                                     mb: 2,
                                 }}
                             >
-                                Parent Portal
+                                {
+                                    contactSectionContent.actions.items[0]
+                                        .category
+                                }
                             </Typography>
 
                             <Typography
@@ -479,7 +455,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                                     lineHeight: 1.2,
                                 }}
                             >
-                                Access Your Dashboard
+                                {contactSectionContent.actions.items[0].title}
                             </Typography>
 
                             <Typography
@@ -490,9 +466,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                                     mb: 4,
                                 }}
                             >
-                                Monitor your child's academic progress, view
-                                assignments, track attendance, and stay
-                                connected with educators.
+                                {
+                                    contactSectionContent.actions.items[0]
+                                        .description
+                                }
                             </Typography>
 
                             <Button
@@ -512,7 +489,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                                     },
                                 }}
                             >
-                                Sign In Now
+                                {
+                                    contactSectionContent.actions.items[0]
+                                        .buttonText
+                                }
                             </Button>
                         </Box>
 
@@ -576,7 +556,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                                     mb: 2,
                                 }}
                             >
-                                Campus Tour
+                                {
+                                    contactSectionContent.actions.items[1]
+                                        .category
+                                }
                             </Typography>
 
                             <Typography
@@ -589,7 +572,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                                     lineHeight: 1.3,
                                 }}
                             >
-                                Schedule Your Visit
+                                {contactSectionContent.actions.items[1].title}
                             </Typography>
 
                             <Typography
@@ -600,8 +583,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                                     mb: 3,
                                 }}
                             >
-                                Experience our world-class facilities and meet
-                                our dedicated team of educators.
+                                {
+                                    contactSectionContent.actions.items[1]
+                                        .description
+                                }
                             </Typography>
 
                             <Button
@@ -622,7 +607,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                                     },
                                 }}
                             >
-                                Book Now
+                                {
+                                    contactSectionContent.actions.items[1]
+                                        .buttonText
+                                }
                             </Button>
                         </Box>
                     </Box>
