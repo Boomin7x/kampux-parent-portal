@@ -1,18 +1,18 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-    Alert,
-    Box,
-    Button,
-    TextField,
-    Typography,
-} from '@mui/material';
+import { Alert, Box, Button, TextField, Typography } from '@mui/material';
 import { isAxiosError } from 'axios';
 import md5 from 'md5';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useToast from '../../../hooks/useToast';
-import { authSchemas, type ForgotPasswordResetFormData } from '../../../utils/validation/schemas';
-import { useForgotPasswordRequestOtpQuery, useForgotPasswordResetQuery } from '../_hooks/useAuthQueries';
+import {
+    authSchemas,
+    type ForgotPasswordResetFormData,
+} from '../../../utils/validation/schemas';
+import {
+    useForgotPasswordRequestOtpQuery,
+    useForgotPasswordResetQuery,
+} from '../_hooks/useAuthQueries';
 import type { ILanguage } from '../_model/authModel';
 import { FormField } from './shared/FormField';
 import { authStyles } from './shared/authStyles';
@@ -28,18 +28,14 @@ interface ForgotPasswordResetStepProps {
     onBack: () => void;
 }
 
-export const ForgotPasswordResetStep: React.FC<ForgotPasswordResetStepProps> = ({
-    token,
-    email,
-    language,
-    tenantAlias,
-    onSuccess,
-    onError,
-    onBack,
-}) => {
+export const ForgotPasswordResetStep: React.FC<
+    ForgotPasswordResetStepProps
+> = ({ token, email, language, tenantAlias, onSuccess, onError, onBack }) => {
     const toast = useToast();
-    const { mutateAsync: resetPasswordMutateAsync, isPending: isResetting } = useForgotPasswordResetQuery();
-    const { mutateAsync: resendOtpMutateAsync, isPending: isResending } = useForgotPasswordRequestOtpQuery();
+    const { mutateAsync: resetPasswordMutateAsync, isPending: isResetting } =
+        useForgotPasswordResetQuery();
+    const { mutateAsync: resendOtpMutateAsync, isPending: isResending } =
+        useForgotPasswordRequestOtpQuery();
     const [resendCountdown, setResendCountdown] = useState(0);
 
     // Form setup with validation
@@ -86,10 +82,12 @@ export const ForgotPasswordResetStep: React.FC<ForgotPasswordResetStepProps> = (
             if (response?.succeeded) {
                 onSuccess();
                 toast.success('Password reset successfully!', {
-                    description: 'Your password has been updated. Redirecting to login...',
+                    description:
+                        'Your password has been updated. Redirecting to login...',
                 });
             } else {
-                const errorMessage = response?.messages?.[0] || 'Failed to reset password';
+                const errorMessage =
+                    response?.messages?.[0] || 'Failed to reset password';
                 onError(errorMessage);
                 toast.error('Failed to reset password', {
                     description: errorMessage,
@@ -100,7 +98,8 @@ export const ForgotPasswordResetStep: React.FC<ForgotPasswordResetStepProps> = (
             let errorMessage = 'Failed to reset password. Please try again.';
 
             if (isAxiosError(error)) {
-                errorMessage = error?.response?.data?.messages?.[0] || error.message;
+                errorMessage =
+                    error?.response?.data?.messages?.[0] || error.message;
             }
 
             onError(errorMessage);
@@ -126,10 +125,12 @@ export const ForgotPasswordResetStep: React.FC<ForgotPasswordResetStepProps> = (
             if (response?.succeeded) {
                 setResendCountdown(60);
                 toast.success('Code resent successfully!', {
-                    description: 'Please check your email for the new reset code.',
+                    description:
+                        'Please check your email for the new reset code.',
                 });
             } else {
-                const errorMessage = response?.messages?.[0] || 'Failed to resend code';
+                const errorMessage =
+                    response?.messages?.[0] || 'Failed to resend code';
                 onError(errorMessage);
                 toast.error('Failed to resend code', {
                     description: errorMessage,
@@ -140,7 +141,8 @@ export const ForgotPasswordResetStep: React.FC<ForgotPasswordResetStepProps> = (
             let errorMessage = 'Failed to resend code. Please try again.';
 
             if (isAxiosError(error)) {
-                errorMessage = error?.response?.data?.messages?.[0] || error.message;
+                errorMessage =
+                    error?.response?.data?.messages?.[0] || error.message;
             }
 
             onError(errorMessage);
@@ -200,7 +202,7 @@ export const ForgotPasswordResetStep: React.FC<ForgotPasswordResetStepProps> = (
                         style: {
                             textAlign: 'center',
                             fontSize: '1.5rem',
-                            letterSpacing: '0.5rem'
+                            letterSpacing: '0.5rem',
                         },
                     }}
                     sx={{
@@ -210,9 +212,11 @@ export const ForgotPasswordResetStep: React.FC<ForgotPasswordResetStepProps> = (
                         },
                     }}
                     {...control.register('otp', {
-                        onChange: (e) => {
+                        onChange: e => {
                             // Only allow digits and limit to 6 characters
-                            const numericValue = e.target.value.replace(/\D/g, '').slice(0, 6);
+                            const numericValue = e.target.value
+                                .replace(/\D/g, '')
+                                .slice(0, 6);
                             e.target.value = numericValue;
                         },
                     })}
@@ -222,7 +226,10 @@ export const ForgotPasswordResetStep: React.FC<ForgotPasswordResetStepProps> = (
 
                 {/* Resend Code */}
                 <Box sx={{ textAlign: 'center', mb: 3 }}>
-                    <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>
+                    <Typography
+                        variant="body2"
+                        sx={{ color: 'text.secondary', mb: 1 }}
+                    >
                         Didn't receive the code?
                     </Typography>
                     <Button
@@ -234,8 +241,8 @@ export const ForgotPasswordResetStep: React.FC<ForgotPasswordResetStepProps> = (
                         {isResending
                             ? 'Sending...'
                             : resendCountdown > 0
-                            ? `Resend in ${resendCountdown}s`
-                            : 'Resend Code'}
+                              ? `Resend in ${resendCountdown}s`
+                              : 'Resend Code'}
                     </Button>
                 </Box>
 
@@ -286,7 +293,11 @@ export const ForgotPasswordResetStep: React.FC<ForgotPasswordResetStepProps> = (
                     variant="text"
                     onClick={onBack}
                     disabled={isResetting}
-                    sx={{ ...authStyles.linkButton, textAlign: 'center', justifyContent: 'center' }}
+                    sx={{
+                        ...authStyles.linkButton,
+                        textAlign: 'center',
+                        justifyContent: 'center',
+                    }}
                 >
                     Back to Email Step
                 </Button>
@@ -303,7 +314,8 @@ export const ForgotPasswordResetStep: React.FC<ForgotPasswordResetStepProps> = (
                     }}
                 >
                     <Typography variant="body2" sx={{ fontSize: '0.8125rem' }}>
-                        Your new password will be securely encrypted before being sent to our servers.
+                        Your new password will be securely encrypted before
+                        being sent to our servers.
                     </Typography>
                 </Alert>
             </Box>

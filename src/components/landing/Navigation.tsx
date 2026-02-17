@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { LanguageSelector } from '../common/LanguageSelector';
 import { navigationContent } from '../../content/landing/navigationContent';
 import { useIsAuthenticated } from '../../pages/Auth/_hooks/useAuth';
 import AuthenticatedUserDisplay from './AuthenticatedUserDisplay';
@@ -196,6 +197,11 @@ export const Navigation: React.FC<NavigationProps> = ({
                     ))}
                 </List>
 
+                {/* Language Selector */}
+                <Box sx={{ mt: 4, px: 2 }}>
+                    <LanguageSelector />
+                </Box>
+
                 {/* Authentication Display */}
                 <Box sx={{ mt: 6 }}>
                     {isAuthenticated ? (
@@ -362,8 +368,13 @@ export const Navigation: React.FC<NavigationProps> = ({
                                 </Button>
                             ))}
 
-                            {/* Authentication Display */}
+                            {/* Language Selector */}
                             <Box sx={{ ml: 3 }}>
+                                <LanguageSelector />
+                            </Box>
+
+                            {/* Authentication Display */}
+                            <Box sx={{ ml: 1 }}>
                                 {isAuthenticated ? (
                                     <AuthenticatedUserDisplay
                                         transparent={transparent}

@@ -21,15 +21,24 @@ interface FooterProps {
 // Icon mapping helper
 const getIconComponent = (iconName: string) => {
     switch (iconName) {
-        case 'Phone': return <PhoneIcon />;
-        case 'Email': return <EmailIcon />;
-        case 'LocationOn': return <LocationIcon />;
-        case 'Facebook': return <FacebookIcon />;
-        case 'Twitter': return <TwitterIcon />;
-        case 'Instagram': return <InstagramIcon />;
-        case 'LinkedIn': return <LinkedInIcon />;
-        case 'YouTube': return <YouTubeIcon />;
-        default: return <PhoneIcon />;
+        case 'Phone':
+            return <PhoneIcon />;
+        case 'Email':
+            return <EmailIcon />;
+        case 'LocationOn':
+            return <LocationIcon />;
+        case 'Facebook':
+            return <FacebookIcon />;
+        case 'Twitter':
+            return <TwitterIcon />;
+        case 'Instagram':
+            return <InstagramIcon />;
+        case 'LinkedIn':
+            return <LinkedInIcon />;
+        case 'YouTube':
+            return <YouTubeIcon />;
+        default:
+            return <PhoneIcon />;
     }
 };
 
@@ -267,24 +276,28 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 gap: 2,
                             }}
                         >
-                            {footerContent.links.academics.map((link, index) => (
-                                <Link
-                                    key={index}
-                                    onClick={() => handleLinkClick(link.href)}
-                                    sx={{
-                                        fontSize: '0.875rem',
-                                        color: 'rgba(255, 255, 255, 0.7)',
-                                        textDecoration: 'none',
-                                        cursor: 'pointer',
-                                        transition: 'color 0.3s ease',
-                                        '&:hover': {
-                                            color: '#6366f1',
-                                        },
-                                    }}
-                                >
-                                    {link.label}
-                                </Link>
-                            ))}
+                            {footerContent.links.academics.map(
+                                (link, index) => (
+                                    <Link
+                                        key={index}
+                                        onClick={() =>
+                                            handleLinkClick(link.href)
+                                        }
+                                        sx={{
+                                            fontSize: '0.875rem',
+                                            color: 'rgba(255, 255, 255, 0.7)',
+                                            textDecoration: 'none',
+                                            cursor: 'pointer',
+                                            transition: 'color 0.3s ease',
+                                            '&:hover': {
+                                                color: '#6366f1',
+                                            },
+                                        }}
+                                    >
+                                        {link.label}
+                                    </Link>
+                                )
+                            )}
                         </Box>
                     </Box>
 
@@ -309,24 +322,28 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 gap: 2,
                             }}
                         >
-                            {footerContent.links.resources.map((link, index) => (
-                                <Link
-                                    key={index}
-                                    onClick={() => handleLinkClick(link.href)}
-                                    sx={{
-                                        fontSize: '0.875rem',
-                                        color: 'rgba(255, 255, 255, 0.7)',
-                                        textDecoration: 'none',
-                                        cursor: 'pointer',
-                                        transition: 'color 0.3s ease',
-                                        '&:hover': {
-                                            color: '#6366f1',
-                                        },
-                                    }}
-                                >
-                                    {link.label}
-                                </Link>
-                            ))}
+                            {footerContent.links.resources.map(
+                                (link, index) => (
+                                    <Link
+                                        key={index}
+                                        onClick={() =>
+                                            handleLinkClick(link.href)
+                                        }
+                                        sx={{
+                                            fontSize: '0.875rem',
+                                            color: 'rgba(255, 255, 255, 0.7)',
+                                            textDecoration: 'none',
+                                            cursor: 'pointer',
+                                            transition: 'color 0.3s ease',
+                                            '&:hover': {
+                                                color: '#6366f1',
+                                            },
+                                        }}
+                                    >
+                                        {link.label}
+                                    </Link>
+                                )
+                            )}
                         </Box>
                     </Box>
                 </Box>
@@ -358,7 +375,8 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                             color: 'rgba(255, 255, 255, 0.6)',
                         }}
                     >
-                        © {footerContent.copyright.year} {footerContent.copyright.text}
+                        © {footerContent.copyright.year}{' '}
+                        {footerContent.copyright.text}
                     </Typography>
 
                     {/* Social Media Links */}

@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { LanguageSelector } from '../../../../components/common/LanguageSelector';
 import { useUserProfile } from '../../../Auth/_hooks/useAuth';
 import { NotificationCenter } from '../communication/NotificationCenter';
 import UserDisplay from '../user/UserDisplay';
@@ -311,6 +312,11 @@ export const PortalLayout: React.FC<PortalLayoutProps> = ({
                                 Plainte
                             </Box>
                         </Button>
+
+                        {/* Language Selector */}
+                        <Box sx={{ mr: 0.5 }}>
+                            <LanguageSelector variant="page" />
+                        </Box>
 
                         {/* User Menu */}
                         <UserDisplay />

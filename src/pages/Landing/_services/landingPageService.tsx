@@ -8,4 +8,10 @@ export const landingPageService = {
         );
         return result?.data;
     },
+    getAboutInformation: async (): Promise<HeroApiResponse[]> => {
+        const result = await webApiClient.get(
+            `/hero-section-content/get-contents`
+        );
+        return result?.data;
+    },
 };

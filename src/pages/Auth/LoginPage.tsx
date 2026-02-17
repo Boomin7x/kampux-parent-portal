@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { LanguageSelector } from '../../components/common/LanguageSelector';
 import { AuthBackground } from './components/AuthBackground';
 import { SignInForm } from './components/SignInForm';
 
@@ -86,6 +87,18 @@ const LoginPage: React.FC<LoginPageProps> = ({ className = '' }) => {
             >
                 <ArrowBackIcon />
             </IconButton>
+
+            {/* Language Selector */}
+            <Box
+                sx={{
+                    position: 'absolute',
+                    top: { xs: 16, md: 24 },
+                    right: { xs: 16, md: 24 },
+                    zIndex: 10,
+                }}
+            >
+                <LanguageSelector variant="page" />
+            </Box>
 
             {/* Main Content */}
             <Grid container sx={{ minHeight: '100vh' }}>

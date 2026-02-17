@@ -32,10 +32,9 @@ interface ForgotPasswordEmailStepProps {
     onError: (error: string) => void;
 }
 
-export const ForgotPasswordEmailStep: React.FC<ForgotPasswordEmailStepProps> = ({
-    onSuccess,
-    onError,
-}) => {
+export const ForgotPasswordEmailStep: React.FC<
+    ForgotPasswordEmailStepProps
+> = ({ onSuccess, onError }) => {
     const toast = useToast();
     const { mutateAsync, isPending } = useForgotPasswordRequestOtpQuery();
 
@@ -78,8 +77,7 @@ export const ForgotPasswordEmailStep: React.FC<ForgotPasswordEmailStepProps> = (
                 });
             } else {
                 const errorMessage =
-                    response?.messages?.[0] ||
-                    'Failed to send reset code';
+                    response?.messages?.[0] || 'Failed to send reset code';
                 onError(errorMessage);
                 toast.error('Failed to send reset code', {
                     description: errorMessage,
@@ -87,8 +85,7 @@ export const ForgotPasswordEmailStep: React.FC<ForgotPasswordEmailStepProps> = (
             }
         } catch (error) {
             console.error('Forgot password error:', error);
-            let errorMessage =
-                'Failed to send reset code. Please try again.';
+            let errorMessage = 'Failed to send reset code. Please try again.';
 
             if (isAxiosError(error)) {
                 errorMessage =

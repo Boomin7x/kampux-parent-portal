@@ -18,6 +18,7 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { LanguageSelector } from '../../components/common/LanguageSelector';
 import type { ILanguage } from './_model/authModel';
 import { AuthBackground } from './components/AuthBackground';
 import { EmailRegistrationStep } from './components/EmailRegistrationStep';
@@ -129,6 +130,18 @@ const SignupPage: React.FC<SignupPageProps> = ({ className = '' }) => {
             >
                 <ArrowBackIcon />
             </IconButton>
+
+            {/* Language Selector */}
+            <Box
+                sx={{
+                    position: 'absolute',
+                    top: { xs: 16, md: 24 },
+                    right: { xs: 16, md: 24 },
+                    zIndex: 10,
+                }}
+            >
+                <LanguageSelector variant="page" />
+            </Box>
 
             {/* Main Content */}
             <Grid container sx={{ minHeight: '100vh' }}>

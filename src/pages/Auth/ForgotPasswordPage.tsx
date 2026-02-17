@@ -61,9 +61,7 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
         setStepData({ token, email, language, tenantAlias });
         setActiveStep(1);
         setError('');
-        setSuccess(
-            'Reset code sent successfully! Please check your email.'
-        );
+        setSuccess('Reset code sent successfully! Please check your email.');
 
         // Clear success message after 3 seconds
         setTimeout(() => setSuccess(''), 3000);
@@ -358,7 +356,8 @@ const ForgotPasswordPage: React.FC<ForgotPasswordPageProps> = ({
                                         display: 'block',
                                     }}
                                 >
-                                    Password reset codes expire after 10 minutes for security
+                                    Password reset codes expire after 10 minutes
+                                    for security
                                 </Typography>
                             </Box>
                         </Container>

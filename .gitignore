@@ -24,4 +24,5 @@ dist-ssr
 *.sw?
 
 DESIGN_PATTERN.md
+*.md
 
