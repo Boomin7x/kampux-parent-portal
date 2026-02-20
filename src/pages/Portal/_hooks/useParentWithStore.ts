@@ -11,6 +11,7 @@ import {
     type CreateComplaintRequest,
     type CreateComplaintResponse,
     type GetBillingsResponse,
+    type GetDashboardResponse,
     type GetStudentSheetsResponse,
     type GetStudentsResponse,
     type GetTellerOperationsResponse,
@@ -58,10 +59,12 @@ export const useGetClassTimeTable = () => {
 
 export const useGetDashboard = () => {
     const { selectedStudentId, hasSelectedStudent } = useSelectedStudent();
-    return useQuery({
+    return useQuery<GetDashboardResponse, Error>({
         queryKey: ['get-dashboard', selectedStudentId],
         queryFn: () => parentService.getDashboard(selectedStudentId),
         enabled: hasSelectedStudent,
+        staleTime: 5 * 60 * 1000, // 5 minutes
+        gcTime: 10 * 60 * 1000, // 10 minutes
     });
 };
 

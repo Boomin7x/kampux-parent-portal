@@ -1,4 +1,5 @@
 import { parentApiClient } from '../../../lib/axios';
+import type { DashboardData, DashboardResponse } from '../../../types/dashboard.types';
 
 // Types for Parent/Student APIs based on actual API response
 
@@ -513,6 +514,9 @@ export interface StudentMark {
 // API Response structure - array of student marks
 export type GetStudentMarksResponse = StudentMark[];
 
+// Dashboard response type
+export type GetDashboardResponse = DashboardData;
+
 // Extended response with metadata for UI components
 export interface StudentMarksWithAnalytics {
     marks: StudentMark[];
@@ -575,13 +579,19 @@ export const parentService = {
         return response.data;
     },
 
-    getDashboard: async (id: string | null) => {
-        const res = await parentApiClient.get(`/get-student-dashboard`, {
-            params: {
-                studentId: id,
-            },
-        });
-        return res?.data;
+    /**
+     * Get dashboard data for a specific student
+     */
+    getDashboard: async (studentId: string | null): Promise<DashboardData> => {
+        const response = await parentApiClient.get<DashboardResponse>(
+            '/get-student-dashboard',
+            {
+                params: {
+                    studentId,
+                },
+            }
+        );
+        return response.data.data || response.data;
     },
 
     /**

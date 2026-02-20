@@ -23,6 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-DESIGN_PATTERN.md
 *.md
+!DESIGN_PATTERN.md
 
