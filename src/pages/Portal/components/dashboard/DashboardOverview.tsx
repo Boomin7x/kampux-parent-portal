@@ -238,7 +238,7 @@ const processTermMarks = (periodMarks: PeriodMark[]): TermMark[] => {
     for (let i = 1; i <= 3; i++) {
         const termPeriodMarks =
             Array.from(termGroups.values()).find(
-                (marks, index) => index + 1 === i
+                (_, index) => index + 1 === i
             ) || [];
 
         // Calculate average from actual marks
