@@ -1,14 +1,11 @@
+/* eslint-disable react-hooks/set-state-in-render */
 import {
     AccountBalance as BillingIcon,
     Schedule as DueIcon,
-    Grade as GradeIcon,
     Assignment as MarksIcon,
     Person as PersonIcon,
     Refresh as RefreshIcon,
     School as SchoolIcon,
-    Remove as StableIcon,
-    TrendingDown as TrendingDownIcon,
-    TrendingUp as TrendingUpIcon,
 } from '@mui/icons-material';
 import {
     alpha,
@@ -477,7 +474,9 @@ const processFinancialSituation = (
 
     // Handle empty billing array - use registration data as fallback
     if (validBillings.length === 0) {
-        console.warn('No valid billing data found, falling back to registration data');
+        console.warn(
+            'No valid billing data found, falling back to registration data'
+        );
 
         const fallbackDueAmount = registration.dueAmount || 0;
 
@@ -486,12 +485,15 @@ const processFinancialSituation = (
             totalPaid: registration.amountPaid || 0,
             remainingToPay: registration.unpaidAmount || 0,
             amountDue: fallbackDueAmount,
-            nextPaymentDue: fallbackDueAmount > 0 ? {
-                amount: fallbackDueAmount,
-                dueDate: null,
-                description: 'Frais de scolarité',
-                isOverdue: false,
-            } : null,
+            nextPaymentDue:
+                fallbackDueAmount > 0
+                    ? {
+                          amount: fallbackDueAmount,
+                          dueDate: null,
+                          description: 'Frais de scolarité',
+                          isOverdue: false,
+                      }
+                    : null,
             paymentStatus: fallbackDueAmount <= 0 ? 'paid' : 'current',
         };
     }
@@ -552,7 +554,7 @@ const createDashboardDataFromRealData = (
             registration,
             periodMarks = [],
             annualMarks = [],
-            billings = [],
+            // billings = [],
         } = dashboardData;
 
         const studentIdentity = processStudentIdentity(registration);
@@ -698,35 +700,35 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         return formatDate(dateString);
     };
 
-    const getTrendIcon = (
-        trend: 'up' | 'down' | 'stable',
-        size: number = 16
-    ) => {
-        const iconProps = { fontSize: size };
+    // const getTrendIcon = (
+    //     trend: 'up' | 'down' | 'stable',
+    //     size: number = 16
+    // ) => {
+    //     const iconProps = { fontSize: size };
 
-        switch (trend) {
-            case 'up':
-                return (
-                    <TrendingUpIcon
-                        sx={{ ...iconProps, color: 'success.main' }}
-                    />
-                );
-            case 'down':
-                return (
-                    <TrendingDownIcon
-                        sx={{ ...iconProps, color: 'error.main' }}
-                    />
-                );
-            case 'stable':
-                return (
-                    <StableIcon
-                        sx={{ ...iconProps, color: 'text.secondary' }}
-                    />
-                );
-            default:
-                return null;
-        }
-    };
+    //     switch (trend) {
+    //         case 'up':
+    //             return (
+    //                 <TrendingUpIcon
+    //                     sx={{ ...iconProps, color: 'success.main' }}
+    //                 />
+    //             );
+    //         case 'down':
+    //             return (
+    //                 <TrendingDownIcon
+    //                     sx={{ ...iconProps, color: 'error.main' }}
+    //                 />
+    //             );
+    //         case 'stable':
+    //             return (
+    //                 <StableIcon
+    //                     sx={{ ...iconProps, color: 'text.secondary' }}
+    //                 />
+    //             );
+    //         default:
+    //             return null;
+    //     }
+    // };
 
     const getAverageColor = (average: number | null, maxMark: number = 20) => {
         if (!average) return 'text.secondary';
@@ -748,31 +750,31 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
     };
 
     // Utility functions for term marks
-    const getTermStatus = (
-        termNumber: number
-    ): 'completed' | 'pending' | 'not-started' => {
-        if (!dashboardData) return 'not-started';
-        const term = dashboardData.termMarks.find(t => t.term === termNumber);
-        return term?.status || 'not-started';
-    };
+    // const getTermStatus = (
+    //     termNumber: number
+    // ): 'completed' | 'pending' | 'not-started' => {
+    //     if (!dashboardData) return 'not-started';
+    //     const term = dashboardData.termMarks.find(t => t.term === termNumber);
+    //     return term?.status || 'not-started';
+    // };
 
-    const calculateTermAverage = (termMarks: SubjectMark[]): number | null => {
-        if (!termMarks.length) return null;
+    // const calculateTermAverage = (termMarks: SubjectMark[]): number | null => {
+    //     if (!termMarks.length) return null;
 
-        let totalWeightedSum = 0;
-        let totalCoefficients = 0;
+    //     let totalWeightedSum = 0;
+    //     let totalCoefficients = 0;
 
-        for (const subject of termMarks) {
-            if (subject.mark !== null) {
-                totalWeightedSum += subject.mark * subject.coefficient;
-                totalCoefficients += subject.coefficient;
-            }
-        }
+    //     for (const subject of termMarks) {
+    //         if (subject.mark !== null) {
+    //             totalWeightedSum += subject.mark * subject.coefficient;
+    //             totalCoefficients += subject.coefficient;
+    //         }
+    //     }
 
-        return totalCoefficients > 0
-            ? totalWeightedSum / totalCoefficients
-            : null;
-    };
+    //     return totalCoefficients > 0
+    //         ? totalWeightedSum / totalCoefficients
+    //         : null;
+    // };
 
     const isAnnualMarksReady = (): boolean => {
         return dashboardData?.completedTerms === 3 || false;
@@ -1683,13 +1685,27 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                                         mt: 3,
                                         p: 3,
                                         borderRadius: '4px',
-                                        backgroundColor: financialSituation.nextPaymentDue.isOverdue
-                                            ? alpha(theme.palette.error.main, 0.05)
-                                            : alpha(theme.palette.warning.main, 0.05),
+                                        backgroundColor: financialSituation
+                                            .nextPaymentDue.isOverdue
+                                            ? alpha(
+                                                  theme.palette.error.main,
+                                                  0.05
+                                              )
+                                            : alpha(
+                                                  theme.palette.warning.main,
+                                                  0.05
+                                              ),
                                         border: 1,
-                                        borderColor: financialSituation.nextPaymentDue.isOverdue
-                                            ? alpha(theme.palette.error.main, 0.3)
-                                            : alpha(theme.palette.warning.main, 0.3),
+                                        borderColor: financialSituation
+                                            .nextPaymentDue.isOverdue
+                                            ? alpha(
+                                                  theme.palette.error.main,
+                                                  0.3
+                                              )
+                                            : alpha(
+                                                  theme.palette.warning.main,
+                                                  0.3
+                                              ),
                                     }}
                                 >
                                     <Box
@@ -1702,46 +1718,70 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                                     >
                                         <DueIcon
                                             sx={{
-                                                color: financialSituation.nextPaymentDue.isOverdue
+                                                color: financialSituation
+                                                    .nextPaymentDue.isOverdue
                                                     ? 'error.main'
-                                                    : 'warning.main'
+                                                    : 'warning.main',
                                             }}
                                         />
                                         <Typography
                                             variant="h6"
                                             sx={{
                                                 fontWeight: 600,
-                                                color: financialSituation.nextPaymentDue.isOverdue
+                                                color: financialSituation
+                                                    .nextPaymentDue.isOverdue
                                                     ? 'error.main'
                                                     : 'warning.main',
                                             }}
                                         >
-                                            {financialSituation.nextPaymentDue.isOverdue
+                                            {financialSituation.nextPaymentDue
+                                                .isOverdue
                                                 ? 'Paiement en Retard'
                                                 : 'Prochaine Échéance'}
                                         </Typography>
                                     </Box>
-                                    <Grid container spacing={2} alignItems="center">
+                                    <Grid
+                                        container
+                                        spacing={2}
+                                        alignItems="center"
+                                    >
                                         <Grid size={{ xs: 12, md: 8 }}>
-                                            <Typography variant="body1" sx={{ mb: 1 }}>
-                                                {financialSituation.nextPaymentDue.description}
+                                            <Typography
+                                                variant="body1"
+                                                sx={{ mb: 1 }}
+                                            >
+                                                {
+                                                    financialSituation
+                                                        .nextPaymentDue
+                                                        .description
+                                                }
                                             </Typography>
                                             <Typography
                                                 variant="body2"
                                                 color="text.secondary"
                                             >
                                                 Échéance:{' '}
-                                                {financialSituation.nextPaymentDue.dueDate
+                                                {financialSituation
+                                                    .nextPaymentDue.dueDate
                                                     ? formatDate(
-                                                          financialSituation.nextPaymentDue.dueDate
+                                                          financialSituation
+                                                              .nextPaymentDue
+                                                              .dueDate
                                                       )
                                                     : 'Date non définie'}
-                                                {financialSituation.nextPaymentDue.isOverdue && (
+                                                {financialSituation
+                                                    .nextPaymentDue
+                                                    .isOverdue && (
                                                     <Chip
                                                         label="EN RETARD"
                                                         color="error"
                                                         size="small"
-                                                        sx={{ ml: 1, fontSize: '0.625rem', height: 20 }}
+                                                        sx={{
+                                                            ml: 1,
+                                                            fontSize:
+                                                                '0.625rem',
+                                                            height: 20,
+                                                        }}
                                                     />
                                                 )}
                                             </Typography>
@@ -1752,13 +1792,17 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                                                     variant="h5"
                                                     sx={{
                                                         fontWeight: 700,
-                                                        color: financialSituation.nextPaymentDue.isOverdue
+                                                        color: financialSituation
+                                                            .nextPaymentDue
+                                                            .isOverdue
                                                             ? 'error.main'
                                                             : 'warning.main',
                                                     }}
                                                 >
                                                     {formatCurrency(
-                                                        financialSituation.nextPaymentDue.amount
+                                                        financialSituation
+                                                            .nextPaymentDue
+                                                            .amount
                                                     )}
                                                 </Typography>
                                             </Box>
@@ -1800,7 +1844,8 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                                         variant="body2"
                                         color="text.secondary"
                                     >
-                                        Aucun montant en souffrance pour cet élève
+                                        Aucun montant en souffrance pour cet
+                                        élève
                                     </Typography>
                                 </Box>
                             )}
@@ -1837,8 +1882,9 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                                 Données financières non disponibles
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                                Les informations de facturation ne peuvent pas être
-                                chargées pour le moment. Veuillez réessayer plus tard.
+                                Les informations de facturation ne peuvent pas
+                                être chargées pour le moment. Veuillez réessayer
+                                plus tard.
                             </Typography>
                         </Box>
                     )}

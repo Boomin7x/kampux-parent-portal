@@ -1,5 +1,8 @@
 import { parentApiClient } from '../../../lib/axios';
-import type { DashboardData, DashboardResponse } from '../../../types/dashboard.types';
+import type {
+    DashboardData,
+    DashboardResponse,
+} from '../../../types/dashboard.types';
 
 // Types for Parent/Student APIs based on actual API response
 
