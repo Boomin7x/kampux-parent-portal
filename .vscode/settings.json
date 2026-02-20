@@ -1,6 +1,6 @@
 {
   // --- The "Vibe" Settings ---
-  "workbench.colorTheme": "Hot Dog Stand", // Or "Cyberpunk 2077" if you have it
+  "workbench.colorTheme": "Cyberpunk 2077", // Or "Cyberpunk 2077" if you have it
   "editor.fontSize": 14,                   // Boldly large
   "editor.fontFamily": "'Comic Sans MS', 'Comic Mono', 'Courier New'", // The ultimate test of friendship
   

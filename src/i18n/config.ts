@@ -71,14 +71,15 @@ i18n.use(LanguageDetector)
         },
 
         ns: [
-            'academic',
-            'attendance',
-            'layout',
-            'billing',
-            'student',
+            'common',
+            'landing',
+            'auth',
             'portal',
+            'layout',
+            'student',
             'complaints',
-        ],
+            'dashboard',
+        ], // Add namespaces here
         defaultNS: 'academic',
     });
 

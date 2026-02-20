@@ -18,10 +18,12 @@ import {
     Grid,
     IconButton,
     LinearProgress,
+    Stack,
     Typography,
     useTheme,
 } from '@mui/material';
 import React, { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import type {
     AnnualMark,
     DashboardBilling,
@@ -607,11 +609,140 @@ const createDashboardDataFromRealData = (
     }
 };
 
+const StudentIdCard: React.FC<{ student: StudentIdentity }> = ({ student }) => {
+    const theme = useTheme();
+    const { t } = useTranslation('dashboard');
+
+    return (
+        <Box
+            sx={{
+                p: { xs: 2, sm: 3 },
+                borderRadius: 3,
+                position: 'relative',
+                overflow: 'hidden',
+                background: `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
+                color: 'white',
+                boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.18)',
+            }}
+        >
+            <Box
+                sx={{
+                    position: 'absolute',
+                    top: -50,
+                    right: -50,
+                    width: 150,
+                    height: 150,
+                    borderRadius: '50%',
+                    background: alpha(theme.palette.common.white, 0.1),
+                }}
+            />
+            <Box
+                sx={{
+                    position: 'absolute',
+                    bottom: -80,
+                    left: -30,
+                    width: 200,
+                    height: 200,
+                    borderRadius: '50%',
+                    background: alpha(theme.palette.common.white, 0.05),
+                }}
+            />
+
+            <Grid container spacing={{ xs: 2, sm: 3 }} alignItems="center">
+                <Grid size={{ xs: 12, sm: 4 }} sx={{ textAlign: 'center' }}>
+                    <Avatar
+                        src={student.photo || undefined}
+                        sx={{
+                            width: { xs: 80, sm: 100 },
+                            height: { xs: 80, sm: 100 },
+                            margin: '0 auto 16px',
+                            border: `4px solid ${theme.palette.common.white}`,
+                            boxShadow: '0 4px 12px 0 rgba(0,0,0,0.2)',
+                        }}
+                    >
+                        <PersonIcon sx={{ fontSize: { xs: 40, sm: 60 } }} />
+                    </Avatar>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            fontWeight: 600,
+                            fontSize: { xs: '1.2rem', sm: '1.5rem' },
+                        }}
+                    >
+                        {student.fullName}
+                    </Typography>
+                    <Chip
+                        label={t('studentIdentity.activeStudent')}
+                        size="small"
+                        sx={{
+                            mt: 1,
+                            backgroundColor: alpha(
+                                theme.palette.common.white,
+                                0.25
+                            ),
+                            color: 'white',
+                            fontWeight: 600,
+                        }}
+                    />
+                </Grid>
+
+                <Grid size={{ xs: 12, sm: 8 }}>
+                    <Stack spacing={2}>
+                        <Box>
+                            <Typography
+                                variant="caption"
+                                sx={{
+                                    opacity: 0.8,
+                                    textTransform: 'uppercase',
+                                }}
+                            >
+                                {t('studentIdentity.class')}
+                            </Typography>
+                            <Typography variant="h6" sx={{ fontWeight: 500 }}>
+                                {student.className}
+                            </Typography>
+                        </Box>
+                        <Box>
+                            <Typography
+                                variant="caption"
+                                sx={{
+                                    opacity: 0.8,
+                                    textTransform: 'uppercase',
+                                }}
+                            >
+                                {t('studentIdentity.studentId')}
+                            </Typography>
+                            <Typography variant="h6" sx={{ fontWeight: 500 }}>
+                                {student.studentId}
+                            </Typography>
+                        </Box>
+                        <Box>
+                            <Typography
+                                variant="caption"
+                                sx={{
+                                    opacity: 0.8,
+                                    textTransform: 'uppercase',
+                                }}
+                            >
+                                {t('studentIdentity.schoolYear')}
+                            </Typography>
+                            <Typography variant="h6" sx={{ fontWeight: 500 }}>
+                                {student.currentSchoolYear}
+                            </Typography>
+                        </Box>
+                    </Stack>
+                </Grid>
+            </Grid>
+        </Box>
+    );
+};
+
 export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
     selectedStudent,
     className = '',
 }) => {
     const theme = useTheme();
+    const { t } = useTranslation(['dashboard', 'common']);
     const {
         data,
         isLoading: isDataLoading,
@@ -620,7 +751,6 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
     const [error, setError] = useState<string | null>(null);
 
     // Process dashboard data using useMemo for performance optimization
-    // This memoization prevents expensive recalculations on every render
     const dashboardData = useMemo(() => {
         if (!selectedStudent || !data) return null;
 
@@ -637,8 +767,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         }
     }, [selectedStudent, data]);
 
-    // Memoize financial situation calculations separately for better granular caching
-    // This prevents recalculating financial data when other dashboard data changes
+    // Memoize financial situation calculations separately
     const financialSituation = useMemo(() => {
         if (!data?.registration || !data?.billings) return null;
 
@@ -650,10 +779,8 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         }
     }, [data?.registration, data?.billings]);
 
-    // Combine loading states
     const isLoading = isDataLoading;
 
-    // Handle data error
     useEffect(() => {
         if (dataError) {
             setError(
@@ -666,15 +793,13 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         }
     }, [dataError]);
 
-    // Compute final error state
     const finalError =
         error || (dataError ? 'Failed to load dashboard data' : null);
 
-    // Utility functions for formatting
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('fr-FR', {
             style: 'currency',
-            currency: 'XOF', // West African CFA franc - adjust as needed
+            currency: 'XOF',
             minimumFractionDigits: 0,
         }).format(amount);
     };
@@ -700,36 +825,6 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         return formatDate(dateString);
     };
 
-    // const getTrendIcon = (
-    //     trend: 'up' | 'down' | 'stable',
-    //     size: number = 16
-    // ) => {
-    //     const iconProps = { fontSize: size };
-
-    //     switch (trend) {
-    //         case 'up':
-    //             return (
-    //                 <TrendingUpIcon
-    //                     sx={{ ...iconProps, color: 'success.main' }}
-    //                 />
-    //             );
-    //         case 'down':
-    //             return (
-    //                 <TrendingDownIcon
-    //                     sx={{ ...iconProps, color: 'error.main' }}
-    //                 />
-    //             );
-    //         case 'stable':
-    //             return (
-    //                 <StableIcon
-    //                     sx={{ ...iconProps, color: 'text.secondary' }}
-    //                 />
-    //             );
-    //         default:
-    //             return null;
-    //     }
-    // };
-
     const getAverageColor = (average: number | null, maxMark: number = 20) => {
         if (!average) return 'text.secondary';
         const percentage = (average / maxMark) * 100;
@@ -748,33 +843,6 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                 return 'warning.main';
         }
     };
-
-    // Utility functions for term marks
-    // const getTermStatus = (
-    //     termNumber: number
-    // ): 'completed' | 'pending' | 'not-started' => {
-    //     if (!dashboardData) return 'not-started';
-    //     const term = dashboardData.termMarks.find(t => t.term === termNumber);
-    //     return term?.status || 'not-started';
-    // };
-
-    // const calculateTermAverage = (termMarks: SubjectMark[]): number | null => {
-    //     if (!termMarks.length) return null;
-
-    //     let totalWeightedSum = 0;
-    //     let totalCoefficients = 0;
-
-    //     for (const subject of termMarks) {
-    //         if (subject.mark !== null) {
-    //             totalWeightedSum += subject.mark * subject.coefficient;
-    //             totalCoefficients += subject.coefficient;
-    //         }
-    //     }
-
-    //     return totalCoefficients > 0
-    //         ? totalWeightedSum / totalCoefficients
-    //         : null;
-    // };
 
     const isAnnualMarksReady = (): boolean => {
         return dashboardData?.completedTerms === 3 || false;
@@ -972,7 +1040,6 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
             className={className}
             sx={{ px: { xs: 2, md: 3 } }}
         >
-            {/* 1. IDENTITÉ RAPIDE DE L'ÉLÈVE - Hero Section */}
             <Card
                 sx={{
                     mb: 3,
@@ -986,7 +1053,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                     overflow: 'hidden',
                 }}
             >
-                <CardContent sx={{ p: { xs: 3, md: 4 } }}>
+                <CardContent sx={{ p: { xs: 2, md: 3 } }}>
                     <Box
                         sx={{
                             display: 'flex',
@@ -999,15 +1066,11 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                             variant="h5"
                             sx={{
                                 fontWeight: 600,
-                                background:
-                                    'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                                backgroundClip: 'text',
-                                WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent',
+                                color: 'primary.dark',
                                 fontSize: { xs: '1.25rem', md: '1.5rem' },
                             }}
                         >
-                            Identité de l'Élève
+                            {t('studentIdentity.title')}
                         </Typography>
                         <IconButton
                             size="small"
@@ -1029,160 +1092,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                             />
                         </IconButton>
                     </Box>
-
-                    <Grid container spacing={3} alignItems="center">
-                        <Grid size={{ xs: 12, md: 4 }}>
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    flexDirection: { xs: 'row', md: 'column' },
-                                    alignItems: 'center',
-                                    gap: 2,
-                                    textAlign: { xs: 'left', md: 'center' },
-                                }}
-                            >
-                                <Avatar
-                                    src={
-                                        dashboardData.studentIdentity.photo ||
-                                        undefined
-                                    }
-                                    sx={{
-                                        width: { xs: 80, md: 120 },
-                                        height: { xs: 80, md: 120 },
-                                        border: 4,
-                                        borderColor: 'primary.main',
-                                        boxShadow: 3,
-                                    }}
-                                >
-                                    <PersonIcon
-                                        sx={{ fontSize: { xs: 40, md: 60 } }}
-                                    />
-                                </Avatar>
-                                <Box sx={{ flex: { xs: 1, md: 'none' } }}>
-                                    <Typography
-                                        variant="h4"
-                                        sx={{
-                                            fontWeight: 700,
-                                            mb: 1,
-                                            fontSize: {
-                                                xs: '1.5rem',
-                                                md: '2rem',
-                                            },
-                                        }}
-                                    >
-                                        {dashboardData.studentIdentity.fullName}
-                                    </Typography>
-                                    <Chip
-                                        label="Élève Actif"
-                                        color="success"
-                                        size="small"
-                                        sx={{ fontWeight: 600 }}
-                                    />
-                                </Box>
-                            </Box>
-                        </Grid>
-
-                        <Grid size={{ xs: 12, md: 8 }}>
-                            <Grid container spacing={2}>
-                                <Grid size={{ xs: 12, sm: 6 }}>
-                                    <Box
-                                        sx={{
-                                            p: 2,
-                                            borderRadius: '4px',
-                                            backgroundColor: alpha(
-                                                theme.palette.primary.main,
-                                                0.05
-                                            ),
-                                            border: 1,
-                                            borderColor: alpha(
-                                                theme.palette.primary.main,
-                                                0.2
-                                            ),
-                                        }}
-                                    >
-                                        <Typography
-                                            variant="body2"
-                                            color="text.secondary"
-                                            sx={{ mb: 0.5 }}
-                                        >
-                                            Classe
-                                        </Typography>
-                                        <Typography
-                                            variant="h6"
-                                            sx={{ fontWeight: 600 }}
-                                        >
-                                            {
-                                                dashboardData.studentIdentity
-                                                    .className
-                                            }
-                                        </Typography>
-                                    </Box>
-                                </Grid>
-                                <Grid size={{ xs: 12, sm: 6 }}>
-                                    <Box
-                                        sx={{
-                                            p: 2,
-                                            borderRadius: '4px',
-                                            backgroundColor: alpha(
-                                                theme.palette.secondary.main,
-                                                0.05
-                                            ),
-                                            border: 1,
-                                            borderColor: 'grey.200',
-                                        }}
-                                    >
-                                        <Typography
-                                            variant="body2"
-                                            color="text.secondary"
-                                            sx={{ mb: 0.5 }}
-                                        >
-                                            Matricule
-                                        </Typography>
-                                        <Typography
-                                            variant="h6"
-                                            sx={{ fontWeight: 600 }}
-                                        >
-                                            {
-                                                dashboardData.studentIdentity
-                                                    .studentId
-                                            }
-                                        </Typography>
-                                    </Box>
-                                </Grid>
-                                <Grid size={{ xs: 12 }}>
-                                    <Box
-                                        sx={{
-                                            p: 2,
-                                            borderRadius: '4px',
-                                            backgroundColor: alpha(
-                                                theme.palette.info.main,
-                                                0.05
-                                            ),
-                                            border: 1,
-                                            borderColor: alpha(
-                                                theme.palette.info.main,
-                                                0.2
-                                            ),
-                                        }}
-                                    >
-                                        <Typography
-                                            variant="body2"
-                                            color="text.secondary"
-                                            sx={{ mb: 0.5 }}
-                                        >
-                                            Année Scolaire en Cours
-                                        </Typography>
-                                        <Typography
-                                            variant="h6"
-                                            sx={{ fontWeight: 600 }}
-                                        >
-                                            {dashboardData.schoolYear.name}
-                                        </Typography>
-                                    </Box>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </Grid>
+                    <StudentIdCard student={dashboardData.studentIdentity} />
                 </CardContent>
             </Card>
 

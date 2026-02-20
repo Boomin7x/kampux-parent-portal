@@ -1,0 +1,9 @@
+{
+  "studentIdentity": {
+    "title": "Student Identity",
+    "activeStudent": "Active Student",
+    "class": "Class",
+    "studentId": "Student ID",
+    "schoolYear": "Current School Year"
+  }
+}
