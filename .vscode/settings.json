@@ -1,0 +1,58 @@
+{
+  // --- The "Vibe" Settings ---
+  "workbench.colorTheme": "Hot Dog Stand", // Or "Cyberpunk 2077" if you have it
+  "editor.fontSize": 14,                   // Boldly large
+  "editor.fontFamily": "'Comic Sans MS', 'Comic Mono', 'Courier New'", // The ultimate test of friendship
+  
+  // --- Power Mode (The Chaos) ---
+// --- Power Mode (Pure Chaos, No Math) ---
+  "powermode.enabled": false,
+  "powermode.presets": "magic",
+  "powermode.shake.intensity": 5,
+  "powermode.combo.threshold": 0,
+   
+  // This is the specific setting to hide the numbers:
+  "powermode.enableComboVisualizer": false, 
+  "powermode.combo.counterEnabled": "hide",
+  
+  "powermode.enableExplosions": true,
+  "powermode.maxExplosions": 10,
+  "powermode.explosions.explosionOrder": "random",     // Makes the screen physically shake when you type
+  
+  // --- Strict Enforcement ---
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always"
+  },
+  
+  // --- Custom UI Colors ---
+ "workbench.colorCustomizations": {
+    // --- The Core Workspace ---
+    "editor.background": "#121212",            // Deep matte black
+    "sideBar.background": "#181818",           // Subtle separation
+    "sideBar.border": "#2d2d2d",
+    "editorGroupHeader.tabsBackground": "#181818",
+    
+    // --- The "Gold" Accents ---
+    "activityBar.background": "#121212",
+    "activityBar.foreground": "#d4af37",       // Metallic Gold
+    "activityBarBadge.background": "#d4af37",
+    "activityBarBadge.foreground": "#000000",
+    
+    // --- Status Bar (The Foundation) ---
+    "statusBar.background": "#d4af37",         // Gold bar for visibility
+    "statusBar.foreground": "#121212",         // High contrast text
+    "statusBarItem.hoverBackground": "#b8860b",
+    
+    // --- Tabs and Selection ---
+    "tab.activeBackground": "#1e1e1e",
+    "tab.activeForeground": "#d4af37",
+    "tab.activeBorderTop": "#d4af37",
+    "editor.selectionBackground": "#d4af3733", // Semi-transparent gold
+    "editor.lineHighlightBackground": "#1a1a1a",
+    
+    // --- Git and Feedback ---
+    "gitDecoration.modifiedResourceForeground": "#d4af37",
+    "focusBorder": "#d4af37"
+  }
+}
