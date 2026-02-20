@@ -17,6 +17,7 @@ function App() {
                 <LanguageProvider>
                     <CssBaseline />
                     <RouterProvider router={router} />
+
                     <Toaster
                         position="top-center"
                         expand={true}

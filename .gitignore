@@ -23,6 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 
-*.md
-!DESIGN_PATTERN.md
+# *.md
+# DESIGN_PATTERN.md
+# .claude
 

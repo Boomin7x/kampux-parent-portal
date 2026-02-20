@@ -3,6 +3,9 @@
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
     "bradlc.vscode-tailwindcss",
-    "ms-vscode.vscode-typescript-next"
+    "ms-vscode.vscode-typescript-next",
+    "hoovercj.vscode-power-mode", // The crown jewel: shaking screens and explosions
+    "tonybaloney.vscode-pets",    // Because everyone needs a cat on their sidebar
+    "swyher.pesticide"
   ]
 }
