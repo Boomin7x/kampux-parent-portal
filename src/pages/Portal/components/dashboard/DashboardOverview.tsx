@@ -6,10 +6,23 @@ import {
     Person as PersonIcon,
     Refresh as RefreshIcon,
     School as SchoolIcon,
+    Cake as BirthdayIcon,
+    Wc as GenderIcon,
+    Flag as NationalityIcon,
+    MenuBook as StudyIcon,
+    Language as LanguageIcon,
+    Layers as LevelIcon,
+    Place as PlaceIcon,
+    Bloodtype as BloodIcon,
+    Phone as PhoneIcon,
+    Email as EmailIcon,
+    SupervisorAccount as ParentIcon,
+    DirectionsBus as BusIcon,
+    Restaurant as LunchIcon,
+    Class as ClassIcon,
 } from '@mui/icons-material';
 import {
     alpha,
-    Avatar,
     Box,
     Card,
     CardContent,
@@ -43,6 +56,15 @@ interface DashboardOverviewProps {
 }
 
 /**
+ * Parent/Guardian Contact Information
+ */
+interface ParentContact {
+    name: string;
+    phone: string | null;
+    email: string | null;
+}
+
+/**
  * Student Identity Information - Primary focus section
  */
 interface StudentIdentity {
@@ -53,6 +75,29 @@ interface StudentIdentity {
     className: string;
     studentId: string;
     currentSchoolYear: string;
+    // Personal Information
+    birthDate: string | null;
+    age: number | null;
+    birthPlace: string | null;
+    gender: string | null;
+    nationality: string | null;
+    bloodType: string | null;
+    rhesusFactor: string | null;
+    // Academic Details
+    studySection: string | null;
+    studyLanguage: string | null;
+    studyLevel: string | null;
+    studyType: string | null;
+    teacherName: string | null;
+    isRepeater: boolean | null;
+    isOldStudent: boolean | null;
+    // Parent/Guardian Information
+    father: ParentContact | null;
+    mother: ParentContact | null;
+    tutor: ParentContact | null;
+    // School Services
+    arriveOrGoesByBus: boolean | null;
+    takeBrunch: boolean | null;
 }
 
 /**
@@ -145,6 +190,28 @@ interface EnhancedDashboardData {
 }
 
 /**
+ * Calculate age from birth date
+ */
+const calculateAge = (birthDate: string): number | null => {
+    if (!birthDate) return null;
+    try {
+        const birth = new Date(birthDate);
+        const today = new Date();
+        let age = today.getFullYear() - birth.getFullYear();
+        const monthDiff = today.getMonth() - birth.getMonth();
+        if (
+            monthDiff < 0 ||
+            (monthDiff === 0 && today.getDate() < birth.getDate())
+        ) {
+            age--;
+        }
+        return age;
+    } catch {
+        return null;
+    }
+};
+
+/**
  * Process student identity from registration data
  */
 const processStudentIdentity = (
@@ -153,6 +220,38 @@ const processStudentIdentity = (
     if (!registration) {
         throw new Error('Registration data is required');
     }
+
+    const birthDate = registration.birthDate || registration.dateOfBirth;
+
+    // Process father information
+    const father: ParentContact | null =
+        registration.fatherFirstName || registration.fatherLastName
+            ? {
+                  name: `${registration.fatherFirstName || ''} ${registration.fatherLastName || ''}`.trim(),
+                  phone: registration.fatherPortable1 || null,
+                  email: registration.fatherEmail1 || null,
+              }
+            : null;
+
+    // Process mother information
+    const mother: ParentContact | null =
+        registration.motherFirstName || registration.motherLastName
+            ? {
+                  name: `${registration.motherFirstName || ''} ${registration.motherLastName || ''}`.trim(),
+                  phone: registration.motherPortable1 || null,
+                  email: registration.motherEmail1 || null,
+              }
+            : null;
+
+    // Process tutor information
+    const tutor: ParentContact | null =
+        registration.tutorFirstName || registration.tutorLastName
+            ? {
+                  name: `${registration.tutorFirstName || ''} ${registration.tutorLastName || ''}`.trim(),
+                  phone: registration.tutorPortable1 || null,
+                  email: registration.tutorEmail1 || null,
+              }
+            : null;
 
     return {
         photo: registration.base64Picture || registration.picturePath || null,
@@ -165,6 +264,29 @@ const processStudentIdentity = (
         currentSchoolYear:
             registration.schoolYearName ||
             `${new Date().getFullYear()}-${new Date().getFullYear() + 1}`,
+        // Personal Information
+        birthDate: birthDate || null,
+        age: birthDate ? calculateAge(birthDate) : null,
+        birthPlace: registration.birthPlace || null,
+        gender: registration.gender || null,
+        nationality: registration.nationality || null,
+        bloodType: registration.bloodType || null,
+        rhesusFactor: registration.rhesusFactor || null,
+        // Academic Details
+        studySection: registration.studySection || null,
+        studyLanguage: registration.studyLanguage || null,
+        studyLevel: registration.studyLevel || null,
+        studyType: registration.studyType || null,
+        teacherName: registration.fullTeacherFullName || null,
+        isRepeater: registration.isRepeater || null,
+        isOldStudent: registration.isOldStudent || null,
+        // Parent/Guardian Information
+        father,
+        mother,
+        tutor,
+        // School Services
+        arriveOrGoesByBus: registration.arriveOrGoesByBus || null,
+        takeBrunch: registration.takeBrunch || null,
     };
 };
 
@@ -609,127 +731,497 @@ const createDashboardDataFromRealData = (
     }
 };
 
+/**
+ * Modern Student Identity Card - Prominent Photo Display
+ */
 const StudentIdCard: React.FC<{ student: StudentIdentity }> = ({ student }) => {
     const theme = useTheme();
     const { t } = useTranslation('dashboard');
 
+    /**
+     * Format date to locale string
+     */
+    const formatDateDisplay = (dateString: string): string => {
+        try {
+            return new Intl.DateTimeFormat('fr-FR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+            }).format(new Date(dateString));
+        } catch {
+            return dateString;
+        }
+    };
+
     return (
         <Box
             sx={{
-                p: { xs: 2, sm: 3 },
-                borderRadius: 3,
-                position: 'relative',
-                overflow: 'hidden',
+                p: 2,
+                borderRadius: 1,
                 background: `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
                 color: 'white',
-                boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.18)',
+                border: '1px solid',
+                borderColor: alpha(theme.palette.primary.dark, 0.2),
             }}
         >
-            <Box
-                sx={{
-                    position: 'absolute',
-                    top: -50,
-                    right: -50,
-                    width: 150,
-                    height: 150,
-                    borderRadius: '50%',
-                    background: alpha(theme.palette.common.white, 0.1),
-                }}
-            />
-            <Box
-                sx={{
-                    position: 'absolute',
-                    bottom: -80,
-                    left: -30,
-                    width: 200,
-                    height: 200,
-                    borderRadius: '50%',
-                    background: alpha(theme.palette.common.white, 0.05),
-                }}
-            />
-
-            <Grid container spacing={{ xs: 2, sm: 3 }} alignItems="center">
-                <Grid size={{ xs: 12, sm: 4 }} sx={{ textAlign: 'center' }}>
-                    <Avatar
-                        src={student.photo || undefined}
+            <Grid container spacing={2}>
+                {/* Large Student Photo Section */}
+                <Grid size={{ xs: 12, sm: 4, md: 3 }}>
+                    <Box
                         sx={{
-                            width: { xs: 80, sm: 100 },
-                            height: { xs: 80, sm: 100 },
-                            margin: '0 auto 16px',
-                            border: `4px solid ${theme.palette.common.white}`,
-                            boxShadow: '0 4px 12px 0 rgba(0,0,0,0.2)',
-                        }}
-                    >
-                        <PersonIcon sx={{ fontSize: { xs: 40, sm: 60 } }} />
-                    </Avatar>
-                    <Typography
-                        variant="h5"
-                        sx={{
-                            fontWeight: 600,
-                            fontSize: { xs: '1.2rem', sm: '1.5rem' },
-                        }}
-                    >
-                        {student.fullName}
-                    </Typography>
-                    <Chip
-                        label={t('studentIdentity.activeStudent')}
-                        size="small"
-                        sx={{
-                            mt: 1,
+                            width: '100%',
+                            paddingTop: '120%',
+                            position: 'relative',
+                            borderRadius: 1,
+                            overflow: 'hidden',
+                            border: `3px solid ${alpha(theme.palette.common.white, 0.3)}`,
                             backgroundColor: alpha(
                                 theme.palette.common.white,
-                                0.25
+                                0.1
                             ),
-                            color: 'white',
-                            fontWeight: 600,
                         }}
-                    />
+                    >
+                        {student.photo ? (
+                            <Box
+                                component="img"
+                                src={student.photo}
+                                alt={student.fullName}
+                                sx={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'cover',
+                                }}
+                            />
+                        ) : (
+                            <Box
+                                sx={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    width: '100%',
+                                    height: '100%',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    backgroundColor: alpha(
+                                        theme.palette.common.white,
+                                        0.15
+                                    ),
+                                }}
+                            >
+                                <PersonIcon
+                                    sx={{
+                                        fontSize: 80,
+                                        color: alpha(
+                                            theme.palette.common.white,
+                                            0.6
+                                        ),
+                                    }}
+                                />
+                            </Box>
+                        )}
+                    </Box>
                 </Grid>
 
-                <Grid size={{ xs: 12, sm: 8 }}>
+                {/* Student Information Section */}
+                <Grid size={{ xs: 12, sm: 8, md: 9 }}>
                     <Stack spacing={2}>
+                        {/* Student Name and Status */}
                         <Box>
                             <Typography
-                                variant="caption"
+                                variant="h5"
                                 sx={{
-                                    opacity: 0.8,
-                                    textTransform: 'uppercase',
+                                    fontWeight: 700,
+                                    lineHeight: 1.2,
+                                    mb: 0.5,
                                 }}
                             >
-                                {t('studentIdentity.class')}
+                                {student.fullName}
                             </Typography>
-                            <Typography variant="h6" sx={{ fontWeight: 500 }}>
-                                {student.className}
-                            </Typography>
+                            <Stack
+                                direction="row"
+                                spacing={0.5}
+                                flexWrap="wrap"
+                            >
+                                <Chip
+                                    label={t('studentIdentity.activeStudent')}
+                                    size="small"
+                                    sx={{
+                                        height: 22,
+                                        backgroundColor: alpha(
+                                            theme.palette.common.white,
+                                            0.25
+                                        ),
+                                        color: 'white',
+                                        fontSize: '0.75rem',
+                                        fontWeight: 600,
+                                    }}
+                                />
+                                {student.isRepeater && (
+                                    <Chip
+                                        label="Redoublant"
+                                        size="small"
+                                        sx={{
+                                            height: 22,
+                                            backgroundColor: alpha(
+                                                theme.palette.warning.main,
+                                                0.9
+                                            ),
+                                            color: 'white',
+                                            fontSize: '0.75rem',
+                                            fontWeight: 600,
+                                        }}
+                                    />
+                                )}
+                                {student.isOldStudent && (
+                                    <Chip
+                                        label="Ancien élève"
+                                        size="small"
+                                        sx={{
+                                            height: 22,
+                                            backgroundColor: alpha(
+                                                theme.palette.info.main,
+                                                0.9
+                                            ),
+                                            color: 'white',
+                                            fontSize: '0.75rem',
+                                            fontWeight: 600,
+                                        }}
+                                    />
+                                )}
+                            </Stack>
                         </Box>
-                        <Box>
-                            <Typography
-                                variant="caption"
+
+                        {/* Student Details Grid - Basic Info */}
+                        <Grid container spacing={1.5}>
+                            <Grid size={{ xs: 6, md: 4 }}>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 0.5,
+                                    }}
+                                >
+                                    <SchoolIcon
+                                        sx={{ fontSize: 14, opacity: 0.8 }}
+                                    />
+                                    <Typography
+                                        variant="caption"
+                                        sx={{ opacity: 0.8, display: 'block' }}
+                                    >
+                                        {t('studentIdentity.class')}
+                                    </Typography>
+                                </Box>
+                                <Typography
+                                    variant="subtitle2"
+                                    sx={{ fontWeight: 600, lineHeight: 1.3 }}
+                                >
+                                    {student.className}
+                                </Typography>
+                            </Grid>
+                            <Grid size={{ xs: 6, md: 4 }}>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 0.5,
+                                    }}
+                                >
+                                    <PersonIcon
+                                        sx={{ fontSize: 14, opacity: 0.8 }}
+                                    />
+                                    <Typography
+                                        variant="caption"
+                                        sx={{ opacity: 0.8, display: 'block' }}
+                                    >
+                                        {t('studentIdentity.studentId')}
+                                    </Typography>
+                                </Box>
+                                <Typography
+                                    variant="subtitle2"
+                                    sx={{ fontWeight: 600, lineHeight: 1.3 }}
+                                >
+                                    {student.studentId}
+                                </Typography>
+                            </Grid>
+                            <Grid size={{ xs: 12, md: 4 }}>
+                                <Typography
+                                    variant="caption"
+                                    sx={{ opacity: 0.8, display: 'block' }}
+                                >
+                                    {t('studentIdentity.schoolYear')}
+                                </Typography>
+                                <Typography
+                                    variant="subtitle2"
+                                    sx={{ fontWeight: 600, lineHeight: 1.3 }}
+                                >
+                                    {student.currentSchoolYear}
+                                </Typography>
+                            </Grid>
+                        </Grid>
+
+                        {/* Personal Information Section */}
+                        <Box
+                            sx={{
+                                pt: 1.5,
+                                borderTop: `1px solid ${alpha(theme.palette.common.white, 0.2)}`,
+                            }}
+                        >
+                            <Grid container spacing={1.5}>
+                                {student.birthDate && (
+                                    <Grid size={{ xs: 6, md: 4 }}>
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: 0.5,
+                                            }}
+                                        >
+                                            <BirthdayIcon
+                                                sx={{
+                                                    fontSize: 14,
+                                                    opacity: 0.8,
+                                                }}
+                                            />
+                                            <Typography
+                                                variant="caption"
+                                                sx={{
+                                                    opacity: 0.8,
+                                                    display: 'block',
+                                                }}
+                                            >
+                                                Date de naissance
+                                            </Typography>
+                                        </Box>
+                                        <Typography
+                                            variant="subtitle2"
+                                            sx={{
+                                                fontWeight: 600,
+                                                lineHeight: 1.3,
+                                            }}
+                                        >
+                                            {formatDateDisplay(
+                                                student.birthDate
+                                            )}
+                                            {student.age !== null && (
+                                                <Typography
+                                                    component="span"
+                                                    variant="caption"
+                                                    sx={{
+                                                        ml: 0.5,
+                                                        opacity: 0.8,
+                                                    }}
+                                                >
+                                                    ({student.age} ans)
+                                                </Typography>
+                                            )}
+                                        </Typography>
+                                    </Grid>
+                                )}
+
+                                {student.gender && (
+                                    <Grid size={{ xs: 6, md: 4 }}>
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: 0.5,
+                                            }}
+                                        >
+                                            <GenderIcon
+                                                sx={{
+                                                    fontSize: 14,
+                                                    opacity: 0.8,
+                                                }}
+                                            />
+                                            <Typography
+                                                variant="caption"
+                                                sx={{
+                                                    opacity: 0.8,
+                                                    display: 'block',
+                                                }}
+                                            >
+                                                Genre
+                                            </Typography>
+                                        </Box>
+                                        <Typography
+                                            variant="subtitle2"
+                                            sx={{
+                                                fontWeight: 600,
+                                                lineHeight: 1.3,
+                                            }}
+                                        >
+                                            {student.gender}
+                                        </Typography>
+                                    </Grid>
+                                )}
+
+                                {student.nationality && (
+                                    <Grid size={{ xs: 12, md: 4 }}>
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: 0.5,
+                                            }}
+                                        >
+                                            <NationalityIcon
+                                                sx={{
+                                                    fontSize: 14,
+                                                    opacity: 0.8,
+                                                }}
+                                            />
+                                            <Typography
+                                                variant="caption"
+                                                sx={{
+                                                    opacity: 0.8,
+                                                    display: 'block',
+                                                }}
+                                            >
+                                                Nationalité
+                                            </Typography>
+                                        </Box>
+                                        <Typography
+                                            variant="subtitle2"
+                                            sx={{
+                                                fontWeight: 600,
+                                                lineHeight: 1.3,
+                                            }}
+                                        >
+                                            {student.nationality}
+                                        </Typography>
+                                    </Grid>
+                                )}
+                            </Grid>
+                        </Box>
+
+                        {/* Academic Details Section */}
+                        {(student.studySection ||
+                            student.studyLanguage ||
+                            student.studyLevel) && (
+                            <Box
                                 sx={{
-                                    opacity: 0.8,
-                                    textTransform: 'uppercase',
+                                    pt: 1.5,
+                                    borderTop: `1px solid ${alpha(theme.palette.common.white, 0.2)}`,
                                 }}
                             >
-                                {t('studentIdentity.studentId')}
-                            </Typography>
-                            <Typography variant="h6" sx={{ fontWeight: 500 }}>
-                                {student.studentId}
-                            </Typography>
-                        </Box>
-                        <Box>
-                            <Typography
-                                variant="caption"
-                                sx={{
-                                    opacity: 0.8,
-                                    textTransform: 'uppercase',
-                                }}
-                            >
-                                {t('studentIdentity.schoolYear')}
-                            </Typography>
-                            <Typography variant="h6" sx={{ fontWeight: 500 }}>
-                                {student.currentSchoolYear}
-                            </Typography>
-                        </Box>
+                                <Grid container spacing={1.5}>
+                                    {student.studySection && (
+                                        <Grid size={{ xs: 6, md: 4 }}>
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: 0.5,
+                                                }}
+                                            >
+                                                <StudyIcon
+                                                    sx={{
+                                                        fontSize: 14,
+                                                        opacity: 0.8,
+                                                    }}
+                                                />
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                        opacity: 0.8,
+                                                        display: 'block',
+                                                    }}
+                                                >
+                                                    Section
+                                                </Typography>
+                                            </Box>
+                                            <Typography
+                                                variant="subtitle2"
+                                                sx={{
+                                                    fontWeight: 600,
+                                                    lineHeight: 1.3,
+                                                }}
+                                            >
+                                                {student.studySection}
+                                            </Typography>
+                                        </Grid>
+                                    )}
+
+                                    {student.studyLanguage && (
+                                        <Grid size={{ xs: 6, md: 4 }}>
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: 0.5,
+                                                }}
+                                            >
+                                                <LanguageIcon
+                                                    sx={{
+                                                        fontSize: 14,
+                                                        opacity: 0.8,
+                                                    }}
+                                                />
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                        opacity: 0.8,
+                                                        display: 'block',
+                                                    }}
+                                                >
+                                                    Langue
+                                                </Typography>
+                                            </Box>
+                                            <Typography
+                                                variant="subtitle2"
+                                                sx={{
+                                                    fontWeight: 600,
+                                                    lineHeight: 1.3,
+                                                }}
+                                            >
+                                                {student.studyLanguage}
+                                            </Typography>
+                                        </Grid>
+                                    )}
+
+                                    {student.studyLevel && (
+                                        <Grid size={{ xs: 12, md: 4 }}>
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: 0.5,
+                                                }}
+                                            >
+                                                <LevelIcon
+                                                    sx={{
+                                                        fontSize: 14,
+                                                        opacity: 0.8,
+                                                    }}
+                                                />
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                        opacity: 0.8,
+                                                        display: 'block',
+                                                    }}
+                                                >
+                                                    Niveau
+                                                </Typography>
+                                            </Box>
+                                            <Typography
+                                                variant="subtitle2"
+                                                sx={{
+                                                    fontWeight: 600,
+                                                    lineHeight: 1.3,
+                                                }}
+                                            >
+                                                {student.studyLevel}
+                                            </Typography>
+                                        </Grid>
+                                    )}
+                                </Grid>
+                            </Box>
+                        )}
                     </Stack>
                 </Grid>
             </Grid>
@@ -898,26 +1390,21 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
             <Card
                 className={className}
                 sx={{
-                    borderRadius: '4px',
-                    boxShadow: 'none',
+                    borderRadius: 1,
                     border: 1,
                     borderColor: 'grey.200',
                 }}
             >
                 <CardContent>
-                    <Box sx={{ textAlign: 'center', py: { xs: 6, md: 8 } }}>
+                    <Box sx={{ textAlign: 'center', py: 6 }}>
                         <SchoolIcon
                             sx={{
-                                fontSize: { xs: 48, md: 64 },
+                                fontSize: 48,
                                 color: 'text.disabled',
-                                mb: 2,
+                                mb: 1.5,
                             }}
                         />
-                        <Typography
-                            variant="h6"
-                            color="text.secondary"
-                            sx={{ fontSize: { xs: '1rem', md: '1.25rem' } }}
-                        >
+                        <Typography variant="subtitle1" color="text.secondary">
                             Sélectionnez un élève pour voir son tableau de bord
                         </Typography>
                     </Box>
@@ -931,19 +1418,18 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
             <Card
                 className={className}
                 sx={{
-                    borderRadius: '4px',
-                    boxShadow: 'none',
+                    borderRadius: 1,
                     border: 1,
                     borderColor: 'grey.200',
                 }}
             >
                 <CardContent>
-                    <Box sx={{ textAlign: 'center', py: { xs: 6, md: 8 } }}>
+                    <Box sx={{ textAlign: 'center', py: 6 }}>
                         <LinearProgress
                             sx={{
-                                mb: 2,
+                                mb: 1.5,
                                 width: '100%',
-                                borderRadius: '4px',
+                                borderRadius: 1,
                             }}
                         />
                         <Typography variant="body2" color="text.secondary">
@@ -960,19 +1446,18 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
             <Card
                 className={className}
                 sx={{
-                    borderRadius: '4px',
-                    boxShadow: 'none',
+                    borderRadius: 1,
                     border: 1,
                     borderColor: 'error.main',
                     backgroundColor: alpha(theme.palette.error.main, 0.05),
                 }}
             >
                 <CardContent>
-                    <Box sx={{ textAlign: 'center', py: { xs: 6, md: 8 } }}>
+                    <Box sx={{ textAlign: 'center', py: 6 }}>
                         <Typography
-                            variant="h6"
+                            variant="subtitle1"
                             color="error.main"
-                            sx={{ mb: 1 }}
+                            sx={{ mb: 0.5, fontWeight: 600 }}
                         >
                             Erreur de chargement
                         </Typography>
@@ -982,7 +1467,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                         <Typography
                             variant="body2"
                             color="text.secondary"
-                            sx={{ mt: 2 }}
+                            sx={{ mt: 1.5 }}
                         >
                             Veuillez réessayer ou contacter le support si le
                             problème persiste.
@@ -998,32 +1483,27 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
             <Card
                 className={className}
                 sx={{
-                    borderRadius: '4px',
-                    boxShadow: 'none',
+                    borderRadius: 1,
                     border: 1,
                     borderColor: 'grey.200',
                 }}
             >
                 <CardContent>
-                    <Box sx={{ textAlign: 'center', py: { xs: 6, md: 8 } }}>
+                    <Box sx={{ textAlign: 'center', py: 6 }}>
                         <SchoolIcon
                             sx={{
-                                fontSize: { xs: 48, md: 64 },
+                                fontSize: 48,
                                 color: 'text.disabled',
-                                mb: 2,
+                                mb: 1.5,
                             }}
                         />
-                        <Typography
-                            variant="h6"
-                            color="text.secondary"
-                            sx={{ fontSize: { xs: '1rem', md: '1.25rem' } }}
-                        >
+                        <Typography variant="subtitle1" color="text.secondary">
                             Données non disponibles
                         </Typography>
                         <Typography
                             variant="body2"
                             color="text.secondary"
-                            sx={{ mt: 1 }}
+                            sx={{ mt: 0.5 }}
                         >
                             Les données de l'élève sélectionné ne peuvent pas
                             être chargées pour le moment.
@@ -1035,613 +1515,590 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
     }
 
     return (
-        <Container
-            maxWidth="lg"
-            className={className}
-            sx={{ px: { xs: 2, md: 3 } }}
-        >
-            <Card
-                sx={{
-                    mb: 3,
-                    borderRadius: '4px',
-                    boxShadow: 'none',
-                    border: 1,
-                    borderColor: 'grey.200',
-                    background:
-                        'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)',
-                    position: 'relative',
-                    overflow: 'hidden',
-                }}
-            >
-                <CardContent sx={{ p: { xs: 2, md: 3 } }}>
-                    <Box
+        <Box className={className} sx={{ px: { xs: 2, md: 3 } }}>
+            {/* Student Identity Section */}
+            <Box sx={{ mb: 2 }}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        mb: 1.5,
+                    }}
+                >
+                    <Typography
+                        variant="subtitle1"
                         sx={{
+                            fontWeight: 600,
+                            color: 'primary.dark',
                             display: 'flex',
                             alignItems: 'center',
-                            justifyContent: 'space-between',
-                            mb: 2,
+                            gap: 1,
                         }}
                     >
-                        <Typography
-                            variant="h5"
-                            sx={{
-                                fontWeight: 600,
-                                color: 'primary.dark',
-                                fontSize: { xs: '1.25rem', md: '1.5rem' },
-                            }}
-                        >
-                            {t('studentIdentity.title')}
-                        </Typography>
-                        <IconButton
-                            size="small"
-                            sx={{
+                        <PersonIcon sx={{ fontSize: 18 }} />
+                        {t('studentIdentity.title')}
+                    </Typography>
+                    <IconButton
+                        size="small"
+                        sx={{
+                            backgroundColor: alpha(
+                                theme.palette.primary.main,
+                                0.1
+                            ),
+                            '&:hover': {
                                 backgroundColor: alpha(
                                     theme.palette.primary.main,
-                                    0.1
+                                    0.2
                                 ),
-                                '&:hover': {
-                                    backgroundColor: alpha(
-                                        theme.palette.primary.main,
-                                        0.2
-                                    ),
-                                },
-                            }}
-                        >
-                            <RefreshIcon
-                                sx={{ fontSize: 18, color: 'primary.main' }}
-                            />
-                        </IconButton>
-                    </Box>
-                    <StudentIdCard student={dashboardData.studentIdentity} />
-                </CardContent>
-            </Card>
-
-            {/* 2. NOTES PAR TRIMESTRE */}
-            <Card
-                sx={{
-                    mb: 3,
-                    borderRadius: '4px',
-                    boxShadow: 'none',
-                    border: 1,
-                    borderColor: 'grey.200',
-                }}
-            >
-                <CardContent sx={{ p: { xs: 3, md: 4 } }}>
-                    <Typography
-                        variant="h6"
-                        sx={{
-                            fontWeight: 600,
-                            mb: 3,
-                            color: 'primary.main',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 1,
+                            },
                         }}
                     >
-                        <MarksIcon />
-                        Notes par Trimestre
-                    </Typography>
+                        <RefreshIcon
+                            sx={{ fontSize: 16, color: 'primary.main' }}
+                        />
+                    </IconButton>
+                </Box>
+                <StudentIdCard student={dashboardData.studentIdentity} />
+            </Box>
 
-                    {/* Terms Grid */}
-                    <Grid container spacing={3} sx={{ mb: 4 }}>
-                        {dashboardData.termMarks.map(term => {
-                            const status = term.status;
-                            return (
-                                <Grid size={{ xs: 12, md: 4 }} key={term.term}>
-                                    <Card
-                                        sx={{
-                                            height: '100%',
-                                            borderRadius: '4px',
-                                            boxShadow: 'none',
-                                            border: 2,
-                                            borderColor:
-                                                getTermBorderColor(status),
-                                            backgroundColor:
-                                                getTermBackgroundColor(status),
-                                            transition: 'all 0.3s ease',
-                                            '&:hover': {
-                                                transform: 'translateY(-2px)',
-                                                boxShadow: 2,
-                                            },
-                                        }}
-                                    >
-                                        <CardContent
-                                            sx={{ p: 3, textAlign: 'center' }}
-                                        >
-                                            <Typography
-                                                variant="h6"
-                                                sx={{
-                                                    fontWeight: 600,
-                                                    mb: 2,
-                                                    color: getTermStatusColor(
-                                                        status
-                                                    ),
-                                                }}
-                                            >
-                                                {term.name}
-                                            </Typography>
+            {/* Term Marks Section */}
+            <Box sx={{ mb: 2 }}>
+                <Typography
+                    variant="subtitle1"
+                    sx={{
+                        fontWeight: 600,
+                        mb: 1.5,
+                        color: 'primary.main',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1,
+                    }}
+                >
+                    <MarksIcon sx={{ fontSize: 18 }} />
+                    Notes par Trimestre
+                </Typography>
 
-                                            <Box sx={{ mb: 2 }}>
-                                                <Chip
-                                                    label={
-                                                        status === 'completed'
-                                                            ? 'Terminé'
-                                                            : status ===
-                                                                'pending'
-                                                              ? 'En cours'
-                                                              : 'Non démarré'
-                                                    }
-                                                    color={
-                                                        status === 'completed'
-                                                            ? 'success'
-                                                            : status ===
-                                                                'pending'
-                                                              ? 'warning'
-                                                              : 'default'
-                                                    }
-                                                    size="small"
-                                                    sx={{ fontWeight: 600 }}
-                                                />
-                                            </Box>
-
-                                            {term.average !== null ? (
-                                                <Box>
-                                                    <Typography
-                                                        variant="h3"
-                                                        sx={{
-                                                            fontWeight: 700,
-                                                            color: getAverageColor(
-                                                                term.average,
-                                                                20
-                                                            ),
-                                                            mb: 1,
-                                                        }}
-                                                    >
-                                                        {term.average.toFixed(
-                                                            2
-                                                        )}
-                                                        <Typography
-                                                            component="span"
-                                                            variant="h5"
-                                                            color="text.secondary"
-                                                        >
-                                                            /20
-                                                        </Typography>
-                                                    </Typography>
-                                                    <Typography
-                                                        variant="body2"
-                                                        color="text.secondary"
-                                                    >
-                                                        Moyenne Générale
-                                                    </Typography>
-                                                </Box>
-                                            ) : (
-                                                <Box>
-                                                    <Typography
-                                                        variant="h4"
-                                                        sx={{
-                                                            fontWeight: 600,
-                                                            color: 'text.secondary',
-                                                            mb: 1,
-                                                        }}
-                                                    >
-                                                        --
-                                                    </Typography>
-                                                    <Typography
-                                                        variant="body2"
-                                                        color="text.secondary"
-                                                        sx={{
-                                                            fontStyle: 'italic',
-                                                        }}
-                                                    >
-                                                        {status === 'pending'
-                                                            ? 'En attente'
-                                                            : 'Non démarré'}
-                                                    </Typography>
-                                                </Box>
-                                            )}
-
-                                            {/* Subject count for completed terms */}
-                                            {term.subjects.length > 0 && (
-                                                <Box
-                                                    sx={{
-                                                        mt: 2,
-                                                        pt: 2,
-                                                        borderTop: 1,
-                                                        borderColor: 'divider',
-                                                    }}
-                                                >
-                                                    <Typography
-                                                        variant="body2"
-                                                        color="text.secondary"
-                                                    >
-                                                        {term.subjects.length}{' '}
-                                                        matières évaluées
-                                                    </Typography>
-                                                </Box>
-                                            )}
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                            );
-                        })}
-                    </Grid>
-
-                    {/* Annual Marks Section */}
-                    <Card
-                        sx={{
-                            borderRadius: '4px',
-                            boxShadow: 'none',
-                            border: 2,
-                            borderColor: isAnnualMarksReady()
-                                ? alpha(theme.palette.success.main, 0.5)
-                                : alpha(theme.palette.grey[500], 0.3),
-                            backgroundColor: isAnnualMarksReady()
-                                ? alpha(theme.palette.success.main, 0.05)
-                                : alpha(theme.palette.grey[500], 0.05),
-                        }}
-                    >
-                        <CardContent sx={{ p: 4, textAlign: 'center' }}>
-                            <Typography
-                                variant="h6"
-                                sx={{
-                                    fontWeight: 600,
-                                    mb: 3,
-                                    color: isAnnualMarksReady()
-                                        ? 'success.main'
-                                        : 'text.secondary',
-                                }}
-                            >
-                                Moyennes Annuelles
-                            </Typography>
-
-                            {isAnnualMarksReady() ? (
-                                <Grid container spacing={3}>
-                                    <Grid size={{ xs: 12, md: 6 }}>
-                                        <Box>
-                                            <Typography
-                                                variant="h2"
-                                                sx={{
-                                                    fontWeight: 700,
-                                                    color: getAverageColor(
-                                                        dashboardData
-                                                            .annualMarks
-                                                            .generalAverage,
-                                                        20
-                                                    ),
-                                                    mb: 1,
-                                                }}
-                                            >
-                                                {dashboardData.annualMarks.generalAverage?.toFixed(
-                                                    2
-                                                )}
-                                                <Typography
-                                                    component="span"
-                                                    variant="h4"
-                                                    color="text.secondary"
-                                                >
-                                                    /20
-                                                </Typography>
-                                            </Typography>
-                                            <Typography
-                                                variant="body1"
-                                                color="text.secondary"
-                                            >
-                                                Moyenne Générale Annuelle
-                                            </Typography>
-                                        </Box>
-                                    </Grid>
-
-                                    <Grid size={{ xs: 12, md: 6 }}>
-                                        <Box>
-                                            <Typography
-                                                variant="h2"
-                                                sx={{
-                                                    fontWeight: 700,
-                                                    color: 'info.main',
-                                                    mb: 1,
-                                                }}
-                                            >
-                                                {dashboardData.annualMarks.rank}
-                                                <Typography
-                                                    component="span"
-                                                    variant="h4"
-                                                    color="text.secondary"
-                                                >
-                                                    /
-                                                    {
-                                                        dashboardData
-                                                            .annualMarks
-                                                            .classSize
-                                                    }
-                                                </Typography>
-                                            </Typography>
-                                            <Typography
-                                                variant="body1"
-                                                color="text.secondary"
-                                            >
-                                                Rang Annuel
-                                            </Typography>
-                                        </Box>
-                                    </Grid>
-                                </Grid>
-                            ) : (
-                                <Box>
-                                    <Typography
-                                        variant="h4"
-                                        sx={{
-                                            fontWeight: 600,
-                                            color: 'text.secondary',
-                                            mb: 2,
-                                        }}
-                                    >
-                                        En attente
-                                    </Typography>
-                                    <Typography
-                                        variant="body1"
-                                        color="text.secondary"
-                                        sx={{
-                                            fontStyle: 'italic',
-                                        }}
-                                    >
-                                        Compléter tous les trimestres pour voir
-                                        les moyennes annuelles
-                                    </Typography>
-                                    <Typography
-                                        variant="body2"
-                                        color="text.secondary"
-                                        sx={{ mt: 1 }}
-                                    >
-                                        ({dashboardData.completedTerms}/3
-                                        trimestres terminés)
-                                    </Typography>
-                                </Box>
-                            )}
-                        </CardContent>
-                    </Card>
-                </CardContent>
-            </Card>
-
-            {/* 3. SITUATION FINANCIÈRE */}
-            <Card
-                sx={{
-                    mb: 3,
-                    borderRadius: '4px',
-                    boxShadow: 'none',
-                    border: 1,
-                    borderColor: 'grey.200',
-                }}
-            >
-                <CardContent sx={{ p: { xs: 3, md: 4 } }}>
-                    <Typography
-                        variant="h6"
-                        sx={{
-                            fontWeight: 600,
-                            mb: 3,
-                            color: financialSituation
-                                ? getPaymentStatusColor(
-                                      financialSituation.paymentStatus
-                                  )
-                                : 'text.secondary',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 1,
-                        }}
-                    >
-                        <BillingIcon />
-                        Situation Financière
-                    </Typography>
-
-                    {financialSituation ? (
-                        <>
-                            <Grid container spacing={3}>
-                                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                                    <Box
-                                        sx={{
-                                            p: 2,
-                                            borderRadius: '4px',
-                                            backgroundColor: alpha(
-                                                theme.palette.primary.main,
-                                                0.05
-                                            ),
-                                            border: 1,
-                                            borderColor: alpha(
-                                                theme.palette.primary.main,
-                                                0.2
-                                            ),
-                                            textAlign: 'center',
-                                        }}
-                                    >
-                                        <Typography
-                                            variant="body2"
-                                            color="text.secondary"
-                                            sx={{ mb: 1 }}
-                                        >
-                                            Frais Totaux
-                                        </Typography>
-                                        <Typography
-                                            variant="h6"
-                                            sx={{
-                                                fontWeight: 600,
-                                                color: 'primary.main',
-                                            }}
-                                        >
-                                            {formatCurrency(
-                                                financialSituation.totalSchoolFees
-                                            )}
-                                        </Typography>
-                                    </Box>
-                                </Grid>
-
-                                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                                    <Box
-                                        sx={{
-                                            p: 2,
-                                            borderRadius: '4px',
-                                            backgroundColor: alpha(
-                                                theme.palette.success.main,
-                                                0.05
-                                            ),
-                                            border: 1,
-                                            borderColor: alpha(
-                                                theme.palette.success.main,
-                                                0.2
-                                            ),
-                                            textAlign: 'center',
-                                        }}
-                                    >
-                                        <Typography
-                                            variant="body2"
-                                            color="text.secondary"
-                                            sx={{ mb: 1 }}
-                                        >
-                                            Montant Payé
-                                        </Typography>
-                                        <Typography
-                                            variant="h6"
-                                            sx={{
-                                                fontWeight: 600,
-                                                color: 'success.main',
-                                            }}
-                                        >
-                                            {formatCurrency(
-                                                financialSituation.totalPaid
-                                            )}
-                                        </Typography>
-                                    </Box>
-                                </Grid>
-
-                                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                                    <Box
-                                        sx={{
-                                            p: 2,
-                                            borderRadius: '4px',
-                                            backgroundColor: alpha(
-                                                theme.palette.warning.main,
-                                                0.05
-                                            ),
-                                            border: 1,
-                                            borderColor: alpha(
-                                                theme.palette.warning.main,
-                                                0.2
-                                            ),
-                                            textAlign: 'center',
-                                        }}
-                                    >
-                                        <Typography
-                                            variant="body2"
-                                            color="text.secondary"
-                                            sx={{ mb: 1 }}
-                                        >
-                                            Reste à Payer
-                                        </Typography>
-                                        <Typography
-                                            variant="h6"
-                                            sx={{
-                                                fontWeight: 600,
-                                                color: 'warning.main',
-                                            }}
-                                        >
-                                            {formatCurrency(
-                                                financialSituation.remainingToPay
-                                            )}
-                                        </Typography>
-                                    </Box>
-                                </Grid>
-
-                                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-                                    <Box
-                                        sx={{
-                                            p: 2,
-                                            borderRadius: '4px',
-                                            backgroundColor: alpha(
-                                                theme.palette.error.main,
-                                                0.05
-                                            ),
-                                            border: 1,
-                                            borderColor: alpha(
-                                                theme.palette.error.main,
-                                                0.2
-                                            ),
-                                            textAlign: 'center',
-                                        }}
-                                    >
-                                        <Typography
-                                            variant="body2"
-                                            color="text.secondary"
-                                            sx={{ mb: 1 }}
-                                        >
-                                            Montant Dû
-                                        </Typography>
-                                        <Typography
-                                            variant="h6"
-                                            sx={{
-                                                fontWeight: 600,
-                                                color: 'error.main',
-                                            }}
-                                        >
-                                            {formatCurrency(
-                                                financialSituation.amountDue
-                                            )}
-                                        </Typography>
-                                    </Box>
-                                </Grid>
-                            </Grid>
-
-                            {/* Next Payment Due Alert */}
-                            {financialSituation.nextPaymentDue && (
+                <Grid container spacing={1.5} sx={{ mb: 2 }}>
+                    {dashboardData.termMarks.map(term => {
+                        const status = term.status;
+                        return (
+                            <Grid size={{ xs: 12, sm: 4 }} key={term.term}>
                                 <Box
                                     sx={{
-                                        mt: 3,
-                                        p: 3,
-                                        borderRadius: '4px',
-                                        backgroundColor: financialSituation
-                                            .nextPaymentDue.isOverdue
-                                            ? alpha(
-                                                  theme.palette.error.main,
-                                                  0.05
-                                              )
-                                            : alpha(
-                                                  theme.palette.warning.main,
-                                                  0.05
-                                              ),
+                                        p: 1.5,
+                                        borderRadius: 1,
                                         border: 1,
-                                        borderColor: financialSituation
-                                            .nextPaymentDue.isOverdue
-                                            ? alpha(
-                                                  theme.palette.error.main,
-                                                  0.3
-                                              )
-                                            : alpha(
-                                                  theme.palette.warning.main,
-                                                  0.3
-                                              ),
+                                        borderColor: getTermBorderColor(status),
+                                        backgroundColor:
+                                            getTermBackgroundColor(status),
+                                        transition: 'all 0.2s ease',
+                                        '&:hover': {
+                                            borderColor:
+                                                getTermStatusColor(status),
+                                        },
                                     }}
                                 >
                                     <Box
                                         sx={{
                                             display: 'flex',
                                             alignItems: 'center',
-                                            gap: 1,
-                                            mb: 2,
+                                            justifyContent: 'space-between',
+                                            mb: 1,
                                         }}
                                     >
-                                        <DueIcon
+                                        <Typography
+                                            variant="subtitle2"
                                             sx={{
-                                                color: financialSituation
-                                                    .nextPaymentDue.isOverdue
-                                                    ? 'error.main'
-                                                    : 'warning.main',
+                                                fontWeight: 600,
+                                                color: getTermStatusColor(
+                                                    status
+                                                ),
+                                            }}
+                                        >
+                                            {term.name}
+                                        </Typography>
+                                        <Chip
+                                            label={
+                                                status === 'completed'
+                                                    ? 'Terminé'
+                                                    : status === 'pending'
+                                                      ? 'En cours'
+                                                      : 'Non démarré'
+                                            }
+                                            size="small"
+                                            sx={{
+                                                height: 20,
+                                                fontSize: '0.6875rem',
+                                                fontWeight: 600,
+                                                backgroundColor:
+                                                    status === 'completed'
+                                                        ? alpha(
+                                                              theme.palette
+                                                                  .success.main,
+                                                              0.15
+                                                          )
+                                                        : status === 'pending'
+                                                          ? alpha(
+                                                                theme.palette
+                                                                    .warning
+                                                                    .main,
+                                                                0.15
+                                                            )
+                                                          : alpha(
+                                                                theme.palette
+                                                                    .grey[500],
+                                                                0.15
+                                                            ),
+                                                color: getTermStatusColor(
+                                                    status
+                                                ),
                                             }}
                                         />
+                                    </Box>
+
+                                    {term.average !== null ? (
+                                        <Box sx={{ textAlign: 'center' }}>
+                                            <Typography
+                                                variant="h4"
+                                                sx={{
+                                                    fontWeight: 700,
+                                                    color: getAverageColor(
+                                                        term.average,
+                                                        20
+                                                    ),
+                                                    lineHeight: 1.2,
+                                                }}
+                                            >
+                                                {term.average.toFixed(2)}
+                                                <Typography
+                                                    component="span"
+                                                    variant="body2"
+                                                    color="text.secondary"
+                                                >
+                                                    /20
+                                                </Typography>
+                                            </Typography>
+                                            <Typography
+                                                variant="caption"
+                                                color="text.secondary"
+                                            >
+                                                Moyenne Générale
+                                            </Typography>
+                                            {term.subjects.length > 0 && (
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                        display: 'block',
+                                                        mt: 1,
+                                                        pt: 1,
+                                                        borderTop: 1,
+                                                        borderColor: 'divider',
+                                                        color: 'text.secondary',
+                                                    }}
+                                                >
+                                                    {term.subjects.length}{' '}
+                                                    matières
+                                                </Typography>
+                                            )}
+                                        </Box>
+                                    ) : (
+                                        <Box sx={{ textAlign: 'center' }}>
+                                            <Typography
+                                                variant="h4"
+                                                sx={{
+                                                    fontWeight: 600,
+                                                    color: 'text.disabled',
+                                                    lineHeight: 1.2,
+                                                }}
+                                            >
+                                                --
+                                            </Typography>
+                                            <Typography
+                                                variant="caption"
+                                                color="text.secondary"
+                                                sx={{ fontStyle: 'italic' }}
+                                            >
+                                                {status === 'pending'
+                                                    ? 'En attente'
+                                                    : 'Non démarré'}
+                                            </Typography>
+                                        </Box>
+                                    )}
+                                </Box>
+                            </Grid>
+                        );
+                    })}
+                </Grid>
+
+                {/* Annual Marks */}
+                <Box
+                    sx={{
+                        p: 2,
+                        borderRadius: 1,
+                        border: 1,
+                        borderColor: isAnnualMarksReady()
+                            ? alpha(theme.palette.success.main, 0.5)
+                            : alpha(theme.palette.grey[500], 0.3),
+                        backgroundColor: isAnnualMarksReady()
+                            ? alpha(theme.palette.success.main, 0.05)
+                            : alpha(theme.palette.grey[500], 0.05),
+                    }}
+                >
+                    <Typography
+                        variant="subtitle2"
+                        sx={{
+                            fontWeight: 600,
+                            mb: 1.5,
+                            color: isAnnualMarksReady()
+                                ? 'success.main'
+                                : 'text.secondary',
+                        }}
+                    >
+                        Moyennes Annuelles
+                    </Typography>
+
+                    {isAnnualMarksReady() ? (
+                        <Grid container spacing={1.5}>
+                            <Grid size={{ xs: 12, sm: 6 }}>
+                                <Box sx={{ textAlign: 'center' }}>
+                                    <Typography
+                                        variant="h3"
+                                        sx={{
+                                            fontWeight: 700,
+                                            color: getAverageColor(
+                                                dashboardData.annualMarks
+                                                    .generalAverage,
+                                                20
+                                            ),
+                                            lineHeight: 1.2,
+                                        }}
+                                    >
+                                        {dashboardData.annualMarks.generalAverage?.toFixed(
+                                            2
+                                        )}
                                         <Typography
-                                            variant="h6"
+                                            component="span"
+                                            variant="body1"
+                                            color="text.secondary"
+                                        >
+                                            /20
+                                        </Typography>
+                                    </Typography>
+                                    <Typography
+                                        variant="caption"
+                                        color="text.secondary"
+                                    >
+                                        Moyenne Générale Annuelle
+                                    </Typography>
+                                </Box>
+                            </Grid>
+
+                            <Grid size={{ xs: 12, sm: 6 }}>
+                                <Box sx={{ textAlign: 'center' }}>
+                                    <Typography
+                                        variant="h3"
+                                        sx={{
+                                            fontWeight: 700,
+                                            color: 'info.main',
+                                            lineHeight: 1.2,
+                                        }}
+                                    >
+                                        {dashboardData.annualMarks.rank}
+                                        <Typography
+                                            component="span"
+                                            variant="body1"
+                                            color="text.secondary"
+                                        >
+                                            /
+                                            {
+                                                dashboardData.annualMarks
+                                                    .classSize
+                                            }
+                                        </Typography>
+                                    </Typography>
+                                    <Typography
+                                        variant="caption"
+                                        color="text.secondary"
+                                    >
+                                        Rang Annuel
+                                    </Typography>
+                                </Box>
+                            </Grid>
+                        </Grid>
+                    ) : (
+                        <Box sx={{ textAlign: 'center' }}>
+                            <Typography
+                                variant="h5"
+                                sx={{
+                                    fontWeight: 600,
+                                    color: 'text.secondary',
+                                    mb: 1,
+                                }}
+                            >
+                                En attente
+                            </Typography>
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                sx={{ fontStyle: 'italic' }}
+                            >
+                                Compléter tous les trimestres pour voir les
+                                moyennes annuelles
+                            </Typography>
+                            <Typography
+                                variant="caption"
+                                color="text.secondary"
+                                sx={{ display: 'block', mt: 0.5 }}
+                            >
+                                ({dashboardData.completedTerms}/3 trimestres
+                                terminés)
+                            </Typography>
+                        </Box>
+                    )}
+                </Box>
+            </Box>
+
+            {/* Financial Situation Section */}
+            <Box sx={{ mb: 2 }}>
+                <Typography
+                    variant="subtitle1"
+                    sx={{
+                        fontWeight: 600,
+                        mb: 1.5,
+                        color: financialSituation
+                            ? getPaymentStatusColor(
+                                  financialSituation.paymentStatus
+                              )
+                            : 'text.secondary',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1,
+                    }}
+                >
+                    <BillingIcon sx={{ fontSize: 18 }} />
+                    Situation Financière
+                </Typography>
+
+                {financialSituation ? (
+                    <>
+                        <Grid container spacing={1.5} sx={{ mb: 2 }}>
+                            <Grid size={{ xs: 6, sm: 3 }}>
+                                <Box
+                                    sx={{
+                                        p: 1.5,
+                                        borderRadius: 1,
+                                        backgroundColor: alpha(
+                                            theme.palette.primary.main,
+                                            0.08
+                                        ),
+                                        border: '1px solid',
+                                        borderColor: alpha(
+                                            theme.palette.primary.main,
+                                            0.15
+                                        ),
+                                    }}
+                                >
+                                    <Typography
+                                        variant="caption"
+                                        color="text.secondary"
+                                        sx={{ display: 'block', mb: 0.5 }}
+                                    >
+                                        Frais Totaux
+                                    </Typography>
+                                    <Typography
+                                        variant="subtitle2"
+                                        sx={{
+                                            fontWeight: 600,
+                                            color: 'primary.main',
+                                        }}
+                                    >
+                                        {formatCurrency(
+                                            financialSituation.totalSchoolFees
+                                        )}
+                                    </Typography>
+                                </Box>
+                            </Grid>
+
+                            <Grid size={{ xs: 6, sm: 3 }}>
+                                <Box
+                                    sx={{
+                                        p: 1.5,
+                                        borderRadius: 1,
+                                        backgroundColor: alpha(
+                                            theme.palette.success.main,
+                                            0.08
+                                        ),
+                                        border: '1px solid',
+                                        borderColor: alpha(
+                                            theme.palette.success.main,
+                                            0.15
+                                        ),
+                                    }}
+                                >
+                                    <Typography
+                                        variant="caption"
+                                        color="text.secondary"
+                                        sx={{ display: 'block', mb: 0.5 }}
+                                    >
+                                        Montant Payé
+                                    </Typography>
+                                    <Typography
+                                        variant="subtitle2"
+                                        sx={{
+                                            fontWeight: 600,
+                                            color: 'success.main',
+                                        }}
+                                    >
+                                        {formatCurrency(
+                                            financialSituation.totalPaid
+                                        )}
+                                    </Typography>
+                                </Box>
+                            </Grid>
+
+                            <Grid size={{ xs: 6, sm: 3 }}>
+                                <Box
+                                    sx={{
+                                        p: 1.5,
+                                        borderRadius: 1,
+                                        backgroundColor: alpha(
+                                            theme.palette.warning.main,
+                                            0.08
+                                        ),
+                                        border: '1px solid',
+                                        borderColor: alpha(
+                                            theme.palette.warning.main,
+                                            0.15
+                                        ),
+                                    }}
+                                >
+                                    <Typography
+                                        variant="caption"
+                                        color="text.secondary"
+                                        sx={{ display: 'block', mb: 0.5 }}
+                                    >
+                                        Reste à Payer
+                                    </Typography>
+                                    <Typography
+                                        variant="subtitle2"
+                                        sx={{
+                                            fontWeight: 600,
+                                            color: 'warning.main',
+                                        }}
+                                    >
+                                        {formatCurrency(
+                                            financialSituation.remainingToPay
+                                        )}
+                                    </Typography>
+                                </Box>
+                            </Grid>
+
+                            <Grid size={{ xs: 6, sm: 3 }}>
+                                <Box
+                                    sx={{
+                                        p: 1.5,
+                                        borderRadius: 1,
+                                        backgroundColor: alpha(
+                                            theme.palette.error.main,
+                                            0.08
+                                        ),
+                                        border: '1px solid',
+                                        borderColor: alpha(
+                                            theme.palette.error.main,
+                                            0.15
+                                        ),
+                                    }}
+                                >
+                                    <Typography
+                                        variant="caption"
+                                        color="text.secondary"
+                                        sx={{ display: 'block', mb: 0.5 }}
+                                    >
+                                        Montant Dû
+                                    </Typography>
+                                    <Typography
+                                        variant="subtitle2"
+                                        sx={{
+                                            fontWeight: 600,
+                                            color: 'error.main',
+                                        }}
+                                    >
+                                        {formatCurrency(
+                                            financialSituation.amountDue
+                                        )}
+                                    </Typography>
+                                </Box>
+                            </Grid>
+                        </Grid>
+
+                        {/* Next Payment Due Alert */}
+                        {financialSituation.nextPaymentDue && (
+                            <Box
+                                sx={{
+                                    p: 1.5,
+                                    borderRadius: 1,
+                                    backgroundColor: financialSituation
+                                        .nextPaymentDue.isOverdue
+                                        ? alpha(theme.palette.error.main, 0.08)
+                                        : alpha(
+                                              theme.palette.warning.main,
+                                              0.08
+                                          ),
+                                    border: 1,
+                                    borderColor: financialSituation
+                                        .nextPaymentDue.isOverdue
+                                        ? alpha(theme.palette.error.main, 0.3)
+                                        : alpha(
+                                              theme.palette.warning.main,
+                                              0.3
+                                          ),
+                                }}
+                            >
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 1.5,
+                                    }}
+                                >
+                                    <Box
+                                        sx={{
+                                            width: 32,
+                                            height: 32,
+                                            borderRadius: 1,
+                                            backgroundColor: financialSituation
+                                                .nextPaymentDue.isOverdue
+                                                ? alpha(
+                                                      theme.palette.error.main,
+                                                      0.15
+                                                  )
+                                                : alpha(
+                                                      theme.palette.warning
+                                                          .main,
+                                                      0.15
+                                                  ),
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            color: financialSituation
+                                                .nextPaymentDue.isOverdue
+                                                ? 'error.main'
+                                                : 'warning.main',
+                                        }}
+                                    >
+                                        <DueIcon sx={{ fontSize: 16 }} />
+                                    </Box>
+                                    <Box sx={{ flex: 1 }}>
+                                        <Typography
+                                            variant="subtitle2"
                                             sx={{
                                                 fontWeight: 600,
                                                 color: financialSituation
                                                     .nextPaymentDue.isOverdue
                                                     ? 'error.main'
                                                     : 'warning.main',
+                                                lineHeight: 1.3,
                                             }}
                                         >
                                             {financialSituation.nextPaymentDue
@@ -1649,165 +2106,145 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                                                 ? 'Paiement en Retard'
                                                 : 'Prochaine Échéance'}
                                         </Typography>
-                                    </Box>
-                                    <Grid
-                                        container
-                                        spacing={2}
-                                        alignItems="center"
-                                    >
-                                        <Grid size={{ xs: 12, md: 8 }}>
-                                            <Typography
-                                                variant="body1"
-                                                sx={{ mb: 1 }}
-                                            >
-                                                {
-                                                    financialSituation
-                                                        .nextPaymentDue
-                                                        .description
-                                                }
-                                            </Typography>
-                                            <Typography
-                                                variant="body2"
-                                                color="text.secondary"
-                                            >
-                                                Échéance:{' '}
-                                                {financialSituation
-                                                    .nextPaymentDue.dueDate
-                                                    ? formatDate(
-                                                          financialSituation
-                                                              .nextPaymentDue
-                                                              .dueDate
-                                                      )
-                                                    : 'Date non définie'}
-                                                {financialSituation
-                                                    .nextPaymentDue
-                                                    .isOverdue && (
-                                                    <Chip
-                                                        label="EN RETARD"
-                                                        color="error"
-                                                        size="small"
-                                                        sx={{
-                                                            ml: 1,
-                                                            fontSize:
-                                                                '0.625rem',
-                                                            height: 20,
-                                                        }}
-                                                    />
-                                                )}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid size={{ xs: 12, md: 4 }}>
-                                            <Box sx={{ textAlign: 'right' }}>
-                                                <Typography
-                                                    variant="h5"
+                                        <Typography
+                                            variant="caption"
+                                            color="text.secondary"
+                                        >
+                                            {
+                                                financialSituation
+                                                    .nextPaymentDue.description
+                                            }{' '}
+                                            -{' '}
+                                            {financialSituation.nextPaymentDue
+                                                .dueDate
+                                                ? formatDate(
+                                                      financialSituation
+                                                          .nextPaymentDue
+                                                          .dueDate
+                                                  )
+                                                : 'Date non définie'}
+                                            {financialSituation.nextPaymentDue
+                                                .isOverdue && (
+                                                <Chip
+                                                    label="EN RETARD"
+                                                    size="small"
                                                     sx={{
-                                                        fontWeight: 700,
-                                                        color: financialSituation
-                                                            .nextPaymentDue
-                                                            .isOverdue
-                                                            ? 'error.main'
-                                                            : 'warning.main',
+                                                        ml: 0.5,
+                                                        height: 16,
+                                                        fontSize: '0.625rem',
+                                                        backgroundColor: alpha(
+                                                            theme.palette.error
+                                                                .main,
+                                                            0.15
+                                                        ),
+                                                        color: 'error.main',
                                                     }}
-                                                >
-                                                    {formatCurrency(
-                                                        financialSituation
-                                                            .nextPaymentDue
-                                                            .amount
-                                                    )}
-                                                </Typography>
-                                            </Box>
-                                        </Grid>
-                                    </Grid>
-                                </Box>
-                            )}
-
-                            {/* Payment Status Summary */}
-                            {financialSituation.paymentStatus === 'paid' && (
-                                <Box
-                                    sx={{
-                                        mt: 3,
-                                        p: 3,
-                                        borderRadius: '4px',
-                                        backgroundColor: alpha(
-                                            theme.palette.success.main,
-                                            0.05
-                                        ),
-                                        border: 1,
-                                        borderColor: alpha(
-                                            theme.palette.success.main,
-                                            0.3
-                                        ),
-                                        textAlign: 'center',
-                                    }}
-                                >
+                                                />
+                                            )}
+                                        </Typography>
+                                    </Box>
                                     <Typography
-                                        variant="h6"
+                                        variant="subtitle1"
                                         sx={{
-                                            fontWeight: 600,
-                                            color: 'success.main',
-                                            mb: 1,
+                                            fontWeight: 700,
+                                            color: financialSituation
+                                                .nextPaymentDue.isOverdue
+                                                ? 'error.main'
+                                                : 'warning.main',
                                         }}
                                     >
-                                        ✅ Tous les paiements sont à jour
-                                    </Typography>
-                                    <Typography
-                                        variant="body2"
-                                        color="text.secondary"
-                                    >
-                                        Aucun montant en souffrance pour cet
-                                        élève
+                                        {formatCurrency(
+                                            financialSituation.nextPaymentDue
+                                                .amount
+                                        )}
                                     </Typography>
                                 </Box>
-                            )}
-                        </>
-                    ) : (
-                        <Box
-                            sx={{
-                                textAlign: 'center',
-                                py: 4,
-                                backgroundColor: alpha(
-                                    theme.palette.warning.main,
-                                    0.05
-                                ),
-                                borderRadius: '4px',
-                                border: 1,
-                                borderColor: alpha(
-                                    theme.palette.warning.main,
-                                    0.2
-                                ),
-                            }}
-                        >
-                            <BillingIcon
+                            </Box>
+                        )}
+
+                        {/* Payment Status Summary */}
+                        {financialSituation.paymentStatus === 'paid' && (
+                            <Box
                                 sx={{
-                                    fontSize: 48,
-                                    color: 'warning.main',
-                                    mb: 2,
+                                    mt: 1.5,
+                                    p: 1.5,
+                                    borderRadius: 1,
+                                    backgroundColor: alpha(
+                                        theme.palette.success.main,
+                                        0.08
+                                    ),
+                                    border: 1,
+                                    borderColor: alpha(
+                                        theme.palette.success.main,
+                                        0.3
+                                    ),
+                                    textAlign: 'center',
                                 }}
-                            />
-                            <Typography
-                                variant="h6"
-                                color="warning.main"
-                                sx={{ mb: 1, fontWeight: 600 }}
                             >
-                                Données financières non disponibles
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                Les informations de facturation ne peuvent pas
-                                être chargées pour le moment. Veuillez réessayer
-                                plus tard.
-                            </Typography>
-                        </Box>
-                    )}
-                </CardContent>
-            </Card>
+                                <Typography
+                                    variant="subtitle2"
+                                    sx={{
+                                        fontWeight: 600,
+                                        color: 'success.main',
+                                    }}
+                                >
+                                    Tous les paiements sont à jour
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    color="text.secondary"
+                                >
+                                    Aucun montant en souffrance pour cet élève
+                                </Typography>
+                            </Box>
+                        )}
+                    </>
+                ) : (
+                    <Box
+                        sx={{
+                            textAlign: 'center',
+                            py: 4,
+                            backgroundColor: alpha(
+                                theme.palette.warning.main,
+                                0.08
+                            ),
+                            borderRadius: 1,
+                            border: 1,
+                            borderColor: alpha(
+                                theme.palette.warning.main,
+                                0.15
+                            ),
+                        }}
+                    >
+                        <BillingIcon
+                            sx={{
+                                fontSize: 36,
+                                color: 'warning.main',
+                                mb: 1,
+                            }}
+                        />
+                        <Typography
+                            variant="subtitle2"
+                            color="warning.main"
+                            sx={{ mb: 0.5, fontWeight: 600 }}
+                        >
+                            Données financières non disponibles
+                        </Typography>
+                        <Typography variant="caption" color="text.secondary">
+                            Les informations de facturation ne peuvent pas être
+                            chargées pour le moment.
+                        </Typography>
+                    </Box>
+                )}
+            </Box>
 
             {/* Last Updated */}
-            <Box sx={{ textAlign: 'center', py: 2 }}>
-                <Typography variant="body2" color="text.secondary">
+            <Box sx={{ textAlign: 'center', py: 1.5 }}>
+                <Typography variant="caption" color="text.secondary">
                     Dernière mise à jour:{' '}
                     {formatLastUpdated(dashboardData.lastUpdated)}
                 </Typography>
             </Box>
-        </Container>
+        </Box>
     );
 };
