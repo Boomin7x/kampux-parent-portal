@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 // import Grid from '@mui/material/Unstable_Grid2'; // v2
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import type { Student } from '../../../../types/student.types';
 
 // --- PROPS & DATA TYPES ---
@@ -63,114 +64,123 @@ const getGradeColor = (gpa: number, theme: Theme): string => {
 
 // --- SUB-COMPONENTS ---
 
-const StudentInfo: React.FC<{ student: Student; isSelected: boolean }> = ({
-    student,
-    isSelected,
-}) => (
-    <Stack direction="row" spacing={1.5} alignItems="center">
-        <Avatar
-            src={student.avatar}
-            sx={{
-                width: 36,
-                height: 36,
-                fontSize: '0.875rem',
-                fontWeight: 600,
-                bgcolor: isSelected ? 'primary.main' : 'background.default',
-                color: isSelected ? 'white' : 'text.primary',
-                border: 1,
-                borderColor: isSelected ? 'primary.dark' : 'divider',
-            }}
-        >
-            {student.firstName.charAt(0)}
-            {student.lastName.charAt(0)}
-        </Avatar>
-        <Stack alignItems="flex-start">
-            <Typography
-                variant="body2"
+const StudentInfo: React.FC<{
+    student: Student;
+    isSelected: boolean;
+}> = ({ student, isSelected }) => {
+    const { t } = useTranslation('student');
+    return (
+        <Stack direction="row" spacing={1.5} alignItems="center">
+            <Avatar
+                src={student.avatar}
                 sx={{
-                    fontWeight: isSelected ? 600 : 500,
-                    color: isSelected ? 'primary.main' : 'text.primary',
-                    lineHeight: 1.3,
+                    width: 36,
+                    height: 36,
                     fontSize: '0.875rem',
+                    fontWeight: 600,
+                    bgcolor: isSelected ? 'primary.main' : 'background.default',
+                    color: isSelected ? 'white' : 'text.primary',
+                    border: 1,
+                    borderColor: isSelected ? 'primary.dark' : 'divider',
                 }}
             >
-                {student.fullName}
-            </Typography>
-            <Typography
-                variant="caption"
-                sx={{
-                    color: 'text.secondary',
-                    lineHeight: 1.2,
-                    fontSize: '0.75rem',
-                }}
-            >
-                Grade {student.grade}
-            </Typography>
+                {student.firstName.charAt(0)}
+                {student.lastName.charAt(0)}
+            </Avatar>
+            <Stack alignItems="flex-start">
+                <Typography
+                    variant="body2"
+                    sx={{
+                        fontWeight: isSelected ? 600 : 500,
+                        color: isSelected ? 'primary.main' : 'text.primary',
+                        lineHeight: 1.3,
+                        fontSize: '0.875rem',
+                    }}
+                >
+                    {student.fullName}
+                </Typography>
+                <Typography
+                    variant="caption"
+                    sx={{
+                        color: 'text.secondary',
+                        lineHeight: 1.2,
+                        fontSize: '0.75rem',
+                    }}
+                >
+                    {t('studentInfo.grade')} {student.grade}
+                </Typography>
+            </Stack>
         </Stack>
-    </Stack>
-);
-
+    );
+};
 const StatItem: React.FC<{
     value: string | number;
     label: string;
     color?: string;
-}> = ({ value, label, color = 'text.primary' }) => (
-    <Box textAlign="center">
-        <Typography
-            variant="subtitle2"
-            sx={{
-                fontWeight: 600,
-                color,
-                lineHeight: 1.2,
-                fontSize: '0.8125rem',
-            }}
-        >
-            {value}
-        </Typography>
-        <Typography
-            variant="caption"
-            sx={{ fontSize: '0.625rem', color: 'text.secondary' }}
-        >
-            {label}
-        </Typography>
-    </Box>
-);
+}> = ({ value, label, color = 'text.primary' }) => {
+    return (
+        <Box textAlign="center">
+            <Typography
+                variant="subtitle2"
+                sx={{
+                    fontWeight: 600,
+                    color,
+                    lineHeight: 1.2,
+                    fontSize: '0.8125rem',
+                }}
+            >
+                {value}
+            </Typography>
+            <Typography
+                variant="caption"
+                sx={{ fontSize: '0.625rem', color: 'text.secondary' }}
+            >
+                {label}
+            </Typography>
+        </Box>
+    );
+};
 
 const StudentStats: React.FC<{
     stats: StudentQuickStats;
     theme: Theme;
-}> = ({ stats, theme }) => (
-    <Stack
-        direction="row"
-        spacing={2}
-        justifyContent="space-around"
-        sx={{
-            width: '100%',
-            pt: 1,
-            mt: 1,
-            borderTop: 1,
-            borderColor: 'divider',
-        }}
-    >
-        <StatItem
-            value={stats.currentGPA.toFixed(1)}
-            label="GPA"
-            color={getGradeColor(stats.currentGPA, theme)}
-        />
-        <StatItem
-            value={`${stats.attendanceRate}%`}
-            label="Attend."
-            color={stats.attendanceRate > 90 ? 'success.dark' : 'warning.dark'}
-        />
-        {stats.alertCount > 0 && (
+}> = ({ stats, theme }) => {
+    const { t } = useTranslation('student');
+    return (
+        <Stack
+            direction="row"
+            spacing={2}
+            justifyContent="space-around"
+            sx={{
+                width: '100%',
+                pt: 1,
+                mt: 1,
+                borderTop: 1,
+                borderColor: 'divider',
+            }}
+        >
             <StatItem
-                value={stats.alertCount}
-                label="Alerts"
-                color="error.dark"
+                value={stats.currentGPA.toFixed(1)}
+                label={t('statItem.gpa')}
+                color={getGradeColor(stats.currentGPA, theme)}
             />
-        )}
-    </Stack>
-);
+            <StatItem
+                value={`${stats.attendanceRate}%`}
+                label={t('statItem.attendance')}
+                color={
+                    stats.attendanceRate > 90 ? 'success.dark' : 'warning.dark'
+                }
+            />
+            {stats.alertCount > 0 && (
+                <StatItem
+                    value={stats.alertCount}
+                    label={t('statItem.alerts')}
+                    color="error.dark"
+                />
+            )}
+        </Stack>
+    );
+};
 
 const StudentCard: React.FC<{
     student: Student;
@@ -234,6 +244,7 @@ export const StudentSelector: React.FC<StudentSelectorProps> = ({
     onStudentChange,
     className = '',
 }) => {
+    const { t } = useTranslation('student');
     if (!students.length) {
         return (
             <Box
@@ -250,7 +261,7 @@ export const StudentSelector: React.FC<StudentSelectorProps> = ({
                     color="text.secondary"
                     sx={{ fontSize: '0.875rem' }}
                 >
-                    No students found for this parent.
+                    {t('messages.noRecordsFound')}
                 </Typography>
             </Box>
         );
@@ -272,13 +283,13 @@ export const StudentSelector: React.FC<StudentSelectorProps> = ({
                         fontSize: '0.625rem',
                     }}
                 >
-                    Select a Student
+                    {t('noStudent.selectStudent')}
                 </Typography>
                 <Typography
                     variant="caption"
                     sx={{ color: 'text.secondary', fontSize: '0.75rem' }}
                 >
-                    {students.length} students
+                    {t('studentSelector.students', { count: students.length })}
                 </Typography>
             </Stack>
 

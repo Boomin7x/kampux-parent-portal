@@ -3,14 +3,12 @@ import {
     AccountBalance as BillingIcon,
     DirectionsBus as BusIcon,
     CheckCircle as CheckIcon,
-    Download as DownloadIcon,
     Error as ErrorIcon,
     Info as InfoIcon,
     Payment as PaymentIcon,
     Person as PersonIcon,
     Schedule as ScheduleIcon,
     School as SchoolIcon,
-    Visibility as ViewIcon,
     Warning as WarningIcon,
 } from '@mui/icons-material';
 import {
@@ -25,7 +23,8 @@ import {
     Typography,
 } from '@mui/material';
 import React, { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import i18n from '../../../../i18n/config';
 import { useGetSelectedStudentBillings } from '../../_hooks/useParentWithStore';
 import type { Billing, Student } from '../../_service/parentService';
 
@@ -55,20 +54,38 @@ const getFeeIcon = (billing: Billing) => {
 };
 
 // Helper function to get fee category name
-const getFeeCategoryName = (billing: Billing): string => {
-    if (billing.isRegistration) return 'Registration';
-    if (billing.isTransport) return 'Transportation';
-    if (billing.isArticle) return 'School Supplies';
+const getFeeCategoryName = (
+    billing: Billing,
+    t: (key: string) => string
+): string => {
+    if (billing.isRegistration) return t('fees.registration');
+    if (billing.isTransport) return t('fees.transport');
+    if (billing.isArticle) return t('fees.materials');
     if (billing.amountSchoolFees && billing.amountSchoolFees > 0)
-        return 'School Fees';
-    return 'Other Fees';
+        return t('fees.schoolFees');
+    return t('fees.other');
 };
 
 export const BillingOverview: React.FC<BillingOverviewProps> = ({
     selectedStudent,
     className = '',
 }) => {
-    const navigate = useNavigate();
+    console.log(i18n.language);
+    const { t } = useTranslation('billing');
+
+    const getLanguage = (val: string): string => {
+        switch (val) {
+            case 'en':
+                return 'en-US';
+            case 'es':
+                return 'es-ES';
+            case 'fr': // Added explicitly for clarity
+                return 'fr-FR';
+            default:
+                return 'fr-FR';
+        }
+    };
+
     const [activeTab, setActiveTab] = useState(0);
 
     // Fetch billing data using the API hook
@@ -130,17 +147,20 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
     }, [billingData]);
 
     const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-        });
+        return new Date(dateString).toLocaleDateString(
+            getLanguage(i18n.language),
+            {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+            }
+        );
     };
 
     const formatCurrency = (
         amount: number,
         currency: string = 'XAF',
-        locale: string = 'fr-FR'
+        locale: string = getLanguage(i18n.language)
     ): string => {
         return new Intl.NumberFormat(locale, {
             style: 'currency',
@@ -165,10 +185,10 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
             >
                 <ErrorIcon sx={{ fontSize: 32, color: 'error.main', mb: 1 }} />
                 <Typography variant="subtitle2" color="error" sx={{ mb: 0.5 }}>
-                    Failed to load billing data
+                    {t('errors.failedToLoad')}
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
-                    {billingError.message || 'An unexpected error occurred'}
+                    {billingError.message || t('errors.unexpectedError')}
                 </Typography>
             </Box>
         );
@@ -192,7 +212,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                     sx={{ fontSize: 32, color: 'text.disabled', mb: 1 }}
                 />
                 <Typography variant="subtitle2" color="text.secondary">
-                    Select a student to view billing information
+                    {t('noStudent.selectStudent')}
                 </Typography>
             </Box>
         );
@@ -214,7 +234,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
             >
                 <LinearProgress sx={{ mb: 1, width: '160px', mx: 'auto' }} />
                 <Typography variant="caption" color="text.secondary">
-                    Loading billing data...
+                    {t('loading.loadingData')}
                 </Typography>
             </Box>
         );
@@ -242,10 +262,10 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                     color="warning.main"
                     sx={{ mb: 0.5 }}
                 >
-                    No billing data available
+                    {t('noData.title')}
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
-                    No billing information found for this student.
+                    {t('noData.description')}
                 </Typography>
             </Box>
         );
@@ -283,7 +303,8 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                 sx={{ fontWeight: 600, lineHeight: 1.2 }}
                             >
                                 {selectedStudent.firstName}{' '}
-                                {selectedStudent.lastName}'s Billing
+                                {selectedStudent.lastName}
+                                {t('labels.billing')}
                             </Typography>
                             <Typography
                                 variant="caption"
@@ -306,7 +327,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                             {formatCurrency(totals.outstanding)}
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
-                            Outstanding
+                            {t('labels.outstanding')}
                         </Typography>
                     </Box>
                 </Box>
@@ -316,7 +337,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                     <Box sx={{ display: 'flex', gap: 1, mt: 1.5 }}>
                         {overdue.length > 0 && (
                             <Chip
-                                label={`${overdue.length} Overdue`}
+                                label={`${overdue.length} ${t('labels.overdue')}`}
                                 color="warning"
                                 size="small"
                                 sx={{ fontSize: '0.6875rem', height: 20 }}
@@ -324,7 +345,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                         )}
                         {dueSoon.length > 0 && (
                             <Chip
-                                label={`${dueSoon.length} Due Soon`}
+                                label={`${dueSoon.length} ${t('labels.dueSoon')}`}
                                 color="warning"
                                 size="small"
                                 sx={{ fontSize: '0.6875rem', height: 20 }}
@@ -375,7 +396,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                             {formatCurrency(totals.unpaid)}
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
-                            Unpaid
+                            {t('tabs.unpaid')}
                         </Typography>
                     </Box>
                 </Grid>
@@ -415,7 +436,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                             </Typography>
                         )}
                         <Typography variant="caption" color="text.secondary">
-                            Overdue
+                            {t('tabs.overdue')}
                         </Typography>
                     </Box>
                 </Grid>
@@ -452,7 +473,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                             {dueSoon.length}
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
-                            Due Soon
+                            {t('tabs.dueSoon')}
                         </Typography>
                         {dueSoon.length > 0 && (
                             <Typography
@@ -500,7 +521,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                             {formatCurrency(totals.paid)}
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
-                            Paid
+                            {t('tabs.paid')}
                         </Typography>
                     </Box>
                 </Grid>
@@ -534,7 +555,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                             {formatCurrency(totals.total)}
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
-                            Total
+                            {t('overview.total')}
                         </Typography>
                     </Box>
                 </Grid>
@@ -554,7 +575,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                         variant="subtitle2"
                         sx={{ fontWeight: 600, mb: 1.5 }}
                     >
-                        Billing Details
+                        {t('labels.billingDetails')}
                     </Typography>
                     <Tabs
                         value={activeTab}
@@ -569,11 +590,17 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                             },
                         }}
                     >
-                        <Tab label={`All (${billingData.length})`} />
-                        <Tab label={`Unpaid (${unpaid.length})`} />
-                        <Tab label={`Overdue (${overdue.length})`} />
-                        <Tab label={`Due Soon (${dueSoon.length})`} />
-                        <Tab label={`Paid (${paid.length})`} />
+                        <Tab
+                            label={`${t('tabs.all')} (${billingData.length})`}
+                        />
+                        <Tab label={`${t('tabs.unpaid')} (${unpaid.length})`} />
+                        <Tab
+                            label={`${t('tabs.overdue')} (${overdue.length})`}
+                        />
+                        <Tab
+                            label={`${t('tabs.dueSoon')} (${dueSoon.length})`}
+                        />
+                        <Tab label={`${t('tabs.paid')} (${paid.length})`} />
                     </Tabs>
                 </Box>
 
@@ -641,7 +668,8 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                                     color="text.secondary"
                                                 >
                                                     {getFeeCategoryName(
-                                                        billing
+                                                        billing,
+                                                        t
                                                     )}
                                                 </Typography>
                                                 {billing.deliveryDescription && (
@@ -717,7 +745,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                                 variant="caption"
                                                 color="text.secondary"
                                             >
-                                                Due:{' '}
+                                                {t('messages.due')}:{' '}
                                                 {formatDate(
                                                     billing.billingDueDate
                                                 )}
@@ -800,7 +828,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                                                     'block',
                                                             }}
                                                         >
-                                                            Due:{' '}
+                                                            {t('messages.due')}:{' '}
                                                             {new Date(
                                                                 billing.billingDueDate
                                                             ).toLocaleDateString(
@@ -861,15 +889,21 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                                             {isPaymentOverdue(
                                                                 billing.billingDueDate
                                                             )
-                                                                ? 'En retard'
+                                                                ? t(
+                                                                      'status.overdue'
+                                                                  )
                                                                 : getDaysUntilDue(
                                                                         billing.billingDueDate
                                                                     ) <= 14 &&
                                                                     getDaysUntilDue(
                                                                         billing.billingDueDate
                                                                     ) > 0
-                                                                  ? 'Échéance proche'
-                                                                  : 'Non payé'}
+                                                                  ? t(
+                                                                        'status.dueSoon'
+                                                                    )
+                                                                  : t(
+                                                                        'status.unpaid'
+                                                                    )}
                                                         </Typography>
                                                     </Box>
                                                 </Box>
@@ -889,7 +923,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                         variant="body2"
                                         sx={{ fontSize: '0.8125rem' }}
                                     >
-                                        Aucun montant impayé
+                                        {t('messages.noUnpaidAmount')}
                                     </Typography>
                                 </Box>
                             )}
@@ -954,7 +988,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                                             variant="caption"
                                                             color="warning.main"
                                                         >
-                                                            Due:{' '}
+                                                            {t('messages.due')}:{' '}
                                                             {formatDate(
                                                                 billing.billingDueDate
                                                             )}
@@ -964,7 +998,10 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                                                     billing.billingDueDate
                                                                 )
                                                             )}{' '}
-                                                            days overdue)
+                                                            {t(
+                                                                'messages.daysOverdue'
+                                                            )}
+                                                            )
                                                         </Typography>
                                                     </Box>
                                                 </Box>
@@ -990,7 +1027,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                                                 '0.6875rem',
                                                         }}
                                                     >
-                                                        Pay Now
+                                                        {t('overview.payNow')}
                                                     </Button>
                                                 </Box>
                                             </Box>
@@ -1010,8 +1047,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                         variant="body2"
                                         color="text.secondary"
                                     >
-                                        No overdue payments. Great job staying
-                                        on track!
+                                        {t('messages.noOverduePayments')}
                                     </Typography>
                                 </Box>
                             )}
@@ -1076,7 +1112,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                                             variant="caption"
                                                             color="warning.main"
                                                         >
-                                                            Due:{' '}
+                                                            {t('messages.due')}:{' '}
                                                             {formatDate(
                                                                 billing.billingDueDate
                                                             )}
@@ -1084,7 +1120,8 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                                             {getDaysUntilDue(
                                                                 billing.billingDueDate
                                                             )}{' '}
-                                                            days)
+                                                            {t('messages.days')}
+                                                            )
                                                         </Typography>
                                                     </Box>
                                                 </Box>
@@ -1110,7 +1147,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                                                 '0.6875rem',
                                                         }}
                                                     >
-                                                        Pay Now
+                                                        {t('overview.payNow')}
                                                     </Button>
                                                 </Box>
                                             </Box>
@@ -1130,7 +1167,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                         variant="body2"
                                         color="text.secondary"
                                     >
-                                        No payments due in the next 14 days.
+                                        {t('messages.noPaymentsDue')}
                                     </Typography>
                                 </Box>
                             )}
@@ -1195,7 +1232,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                                             variant="caption"
                                                             color="text.secondary"
                                                         >
-                                                            Due:{' '}
+                                                            {t('messages.due')}:{' '}
                                                             {formatDate(
                                                                 billing.billingDueDate
                                                             )}
@@ -1218,7 +1255,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                                         variant="caption"
                                                         color="text.secondary"
                                                     >
-                                                        Paid
+                                                        {t('status.paid')}
                                                     </Typography>
                                                     {billing.unpaidAmount >
                                                         0 && (
@@ -1233,7 +1270,9 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                                             {formatCurrency(
                                                                 billing.unpaidAmount
                                                             )}{' '}
-                                                            remaining
+                                                            {t(
+                                                                'messages.remaining'
+                                                            )}
                                                         </Typography>
                                                     )}
                                                 </Box>
@@ -1254,7 +1293,7 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                                         variant="body2"
                                         color="text.secondary"
                                     >
-                                        No payments have been made yet.
+                                        {t('messages.noPaymentsMade')}
                                     </Typography>
                                 </Box>
                             )}
@@ -1264,21 +1303,21 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
             </Box>
 
             {/* Compact Action Bar */}
-            <Box sx={{ display: 'flex', gap: 1, mt: 2 }}>
+            {/* <Box sx={{ display: 'flex', gap: 1, mt: 2 }}>
                 <Button
                     variant="contained"
                     onClick={() => navigate('/portal/billing/payments')}
                     disabled={totals.outstanding === 0}
                     sx={{ fontSize: '0.75rem' }}
                 >
-                    Make Payment
+                    {t('labels.makePayment')}
                 </Button>
                 <Button
                     variant="outlined"
                     startIcon={<DownloadIcon sx={{ fontSize: 14 }} />}
                     sx={{ fontSize: '0.75rem' }}
                 >
-                    Statement
+                    {t('labels.statement')}
                 </Button>
                 <Button
                     variant="outlined"
@@ -1286,9 +1325,9 @@ export const BillingOverview: React.FC<BillingOverviewProps> = ({
                     onClick={() => navigate('/portal/billing/history')}
                     sx={{ fontSize: '0.75rem' }}
                 >
-                    History
+                    {t('labels.history')}
                 </Button>
-            </Box>
+            </Box> */}
         </Box>
     );
 };

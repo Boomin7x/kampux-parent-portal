@@ -1,0 +1,18 @@
+{
+  "errors": {
+    "failedToLoadStudents": "Error al cargar estudiantes",
+    "errorOccurred": "Ocurrió un error",
+    "clickToRetry": "Haz clic para reintentar",
+    "noApiData": "No hay datos de API disponibles..."
+  },
+  "loading": {
+    "loadingStudents": "Cargando estudiantes desde la API..."
+  },
+  "noStudents": {
+    "title": "No se encontraron estudiantes",
+    "description": "La API no devolvió estudiantes para esta cuenta de padre."
+  },
+  "studentSelection": {
+    "pleaseSelectStudent": "Por favor selecciona un estudiante para ver las notas"
+  }
+}

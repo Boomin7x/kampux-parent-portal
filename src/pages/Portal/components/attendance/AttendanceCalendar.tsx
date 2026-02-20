@@ -37,6 +37,7 @@ import {
 } from '@mui/material';
 import * as React from 'react';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { Student } from '../../../../types/student.types';
 import { WeeklyTimetable } from './WeeklyTimetable';
 
@@ -104,6 +105,7 @@ interface CalendarDayData {
 export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
     selectedStudent,
 }) => {
+    const { t } = useTranslation('attendance');
     const [tabValue, setTabValue] = useState(0);
     const [selectedDay, setSelectedDay] = useState<CalendarDayData | null>(
         null
@@ -301,17 +303,17 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
     const getStatusLabel = (status: AttendanceStatus) => {
         switch (status) {
             case 'present':
-                return 'Present';
+                return t('calendar.status.present');
             case 'late':
-                return 'Late';
+                return t('calendar.status.late');
             case 'absent':
-                return 'Absent';
+                return t('calendar.status.absent');
             case 'early_dismissal':
-                return 'Early Dismissal';
+                return t('calendar.status.earlyDismissal');
             case 'not_yet':
-                return 'Not Yet';
+                return t('calendar.status.notYet');
             default:
-                return 'Unknown';
+                return t('calendar.status.unknown');
         }
     };
 
@@ -429,7 +431,14 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
         return {
             start: startOfWeek,
             end: endOfWeek,
-            display: `${startOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${endOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`,
+            display: `${startOfWeek.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+            })} - ${endOfWeek.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+            })}`,
         };
     };
 
@@ -452,7 +461,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                 }}
             >
                 <Typography variant="body2">
-                    Please select a student to view attendance
+                    {t('calendar.selectStudent')}
                 </Typography>
             </Box>
         );
@@ -471,7 +480,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                         color: 'text.primary',
                     }}
                 >
-                    Attendance Overview
+                    {t('calendar.overview')}
                 </Typography>
                 <Typography
                     variant="body2"
@@ -502,7 +511,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                     >
                         <Tab
                             icon={<CalendarViewIcon sx={{ fontSize: 16 }} />}
-                            label="Monthly Calendar"
+                            label={t('calendar.monthlyTab')}
                             iconPosition="start"
                             sx={{
                                 minHeight: 48,
@@ -512,7 +521,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                         />
                         <Tab
                             icon={<TimetableIcon sx={{ fontSize: 16 }} />}
-                            label="Weekly Timetable"
+                            label={t('calendar.weeklyTab')}
                             iconPosition="start"
                             sx={{
                                 minHeight: 48,
@@ -522,7 +531,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                         />
                         <Tab
                             icon={<TableViewIcon sx={{ fontSize: 16 }} />}
-                            label="Period Attendance"
+                            label={t('calendar.periodTab')}
                             iconPosition="start"
                             sx={{
                                 minHeight: 48,
@@ -553,7 +562,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                     color: 'text.primary',
                                 }}
                             >
-                                Monthly Overview
+                                {t('calendar.monthlyHeader')}
                             </Typography>
                             <Box
                                 sx={{
@@ -633,7 +642,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                             variant="caption"
                                             sx={{ fontWeight: 600 }}
                                         >
-                                            Attendance Rate
+                                            {t('calendar.stats.rate')}
                                         </Typography>
                                         <Typography
                                             variant="h6"
@@ -666,7 +675,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                             variant="caption"
                                             sx={{ fontWeight: 600 }}
                                         >
-                                            Days Present
+                                            {t('calendar.stats.present')}
                                         </Typography>
                                         <Typography
                                             variant="h6"
@@ -699,7 +708,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                             variant="caption"
                                             sx={{ fontWeight: 600 }}
                                         >
-                                            Late Days
+                                            {t('calendar.stats.late')}
                                         </Typography>
                                         <Typography
                                             variant="h6"
@@ -732,7 +741,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                             variant="caption"
                                             sx={{ fontWeight: 600 }}
                                         >
-                                            Absent Days
+                                            {t('calendar.stats.absent')}
                                         </Typography>
                                         <Typography
                                             variant="h6"
@@ -786,13 +795,13 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                 }}
                             >
                                 {[
-                                    'Sun',
-                                    'Mon',
-                                    'Tue',
-                                    'Wed',
-                                    'Thu',
-                                    'Fri',
-                                    'Sat',
+                                    t('calendar.days.sun'),
+                                    t('calendar.days.mon'),
+                                    t('calendar.days.tue'),
+                                    t('calendar.days.wed'),
+                                    t('calendar.days.thu'),
+                                    t('calendar.days.fri'),
+                                    t('calendar.days.sat'),
                                 ].map(day => (
                                     <Box
                                         key={day}
@@ -980,7 +989,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                                         color: 'text.secondary',
                                                     }}
                                                 >
-                                                    Weekend
+                                                    {t('calendar.weekend')}
                                                 </Typography>
                                             )}
                                         </Box>
@@ -1000,7 +1009,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                     color: 'text.secondary',
                                 }}
                             >
-                                LEGEND
+                                {t('calendar.legend')}
                             </Typography>
                             <Box
                                 sx={{
@@ -1011,22 +1020,22 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                             >
                                 {[
                                     {
-                                        label: 'Present',
+                                        label: t('calendar.status.present'),
                                         color: '#10b981',
                                         icon: <PresentIcon />,
                                     },
                                     {
-                                        label: 'Late',
+                                        label: t('calendar.status.late'),
                                         color: '#f59e0b',
                                         icon: <TardyIcon />,
                                     },
                                     {
-                                        label: 'Absent',
+                                        label: t('calendar.status.absent'),
                                         color: '#ef4444',
                                         icon: <AbsentIcon />,
                                     },
                                     {
-                                        label: 'Early Out',
+                                        label: t('calendar.status.earlyOut'),
                                         color: '#8b5cf6',
                                         icon: <EarlyDismissalIcon />,
                                     },
@@ -1093,7 +1102,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                     color: 'text.primary',
                                 }}
                             >
-                                Weekly Timetable
+                                {t('calendar.weeklyTab')}
                             </Typography>
                             <Box
                                 sx={{
@@ -1166,7 +1175,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                     color: 'text.primary',
                                 }}
                             >
-                                Period Attendance
+                                {t('calendar.periodTab')}
                             </Typography>
                             <Box
                                 sx={{
@@ -1224,7 +1233,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                     color: 'text.secondary',
                                 }}
                             >
-                                Weekly Summary
+                                {t('calendar.weeklySummary')}
                             </Typography>
                             <Box
                                 sx={{
@@ -1257,7 +1266,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                             variant="caption"
                                             sx={{ fontWeight: 600 }}
                                         >
-                                            Present
+                                            {t('calendar.status.present')}
                                         </Typography>
                                         <Typography
                                             variant="h6"
@@ -1290,7 +1299,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                             variant="caption"
                                             sx={{ fontWeight: 600 }}
                                         >
-                                            Late
+                                            {t('calendar.status.late')}
                                         </Typography>
                                         <Typography
                                             variant="h6"
@@ -1323,7 +1332,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                             variant="caption"
                                             sx={{ fontWeight: 600 }}
                                         >
-                                            Absent
+                                            {t('calendar.status.absent')}
                                         </Typography>
                                         <Typography
                                             variant="h6"
@@ -1355,14 +1364,16 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                                 fontSize: '0.75rem',
                                             }}
                                         >
-                                            Period
+                                            {t('calendar.period', {
+                                                period: '',
+                                            }).trim()}
                                         </TableCell>
                                         {[
-                                            'Monday',
-                                            'Tuesday',
-                                            'Wednesday',
-                                            'Thursday',
-                                            'Friday',
+                                            t('calendar.weekdays.monday'),
+                                            t('calendar.weekdays.tuesday'),
+                                            t('calendar.weekdays.wednesday'),
+                                            t('calendar.weekdays.thursday'),
+                                            t('calendar.weekdays.friday'),
                                         ].map(day => {
                                             const currentDay =
                                                 getCurrentDayOfWeek();
@@ -1428,7 +1439,9 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                                         minWidth: 80,
                                                     }}
                                                 >
-                                                    Period {periodIndex + 1}
+                                                    {t('calendar.period', {
+                                                        period: periodIndex + 1,
+                                                    })}
                                                 </TableCell>
                                                 {[
                                                     'Monday',
@@ -1641,8 +1654,9 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                                                                     'center',
                                                                             }}
                                                                         >
-                                                                            Not
-                                                                            Yet
+                                                                            {t(
+                                                                                'calendar.status.notYet'
+                                                                            )}
                                                                         </Typography>
                                                                     )}
                                                             </Box>
@@ -1679,7 +1693,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                 sx={{ fontSize: 20, color: 'primary.main' }}
                             />
                             <Typography variant="h6">
-                                Daily Attendance Details
+                                {t('calendar.dialogs.dailyTitle')}
                             </Typography>
                         </Box>
                     </DialogTitle>
@@ -1730,18 +1744,22 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                     </Box>
                                 </Box>
                                 <ListItemText
-                                    primary="Overall Status"
+                                    primary={t(
+                                        'calendar.dialogs.overallStatus'
+                                    )}
                                     secondary={
                                         selectedDay.status === 'present'
-                                            ? 'Present'
+                                            ? t('calendar.status.present')
                                             : selectedDay.status === 'late'
-                                              ? 'Late Arrival'
+                                              ? t('calendar.status.lateArrival')
                                               : selectedDay.status === 'absent'
-                                                ? 'Absent'
+                                                ? t('calendar.status.absent')
                                                 : selectedDay.status ===
                                                     'early_dismissal'
-                                                  ? 'Early Dismissal'
-                                                  : 'Unknown'
+                                                  ? t(
+                                                        'calendar.status.earlyDismissal'
+                                                    )
+                                                  : t('calendar.status.unknown')
                                     }
                                     sx={{
                                         '& .MuiListItemText-primary': {
@@ -1757,7 +1775,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
 
                             <ListItem sx={{ px: 0, py: 1 }}>
                                 <ListItemText
-                                    primary="Time In"
+                                    primary={t('calendar.dialogs.timeIn')}
                                     secondary={
                                         selectedDay.status === 'present'
                                             ? '8:00 AM'
@@ -1779,7 +1797,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
 
                             <ListItem sx={{ px: 0, py: 1 }}>
                                 <ListItemText
-                                    primary="Time Out"
+                                    primary={t('calendar.dialogs.timeOut')}
                                     secondary={
                                         selectedDay.status === 'early_dismissal'
                                             ? '2:30 PM'
@@ -1801,7 +1819,9 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
 
                             <ListItem sx={{ px: 0, py: 1 }}>
                                 <ListItemText
-                                    primary="Periods Present"
+                                    primary={t(
+                                        'calendar.dialogs.periodsPresent'
+                                    )}
                                     secondary={`${
                                         selectedDay.attendanceRate === 100
                                             ? '7/7'
@@ -1824,7 +1844,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                             {selectedDay.status === 'late' && (
                                 <ListItem sx={{ px: 0, py: 1 }}>
                                     <ListItemText
-                                        primary="Notes"
+                                        primary={t('calendar.dialogs.notes')}
                                         secondary="Student arrived 15 minutes late - traffic delay"
                                         sx={{
                                             '& .MuiListItemText-primary': {
@@ -1853,7 +1873,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={() => setDialogOpen(false)}>
-                            Close
+                            {t('calendar.dialogs.close')}
                         </Button>
                     </DialogActions>
                 </Dialog>
@@ -1878,7 +1898,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                 sx={{ fontSize: 20, color: 'primary.main' }}
                             />
                             <Typography variant="h6">
-                                Period Attendance Details
+                                {t('calendar.dialogs.periodTitle')}
                             </Typography>
                         </Box>
                     </DialogTitle>
@@ -1922,7 +1942,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                     </Box>
                                 </Box>
                                 <ListItemText
-                                    primary="Status"
+                                    primary={t('calendar.dialogs.status')}
                                     secondary={getStatusLabel(
                                         selectedPeriod.status
                                     )}
@@ -1940,7 +1960,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
 
                             <ListItem sx={{ px: 0, py: 1 }}>
                                 <ListItemText
-                                    primary="Teacher"
+                                    primary={t('calendar.dialogs.teacher')}
                                     secondary={selectedPeriod.teacher}
                                     sx={{
                                         '& .MuiListItemText-primary': {
@@ -1956,7 +1976,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
 
                             <ListItem sx={{ px: 0, py: 1 }}>
                                 <ListItemText
-                                    primary="Location"
+                                    primary={t('calendar.dialogs.location')}
                                     secondary={selectedPeriod.room}
                                     sx={{
                                         '& .MuiListItemText-primary': {
@@ -1973,7 +1993,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                             {selectedPeriod.notes && (
                                 <ListItem sx={{ px: 0, py: 1 }}>
                                     <ListItemText
-                                        primary="Notes"
+                                        primary={t('calendar.dialogs.notes')}
                                         secondary={selectedPeriod.notes}
                                         sx={{
                                             '& .MuiListItemText-primary': {
@@ -1992,7 +2012,9 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                 selectedPeriod.status === 'late') && (
                                 <ListItem sx={{ px: 0, py: 1 }}>
                                     <Chip
-                                        label="Requires Parent Contact"
+                                        label={t(
+                                            'calendar.dialogs.requiresContact'
+                                        )}
                                         color="error"
                                         size="small"
                                         sx={{ fontSize: '0.6875rem' }}
@@ -2003,7 +2025,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={() => setPeriodDialogOpen(false)}>
-                            Close
+                            {t('calendar.dialogs.close')}
                         </Button>
                     </DialogActions>
                 </Dialog>

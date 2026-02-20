@@ -56,6 +56,15 @@ export const useGetClassTimeTable = () => {
     });
 };
 
+export const useGetDashboard = () => {
+    const { selectedStudentId, hasSelectedStudent } = useSelectedStudent();
+    return useQuery({
+        queryKey: ['get-dashboard', selectedStudentId],
+        queryFn: () => parentService.getDashboard(selectedStudentId),
+        enabled: hasSelectedStudent,
+    });
+};
+
 // Hook to get billings for the currently selected student
 export const useGetSelectedStudentBillings = () => {
     const { selectedStudentId, hasSelectedStudent } = useSelectedStudent();

@@ -1,6 +1,7 @@
 import { Box, LinearProgress, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useStudentStore } from '../../stores/studentStore';
 import type { Student } from '../../types/student.types';
 import { convertAPIStudentsToUI } from '../../utils/studentAdapter';
@@ -70,6 +71,7 @@ import { StudentSheet } from './components/student/StudentSheet';
 
 const PortalPage: React.FC = () => {
     const navigate = useNavigate();
+    const { t } = useTranslation('portal');
     // const { selectedStudentId, setSelectedStudent } = useStudentStore();
 
     // Get student store
@@ -182,10 +184,10 @@ const PortalPage: React.FC = () => {
                     }}
                 >
                     <Typography variant="h6" color="error">
-                        Failed to load students
+                        {t('errors.failedToLoadStudents')}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        {error?.message || 'An error occurred'}
+                        {error?.message || t('errors.errorOccurred')}
                     </Typography>
                     <Typography
                         variant="body2"
@@ -193,14 +195,14 @@ const PortalPage: React.FC = () => {
                         sx={{ cursor: 'pointer', textDecoration: 'underline' }}
                         onClick={() => refetch()}
                     >
-                        Click to retry
+                        {t('errors.clickToRetry')}
                     </Typography>
                     <Typography
                         variant="body2"
                         color="text.secondary"
                         sx={{ mt: 2 }}
                     >
-                        No API data available...
+                        {t('errors.noApiData')}
                     </Typography>
                 </Box>
             </PortalLayout>
@@ -222,7 +224,7 @@ const PortalPage: React.FC = () => {
                 >
                     <LinearProgress sx={{ width: '200px' }} />
                     <Typography variant="body2" color="text.secondary">
-                        Loading students from API...
+                        {t('loading.loadingStudents')}
                     </Typography>
                 </Box>
             </PortalLayout>
@@ -244,10 +246,10 @@ const PortalPage: React.FC = () => {
                     }}
                 >
                     <Typography variant="h6" color="warning.main">
-                        No students found
+                        {t('noStudents.title')}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        The API returned no students for this parent account.
+                        {t('noStudents.description')}
                     </Typography>
                     <Typography
                         variant="body2"
@@ -255,7 +257,7 @@ const PortalPage: React.FC = () => {
                         sx={{ cursor: 'pointer', textDecoration: 'underline' }}
                         onClick={() => refetch()}
                     >
-                        Click to retry
+                        {t('errors.clickToRetry')}
                     </Typography>
                 </Box>
             </PortalLayout>
@@ -345,8 +347,9 @@ const PortalPage: React.FC = () => {
                                 ) : (
                                     <Box sx={{ p: 3 }}>
                                         <Typography>
-                                            Please select a student to view
-                                            marks
+                                            {t(
+                                                'studentSelection.pleaseSelectStudent'
+                                            )}
                                         </Typography>
                                     </Box>
                                 )

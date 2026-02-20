@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable react-hooks/refs */
 import {
     EventAvailable as AttendanceIcon,
     AccountBalance as BillingIcon,
@@ -27,8 +27,9 @@ import {
     Typography,
     useTheme,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface PortalSidebarProps {
     onItemClick?: () => void;
@@ -43,28 +44,29 @@ interface NavigationItem {
     children?: NavigationItem[];
 }
 
-const navigationItems: NavigationItem[] = [
+// Navigation structure - labels will be translated in the component
+const getNavigationItems = (t: (key: string) => string): NavigationItem[] => [
     {
         id: 'dashboard',
-        label: 'Dashboard',
+        label: t('navigation.dashboard'),
         icon: <DashboardIcon />,
         path: 'dashboard',
     },
     {
         id: 'billing',
-        label: 'Billing',
+        label: t('navigation.billing'),
         icon: <BillingIcon />,
         path: 'billing',
         children: [
             {
                 id: 'billing-overview',
-                label: 'Fee Overview',
+                label: t('navigation.feeOverview'),
                 icon: <FeesIcon />,
                 path: 'billing/overview',
             },
             {
                 id: 'billing-payments',
-                label: 'Payment History',
+                label: t('navigation.paymentHistory'),
                 icon: <PaymentIcon />,
                 path: 'billing/payments',
             },
@@ -72,31 +74,31 @@ const navigationItems: NavigationItem[] = [
     },
     {
         id: 'results',
-        label: 'Academic Results',
+        label: t('navigation.academicResults'),
         icon: <ResultsIcon />,
         path: 'results',
         children: [
             {
                 id: 'results-marks',
-                label: 'Student Marks',
+                label: t('navigation.studentMarks'),
                 icon: <MarksIcon />,
                 path: 'results/marks',
             },
             // {
             //     id: 'results-overview',
-            //     label: 'Results Overview',
+            //     label: t('navigation.resultsOverview'),
             //     icon: <GradesIcon />,
             //     path: 'results/overview',
             // },
             // {
             //     id: 'results-sequential',
-            //     label: 'Sequential Assessments',
+            //     label: t('navigation.sequentialAssessments'),
             //     icon: <ProgressIcon />,
             //     path: 'results/sequential',
             // },
             // {
             //     id: 'results-term',
-            //     label: 'Term Reports',
+            //     label: t('navigation.termReports'),
             //     icon: <ResultsIcon />,
             //     path: 'results/term',
             // },
@@ -104,19 +106,19 @@ const navigationItems: NavigationItem[] = [
     },
     {
         id: 'timetable',
-        label: 'Timetable',
+        label: t('navigation.timetable'),
         icon: <TimetableIcon />,
         path: 'timetable',
     },
     {
         id: 'attendance',
-        label: 'Attendance',
+        label: t('navigation.attendance'),
         icon: <AttendanceIcon />,
         path: 'attendance',
         children: [
             {
                 id: 'attendance-tracking',
-                label: 'Attendance Tracking',
+                label: t('navigation.attendanceTracking'),
                 icon: <CheckIcon />,
                 path: 'attendance/tracking',
             },
@@ -124,7 +126,7 @@ const navigationItems: NavigationItem[] = [
     },
     {
         id: 'student-sheet',
-        label: 'Student Sheet',
+        label: t('navigation.studentSheet'),
         icon: <StudentSheetIcon />,
         path: 'student-sheet',
     },
@@ -136,7 +138,15 @@ export const PortalSidebar: React.FC<PortalSidebarProps> = ({
     const theme = useTheme();
     const location = useLocation();
     const navigate = useNavigate();
+    const { t } = useTranslation('layout');
     const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
+    const expandedItemsRef = useRef<Set<string>>(expandedItems);
+
+    // Update ref when expandedItems changes
+    expandedItemsRef.current = expandedItems;
+
+    // Get navigation items with translations (memoized to prevent unnecessary re-renders)
+    const navigationItems = useMemo(() => getNavigationItems(t), [t]);
 
     // Auto-expand sections based on current route
     useEffect(() => {
@@ -157,19 +167,16 @@ export const PortalSidebar: React.FC<PortalSidebarProps> = ({
         });
 
         // Only update if there's a difference to prevent unnecessary re-renders
-        setExpandedItems(prev => {
-            const prevArray = Array.from(prev).sort();
-            const newArray = Array.from(newExpanded).sort();
+        const prevArray = Array.from(expandedItemsRef.current).sort();
+        const newArray = Array.from(newExpanded).sort();
 
-            if (
-                prevArray.length !== newArray.length ||
-                !prevArray.every((item, index) => item === newArray[index])
-            ) {
-                return newExpanded;
-            }
-            return prev;
-        });
-    }, [location.pathname]);
+        if (
+            prevArray.length !== newArray.length ||
+            !prevArray.every((item, index) => item === newArray[index])
+        ) {
+            setExpandedItems(newExpanded);
+        }
+    }, [location.pathname, navigationItems]);
 
     const handleItemClick = (item: NavigationItem) => {
         if (item.children) {
@@ -378,7 +385,7 @@ export const PortalSidebar: React.FC<PortalSidebarProps> = ({
                         textTransform: 'uppercase',
                     }}
                 >
-                    Parent Portal
+                    {t('header.parentPortal')}
                 </Typography>
             </Box>
 
@@ -414,7 +421,7 @@ export const PortalSidebar: React.FC<PortalSidebarProps> = ({
                         },
                     }}
                 >
-                    Retour à l'Accueil
+                    {t('footer.backToHome')}
                 </Button>
             </Box>
 
@@ -436,9 +443,9 @@ export const PortalSidebar: React.FC<PortalSidebarProps> = ({
                         lineHeight: 1.3,
                     }}
                 >
-                    Excellence Academy
+                    {t('footer.schoolName')}
                     <br />
-                    Parent Portal v2.0
+                    {t('footer.version')}
                 </Typography>
             </Box>
         </Box>

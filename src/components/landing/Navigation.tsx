@@ -14,9 +14,9 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LanguageSelector } from '../common/LanguageSelector';
 import { navigationContent } from '../../content/landing/navigationContent';
 import { useIsAuthenticated } from '../../pages/Auth/_hooks/useAuth';
+import { LanguageSelector } from '../common/LanguageSelector';
 import AuthenticatedUserDisplay from './AuthenticatedUserDisplay';
 
 // Navigation item interface

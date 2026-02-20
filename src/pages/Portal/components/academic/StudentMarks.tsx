@@ -2,17 +2,22 @@ import {
     Assessment as AssessmentIcon,
     ExpandLess as ExpandLessIcon,
     ExpandMore as ExpandMoreIcon,
+    FilterList as FilterIcon,
 } from '@mui/icons-material';
 import {
     Alert,
     Box,
-    Card,
-    CardContent,
     CircularProgress,
     Collapse,
+    FormControl,
     Grid,
     IconButton,
+    InputLabel,
     LinearProgress,
+    MenuItem,
+    Pagination,
+    Select,
+    Stack,
     Table,
     TableBody,
     TableCell,
@@ -21,7 +26,8 @@ import {
     TableRow,
     Typography,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useGetStudentMarks } from '../../_hooks/useParent';
 import type { StudentMark } from '../../_service/parentService';
 
@@ -32,6 +38,7 @@ interface StudentMarksProps {
 
 // Simple marks table with expandable competencies
 const MarksTable: React.FC<{ marks: StudentMark[] }> = ({ marks }) => {
+    const { t } = useTranslation('academic');
     const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set());
     // const theme = useTheme();
 
@@ -59,46 +66,77 @@ const MarksTable: React.FC<{ marks: StudentMark[] }> = ({ marks }) => {
             sx={{
                 border: '1px solid',
                 borderColor: 'divider',
-                borderRadius: 1,
+                borderRadius: 0.5,
+                backgroundColor: 'background.paper',
             }}
         >
             <Table size="small">
                 <TableHead>
-                    <TableRow sx={{ backgroundColor: 'primary.50' }}>
+                    <TableRow
+                        sx={{
+                            backgroundColor: 'primary.50',
+                            borderBottom: '1px solid',
+                            borderColor: 'primary.100',
+                        }}
+                    >
                         <TableCell
-                            sx={{ fontWeight: 600, fontSize: '0.75rem', py: 1 }}
+                            sx={{
+                                fontWeight: 600,
+                                fontSize: '0.75rem',
+                                py: 0.75,
+                            }}
                         >
-                            Subject
+                            {t('studentMarks.table.headers.subject')}
                         </TableCell>
                         <TableCell
-                            sx={{ fontWeight: 600, fontSize: '0.75rem', py: 1 }}
+                            sx={{
+                                fontWeight: 600,
+                                fontSize: '0.75rem',
+                                py: 0.75,
+                            }}
                             align="center"
                         >
-                            Exam
+                            {t('studentMarks.table.headers.exam')}
                         </TableCell>
                         <TableCell
-                            sx={{ fontWeight: 600, fontSize: '0.75rem', py: 1 }}
+                            sx={{
+                                fontWeight: 600,
+                                fontSize: '0.75rem',
+                                py: 0.75,
+                            }}
                             align="center"
                         >
-                            Score
+                            {t('studentMarks.table.headers.score')}
                         </TableCell>
                         <TableCell
-                            sx={{ fontWeight: 600, fontSize: '0.75rem', py: 1 }}
+                            sx={{
+                                fontWeight: 600,
+                                fontSize: '0.75rem',
+                                py: 0.75,
+                            }}
                             align="center"
                         >
-                            Rank
+                            {t('studentMarks.table.headers.rank')}
                         </TableCell>
                         <TableCell
-                            sx={{ fontWeight: 600, fontSize: '0.75rem', py: 1 }}
+                            sx={{
+                                fontWeight: 600,
+                                fontSize: '0.75rem',
+                                py: 0.75,
+                            }}
                             align="center"
                         >
-                            Period
+                            {t('studentMarks.table.headers.period')}
                         </TableCell>
                         <TableCell
-                            sx={{ fontWeight: 600, fontSize: '0.75rem', py: 1 }}
+                            sx={{
+                                fontWeight: 600,
+                                fontSize: '0.75rem',
+                                py: 0.75,
+                            }}
                             align="center"
                         >
-                            Details
+                            {t('studentMarks.table.headers.details')}
                         </TableCell>
                     </TableRow>
                 </TableHead>
@@ -114,11 +152,13 @@ const MarksTable: React.FC<{ marks: StudentMark[] }> = ({ marks }) => {
                                     hover
                                     sx={{
                                         '&:hover': {
-                                            backgroundColor: 'action.hover',
+                                            backgroundColor: 'primary.50',
                                         },
+                                        borderBottom: '1px solid',
+                                        borderColor: 'divider',
                                     }}
                                 >
-                                    <TableCell sx={{ py: 1 }}>
+                                    <TableCell sx={{ py: 0.75 }}>
                                         <Typography
                                             variant="body2"
                                             sx={{
@@ -136,12 +176,18 @@ const MarksTable: React.FC<{ marks: StudentMark[] }> = ({ marks }) => {
                                                 fontSize: '0.75rem',
                                             }}
                                         >
-                                            {mark.subjectCode} • Coeff:{' '}
-                                            {mark.coefficient}
+                                            {mark.subjectCode} •{' '}
+                                            {t(
+                                                'studentMarks.table.coefficient',
+                                                {
+                                                    coefficient:
+                                                        mark.coefficient,
+                                                }
+                                            )}
                                         </Typography>
                                     </TableCell>
 
-                                    <TableCell sx={{ py: 1 }}>
+                                    <TableCell sx={{ py: 0.75 }}>
                                         <Typography
                                             variant="body2"
                                             sx={{ fontSize: '0.8125rem' }}
@@ -150,7 +196,7 @@ const MarksTable: React.FC<{ marks: StudentMark[] }> = ({ marks }) => {
                                         </Typography>
                                     </TableCell>
 
-                                    <TableCell align="center" sx={{ py: 1 }}>
+                                    <TableCell align="center" sx={{ py: 0.75 }}>
                                         <Typography
                                             variant="subtitle2"
                                             sx={{
@@ -177,7 +223,7 @@ const MarksTable: React.FC<{ marks: StudentMark[] }> = ({ marks }) => {
                                         </Typography>
                                     </TableCell>
 
-                                    <TableCell align="center" sx={{ py: 1 }}>
+                                    <TableCell align="center" sx={{ py: 0.75 }}>
                                         <Typography
                                             variant="body2"
                                             sx={{
@@ -189,7 +235,7 @@ const MarksTable: React.FC<{ marks: StudentMark[] }> = ({ marks }) => {
                                         </Typography>
                                     </TableCell>
 
-                                    <TableCell align="center" sx={{ py: 1 }}>
+                                    <TableCell align="center" sx={{ py: 0.75 }}>
                                         <Typography
                                             variant="body2"
                                             sx={{ fontSize: '0.8125rem' }}
@@ -198,7 +244,7 @@ const MarksTable: React.FC<{ marks: StudentMark[] }> = ({ marks }) => {
                                         </Typography>
                                     </TableCell>
 
-                                    <TableCell align="center" sx={{ py: 1 }}>
+                                    <TableCell align="center" sx={{ py: 0.75 }}>
                                         <IconButton
                                             size="small"
                                             onClick={() =>
@@ -1258,10 +1304,90 @@ export const StudentMarks: React.FC<StudentMarksProps> = ({
     studentId,
     className = '',
 }) => {
+    const { t } = useTranslation('academic');
     const { data: response, isLoading, error } = useGetStudentMarks(studentId);
 
-    // Extract marks from response
-    const marks = Array.isArray(response) ? response : [];
+    // Extract marks from response with useMemo to prevent re-renders
+    const allMarks = useMemo(() => {
+        return Array.isArray(response) ? response : [];
+    }, [response]);
+
+    // Filter state - selectedPeriod will be set to last period after data loads
+    const [selectedPeriod, setSelectedPeriod] = useState<string>('');
+    const [selectedExam, setSelectedExam] = useState<string>('all');
+
+    // Pagination state
+    const [page, setPage] = useState<number>(1);
+    const [pageSize, setPageSize] = useState<number>(10);
+    const pageSizeOptions = [5, 10, 20, 50];
+
+    // Get unique periods and exams for filter options
+    const { periods, exams } = useMemo(() => {
+        const periodsSet = new Set<string>();
+        const examsSet = new Set<string>();
+
+        allMarks.forEach(mark => {
+            if (mark.schoolYearPeriodName) {
+                periodsSet.add(mark.schoolYearPeriodName);
+            }
+            if (mark.schoolYearPeriodExamName) {
+                examsSet.add(mark.schoolYearPeriodExamName);
+            }
+        });
+
+        const sortedPeriods = Array.from(periodsSet).sort();
+        const sortedExams = Array.from(examsSet).sort();
+
+        return {
+            periods: sortedPeriods,
+            exams: sortedExams,
+        };
+    }, [allMarks]);
+
+    // Set default period to the last (most recent) period when data loads
+    useMemo(() => {
+        if (periods.length > 0 && selectedPeriod === '') {
+            const lastPeriod = periods[periods.length - 1];
+            setSelectedPeriod(lastPeriod);
+        }
+    }, [periods, selectedPeriod]);
+
+    // Apply filters to marks (without pagination)
+    const filteredMarks = useMemo(() => {
+        return allMarks.filter(mark => {
+            const periodMatch =
+                selectedPeriod === 'all' ||
+                selectedPeriod === '' ||
+                mark.schoolYearPeriodName === selectedPeriod;
+            const examMatch =
+                selectedExam === 'all' ||
+                mark.schoolYearPeriodExamName === selectedExam;
+            return periodMatch && examMatch;
+        });
+    }, [allMarks, selectedPeriod, selectedExam]);
+
+    // Calculate pagination values
+    const totalPages = Math.ceil(filteredMarks.length / pageSize);
+    const startIndex = (page - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+
+    // Apply pagination to filtered marks
+    const marks = useMemo(() => {
+        return filteredMarks.slice(startIndex, endIndex);
+    }, [filteredMarks, startIndex, endIndex]);
+
+    // Reset page when filters change
+    const resetPage = () => {
+        if (page > totalPages && totalPages > 0) {
+            setPage(1);
+        }
+    };
+
+    // Reset page when filters or page size change
+    useMemo(() => {
+        resetPage();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedPeriod, selectedExam, pageSize, totalPages]);
 
     if (isLoading) {
         return (
@@ -1281,7 +1407,7 @@ export const StudentMarks: React.FC<StudentMarksProps> = ({
                     variant="body2"
                     sx={{ fontSize: '0.8125rem', color: 'text.secondary' }}
                 >
-                    Loading marks...
+                    {t('studentMarks.loading')}
                 </Typography>
             </Box>
         );
@@ -1307,7 +1433,7 @@ export const StudentMarks: React.FC<StudentMarksProps> = ({
         );
     }
 
-    if (marks.length === 0) {
+    if (allMarks.length === 0) {
         return (
             <Box className={className}>
                 <Alert
@@ -1321,13 +1447,13 @@ export const StudentMarks: React.FC<StudentMarksProps> = ({
                         variant="subtitle2"
                         sx={{ fontSize: '0.875rem', mb: 0.5 }}
                     >
-                        No marks available
+                        {t('studentMarks.table.noData')}
                     </Typography>
                     <Typography
                         variant="body2"
                         sx={{ fontSize: '0.8125rem', color: 'text.secondary' }}
                     >
-                        Academic results will appear here once published.
+                        {t('studentMarks.table.noDataDescription')}
                     </Typography>
                 </Alert>
             </Box>
@@ -1335,34 +1461,253 @@ export const StudentMarks: React.FC<StudentMarksProps> = ({
     }
 
     // Get student info from first mark
-    const studentInfo = marks[0];
+    const studentInfo = allMarks[0];
     const studentName = `${studentInfo.firstName} ${studentInfo.lastName}`;
 
     return (
         <Box className={className}>
-            {/* Compact Header */}
-            <Box sx={{ mb: 2 }}>
+            {/* Header */}
+            <Box sx={{ mb: 1.5 }}>
                 <Typography
-                    variant="subtitle1"
-                    sx={{ fontWeight: 600, fontSize: '1rem', mb: 0.5 }}
+                    variant="subtitle2"
+                    sx={{ fontWeight: 600, mb: 0.5 }}
                 >
-                    Academic Results
+                    {t('studentMarks.title')}
                 </Typography>
                 <Typography
-                    variant="body2"
-                    sx={{ fontSize: '0.8125rem', color: 'text.secondary' }}
+                    variant="caption"
+                    sx={{ fontSize: '0.75rem', color: 'text.secondary' }}
                 >
-                    {studentName} • {studentInfo.schoolYearName} •{' '}
-                    {marks.length} assessments
+                    {t('studentMarks.subtitle', {
+                        studentName,
+                        schoolYear: studentInfo.schoolYearName,
+                        assessmentCount: allMarks.length,
+                    })}
                 </Typography>
             </Box>
 
+            {/* Filters */}
+            <Box sx={{ mb: 1.5 }}>
+                <Grid container spacing={1.5} alignItems="center">
+                    <Grid size={{ xs: 12, sm: 4, md: 3 }}>
+                        <FormControl fullWidth size="small">
+                            <InputLabel id="period-filter-label">
+                                {t('studentMarks.filters.period')}
+                            </InputLabel>
+                            <Select
+                                labelId="period-filter-label"
+                                value={selectedPeriod}
+                                label={t('studentMarks.filters.period')}
+                                onChange={e =>
+                                    setSelectedPeriod(e.target.value)
+                                }
+                                sx={{ fontSize: '0.8125rem' }}
+                            >
+                                <MenuItem value="all">
+                                    {t('studentMarks.filters.allPeriods')}
+                                </MenuItem>
+                                {periods.map(period => (
+                                    <MenuItem key={period} value={period}>
+                                        {period}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 4, md: 3 }}>
+                        <FormControl fullWidth size="small">
+                            <InputLabel id="exam-filter-label">
+                                {t('studentMarks.filters.exam')}
+                            </InputLabel>
+                            <Select
+                                labelId="exam-filter-label"
+                                value={selectedExam}
+                                label={t('studentMarks.filters.exam')}
+                                onChange={e => setSelectedExam(e.target.value)}
+                                sx={{ fontSize: '0.8125rem' }}
+                            >
+                                <MenuItem value="all">
+                                    {t('studentMarks.filters.allExams')}
+                                </MenuItem>
+                                {exams.map(exam => (
+                                    <MenuItem key={exam} value={exam}>
+                                        {exam}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 4, md: 6 }}>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 1,
+                            }}
+                        >
+                            <FilterIcon
+                                sx={{ fontSize: 16, color: 'text.secondary' }}
+                            />
+                            <Typography
+                                variant="caption"
+                                sx={{
+                                    fontSize: '0.75rem',
+                                    color: 'text.secondary',
+                                }}
+                            >
+                                {t('studentMarks.filters.resultCount', {
+                                    start: startIndex + 1,
+                                    end: Math.min(
+                                        endIndex,
+                                        filteredMarks.length
+                                    ),
+                                    filtered: filteredMarks.length,
+                                    total: allMarks.length,
+                                })}
+                            </Typography>
+                        </Box>
+                    </Grid>
+                </Grid>
+            </Box>
+
+            {/* No results message for filtered view */}
+            {filteredMarks.length === 0 && allMarks.length > 0 && (
+                <Box sx={{ mb: 2 }}>
+                    <Alert severity="info" sx={{ borderRadius: 1 }}>
+                        <Typography
+                            variant="body2"
+                            sx={{ fontSize: '0.8125rem' }}
+                        >
+                            {t('studentMarks.table.noFilterResults')}
+                        </Typography>
+                    </Alert>
+                </Box>
+            )}
+
             {/* Marks Table */}
-            <Card variant="outlined" sx={{ borderRadius: 1 }}>
-                <CardContent sx={{ p: 0 }}>
+            {marks.length > 0 && (
+                <>
                     <MarksTable marks={marks} />
-                </CardContent>
-            </Card>
+
+                    {/* Pagination Controls */}
+                    {filteredMarks.length > pageSize && (
+                        <Box
+                            sx={{
+                                mt: 2,
+                                p: 1.5,
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                flexWrap: 'wrap',
+                                gap: 1.5,
+                                backgroundColor: 'primary.50',
+                                border: '1px solid',
+                                borderColor: 'primary.100',
+                                borderRadius: 0.5,
+                            }}
+                        >
+                            {/* Page Size Selector */}
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 1,
+                                }}
+                            >
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        fontSize: '0.75rem',
+                                        color: 'text.secondary',
+                                        whiteSpace: 'nowrap',
+                                    }}
+                                >
+                                    {t('studentMarks.pagination.itemsPerPage')}
+                                </Typography>
+                                <FormControl size="small" sx={{ minWidth: 70 }}>
+                                    <Select
+                                        value={pageSize}
+                                        onChange={e => {
+                                            setPageSize(Number(e.target.value));
+                                            setPage(1);
+                                        }}
+                                        sx={{
+                                            fontSize: '0.8125rem',
+                                            '& .MuiSelect-select': {
+                                                py: 0.5,
+                                                px: 1,
+                                            },
+                                        }}
+                                    >
+                                        {pageSizeOptions.map(size => (
+                                            <MenuItem
+                                                key={size}
+                                                value={size}
+                                                sx={{ fontSize: '0.8125rem' }}
+                                            >
+                                                {size}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Box>
+
+                            {/* Pagination Component */}
+                            <Stack
+                                direction="row"
+                                alignItems="center"
+                                spacing={2}
+                            >
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        fontSize: '0.75rem',
+                                        color: 'text.secondary',
+                                        display: { xs: 'none', sm: 'block' },
+                                    }}
+                                >
+                                    {t('studentMarks.pagination.page', {
+                                        current: page,
+                                        total: totalPages,
+                                    })}
+                                </Typography>
+                                <Pagination
+                                    count={totalPages}
+                                    page={page}
+                                    onChange={(_, newPage) => setPage(newPage)}
+                                    color="primary"
+                                    size="small"
+                                    shape="rounded"
+                                    showFirstButton
+                                    showLastButton
+                                    siblingCount={1}
+                                    boundaryCount={1}
+                                    sx={{
+                                        '& .MuiPaginationItem-root': {
+                                            fontSize: '0.8125rem',
+                                            minWidth: 28,
+                                            height: 28,
+                                        },
+                                        '& .MuiPaginationItem-page': {
+                                            borderRadius: 1,
+                                        },
+                                        '& .MuiPaginationItem-page.Mui-selected':
+                                            {
+                                                backgroundColor: 'primary.main',
+                                                color: 'white',
+                                                fontWeight: 600,
+                                                '&:hover': {
+                                                    backgroundColor:
+                                                        'primary.dark',
+                                                },
+                                            },
+                                    }}
+                                />
+                            </Stack>
+                        </Box>
+                    )}
+                </>
+            )}
         </Box>
     );
 };

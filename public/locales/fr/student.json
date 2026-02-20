@@ -1,0 +1,20 @@
+{
+  "messages": {
+    "noRecordsFound": "Aucun dossier d'étudiant trouvé."
+  },
+  "noStudent": {
+    "selectStudent": "Sélectionner un étudiant"
+  },
+  "studentInfo": {
+    "grade": "Niveau"
+  },
+  "statItem": {
+    "gpa": "Moy.",
+    "attendance": "Prés.",
+    "alerts": "Alertes"
+  },
+  "studentSelector": {
+    "students_one": "{{count}} étudiant",
+    "students_other": "{{count}} étudiants"
+  }
+}

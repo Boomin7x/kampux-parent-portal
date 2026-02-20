@@ -1,0 +1,51 @@
+{
+  "title": "Nouvelle Plainte",
+  "studentId": "Étudiant ID: {{id}}",
+  "noStudentSelected": "Veuillez sélectionner un étudiant pour soumettre une plainte.",
+  "loadingCategoriesError": "Erreur lors du chargement des catégories de plaintes.",
+  "alerts": {
+    "submitSuccess": "Plainte soumise avec succès. Vous recevrez une confirmation.",
+    "submitError": "Erreur lors de la soumission. Veuillez réessayer."
+  },
+  "form": {
+    "category": {
+      "label": "Catégorie de Plainte *"
+    },
+    "summary": {
+      "label": "Résumé de la plainte *",
+      "placeholder": "Résumé concis en quelques mots...",
+      "helperText": "{{count}}/100 caractères"
+    },
+    "description": {
+      "label": "Description détaillée *",
+      "placeholder": "Décrivez votre plainte de manière détaillée...",
+      "helperText": "{{count}}/500 caractères"
+    },
+    "cancelButton": "Annuler",
+    "submitButton": {
+      "default": "Soumettre la Plainte",
+      "pending": "Envoi en cours..."
+    }
+  },
+  "preview": {
+    "title": "APERÇU DE LA PLAINTE",
+    "category": "Catégorie:",
+    "summary": "Résumé:",
+    "description": "Description:"
+  },
+  "validation": {
+    "category": {
+      "required": "La catégorie de plainte est requise"
+    },
+    "summary": {
+      "required": "Le résumé est requis",
+      "min": "Le résumé doit contenir au moins 5 caractères",
+      "max": "Le résumé ne doit pas dépasser 100 caractères"
+    },
+    "description": {
+      "required": "La description est requise",
+      "min": "La description doit contenir au moins 20 caractères",
+      "max": "La description ne doit pas dépasser 500 caractères"
+    }
+  }
+}

@@ -1,0 +1,89 @@
+{
+    "calendar": {
+        "selectStudent": "Por favor selecciona un estudiante para ver la asistencia",
+        "overview": "Resumen de asistencia",
+        "monthlyTab": "Calendario mensual",
+        "weeklyTab": "Horario semanal",
+        "periodTab": "Asistencia por período",
+        "monthlyHeader": "Resumen mensual",
+        "stats": {
+            "rate": "Tasa de asistencia",
+            "present": "Días presentes",
+            "late": "Días tarde",
+            "absent": "Días ausentes"
+        },
+        "days": {
+            "sun": "Dom",
+            "mon": "Lun",
+            "tue": "Mar",
+            "wed": "Mié",
+            "thu": "Jue",
+            "fri": "Vie",
+            "sat": "Sáb"
+        },
+        "weekend": "Fin de semana",
+        "legend": "LEYENDA",
+        "status": {
+            "present": "Presente",
+            "late": "Tarde",
+            "absent": "Ausente",
+            "earlyOut": "Salida temprana",
+            "notYet": "Aún no",
+            "unknown": "Desconocido",
+            "lateArrival": "Llegada tardía",
+            "earlyDismissal": "Salida temprana"
+        },
+        "weeklySummary": "Resumen semanal",
+        "period": "Período {{period}}",
+        "weekdays": {
+            "monday": "Lunes",
+            "tuesday": "Martes",
+            "wednesday": "Miércoles",
+            "thursday": "Jueves",
+            "friday": "Viernes"
+        },
+        "dialogs": {
+            "dailyTitle": "Detalles de asistencia diaria",
+            "overallStatus": "Estado general",
+            "timeIn": "Hora de entrada",
+            "timeOut": "Hora de salida",
+            "periodsPresent": "Períodos presentes",
+            "notes": "Notas",
+            "close": "Cerrar",
+            "periodTitle": "Detalles de asistencia por período",
+            "teacher": "Profesor",
+            "location": "Ubicación",
+            "requiresContact": "Requiere contacto de los padres"
+        }
+    },
+    "timetable": {
+        "selectStudent": "Selecciona un estudiante para ver su horario semanal",
+        "loading": "Cargando horario semanal...",
+        "error": "Error al cargar el horario",
+        "unexpectedError": "Ocurrió un error inesperado",
+        "header": "Horario Semanal",
+        "subjects_one": "{{count}} Materia",
+        "subjects_other": "{{count}} Materias",
+        "weekOf": "Semana del",
+        "to": "al",
+        "totalClasses": "Total de clases",
+        "sessions_one": "{{count}} sesión",
+        "sessions_other": "{{count}} sesiones",
+        "disciplines_one": "{{count}} disciplina",
+        "disciplines_other": "{{count}} disciplinas",
+        "totalHours": "Horas totales",
+        "dailySchedule": "Horario diario",
+        "today": "Hoy",
+        "workload": {
+            "heavy": "Día intenso",
+            "moderate": "Día normal",
+            "light": "Día ligero"
+        },
+        "classes_one": "{{count}} clase",
+        "classes_other": "{{count}} clases",
+        "noClasses": "No hay clases programadas",
+        "subjectOverview": "Resumen de materias",
+        "weekOverview": "Resumen de la semana",
+        "weekSummary": "{{studentName}} tiene {{totalHours}} clases programadas en {{totalSubjects}} materias esta semana."
+    }
+}

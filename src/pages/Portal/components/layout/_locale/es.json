@@ -1,0 +1,28 @@
+{
+  "navigation": {
+    "dashboard": "Panel de control",
+    "billing": "Facturación",
+    "feeOverview": "Resumen de tarifas",
+    "paymentHistory": "Historial de pagos",
+    "academicResults": "Resultados académicos",
+    "studentMarks": "Notas del estudiante",
+    "resultsOverview": "Resumen de resultados",
+    "sequentialAssessments": "Evaluaciones secuenciales",
+    "termReports": "Informes del trimestre",
+    "timetable": "Horario",
+    "attendance": "Asistencia",
+    "attendanceTracking": "Seguimiento de asistencia",
+    "studentSheet": "Ficha del estudiante"
+  },
+  "header": {
+    "parentPortal": "Portal de Padres"
+  },
+  "footer": {
+    "schoolName": "Excellence Academy",
+    "version": "Portal de Padres v2.0",
+    "backToHome": "Volver al Inicio"
+  },
+  "actions": {
+    "complaint": "Queja"
+  }
+}

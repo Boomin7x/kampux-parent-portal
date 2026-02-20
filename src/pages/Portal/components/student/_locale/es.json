@@ -1,0 +1,125 @@
+{
+  "errors": {
+    "failedToLoad": "Error al cargar datos de expediente estudiantil",
+    "unexpectedError": "Ocurri� un error inesperado"
+  },
+  "loading": {
+    "loadingData": "Cargando registros de expediente estudiantil..."
+  },
+  "noData": {
+    "title": "No hay registros de expediente estudiantil disponibles",
+    "description": "No se encontraron registros de expediente para este estudiante."
+  },
+  "noStudent": {
+    "selectStudent": "Selecciona un Estudiante"
+  },
+  "overview": {
+    "title": "Expediente Estudiantil",
+    "totalRecords": "Total de Registros",
+    "activeIssues": "Problemas Activos",
+    "resolvedIssues": "Problemas Resueltos",
+    "pendingActions": "Acciones Pendientes",
+    "latestRecords": "Últimos Registros",
+    "recordSummary": "Resumen de Registros"
+  },
+  "recordTypes": {
+    "sanctions": "Sanciones",
+    "absenceRecords": "Registros de Ausencia",
+    "disciplinaryReports": "Informes Disciplinarios",
+    "behaviorNotes": "Notas de Comportamiento",
+    "achievements": "Logros",
+    "incidents": "Incidentes",
+    "warnings": "Advertencias",
+    "counseling": "Sesiones de Consejer�a"
+  },
+  "status": {
+    "resolved": "Resuelto",
+    "pending": "Pendiente",
+    "active": "Activo",
+    "cancelled": "Cancelado",
+    "justified": "Justificado",
+    "unjustified": "No Justificado",
+    "inProgress": "En Progreso",
+    "completed": "Completado",
+    "expired": "Expirado"
+  },
+  "severity": {
+    "low": "Bajo",
+    "medium": "Medio",
+    "high": "Alto",
+    "critical": "Cr�tico"
+  },
+  "actions": {
+    "view": "Ver",
+    "edit": "Editar",
+    "resolve": "Resolver",
+    "cancel": "Cancelar",
+    "justify": "Justificar",
+    "contact": "Contactar",
+    "download": "Descargar",
+    "print": "Imprimir"
+  },
+  "labels": {
+    "date": "Fecha",
+    "type": "Tipo",
+    "description": "Descripci�n",
+    "status": "Estado",
+    "severity": "Severidad",
+    "teacher": "Profesor",
+    "subject": "Materia",
+    "action": "Acci�n",
+    "notes": "Notas",
+    "createdBy": "Creado por",
+    "lastModified": "�ltima Modificaci�n",
+    "dueDate": "Fecha de Vencimiento",
+    "resolution": "Resoluci�n",
+    "contactRequired": "Contacto Requerido",
+    "parentNotified": "Padre Notificado"
+  },
+  "messages": {
+    "selectStudentForRecords": "Selecciona un estudiante para ver sus registros de expediente.",
+    "noRecordsFound": "No se encontraron registros de expediente para este estudiante.",
+    "recordsOverview": "Resumen de los registros acad�micos y de comportamiento del estudiante",
+    "requiresParentContact": "Este registro requiere contacto con los padres",
+    "parentContactMade": "Se ha contactado con los padres",
+    "awaitingResolution": "Esperando resoluci�n",
+    "recordResolved": "Este registro ha sido resuelto",
+    "recordCancelled": "Este registro ha sido cancelado",
+    "justificationProvided": "Se ha proporcionado justificaci�n",
+    "noJustification": "No se proporcion� justificaci�n",
+    "escalationRequired": "Este problema puede requerir escalamiento",
+    "followUpNeeded": "Se necesita acci�n de seguimiento"
+  },
+  "tabs": {
+    "all": "Todos los Registros",
+    "active": "Activos",
+    "resolved": "Resueltos",
+    "pending": "Pendientes",
+    "disciplinary": "Disciplinario",
+    "academic": "Acad�mico",
+    "behavioral": "Comportamental"
+  },
+  "filters": {
+    "filterBy": "Filtrar por",
+    "dateRange": "Rango de Fechas",
+    "recordType": "Tipo de Registro",
+    "status": "Estado",
+    "severity": "Severidad",
+    "teacher": "Profesor",
+    "subject": "Materia",
+    "clearFilters": "Limpiar Filtros",
+    "applyFilters": "Aplicar Filtros"
+  },
+  "studentInfo": {
+    "grade": "Grado"
+  },
+  "statItem": {
+    "gpa": "Promedio",
+    "attendance": "Asistencia",
+    "alerts": "Alertas"
+  },
+  "studentSelector": {
+    "students_one": "{{count}} estudiante",
+    "students_other": "{{count}} estudiantes"
+  }
+}

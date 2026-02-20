@@ -1,0 +1,69 @@
+{
+    "studentMarks": {
+        "title": "Academic Results",
+        "subtitle": "{{studentName}} \" {{schoolYear}} \" {{assessmentCount}} total assessments",
+        "filters": {
+            "period": "Period",
+            "exam": "Exam",
+            "allPeriods": "All Periods",
+            "allExams": "All Exams",
+            "resultCount": "Showing {{start}}-{{end}} of {{filtered}} filtered ({{total}} total) assessments"
+        },
+        "table": {
+            "headers": {
+                "subject": "Subject",
+                "exam": "Exam",
+                "score": "Score",
+                "rank": "Rank",
+                "period": "Period",
+                "details": "Details"
+            },
+            "noData": "No marks available",
+            "noDataDescription": "Academic results will appear here once published.",
+            "noFilterResults": "No marks found for the selected filters. Try adjusting your period or exam selection.",
+            "coefficient": "Coeff: {{coefficient}}"
+        },
+        "expandedDetails": {
+            "assessmentDetails": "Assessment Details",
+            "academicInformation": "Academic Information",
+            "scoreInformation": "Score Information",
+            "competencyBreakdown": "Competency Breakdown ({{count}} competencies)",
+            "fields": {
+                "studentId": "Student ID",
+                "registrationId": "Registration ID",
+                "birthDate": "Birth Date",
+                "subjectId": "Subject ID",
+                "subjectShortName": "Subject Short Name",
+                "examId": "Exam ID",
+                "schoolYear": "School Year",
+                "className": "Class Name",
+                "periodExam": "Period Exam",
+                "currentMark": "Current Mark",
+                "totalMark": "Total Mark",
+                "maxMark": "Max Mark",
+                "markExists": "Mark Exists",
+                "yes": "Yes",
+                "no": "No"
+            },
+            "competency": {
+                "code": "Code: {{code}}",
+                "type": "Type: {{type}}",
+                "level": "Level: {{level}}",
+                "coefficient": "Coefficient: {{coefficient}}",
+                "order": "Order: {{order}}",
+                "weighted": "Weighted: {{weighted}}",
+                "rank": "Rank: #{{rank}}",
+                "status": "Status: {{status}}",
+                "markAvailable": "Mark Available",
+                "markPending": "Mark Pending",
+                "leafCompetency": " Leaf competency",
+                "parent": "Parent: {{parent}}"
+            }
+        },
+        "pagination": {
+            "itemsPerPage": "Items per page:",
+            "page": "Page {{current}} of {{total}}"
+        },
+        "loading": "Loading marks..."
+    }
+}

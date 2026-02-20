@@ -1,0 +1,112 @@
+{
+  "errors": {
+    "failedToLoad": "Error al cargar datos de facturación",
+    "unexpectedError": "Ocurrió un error inesperado"
+  },
+  "loading": {
+    "loadingData": "Cargando datos de facturación..."
+  },
+  "noData": {
+    "title": "No hay datos de facturación disponibles",
+    "description": "No se encontró información de facturación para este estudiante."
+  },
+  "noStudent": {
+    "selectStudent": "Selecciona un estudiante para ver la información de facturación"
+  },
+  "overview": {
+    "billing": "Facturación",
+    "title": " - Facturación",
+    "total": "Total",
+    "paid": "Pagado",
+    "outstanding": "Pendiente",
+    "overdue": "Vencido",
+    "dueSoon": "Próximo a vencer",
+    "unpaid": "Sin pagar",
+    "viewAll": "Ver todo",
+    "payNow": "Pagar ahora",
+    "download": "Descargar",
+    "view": "Ver"
+  },
+  "tabs": {
+    "all": "Todo",
+    "unpaid": "Sin pagar",
+    "overdue": "Vencido",
+    "dueSoon": "Próximo a vencer",
+    "paid": "Pagado"
+  },
+  "status": {
+    "paid": "Pagado",
+    "unpaid": "Sin pagar",
+    "overdue": "Vencido",
+    "dueSoon": "Próximo a vencer",
+    "cancelled": "Cancelado"
+  },
+  "payment": {
+    "receipt": "Recibo",
+    "reference": "Referencia",
+    "date": "Fecha",
+    "amount": "Cantidad",
+    "method": "Método",
+    "status": "Estado",
+    "description": "Descripción",
+    "breakdown": "Desglose"
+  },
+  "fees": {
+    "tuition": "Colegiatura",
+    "transport": "Transporte",
+    "activities": "Actividades",
+    "materials": "Materiales",
+    "registration": "Inscripción",
+    "exam": "Examen",
+    "other": "Otro",
+    "schoolFees": "Cuotas escolares",
+    "notSpecified": "No especificado",
+    "inscription": "Inscripción"
+  },
+  "labels": {
+    "outstanding": "Pendiente",
+    "billing": " - Facturación",
+    "overdue": "Vencido",
+    "dueSoon": "Próximo a vencer",
+    "totalPaid": "Total Pagado",
+    "validPayments": "Pagos Válidos",
+    "cancelledPayments": "Pagos Cancelados",
+    "paymentHistory": "Historial de Pagos",
+    "paymentDetails": "Detalles del Pago",
+    "operationDetails": "Detalle de operaciones",
+    "billingDetails": "Detalles de Facturación",
+    "makePayment": "Hacer Pago",
+    "statement": "Estado de Cuenta",
+    "history": "Historial",
+    "actions": "Acciones",
+    "dueDate": "Fecha de Vencimiento"
+  },
+  "messages": {
+    "selectStudentForHistory": "Selecciona un estudiante para ver el historial de pagos.",
+    "noPaymentsFound": "No se encontraron pagos para este estudiante.",
+    "detailOfOperations": "Detalle de operaciones de pago realizadas",
+    "noUnpaidAmount": "Sin cantidad pendiente",
+    "noOverduePayments": "No hay pagos vencidos. ¡Excelente trabajo manteniéndose al día!",
+    "noPaymentsDue": "No hay pagos que venzan en los próximos 14 días.",
+    "noPaymentsMade": "Aún no se han realizado pagos.",
+    "daysOverdue": "días de retraso",
+    "days": "días",
+    "remaining": "restante",
+    "due": "Vencimiento",
+    "net": "Neto",
+    "validatedPayment": "Validado",
+    "cancelledPayment": "Cancelado",
+    "invoice": "Factura",
+    "paymentMode": "Modo de Pago",
+    "bearer": "Portador",
+    "issueDate": "Fecha de Emisión",
+    "detailedAmounts": "Importes Detallados",
+    "paymentCancelled": "PAGO CANCELADO",
+    "reason": "Motivo",
+    "cancellationDate": "Fecha de Cancelación",
+    "dateReference": "Fecha / Referencia",
+    "amount": "Importe",
+    "distribution": "Distribución",
+    "cashier": "Cajero"
+  }
+}

@@ -1,0 +1,69 @@
+{
+    "studentMarks": {
+        "title": "Resultados Académicos",
+        "subtitle": "{{studentName}} • {{schoolYear}} • {{assessmentCount}} evaluaciones totales",
+        "filters": {
+            "period": "Período",
+            "exam": "Examen",
+            "allPeriods": "Todos los Períodos",
+            "allExams": "Todos los Exámenes",
+            "resultCount": "Mostrando {{start}}-{{end}} de {{filtered}} filtradas ({{total}} total) evaluaciones"
+        },
+        "table": {
+            "headers": {
+                "subject": "Materia",
+                "exam": "Examen",
+                "score": "Puntuación",
+                "rank": "Rango",
+                "period": "Período",
+                "details": "Detalles"
+            },
+            "noData": "No hay calificaciones disponibles",
+            "noDataDescription": "Los resultados académicos aparecerán aquí una vez publicados.",
+            "noFilterResults": "No se encontraron calificaciones para los filtros seleccionados. Intenta ajustar tu selección de período o examen.",
+            "coefficient": "Coef: {{coefficient}}"
+        },
+        "expandedDetails": {
+            "assessmentDetails": "Detalles de la Evaluación",
+            "academicInformation": "Información Académica",
+            "scoreInformation": "Información de Puntuación",
+            "competencyBreakdown": "Desglose de Competencias ({{count}} competencias)",
+            "fields": {
+                "studentId": "ID del Estudiante",
+                "registrationId": "ID de Inscripción",
+                "birthDate": "Fecha de Nacimiento",
+                "subjectId": "ID de Materia",
+                "subjectShortName": "Nombre Corto de Materia",
+                "examId": "ID del Examen",
+                "schoolYear": "Año Escolar",
+                "className": "Nombre de la Clase",
+                "periodExam": "Examen del Período",
+                "currentMark": "Calificación Actual",
+                "totalMark": "Calificación Total",
+                "maxMark": "Calificación Máxima",
+                "markExists": "Calificación Existe",
+                "yes": "Sí",
+                "no": "No"
+            },
+            "competency": {
+                "code": "Código: {{code}}",
+                "type": "Tipo: {{type}}",
+                "level": "Nivel: {{level}}",
+                "coefficient": "Coeficiente: {{coefficient}}",
+                "order": "Orden: {{order}}",
+                "weighted": "Ponderado: {{weighted}}",
+                "rank": "Rango: #{{rank}}",
+                "status": "Estado: {{status}}",
+                "markAvailable": "Calificación Disponible",
+                "markPending": "Calificación Pendiente",
+                "leafCompetency": "Competencia final",
+                "parent": "Padre: {{parent}}"
+            }
+        },
+        "pagination": {
+            "itemsPerPage": "Elementos por página:",
+            "page": "Página {{current}} de {{total}}"
+        },
+        "loading": "Cargando calificaciones..."
+    }
+}

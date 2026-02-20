@@ -575,6 +575,15 @@ export const parentService = {
         return response.data;
     },
 
+    getDashboard: async (id: string | null) => {
+        const res = await parentApiClient.get(`/get-student-dashboard`, {
+            params: {
+                studentId: id,
+            },
+        });
+        return res?.data;
+    },
+
     /**
      * Get class timetable for the school year
      */

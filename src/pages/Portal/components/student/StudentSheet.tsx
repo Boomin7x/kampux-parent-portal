@@ -18,6 +18,8 @@ import {
     Typography,
 } from '@mui/material';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { getLanguage } from '../../../../contexts/LanguageContext';
 import type {
     Student,
     StudentSheetsData,
@@ -77,6 +79,7 @@ const RecordsList = ({
     renderRecord,
     selectedStudent,
 }: any) => {
+    const { t } = useTranslation('student');
     if (records.length === 0) {
         return (
             <Box
@@ -96,15 +99,14 @@ const RecordsList = ({
                     variant="subtitle2"
                     sx={{ fontWeight: 600, mb: 0.5 }}
                 >
-                    No {title}
+                    {t('messages.noRecordsFound')}
                 </Typography>
                 <Typography
                     variant="body2"
                     color="text.secondary"
                     sx={{ fontSize: '0.75rem' }}
                 >
-                    {selectedStudent.fullName} has no {title.toLowerCase()} on
-                    record.
+                    {selectedStudent.fullName} {t('messages.recordsOverview')}
                 </Typography>
             </Box>
         );
@@ -153,12 +155,14 @@ const RecordCard = ({
     duration,
     category,
     issueDate,
+    language,
 }: any) => {
+    const { t } = useTranslation('student');
     const formatDate = (dateString: string) => {
         if (!dateString || dateString === '0001-01-01 00:00:00.000')
             return null;
         try {
-            return new Date(dateString).toLocaleDateString('fr-FR');
+            return new Date(dateString).toLocaleDateString(language);
         } catch {
             return null;
         }
@@ -242,7 +246,7 @@ const RecordCard = ({
                                     color: 'text.secondary',
                                 }}
                             >
-                                Date: {formattedDate}
+                                {t('labels.date')}: {formattedDate}
                             </Typography>
                         )}
                         {formattedIssueDate && (
@@ -253,7 +257,7 @@ const RecordCard = ({
                                     color: 'text.secondary',
                                 }}
                             >
-                                • Issued: {formattedIssueDate}
+                                • {t('labels.createdBy')}: {formattedIssueDate}
                             </Typography>
                         )}
                         {duration && (
@@ -264,7 +268,7 @@ const RecordCard = ({
                                     color: 'text.secondary',
                                 }}
                             >
-                                • Duration: {duration}
+                                • {t('labels.dueDate')}: {duration}
                             </Typography>
                         )}
                     </Box>
@@ -286,7 +290,7 @@ const RecordCard = ({
                     )}
                     {isCancelled && (
                         <Chip
-                            label="Cancelled"
+                            label={t('status.cancelled')}
                             size="small"
                             sx={{
                                 height: 16,
@@ -334,7 +338,7 @@ const RecordCard = ({
                             mb: 0.25,
                         }}
                     >
-                        Cancellation:
+                        {t('labels.resolution')}:
                     </Typography>
                     <Typography
                         variant="caption"
@@ -351,7 +355,8 @@ const RecordCard = ({
     );
 };
 
-const ComplaintCard = ({ complaint }: any) => {
+const ComplaintCard = ({ complaint, language }: any) => {
+    const { t } = useTranslation('student');
     return (
         <Box
             sx={{
@@ -393,7 +398,7 @@ const ComplaintCard = ({ complaint }: any) => {
                                 •{' '}
                                 {new Date(
                                     complaint.complaintDate
-                                ).toLocaleDateString('fr-FR')}
+                                ).toLocaleDateString(language)}
                             </>
                         )}
                     </Typography>
@@ -401,7 +406,9 @@ const ComplaintCard = ({ complaint }: any) => {
                 <Box sx={{ display: 'flex', gap: 0.5 }}>
                     <Chip
                         label={
-                            complaint.haveBeenResolved ? 'Resolved' : 'Pending'
+                            complaint.haveBeenResolved
+                                ? t('status.resolved')
+                                : t('status.pending')
                         }
                         size="small"
                         sx={{
@@ -417,7 +424,7 @@ const ComplaintCard = ({ complaint }: any) => {
                     />
                     {complaint.isCancelled && (
                         <Chip
-                            label="Cancelled"
+                            label={t('status.cancelled')}
                             size="small"
                             sx={{
                                 height: 16,
@@ -465,7 +472,7 @@ const ComplaintCard = ({ complaint }: any) => {
                             mb: 0.25,
                         }}
                     >
-                        Resolution:
+                        {t('labels.resolution')}:
                     </Typography>
                     <Typography
                         variant="caption"
@@ -474,7 +481,7 @@ const ComplaintCard = ({ complaint }: any) => {
                     >
                         {complaint.resolutionDescription}
                         {complaint.resolutionDate &&
-                            ` (${new Date(complaint.resolutionDate).toLocaleDateString('fr-FR')})`}
+                            ` (${new Date(complaint.resolutionDate).toLocaleDateString(language)})`}
                     </Typography>
                 </Box>
             )}
@@ -485,6 +492,9 @@ const ComplaintCard = ({ complaint }: any) => {
 export const StudentSheet: React.FC<StudentSheetProps> = ({
     selectedStudent,
 }) => {
+    const { t } = useTranslation('student');
+    const language = getLanguage();
+
     const { data, isLoading, error } = useGetSelectedStudentSheets() as {
         data: StudentSheetsData | undefined;
         isLoading: boolean;
@@ -515,7 +525,7 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                 >
                     <InfoIcon sx={{ fontSize: 48, color: 'text.disabled' }} />
                     <Typography variant="subtitle1" color="text.secondary">
-                        Select a student to view their sheet records
+                        {t('noStudent.selectStudent')}
                     </Typography>
                 </Box>
             </Container>
@@ -532,7 +542,7 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                         color="text.secondary"
                         textAlign="center"
                     >
-                        Loading student sheet records...
+                        {t('loading.loadingData')}
                     </Typography>
                 </Box>
             </Container>
@@ -554,10 +564,10 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                 >
                     <ErrorIcon sx={{ fontSize: 48, color: 'error.main' }} />
                     <Typography variant="subtitle1" color="error.main">
-                        Failed to load student sheet data
+                        {t('errors.failedToLoad')}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        {error.message || 'An unexpected error occurred'}
+                        {error.message || t('errors.unexpectedError')}
                     </Typography>
                 </Box>
             </Container>
@@ -567,8 +577,8 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
     const sheetTypes: SheetType[] = [
         {
             id: 'sanctions',
-            title: 'Sanctions',
-            description: 'Disciplinary actions and penalties',
+            title: t('recordTypes.sanctions'),
+            description: t('recordTypes.sanctions'),
             icon: <SanctionIcon />,
             color: '#dc2626',
             bgColor: '#fef2f2',
@@ -578,8 +588,8 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
         },
         {
             id: 'absences',
-            title: 'Absence Records',
-            description: 'Documented absences and tardiness',
+            title: t('recordTypes.absenceRecords'),
+            description: t('recordTypes.absenceRecords'),
             icon: <AbsenceIcon />,
             color: '#ea580c',
             bgColor: '#fff7ed',
@@ -589,8 +599,8 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
         },
         {
             id: 'disciplinary',
-            title: 'Disciplinary Reports',
-            description: 'Behavioral incidents and actions',
+            title: t('recordTypes.disciplinaryReports'),
+            description: t('recordTypes.disciplinaryReports'),
             icon: <WarningIcon />,
             color: '#dc2626',
             bgColor: '#fef2f2',
@@ -600,8 +610,8 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
         },
         {
             id: 'observations',
-            title: 'Observation Notes',
-            description: 'Teacher and staff observations',
+            title: t('recordTypes.behaviorNotes'),
+            description: t('recordTypes.behaviorNotes'),
             icon: <InfoIcon />,
             color: '#2563eb',
             bgColor: '#eff6ff',
@@ -611,8 +621,8 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
         },
         {
             id: 'complaints',
-            title: 'Complaints',
-            description: 'Filed complaints and resolutions',
+            title: t('recordTypes.incidents'),
+            description: t('recordTypes.incidents'),
             icon: <ComplaintIcon />,
             color: '#7c3aed',
             bgColor: '#f5f3ff',
@@ -649,13 +659,13 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                             fontSize: '1.125rem',
                         }}
                     >
-                        Student Records
+                        {t('overview.title')}
                     </Typography>
                     <Chip
                         label={
                             hasAnyRecords
-                                ? `${totalRecords} Records`
-                                : 'Clean Record'
+                                ? `${totalRecords} ${t('overview.totalRecords')}`
+                                : t('status.active')
                         }
                         size="small"
                         color={hasAnyRecords ? 'warning' : 'success'}
@@ -711,7 +721,7 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                 color="text.secondary"
                                 sx={{ fontSize: '0.75rem' }}
                             >
-                                Record Status
+                                {t('labels.status')}
                             </Typography>
                             <Typography
                                 variant="subtitle2"
@@ -721,8 +731,8 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                 }}
                             >
                                 {hasAnyRecords
-                                    ? 'Needs Attention'
-                                    : 'Clean Record'}
+                                    ? t('overview.activeIssues')
+                                    : t('status.completed')}
                             </Typography>
                         </Box>
                     </Box>
@@ -753,7 +763,7 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                 color="text.secondary"
                                 sx={{ fontSize: '0.75rem' }}
                             >
-                                Total Records
+                                {t('overview.totalRecords')}
                             </Typography>
                             <Typography
                                 variant="subtitle2"
@@ -892,7 +902,7 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                     {sheet.description}
                                 </Typography>
 
-                                {sheet.count === 0 && (
+                                {/* {sheet.count === 0 && (
                                     <Box sx={{ mt: 'auto', pt: 0.5 }}>
                                         <Typography
                                             variant="caption"
@@ -908,10 +918,10 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                             <CheckCircleIcon
                                                 sx={{ fontSize: 12 }}
                                             />
-                                            No records
+                                            {t('messages.noRecordsFound')}
                                         </Typography>
                                     </Box>
-                                )}
+                                )} */}
                             </Box>
                         </Box>
                     </Box>
@@ -944,25 +954,25 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                         },
                     }}
                 >
-                    <Tab label="Detailed Records" {...a11yProps(0)} />
+                    <Tab label={t('tabs.all')} {...a11yProps(0)} />
                     <Tab
-                        label={`Absences (${data?.registrationAbsenceSheets?.length || 0})`}
+                        label={`${t('recordTypes.absenceRecords')} (${data?.registrationAbsenceSheets?.length || 0})`}
                         {...a11yProps(1)}
                     />
                     <Tab
-                        label={`Disciplinary (${data?.registrationDisciplinarySheets?.length || 0})`}
+                        label={`${t('recordTypes.disciplinaryReports')} (${data?.registrationDisciplinarySheets?.length || 0})`}
                         {...a11yProps(2)}
                     />
                     <Tab
-                        label={`Observations (${data?.registrationObservationSheets?.length || 0})`}
+                        label={`${t('recordTypes.behaviorNotes')} (${data?.registrationObservationSheets?.length || 0})`}
                         {...a11yProps(3)}
                     />
                     <Tab
-                        label={`Complaints (${data?.registrationComplaints?.length || 0})`}
+                        label={`${t('recordTypes.incidents')} (${data?.registrationComplaints?.length || 0})`}
                         {...a11yProps(4)}
                     />
                     <Tab
-                        label={`Sanctions (${data?.registrationSanctions?.length || 0})`}
+                        label={`${t('recordTypes.sanctions')} (${data?.registrationSanctions?.length || 0})`}
                         {...a11yProps(5)}
                     />
                 </Tabs>
@@ -982,7 +992,7 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                 fontSize: '0.875rem',
                             }}
                         >
-                            Record Summary
+                            {t('overview.recordSummary')}
                         </Typography>
 
                         {/* Statistics Grid */}
@@ -1122,7 +1132,7 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                 fontSize: '0.75rem',
                             }}
                         >
-                            Latest Records
+                            {t('overview.latestRecords')}
                         </Typography>
 
                         <Box
@@ -1230,7 +1240,7 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                             >
                                                 {new Date(
                                                     record.date
-                                                ).toLocaleDateString('fr-FR')}
+                                                ).toLocaleDateString(language)}
                                             </Typography>
                                         </Box>
                                         <Box sx={{ flex: 1, minWidth: 0 }}>
@@ -1287,7 +1297,7 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                 fontSize: '0.6875rem',
                             }}
                         >
-                            Click on individual tabs above for detailed views
+                            {t('messages.selectStudentForRecords')}
                         </Typography>
                     </Box>
                 )}
@@ -1305,11 +1315,11 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                 fontSize: '1rem',
                             }}
                         >
-                            Excellent Record!
+                            {t('status.completed')}!
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            {selectedStudent.fullName} has a clean behavioral
-                            record with no incidents on file.
+                            {selectedStudent.fullName}{' '}
+                            {t('messages.recordResolved')}.
                         </Typography>
                     </Box>
                 )}
@@ -1318,10 +1328,12 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
             {/* Absences Tab */}
             <TabPanel value={currentTab} index={1}>
                 <RecordsList
-                    title="Absence Records"
+                    title={t('recordTypes.absenceRecords')}
                     icon={<AbsenceIcon />}
                     records={data?.registrationAbsenceSheets || []}
                     selectedStudent={selectedStudent}
+                    language={language}
+                    t={t}
                     renderRecord={(absence: any, idx: number) => {
                         const getTitle = () => {
                             return absence.absenceType || 'Absence';
@@ -1374,8 +1386,8 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                 description={getDescription()}
                                 status={
                                     absence.justifedAbsence
-                                        ? 'Justified'
-                                        : 'Unjustified'
+                                        ? t('status.justified')
+                                        : t('status.unjustified')
                                 }
                                 statusColor={
                                     absence.justifedAbsence
@@ -1389,6 +1401,8 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                 cancellationDate={absence.cancellationDate}
                                 borderColor="#ea580c"
                                 bgColor="#fff7ed"
+                                language={language}
+                                t={t}
                             />
                         );
                     }}
@@ -1415,7 +1429,7 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                 variant="caption"
                                 sx={{ fontWeight: 600, fontSize: '0.75rem' }}
                             >
-                                Disciplinary Records (
+                                {t('recordTypes.disciplinaryReports')} (
                                 {data.registrationDisciplinarySheets.length})
                             </Typography>
                         </Box>
@@ -1543,7 +1557,9 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                                 </Typography>
                                                 {incident.isCancelled && (
                                                     <Chip
-                                                        label="Cancelled"
+                                                        label={t(
+                                                            'status.cancelled'
+                                                        )}
                                                         size="small"
                                                         sx={{
                                                             height: 14,
@@ -1673,14 +1689,15 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                 fontSize: '0.75rem',
                             }}
                         >
-                            No Disciplinary Issues
+                            {t('messages.noRecordsFound')}
                         </Typography>
                         <Typography
                             variant="caption"
                             color="text.secondary"
                             sx={{ fontSize: '0.6875rem' }}
                         >
-                            {selectedStudent.fullName} has excellent behavior.
+                            {selectedStudent.fullName}{' '}
+                            {t('messages.recordResolved')}.
                         </Typography>
                     </Box>
                 )}
@@ -1710,7 +1727,7 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                         fontSize: '0.8125rem',
                                     }}
                                 >
-                                    Observation Records (
+                                    {t('recordTypes.behaviorNotes')} (
                                     {data.registrationObservationSheets.length})
                                 </Typography>
                             </Box>
@@ -1844,7 +1861,9 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                                 </Typography>
                                                 {observation.isCancelled && (
                                                     <Chip
-                                                        label="Cancelled"
+                                                        label={t(
+                                                            'status.cancelled'
+                                                        )}
                                                         size="small"
                                                         sx={{
                                                             height: 14,
@@ -1973,7 +1992,7 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                 color: 'success.main',
                             }}
                         >
-                            No observations recorded
+                            {t('messages.noRecordsFound')}
                         </Typography>
                     </Box>
                 )}
@@ -1982,14 +2001,18 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
             {/* Complaints Tab */}
             <TabPanel value={currentTab} index={4}>
                 <RecordsList
-                    title="Student Complaints"
+                    title={t('recordTypes.incidents')}
                     icon={<ComplaintIcon />}
                     records={data?.registrationComplaints || []}
                     selectedStudent={selectedStudent}
+                    language={language}
+                    t={t}
                     renderRecord={(complaint: any, idx: number) => (
                         <ComplaintCard
                             key={'complaint.id' + idx}
                             complaint={complaint}
+                            language={language}
+                            t={t}
                         />
                     )}
                 />
@@ -2019,7 +2042,7 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                         fontSize: '0.8125rem',
                                     }}
                                 >
-                                    Sanctions Overview (
+                                    {t('recordTypes.sanctions')} (
                                     {data.registrationSanctions.length})
                                 </Typography>
                             </Box>
@@ -2044,7 +2067,7 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                             fontSize: '0.6875rem',
                                         }}
                                     >
-                                        Sanction Timeline
+                                        {t('recordTypes.sanctions')}
                                     </Typography>
                                     <Box sx={{ position: 'relative', pl: 2 }}>
                                         {/* Timeline line */}
@@ -2179,7 +2202,9 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                                                     )}
                                                                     {sanction.isCancelled && (
                                                                         <Chip
-                                                                            label="Cancelled"
+                                                                            label={t(
+                                                                                'status.cancelled'
+                                                                            )}
                                                                             size="small"
                                                                             sx={{
                                                                                 height: 14,
@@ -2515,15 +2540,15 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                 color: 'success.main',
                             }}
                         >
-                            No Sanctions
+                            {t('messages.noRecordsFound')}
                         </Typography>
                         <Typography
                             variant="body2"
                             color="text.secondary"
                             sx={{ fontSize: '0.6875rem' }}
                         >
-                            {selectedStudent.fullName} has a clean disciplinary
-                            record with no sanctions.
+                            {selectedStudent.fullName}{' '}
+                            {t('messages.recordResolved')}.
                         </Typography>
                     </Box>
                 )}

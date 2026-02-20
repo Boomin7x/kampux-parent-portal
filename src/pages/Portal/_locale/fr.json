@@ -1,0 +1,18 @@
+{
+  "errors": {
+    "failedToLoadStudents": "Échec du chargement des étudiants",
+    "errorOccurred": "Une erreur s'est produite",
+    "clickToRetry": "Cliquez pour réessayer",
+    "noApiData": "Aucune donnée API disponible..."
+  },
+  "loading": {
+    "loadingStudents": "Chargement des étudiants depuis l'API..."
+  },
+  "noStudents": {
+    "title": "Aucun étudiant trouvé",
+    "description": "L'API n'a retourné aucun étudiant pour ce compte parent."
+  },
+  "studentSelection": {
+    "pleaseSelectStudent": "Veuillez sélectionner un étudiant pour voir les notes"
+  }
+}

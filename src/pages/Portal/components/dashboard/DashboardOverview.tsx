@@ -33,6 +33,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Student } from '../../../../types/student.types';
+import { useGetDashboard } from '../../_hooks/useParentWithStore';
 
 interface DashboardOverviewProps {
     selectedStudent: Student | null;
@@ -181,6 +182,8 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
 }) => {
     const theme = useTheme();
     const navigate = useNavigate();
+    const { data } = useGetDashboard();
+    console.log({ data });
     const [dashboardData, setDashboardData] = useState<DashboardStats | null>(
         null
     );

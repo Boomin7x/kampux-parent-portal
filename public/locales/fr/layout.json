@@ -1,0 +1,22 @@
+{
+  "header": {
+    "parentPortal": "Portail des parents"
+  },
+  "navigation": {
+    "dashboard": "Tableau de bord",
+    "billing": "Facturation",
+    "feeOverview": "Aperçu des frais",
+    "paymentHistory": "Historique des paiements",
+    "academicResults": "Résultats académiques",
+    "studentMarks": "Notes de l'étudiant",
+    "timetable": "Emploi du temps",
+    "attendance": "Présence",
+    "attendanceTracking": "Suivi de présence",
+    "studentSheet": "Fiche de l'étudiant"
+  },
+  "footer": {
+    "backToHome": "Retour à l'accueil",
+    "schoolName": "École Univsoft",
+    "version": "Version 1.0.0"
+  }
+}

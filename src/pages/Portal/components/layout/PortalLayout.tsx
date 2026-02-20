@@ -13,6 +13,7 @@ import {
     useTheme,
 } from '@mui/material';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { LanguageSelector } from '../../../../components/common/LanguageSelector';
 import { useUserProfile } from '../../../Auth/_hooks/useAuth';
@@ -41,6 +42,7 @@ export const PortalLayout: React.FC<PortalLayoutProps> = ({
     const isMobile = useMediaQuery(theme.breakpoints.down(MOBILE_BREAKPOINT));
     const userProfile = useUserProfile();
     const navigate = useNavigate();
+    const { t } = useTranslation('layout');
 
     const [sidebarOpen, setSidebarOpen] = useState(!isMobile);
     const [notificationsOpen, setNotificationsOpen] = useState(false);
@@ -309,7 +311,7 @@ export const PortalLayout: React.FC<PortalLayoutProps> = ({
                                     display: { xs: 'none', sm: 'block' },
                                 }}
                             >
-                                Plainte
+                                {t('actions.complaint')}
                             </Box>
                         </Button>
 

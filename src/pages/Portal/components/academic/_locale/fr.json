@@ -1,0 +1,69 @@
+{
+    "studentMarks": {
+        "title": "Résultats Académiques",
+        "subtitle": "{{studentName}} \" {{schoolYear}} \" {{assessmentCount}} évaluations au total",
+        "filters": {
+            "period": "Période",
+            "exam": "Examen",
+            "allPeriods": "Toutes les Périodes",
+            "allExams": "Tous les Examens",
+            "resultCount": "Affichage {{start}}-{{end}} sur {{filtered}} filtrées ({{total}} au total) évaluations"
+        },
+        "table": {
+            "headers": {
+                "subject": "Matière",
+                "exam": "Examen",
+                "score": "Note",
+                "rank": "Classement",
+                "period": "Période",
+                "details": "Détails"
+            },
+            "noData": "Aucune note disponible",
+            "noDataDescription": "Les résultats académiques apparaîtront ici une fois publiés.",
+            "noFilterResults": "Aucune note trouvée pour les filtres sélectionnés. Essayez d'ajuster votre sélection de période ou d'examen.",
+            "coefficient": "Coeff: {{coefficient}}"
+        },
+        "expandedDetails": {
+            "assessmentDetails": "Détails de l'évaluation",
+            "academicInformation": "Informations Académiques",
+            "scoreInformation": "Informations sur la Note",
+            "competencyBreakdown": "Répartition des Compétences ({{count}} compétences)",
+            "fields": {
+                "studentId": "ID étudiant",
+                "registrationId": "ID d'Inscription",
+                "birthDate": "Date de Naissance",
+                "subjectId": "ID Matière",
+                "subjectShortName": "Nom Court de la Matière",
+                "examId": "ID Examen",
+                "schoolYear": "Année Scolaire",
+                "className": "Nom de la Classe",
+                "periodExam": "Examen de Période",
+                "currentMark": "Note Actuelle",
+                "totalMark": "Note Totale",
+                "maxMark": "Note Maximale",
+                "markExists": "Note Existante",
+                "yes": "Oui",
+                "no": "Non"
+            },
+            "competency": {
+                "code": "Code: {{code}}",
+                "type": "Type: {{type}}",
+                "level": "Niveau: {{level}}",
+                "coefficient": "Coefficient: {{coefficient}}",
+                "order": "Ordre: {{order}}",
+                "weighted": "Pondérée: {{weighted}}",
+                "rank": "Rang: #{{rank}}",
+                "status": "Statut: {{status}}",
+                "markAvailable": "Note Disponible",
+                "markPending": "Note en Attente",
+                "leafCompetency": "Compétence finale",
+                "parent": "Parent: {{parent}}"
+            }
+        },
+        "pagination": {
+            "itemsPerPage": "Éléments par page:",
+            "page": "Page {{current}} sur {{total}}"
+        },
+        "loading": "Chargement des notes..."
+    }
+}

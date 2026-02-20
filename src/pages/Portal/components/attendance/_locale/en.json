@@ -1,0 +1,89 @@
+{
+    "calendar": {
+        "selectStudent": "Please select a student to view attendance",
+        "overview": "Attendance Overview",
+        "monthlyTab": "Monthly Calendar",
+        "weeklyTab": "Weekly Timetable",
+        "periodTab": "Period Attendance",
+        "monthlyHeader": "Monthly Overview",
+        "stats": {
+            "rate": "Attendance Rate",
+            "present": "Days Present",
+            "late": "Late Days",
+            "absent": "Absent Days"
+        },
+        "days": {
+            "sun": "Sun",
+            "mon": "Mon",
+            "tue": "Tue",
+            "wed": "Wed",
+            "thu": "Thu",
+            "fri": "Fri",
+            "sat": "Sat"
+        },
+        "weekend": "Weekend",
+        "legend": "LEGEND",
+        "status": {
+            "present": "Present",
+            "late": "Late",
+            "absent": "Absent",
+            "earlyOut": "Early Out",
+            "notYet": "Not Yet",
+            "unknown": "Unknown",
+            "lateArrival": "Late Arrival",
+            "earlyDismissal": "Early Dismissal"
+        },
+        "weeklySummary": "Weekly Summary",
+        "period": "Period {{period}}",
+        "weekdays": {
+            "monday": "Monday",
+            "tuesday": "Tuesday",
+            "wednesday": "Wednesday",
+            "thursday": "Thursday",
+            "friday": "Friday"
+        },
+        "dialogs": {
+            "dailyTitle": "Daily Attendance Details",
+            "overallStatus": "Overall Status",
+            "timeIn": "Time In",
+            "timeOut": "Time Out",
+            "periodsPresent": "Periods Present",
+            "notes": "Notes",
+            "close": "Close",
+            "periodTitle": "Period Attendance Details",
+            "teacher": "Teacher",
+            "location": "Location",
+            "requiresContact": "Requires Parent Contact"
+        }
+    },
+    "timetable": {
+        "selectStudent": "Select a student to view their weekly timetable",
+        "loading": "Loading weekly timetable...",
+        "error": "Failed to load timetable",
+        "unexpectedError": "An unexpected error occurred",
+        "header": "Weekly Timetable",
+        "subjects_one": "{{count}} Subject",
+        "subjects_other": "{{count}} Subjects",
+        "weekOf": "Week of",
+        "to": "to",
+        "totalClasses": "Total Classes",
+        "sessions_one": "{{count}} session",
+        "sessions_other": "{{count}} sessions",
+        "disciplines_one": "{{count}} discipline",
+        "disciplines_other": "{{count}} disciplines",
+        "totalHours": "Total Hours",
+        "dailySchedule": "Daily Schedule",
+        "today": "Today",
+        "workload": {
+            "heavy": "Heavy Day",
+            "moderate": "Normal Day",
+            "light": "Light Day"
+        },
+        "classes_one": "{{count}} class",
+        "classes_other": "{{count}} classes",
+        "noClasses": "No classes scheduled",
+        "subjectOverview": "Subject Overview",
+        "weekOverview": "Week Overview",
+        "weekSummary": "{{studentName}} has {{totalHours}} scheduled classes across {{totalSubjects}} subjects this week."
+    }
+}

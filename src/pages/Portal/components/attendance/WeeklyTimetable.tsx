@@ -19,6 +19,8 @@ import {
     Typography,
 } from '@mui/material';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import i18n from '../../../../i18n/config';
 import type { Student } from '../../../../types/student.types';
 import { useGetClassTimeTable } from '../../_hooks/useParentWithStore';
 
@@ -67,8 +69,21 @@ const getSubjectColor = (title: string): string => {
     return '#6366f1'; // Default purple
 };
 
+const getLanguage = (val: string): string => {
+    switch (val) {
+        case 'en':
+            return 'en-US';
+        case 'es':
+            return 'es-ES';
+        case 'fr':
+            return 'fr-FR';
+        default:
+            return 'fr-FR';
+    }
+};
+
 const formatTime = (dateString: string): string => {
-    return new Date(dateString).toLocaleTimeString('fr-FR', {
+    return new Date(dateString).toLocaleTimeString(getLanguage(i18n.language), {
         hour: '2-digit',
         minute: '2-digit',
         hour12: false,
@@ -84,7 +99,7 @@ const formatTime = (dateString: string): string => {
 // };
 
 const formatShortDate = (dateString: string): string => {
-    return new Date(dateString).toLocaleDateString('fr-FR', {
+    return new Date(dateString).toLocaleDateString(getLanguage(i18n.language), {
         day: '2-digit',
         month: '2-digit',
     });
@@ -108,8 +123,10 @@ const formatDayWithDate = (
         today.getDate()
     );
 
-    const dayName = eventDate.toLocaleDateString('fr-FR', { weekday: 'long' });
-    const dateStr = eventDate.toLocaleDateString('fr-FR', {
+    const dayName = eventDate.toLocaleDateString(getLanguage(i18n.language), {
+        weekday: 'long',
+    });
+    const dateStr = eventDate.toLocaleDateString(getLanguage(i18n.language), {
         day: '2-digit',
         month: '2-digit',
     });
@@ -146,7 +163,6 @@ const getWorkloadIntensity = (
 ): {
     level: 'light' | 'moderate' | 'heavy';
     color: string;
-    description: string;
 } => {
     const totalHours = dayEvents.reduce((total, event) => {
         const duration =
@@ -158,63 +174,55 @@ const getWorkloadIntensity = (
         return {
             level: 'heavy',
             color: '#ef4444',
-            description: 'Journée chargée',
         };
     } else if (totalHours >= 4) {
         return {
             level: 'moderate',
             color: '#f59e0b',
-            description: 'Journée normale',
         };
     } else {
         return {
             level: 'light',
             color: '#10b981',
-            description: 'Journée légère',
         };
     }
 };
 
-const getDayName = (dateString: string): string => {
-    return new Date(dateString).toLocaleDateString('fr-FR', {
-        weekday: 'long',
-    });
+const getDayIndex = (dateString: string): number => {
+    const date = new Date(dateString);
+    const dayIndex = date.getDay();
+    // Convert Sunday (0) to Monday (0) based indexing
+    return dayIndex === 0 ? 6 : dayIndex - 1;
 };
 
-// const getDayIndex = (dateString: string): number => {
-//     const date = new Date(dateString);
-//     const dayIndex = date.getDay();
-//     // Convert Sunday (0) to Monday (0) based indexing
-//     return dayIndex === 0 ? 6 : dayIndex - 1;
-// };
-
 const groupEventsByDayAndTime = (events: TimetableEvent[]) => {
-    // Group events by day first
-    const eventsByDay = events.reduce(
+    // Group events by day index (language-independent)
+    const eventsByDayIndex = events.reduce(
         (acc, event) => {
-            const dayName = getDayName(event.start);
-            if (!acc[dayName]) {
-                acc[dayName] = [];
+            const dayIndex = getDayIndex(event.start);
+            if (!acc[dayIndex]) {
+                acc[dayIndex] = [];
             }
-            acc[dayName].push(event);
+            acc[dayIndex].push(event);
             return acc;
         },
-        {} as Record<string, TimetableEvent[]>
+        {} as Record<number, TimetableEvent[]>
     );
 
     // Sort events by start time within each day
-    Object.values(eventsByDay).forEach(dayEvents => {
+    Object.values(eventsByDayIndex).forEach(dayEvents => {
         dayEvents.sort(
             (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime()
         );
     });
 
-    return eventsByDay;
+    return eventsByDayIndex;
 };
 
 export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
     selectedStudent,
 }) => {
+    const { t } = useTranslation('attendance');
     const { data, isLoading, error } = useGetClassTimeTable();
     console.log({ data });
 
@@ -233,7 +241,7 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                 >
                     <SchoolIcon sx={{ fontSize: 48, color: 'text.disabled' }} />
                     <Typography variant="subtitle1" color="text.secondary">
-                        Select a student to view their weekly timetable
+                        {t('timetable.selectStudent')}
                     </Typography>
                 </Box>
             </Container>
@@ -250,7 +258,7 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                         color="text.secondary"
                         textAlign="center"
                     >
-                        Loading weekly timetable...
+                        {t('timetable.loading')}
                     </Typography>
                 </Box>
             </Container>
@@ -272,10 +280,10 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                 >
                     <EventIcon sx={{ fontSize: 48, color: 'error.main' }} />
                     <Typography variant="subtitle1" color="error.main">
-                        Failed to load timetable
+                        {t('timetable.error')}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        {error.message || 'An unexpected error occurred'}
+                        {error.message || t('timetable.unexpectedError')}
                     </Typography>
                 </Box>
             </Container>
@@ -291,7 +299,18 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
     const totalSubjects = new Set(events.map(e => e.title)).size;
     const totalHours = events.length;
 
-    const weekDays = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi'];
+    // Define weekday indices (0=Monday, 1=Tuesday, etc.)
+    const weekDayIndices = [0, 1, 2, 3, 4]; // Monday to Friday
+
+    // Helper function to get localized day name from index
+    const getLocalizedDayName = (dayIndex: number): string => {
+        const baseDate = new Date(2023, 0, 2); // A Monday (index 0)
+        const date = new Date(baseDate);
+        date.setDate(baseDate.getDate() + dayIndex);
+        return date.toLocaleDateString(getLanguage(i18n.language), {
+            weekday: 'long',
+        });
+    };
 
     console.log('🔍 Timetable Debug:', {
         events,
@@ -322,10 +341,12 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                             fontSize: '1.25rem',
                         }}
                     >
-                        Weekly Timetable
+                        {t('timetable.header')}
                     </Typography>
                     <Chip
-                        label={`${totalSubjects} Subjects`}
+                        label={t('timetable.subjects', {
+                            count: totalSubjects,
+                        })}
                         size="small"
                         color="primary"
                         variant="outlined"
@@ -377,7 +398,7 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                                 color="text.secondary"
                                 sx={{ fontSize: '0.75rem' }}
                             >
-                                Semaine du
+                                {t('timetable.weekOf')}
                             </Typography>
                             <Typography
                                 variant="subtitle2"
@@ -386,7 +407,8 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                                     fontSize: '0.875rem',
                                 }}
                             >
-                                {weekStart && formatShortDate(weekStart)} au{' '}
+                                {weekStart && formatShortDate(weekStart)}{' '}
+                                {t('timetable.to')}{' '}
                                 {weekEnd && formatShortDate(weekEnd)}
                             </Typography>
                         </Box>
@@ -418,7 +440,7 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                                 color="text.secondary"
                                 sx={{ fontSize: '0.75rem' }}
                             >
-                                Total Cours
+                                {t('timetable.totalClasses')}
                             </Typography>
                             <Typography
                                 variant="subtitle2"
@@ -427,8 +449,7 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                                     fontSize: '0.875rem',
                                 }}
                             >
-                                {totalHours} session
-                                {totalHours !== 1 ? 's' : ''}
+                                {t('timetable.sessions', { count: totalHours })}
                             </Typography>
                         </Box>
                     </Box>
@@ -459,7 +480,10 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                                 color="text.secondary"
                                 sx={{ fontSize: '0.75rem' }}
                             >
-                                Matières
+                                {t('timetable.subjects', { count: 0 }).replace(
+                                    '0 ',
+                                    ''
+                                )}
                             </Typography>
                             <Typography
                                 variant="subtitle2"
@@ -468,8 +492,9 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                                     fontSize: '0.875rem',
                                 }}
                             >
-                                {totalSubjects} discipline
-                                {totalSubjects !== 1 ? 's' : ''}
+                                {t('timetable.disciplines', {
+                                    count: totalSubjects,
+                                })}
                             </Typography>
                         </Box>
                     </Box>
@@ -500,7 +525,7 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                                 color="text.secondary"
                                 sx={{ fontSize: '0.75rem' }}
                             >
-                                Volume Horaire
+                                {t('timetable.totalHours')}
                             </Typography>
                             <Typography
                                 variant="subtitle2"
@@ -537,13 +562,14 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                         fontSize: '0.875rem',
                     }}
                 >
-                    Daily Schedule
+                    {t('timetable.dailySchedule')}
                 </Typography>
 
                 <Grid container spacing={2}>
-                    {weekDays.map(dayName => {
-                        const dayEvents = groupedEvents[dayName] || [];
+                    {weekDayIndices.map(dayIndex => {
+                        const dayEvents = groupedEvents[dayIndex] || [];
                         const hasClasses = dayEvents.length > 0;
+                        const dayName = getLocalizedDayName(dayIndex);
 
                         // Get enhanced day info for first event (if exists)
                         const dayInfo =
@@ -564,7 +590,7 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
 
                         return (
                             <Grid
-                                key={dayName}
+                                key={dayIndex}
                                 size={{ xs: 12, sm: 6, md: 4, lg: 2.4 }}
                             >
                                 <Paper
@@ -616,7 +642,7 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                                             }}
                                         >
                                             <TodayIcon sx={{ fontSize: 10 }} />
-                                            Aujourd'hui
+                                            {t('timetable.today')}
                                         </Box>
                                     )}
 
@@ -680,7 +706,9 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                                             {workload && (
                                                 <Chip
                                                     size="small"
-                                                    label={workload.description}
+                                                    label={t(
+                                                        `timetable.workload.${workload.level}`
+                                                    )}
                                                     sx={{
                                                         height: 18,
                                                         fontSize: '0.625rem',
@@ -709,7 +737,12 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                                             >
                                                 <Chip
                                                     size="small"
-                                                    label={`${dayEvents.length} cours`}
+                                                    label={t(
+                                                        'timetable.classes',
+                                                        {
+                                                            count: dayEvents.length,
+                                                        }
+                                                    )}
                                                     variant="outlined"
                                                     sx={{
                                                         height: 16,
@@ -953,9 +986,14 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                                                     textAlign: 'center',
                                                 }}
                                             >
-                                                No classes
-                                                <br />
-                                                scheduled
+                                                {t('timetable.noClasses')
+                                                    .split(' ')
+                                                    .map((word, i) => (
+                                                        <React.Fragment key={i}>
+                                                            {word}
+                                                            <br />
+                                                        </React.Fragment>
+                                                    ))}
                                             </Typography>
                                         </Box>
                                     )}
@@ -978,7 +1016,7 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                             fontSize: '0.875rem',
                         }}
                     >
-                        Subject Overview
+                        {t('timetable.subjectOverview')}
                     </Typography>
 
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -1042,7 +1080,7 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                                 verticalAlign: 'middle',
                             }}
                         />
-                        Week Overview
+                        {t('timetable.weekOverview')}
                     </Typography>
                     <Typography
                         variant="body2"
@@ -1051,8 +1089,11 @@ export const WeeklyTimetable: React.FC<WeeklyTimetableProps> = ({
                             fontSize: '0.8125rem',
                         }}
                     >
-                        {selectedStudent.fullName} has {totalHours} scheduled
-                        classes across {totalSubjects} subjects this week.
+                        {t('timetable.weekSummary', {
+                            studentName: selectedStudent.fullName,
+                            totalHours,
+                            totalSubjects,
+                        })}
                     </Typography>
                 </Box>
             )}

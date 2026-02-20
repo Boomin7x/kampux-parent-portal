@@ -13,6 +13,7 @@ export interface LanguageContextType {
 export const AVAILABLE_LANGUAGES: Language[] = [
     { code: 'en', name: 'English', flag: '🇺🇸' },
     { code: 'fr', name: 'Français', flag: '🇫🇷' },
+    { code: 'es', name: 'Español', flag: '🇪🇸' },
 ];
 
 export const DEFAULT_LANGUAGE = 'en';

@@ -1,0 +1,89 @@
+{
+    "calendar": {
+        "selectStudent": "Veuillez sélectionner un étudiant pour voir les présences",
+        "overview": "Aperçu des présences",
+        "monthlyTab": "Calendrier mensuel",
+        "weeklyTab": "Emploi du temps",
+        "periodTab": "Présence par période",
+        "monthlyHeader": "Aperçu mensuel",
+        "stats": {
+            "rate": "Taux de présence",
+            "present": "Jours présents",
+            "late": "Jours en retard",
+            "absent": "Jours d'absence"
+        },
+        "days": {
+            "sun": "Dim",
+            "mon": "Lun",
+            "tue": "Mar",
+            "wed": "Mer",
+            "thu": "Jeu",
+            "fri": "Ven",
+            "sat": "Sam"
+        },
+        "weekend": "Weekend",
+        "legend": "LÉGENDE",
+        "status": {
+            "present": "Présent",
+            "late": "En retard",
+            "absent": "Absent",
+            "earlyOut": "Départ anticipé",
+            "notYet": "Pas encore",
+            "unknown": "Inconnu",
+            "lateArrival": "Arrivée tardive",
+            "earlyDismissal": "Départ anticipé"
+        },
+        "weeklySummary": "Résumé de la semaine",
+        "period": "Période {{period}}",
+        "weekdays": {
+            "monday": "Lundi",
+            "tuesday": "Mardi",
+            "wednesday": "Mercredi",
+            "thursday": "Jeudi",
+            "friday": "Vendredi"
+        },
+        "dialogs": {
+            "dailyTitle": "Détails de présence journalière",
+            "overallStatus": "Statut général",
+            "timeIn": "Heure d'arrivée",
+            "timeOut": "Heure de départ",
+            "periodsPresent": "Périodes de présence",
+            "notes": "Notes",
+            "close": "Fermer",
+            "periodTitle": "Détails de présence par période",
+            "teacher": "Enseignant",
+            "location": "Lieu",
+            "requiresContact": "Nécessite un contact parental"
+        }
+    },
+    "timetable": {
+        "selectStudent": "Sélectionnez un étudiant pour voir son emploi du temps",
+        "loading": "Chargement de l'emploi du temps...",
+        "error": "Échec du chargement de l'emploi du temps",
+        "unexpectedError": "Une erreur inattendue est survenue",
+        "header": "Emploi du temps hebdomadaire",
+        "subjects_one": "{{count}} Matière",
+        "subjects_other": "{{count}} Matières",
+        "weekOf": "Semaine du",
+        "to": "au",
+        "totalClasses": "Total des cours",
+        "sessions_one": "{{count}} session",
+        "sessions_other": "{{count}} sessions",
+        "disciplines_one": "{{count}} discipline",
+        "disciplines_other": "{{count}} disciplines",
+        "totalHours": "Volume horaire",
+        "dailySchedule": "Programme du jour",
+        "today": "Aujourd'hui",
+        "workload": {
+            "heavy": "Journée chargée",
+            "moderate": "Journée normale",
+            "light": "Journée légère"
+        },
+        "classes_one": "{{count}} cours",
+        "classes_other": "{{count}} cours",
+        "noClasses": "Aucun cours programmé",
+        "subjectOverview": "Aperçu des matières",
+        "weekOverview": "Aperçu de la semaine",
+        "weekSummary": "{{studentName}} a {{totalHours}} cours programmés dans {{totalSubjects}} matières cette semaine."
+    }
+}

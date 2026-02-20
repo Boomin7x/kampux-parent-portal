@@ -18,8 +18,9 @@ import {
     TextField,
     Typography,
 } from '@mui/material';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import { useStudentStore } from '../../../../stores/studentStore';
 import { useGetCodificationItems } from '../../_hooks/useParent';
@@ -31,38 +32,39 @@ interface CreateComplaintsProps {
     onCancel?: () => void;
 }
 
-// Form data type matching the API payload
 type ComplaintFormData = {
     complaintCategoryCode: string;
     summary: string;
     description: string;
 };
 
-// Validation schema
-const validationSchema = yup.object().shape({
-    complaintCategoryCode: yup
-        .string()
-        .required('La catégorie de plainte est requise'),
-    summary: yup
-        .string()
-        .required('Le résumé est requis')
-        .min(5, 'Le résumé doit contenir au moins 5 caractères')
-        .max(100, 'Le résumé ne doit pas dépasser 100 caractères'),
-    description: yup
-        .string()
-        .required('La description est requise')
-        .min(20, 'La description doit contenir au moins 20 caractères')
-        .max(500, 'La description ne doit pas dépasser 500 caractères'),
-});
+const getValidationSchema = (t: (key: string) => string) =>
+    yup.object().shape({
+        complaintCategoryCode: yup
+            .string()
+            .required(t('validation.category.required')),
+        summary: yup
+            .string()
+            .required(t('validation.summary.required'))
+            .min(5, t('validation.summary.min'))
+            .max(100, t('validation.summary.max')),
+        description: yup
+            .string()
+            .required(t('validation.description.required'))
+            .min(20, t('validation.description.min'))
+            .max(500, t('validation.description.max')),
+    });
 
 const CreateComplaints: React.FC<CreateComplaintsProps> = ({
     onSuccess,
     onCancel,
 }) => {
+    const { t } = useTranslation('complaints');
+    const validationSchema = useMemo(() => getValidationSchema(t), [t]);
+
     const { selectedStudentId } = useStudentStore();
     const createComplaint = useCreateComplaintForSelectedStudent();
 
-    // Fetch complaint categories from API
     const {
         data: categories,
         isLoading: categoriesLoading,
@@ -91,7 +93,7 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
         if (!selectedStudentId) return;
 
         const payload: CreateComplaintRequest = {
-            id: parseInt(selectedStudentId), // registration id
+            id: parseInt(selectedStudentId),
             complaintCategoryCode: data.complaintCategoryCode,
             summary: data.summary,
             description: data.description,
@@ -124,8 +126,7 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
                         variant="body2"
                         sx={{ color: 'warning.dark', fontSize: '0.8125rem' }}
                     >
-                        Veuillez sélectionner un étudiant pour soumettre une
-                        plainte.
+                        {t('noStudentSelected')}
                     </Typography>
                 </Box>
             </Box>
@@ -136,7 +137,7 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
         return (
             <Alert severity="error" sx={{ borderRadius: 1 }}>
                 <Typography variant="body2" sx={{ fontSize: '0.8125rem' }}>
-                    Erreur lors du chargement des catégories de plaintes.
+                    {t('loadingCategoriesError')}
                 </Typography>
             </Alert>
         );
@@ -144,7 +145,6 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
 
     return (
         <Box sx={{ maxWidth: 600, mx: 'auto' }}>
-            {/* Header */}
             <Box sx={{ mb: 2 }}>
                 <Typography
                     variant="subtitle2"
@@ -155,17 +155,16 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
                         mb: 0.25,
                     }}
                 >
-                    Nouvelle Plainte
+                    {t('title')}
                 </Typography>
                 <Typography
                     variant="caption"
                     sx={{ color: 'text.secondary', fontSize: '0.75rem' }}
                 >
-                    Étudiant ID: {selectedStudentId}
+                    {t('studentId', { id: selectedStudentId })}
                 </Typography>
             </Box>
 
-            {/* Success/Error Alerts */}
             {createComplaint.isSuccess && (
                 <Alert
                     severity="success"
@@ -177,7 +176,7 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
                         '& .MuiAlert-message': { fontSize: '0.8125rem' },
                     }}
                 >
-                    Plainte soumise avec succès. Vous recevrez une confirmation.
+                    {t('alerts.submitSuccess')}
                 </Alert>
             )}
 
@@ -192,11 +191,10 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
                         '& .MuiAlert-message': { fontSize: '0.8125rem' },
                     }}
                 >
-                    Erreur lors de la soumission. Veuillez réessayer.
+                    {t('alerts.submitError')}
                 </Alert>
             )}
 
-            {/* Form */}
             <Box
                 component="form"
                 onSubmit={handleSubmit(onSubmit)}
@@ -209,7 +207,6 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
                 }}
             >
                 <Grid container spacing={1.5}>
-                    {/* Category Selection */}
                     <Grid size={{ xs: 12 }}>
                         <Controller
                             name="complaintCategoryCode"
@@ -221,11 +218,11 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
                                     error={!!errors.complaintCategoryCode}
                                 >
                                     <InputLabel sx={{ fontSize: '0.8125rem' }}>
-                                        Catégorie de Plainte *
+                                        {t('form.category.label')}
                                     </InputLabel>
                                     <Select
                                         {...field}
-                                        label="Catégorie de Plainte *"
+                                        label={t('form.category.label')}
                                         disabled={categoriesLoading}
                                         sx={{ fontSize: '0.8125rem' }}
                                     >
@@ -276,7 +273,6 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
                         />
                     </Grid>
 
-                    {/* Summary */}
                     <Grid size={{ xs: 12 }}>
                         <Controller
                             name="summary"
@@ -284,14 +280,16 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
                             render={({ field }) => (
                                 <TextField
                                     {...field}
-                                    label="Résumé de la plainte *"
-                                    placeholder="Résumé concis en quelques mots..."
+                                    label={t('form.summary.label')}
+                                    placeholder={t('form.summary.placeholder')}
                                     size="small"
                                     fullWidth
                                     error={!!errors.summary}
                                     helperText={
                                         errors.summary?.message ||
-                                        `${field.value.length}/100 caractères`
+                                        t('form.summary.helperText', {
+                                            count: field.value.length,
+                                        })
                                     }
                                     InputLabelProps={{
                                         sx: { fontSize: '0.8125rem' },
@@ -308,7 +306,6 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
                         />
                     </Grid>
 
-                    {/* Description */}
                     <Grid size={{ xs: 12 }}>
                         <Controller
                             name="description"
@@ -316,15 +313,19 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
                             render={({ field }) => (
                                 <TextField
                                     {...field}
-                                    label="Description détaillée *"
-                                    placeholder="Décrivez votre plainte de manière détaillée..."
+                                    label={t('form.description.label')}
+                                    placeholder={t(
+                                        'form.description.placeholder'
+                                    )}
                                     multiline
                                     rows={3}
                                     fullWidth
                                     error={!!errors.description}
                                     helperText={
                                         errors.description?.message ||
-                                        `${field.value.length}/500 caractères`
+                                        t('form.description.helperText', {
+                                            count: field.value.length,
+                                        })
                                     }
                                     InputLabelProps={{
                                         sx: { fontSize: '0.8125rem' },
@@ -342,7 +343,6 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
                     </Grid>
                 </Grid>
 
-                {/* Action Buttons */}
                 <Box sx={{ display: 'flex', gap: 1, mt: 2 }}>
                     {onCancel && (
                         <Button
@@ -355,7 +355,7 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
                                 flex: 1,
                             }}
                         >
-                            Annuler
+                            {t('form.cancelButton')}
                         </Button>
                     )}
                     <Button
@@ -373,13 +373,12 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
                         }}
                     >
                         {createComplaint.isPending
-                            ? 'Envoi en cours...'
-                            : 'Soumettre la Plainte'}
+                            ? t('form.submitButton.pending')
+                            : t('form.submitButton.default')}
                     </Button>
                 </Box>
             </Box>
 
-            {/* Form Preview - Content Dense */}
             {isDirty && (
                 <Box
                     sx={{
@@ -401,7 +400,7 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
                             mb: 0.5,
                         }}
                     >
-                        APERÇU DE LA PLAINTE
+                        {t('preview.title')}
                     </Typography>
                     <Box
                         sx={{
@@ -421,7 +420,7 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
                                         fontSize: '0.6875rem',
                                     }}
                                 >
-                                    Catégorie:
+                                    {t('preview.category')}
                                 </Typography>
                                 <Typography
                                     variant="caption"
@@ -451,7 +450,7 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
                                         fontSize: '0.6875rem',
                                     }}
                                 >
-                                    Résumé:
+                                    {t('preview.summary')}
                                 </Typography>
                                 <Typography
                                     variant="caption"
@@ -477,7 +476,7 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
                                         alignSelf: 'flex-start',
                                     }}
                                 >
-                                    Description:
+                                    {t('preview.description')}
                                 </Typography>
                                 <Typography
                                     variant="caption"
@@ -489,7 +488,10 @@ const CreateComplaints: React.FC<CreateComplaintsProps> = ({
                                     }}
                                 >
                                     {watchedValues.description.length > 100
-                                        ? `${watchedValues.description.substring(0, 100)}...`
+                                        ? `${watchedValues.description.substring(
+                                              0,
+                                              100
+                                          )}...`
                                         : watchedValues.description}
                                 </Typography>
                             </Box>

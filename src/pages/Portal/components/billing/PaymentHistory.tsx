@@ -17,6 +17,8 @@ import {
     Typography,
 } from '@mui/material';
 import React, { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import i18n from '../../../../i18n/config';
 import { useStudentStore } from '../../../../stores/studentStore';
 import { useGetTellerOperations } from '../../_hooks/useParentWithStore';
 import type { TellerOperation } from '../../_service/parentService';
@@ -35,6 +37,7 @@ const PaymentTableRow: React.FC<PaymentTableRowProps> = ({
     getPaymentTypeBreakdown,
 }) => {
     const [open, setOpen] = useState(false);
+    const { t } = useTranslation('billing');
 
     return (
         <>
@@ -78,12 +81,12 @@ const PaymentTableRow: React.FC<PaymentTableRowProps> = ({
                     >
                         {payment.reference}
                     </Typography>
-                    {payment.receiptNumber && (
+                    {!!payment.receiptNumber && (
                         <Typography
                             variant="caption"
                             sx={{ color: 'text.secondary', display: 'block' }}
                         >
-                            Reçu: {payment.receiptNumber}
+                            {t('payment.receipt')}: {payment.receiptNumber}
                         </Typography>
                     )}
                 </TableCell>
@@ -100,7 +103,7 @@ const PaymentTableRow: React.FC<PaymentTableRowProps> = ({
                     >
                         {formatAmount(payment.amount)}
                     </Typography>
-                    {payment.netAmount &&
+                    {!!payment.netAmount &&
                         payment.netAmount !== payment.amount && (
                             <Typography
                                 variant="caption"
@@ -109,7 +112,8 @@ const PaymentTableRow: React.FC<PaymentTableRowProps> = ({
                                     display: 'block',
                                 }}
                             >
-                                Net: {formatAmount(payment.netAmount)}
+                                {t('messages.net')}:{' '}
+                                {formatAmount(payment.netAmount)}
                             </Typography>
                         )}
                 </TableCell>
@@ -123,7 +127,11 @@ const PaymentTableRow: React.FC<PaymentTableRowProps> = ({
                 </TableCell>
                 <TableCell sx={{ py: 1 }}>
                     <Chip
-                        label={payment.isCancelled ? 'Annulé' : 'Validé'}
+                        label={
+                            payment.isCancelled
+                                ? t('messages.cancelledPayment')
+                                : t('messages.validatedPayment')
+                        }
                         color={payment.isCancelled ? 'error' : 'success'}
                         size="small"
                         sx={{ fontSize: '0.6875rem' }}
@@ -153,7 +161,7 @@ const PaymentTableRow: React.FC<PaymentTableRowProps> = ({
                                     color: 'primary.main',
                                 }}
                             >
-                                Détails du Paiement
+                                {t('payment.breakdown')}
                             </Typography>
                             <Grid container spacing={2}>
                                 <Grid size={{ xs: 12, md: 6 }}>
@@ -168,26 +176,28 @@ const PaymentTableRow: React.FC<PaymentTableRowProps> = ({
                                             variant="caption"
                                             sx={{ fontWeight: 600 }}
                                         >
-                                            Informations Générales
+                                            {t('payment.description')}
                                         </Typography>
 
-                                        {payment.billingsDetailFR && (
-                                            <Typography
-                                                variant="caption"
-                                                sx={{ color: 'text.secondary' }}
-                                            >
-                                                <strong>Facture:</strong>{' '}
-                                                {payment.billingsDetailFR}
-                                            </Typography>
-                                        )}
-
-                                        {payment.tellerOperationModesDetailFR && (
+                                        {!!payment.billingsDetailFR && (
                                             <Typography
                                                 variant="caption"
                                                 sx={{ color: 'text.secondary' }}
                                             >
                                                 <strong>
-                                                    Mode de paiement:
+                                                    {t('messages.invoice')}:
+                                                </strong>{' '}
+                                                {payment.billingsDetailFR}
+                                            </Typography>
+                                        )}
+
+                                        {!!payment.tellerOperationModesDetailFR && (
+                                            <Typography
+                                                variant="caption"
+                                                sx={{ color: 'text.secondary' }}
+                                            >
+                                                <strong>
+                                                    {t('messages.paymentMode')}:
                                                 </strong>{' '}
                                                 {
                                                     payment.tellerOperationModesDetailFR
@@ -195,24 +205,28 @@ const PaymentTableRow: React.FC<PaymentTableRowProps> = ({
                                             </Typography>
                                         )}
 
-                                        {payment.bearer && (
-                                            <Typography
-                                                variant="caption"
-                                                sx={{ color: 'text.secondary' }}
-                                            >
-                                                <strong>Porteur:</strong>{' '}
-                                                {payment.bearer}
-                                            </Typography>
-                                        )}
-
-                                        {payment.issueDate !==
-                                            payment.operationDate && (
+                                        {!!payment.bearer && (
                                             <Typography
                                                 variant="caption"
                                                 sx={{ color: 'text.secondary' }}
                                             >
                                                 <strong>
-                                                    Date d'émission:
+                                                    {t('messages.bearer')}:
+                                                </strong>{' '}
+                                                {payment.bearer}
+                                            </Typography>
+                                        )}
+
+                                        {!!(
+                                            payment.issueDate !==
+                                            payment.operationDate
+                                        ) && (
+                                            <Typography
+                                                variant="caption"
+                                                sx={{ color: 'text.secondary' }}
+                                            >
+                                                <strong>
+                                                    {t('messages.issueDate')}:
                                                 </strong>{' '}
                                                 {formatDate(payment.issueDate)}
                                             </Typography>
@@ -232,59 +246,67 @@ const PaymentTableRow: React.FC<PaymentTableRowProps> = ({
                                             variant="caption"
                                             sx={{ fontWeight: 600 }}
                                         >
-                                            Montants Détaillés
+                                            {t('messages.detailedAmounts')}
                                         </Typography>
 
-                                        {payment.amountRegistration &&
-                                            payment.amountRegistration > 0 && (
-                                                <Typography
-                                                    variant="caption"
-                                                    sx={{
-                                                        color: 'text.secondary',
-                                                    }}
-                                                >
-                                                    <strong>
-                                                        Inscription:
-                                                    </strong>{' '}
-                                                    {formatAmount(
-                                                        payment.amountRegistration
-                                                    )}
-                                                </Typography>
-                                            )}
+                                        {!!(
+                                            payment.amountRegistration &&
+                                            payment.amountRegistration > 0
+                                        ) && (
+                                            <Typography
+                                                variant="caption"
+                                                sx={{
+                                                    color: 'text.secondary',
+                                                }}
+                                            >
+                                                <strong>
+                                                    {t('fees.inscription')}:
+                                                </strong>{' '}
+                                                {formatAmount(
+                                                    payment.amountRegistration
+                                                )}
+                                            </Typography>
+                                        )}
 
-                                        {payment.amountSchoolFees &&
-                                            payment.amountSchoolFees > 0 && (
-                                                <Typography
-                                                    variant="caption"
-                                                    sx={{
-                                                        color: 'text.secondary',
-                                                    }}
-                                                >
-                                                    <strong>Scolarité:</strong>{' '}
-                                                    {formatAmount(
-                                                        payment.amountSchoolFees
-                                                    )}
-                                                </Typography>
-                                            )}
+                                        {!!(
+                                            payment.amountSchoolFees &&
+                                            payment.amountSchoolFees > 0
+                                        ) && (
+                                            <Typography
+                                                variant="caption"
+                                                sx={{
+                                                    color: 'text.secondary',
+                                                }}
+                                            >
+                                                <strong>
+                                                    {t('fees.schoolFees')}:
+                                                </strong>{' '}
+                                                {formatAmount(
+                                                    payment.amountSchoolFees
+                                                )}
+                                            </Typography>
+                                        )}
 
-                                        {payment.amountOther &&
-                                            payment.amountOther > 0 && (
-                                                <Typography
-                                                    variant="caption"
-                                                    sx={{
-                                                        color: 'text.secondary',
-                                                    }}
-                                                >
-                                                    <strong>
-                                                        Autres frais:
-                                                    </strong>{' '}
-                                                    {formatAmount(
-                                                        payment.amountOther
-                                                    )}
-                                                </Typography>
-                                            )}
+                                        {!!(
+                                            payment.amountOther &&
+                                            payment.amountOther > 0
+                                        ) && (
+                                            <Typography
+                                                variant="caption"
+                                                sx={{
+                                                    color: 'text.secondary',
+                                                }}
+                                            >
+                                                <strong>
+                                                    {t('fees.other')}:
+                                                </strong>{' '}
+                                                {formatAmount(
+                                                    payment.amountOther
+                                                )}
+                                            </Typography>
+                                        )}
 
-                                        {payment.amountInLetterFR && (
+                                        {!!payment.amountInLetterFR && (
                                             <Typography
                                                 variant="caption"
                                                 sx={{
@@ -299,7 +321,7 @@ const PaymentTableRow: React.FC<PaymentTableRowProps> = ({
                                     </Box>
                                 </Grid>
 
-                                {payment.isCancelled && (
+                                {!!payment.isCancelled && (
                                     <Grid size={{ xs: 12 }}>
                                         <Box
                                             sx={{
@@ -317,23 +339,9 @@ const PaymentTableRow: React.FC<PaymentTableRowProps> = ({
                                                     fontWeight: 600,
                                                 }}
                                             >
-                                                PAIEMENT ANNULÉ
+                                                {t('messages.paymentCancelled')}
                                             </Typography>
-                                            {payment.cancellationPurpose && (
-                                                <Typography
-                                                    variant="caption"
-                                                    sx={{
-                                                        color: 'error.main',
-                                                        display: 'block',
-                                                    }}
-                                                >
-                                                    <strong>Motif:</strong>{' '}
-                                                    {
-                                                        payment.cancellationPurpose
-                                                    }
-                                                </Typography>
-                                            )}
-                                            {payment.cancellationDate && (
+                                            {!!payment.cancellationPurpose && (
                                                 <Typography
                                                     variant="caption"
                                                     sx={{
@@ -342,7 +350,26 @@ const PaymentTableRow: React.FC<PaymentTableRowProps> = ({
                                                     }}
                                                 >
                                                     <strong>
-                                                        Date d'annulation:
+                                                        {t('messages.reason')}:
+                                                    </strong>{' '}
+                                                    {
+                                                        payment.cancellationPurpose
+                                                    }
+                                                </Typography>
+                                            )}
+                                            {!!payment.cancellationDate && (
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                        color: 'error.main',
+                                                        display: 'block',
+                                                    }}
+                                                >
+                                                    <strong>
+                                                        {t(
+                                                            'messages.cancellationDate'
+                                                        )}
+                                                        :
                                                     </strong>{' '}
                                                     {formatDate(
                                                         payment.cancellationDate
@@ -363,25 +390,43 @@ const PaymentTableRow: React.FC<PaymentTableRowProps> = ({
 
 const PaymentHistory: React.FC = () => {
     const { selectedStudentId } = useStudentStore();
+    const { t } = useTranslation('billing');
 
     const { data: payments, isLoading } = useGetTellerOperations(
         selectedStudentId as string,
         !!selectedStudentId
     );
 
+    const getLanguage = (val: string): string => {
+        switch (val) {
+            case 'en':
+                return 'en-US';
+            case 'es':
+                return 'es-ES';
+            case 'fr':
+                return 'fr-FR';
+            default:
+                return 'fr-FR';
+        }
+    };
+
     const formatAmount = (amount: number) => {
-        return new Intl.NumberFormat('fr-FR', {
+        return new Intl.NumberFormat(getLanguage(i18n.language), {
             style: 'currency',
-            currency: 'XOF',
+            currency: 'XAF',
+            maximumFractionDigits: 2,
         }).format(amount);
     };
 
     const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('fr-FR', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-        });
+        return new Date(dateString).toLocaleDateString(
+            getLanguage(i18n.language),
+            {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+            }
+        );
     };
 
     const paymentSummary = useMemo(() => {
@@ -421,25 +466,28 @@ const PaymentHistory: React.FC = () => {
         const breakdown = [];
         if (payment.amountRegistration && payment.amountRegistration > 0) {
             breakdown.push(
-                `Inscription: ${formatAmount(payment.amountRegistration)}`
+                `${t('fees.inscription')}: ${formatAmount(payment.amountRegistration)}`
             );
         }
         if (payment.amountSchoolFees && payment.amountSchoolFees > 0) {
             breakdown.push(
-                `Scolarité: ${formatAmount(payment.amountSchoolFees)}`
+                `${t('fees.schoolFees')}: ${formatAmount(payment.amountSchoolFees)}`
             );
         }
         if (payment.amountOther && payment.amountOther > 0) {
-            breakdown.push(`Autres: ${formatAmount(payment.amountOther)}`);
+            breakdown.push(
+                `${t('fees.other')}: ${formatAmount(payment.amountOther)}`
+            );
         }
-        return breakdown.length > 0 ? breakdown.join(' • ') : 'Non spécifié';
+        return breakdown.length > 0
+            ? breakdown.join(' • ')
+            : t('fees.notSpecified');
     };
 
     if (!selectedStudentId) {
         return (
             <Alert severity="info" sx={{ borderRadius: 1 }}>
-                Veuillez sélectionner un étudiant pour voir l'historique des
-                paiements.
+                {t('messages.selectStudentForHistory')}
             </Alert>
         );
     }
@@ -455,7 +503,7 @@ const PaymentHistory: React.FC = () => {
     if (!payments || payments.length === 0) {
         return (
             <Alert severity="info" sx={{ borderRadius: 1 }}>
-                Aucun paiement trouvé pour cet étudiant.
+                {t('messages.noPaymentsFound')}
             </Alert>
         );
     }
@@ -468,10 +516,10 @@ const PaymentHistory: React.FC = () => {
                     variant="subtitle2"
                     sx={{ fontWeight: 600, color: 'text.primary' }}
                 >
-                    Historique des Paiements ({payments.length})
+                    {t('labels.paymentHistory')} ({payments.length})
                 </Typography>
                 <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                    Détail des opérations de paiement effectuées
+                    {t('messages.detailOfOperations')}
                 </Typography>
             </Box>
 
@@ -491,7 +539,7 @@ const PaymentHistory: React.FC = () => {
                             variant="caption"
                             sx={{ color: 'text.secondary' }}
                         >
-                            Total Payé
+                            {t('labels.totalPaid')}
                         </Typography>
                         <Typography
                             variant="subtitle2"
@@ -515,7 +563,7 @@ const PaymentHistory: React.FC = () => {
                             variant="caption"
                             sx={{ color: 'text.secondary' }}
                         >
-                            Paiements Validés
+                            {t('labels.validPayments')}
                         </Typography>
                         <Typography
                             variant="subtitle2"
@@ -539,7 +587,7 @@ const PaymentHistory: React.FC = () => {
                             variant="caption"
                             sx={{ color: 'text.secondary' }}
                         >
-                            Scolarité
+                            {t('fees.schoolFees')}
                         </Typography>
                         <Typography
                             variant="subtitle2"
@@ -563,7 +611,7 @@ const PaymentHistory: React.FC = () => {
                             variant="caption"
                             sx={{ color: 'text.secondary' }}
                         >
-                            Inscription
+                            {t('fees.inscription')}
                         </Typography>
                         <Typography
                             variant="subtitle2"
@@ -594,7 +642,7 @@ const PaymentHistory: React.FC = () => {
                                     variant="caption"
                                     sx={{ fontWeight: 600 }}
                                 >
-                                    Date / Référence
+                                    {t('messages.dateReference')}
                                 </Typography>
                             </TableCell>
                             <TableCell align="right">
@@ -602,7 +650,7 @@ const PaymentHistory: React.FC = () => {
                                     variant="caption"
                                     sx={{ fontWeight: 600 }}
                                 >
-                                    Montant
+                                    {t('messages.amount')}
                                 </Typography>
                             </TableCell>
                             <TableCell>
@@ -610,7 +658,7 @@ const PaymentHistory: React.FC = () => {
                                     variant="caption"
                                     sx={{ fontWeight: 600 }}
                                 >
-                                    Répartition
+                                    {t('messages.distribution')}
                                 </Typography>
                             </TableCell>
                             <TableCell>
@@ -618,7 +666,7 @@ const PaymentHistory: React.FC = () => {
                                     variant="caption"
                                     sx={{ fontWeight: 600 }}
                                 >
-                                    Statut
+                                    {t('payment.status')}
                                 </Typography>
                             </TableCell>
                             <TableCell>
@@ -626,7 +674,7 @@ const PaymentHistory: React.FC = () => {
                                     variant="caption"
                                     sx={{ fontWeight: 600 }}
                                 >
-                                    Caissier
+                                    {t('messages.cashier')}
                                 </Typography>
                             </TableCell>
                         </TableRow>

@@ -1,0 +1,125 @@
+{
+    "errors": {
+        "failedToLoad": "Échec du chargement des données de fiche élève",
+        "unexpectedError": "Une erreur inattendue est survenue"
+    },
+    "loading": {
+        "loadingData": "Chargement des dossiers de fiche élève..."
+    },
+    "noData": {
+        "title": "Aucun dossier de fiche élève disponible",
+        "description": "Aucun dossier trouvé pour cet élève."
+    },
+    "noStudent": {
+        "selectStudent": "Sélectionnez un élève"
+    },
+    "overview": {
+        "title": "Fiche élève",
+        "totalRecords": "Total des dossiers",
+        "activeIssues": "Problèmes actifs",
+        "resolvedIssues": "Problèmes résolus",
+        "pendingActions": "Actions en attente",
+        "latestRecords": "Derniers dossiers",
+        "recordSummary": "Résumé des dossiers"
+    },
+    "recordTypes": {
+        "sanctions": "Sanctions",
+        "absenceRecords": "Registres d'absence",
+        "disciplinaryReports": "Rapports disciplinaires",
+        "behaviorNotes": "Notes de comportement",
+        "achievements": "Réussites",
+        "incidents": "Incidents",
+        "warnings": "Avertissements",
+        "counseling": "Séances de conseil"
+    },
+    "status": {
+        "resolved": "Résolu",
+        "pending": "En attente",
+        "active": "Actif",
+        "cancelled": "Annulé",
+        "justified": "Justifié",
+        "unjustified": "Non justifié",
+        "inProgress": "En cours",
+        "completed": "Terminé",
+        "expired": "Expiré"
+    },
+    "severity": {
+        "low": "Faible",
+        "medium": "Moyen",
+        "high": "Élevé",
+        "critical": "Critique"
+    },
+    "actions": {
+        "view": "Voir",
+        "edit": "Modifier",
+        "resolve": "Résoudre",
+        "cancel": "Annuler",
+        "justify": "Justifier",
+        "contact": "Contacter",
+        "download": "Télécharger",
+        "print": "Imprimer"
+    },
+    "labels": {
+        "date": "Date",
+        "type": "Type",
+        "description": "Description",
+        "status": "Statut",
+        "severity": "Gravité",
+        "teacher": "Enseignant",
+        "subject": "Matière",
+        "action": "Action",
+        "notes": "Notes",
+        "createdBy": "Créé par",
+        "lastModified": "Dernière modification",
+        "dueDate": "Date d'échéance",
+        "resolution": "Résolution",
+        "contactRequired": "Contact requis",
+        "parentNotified": "Parent notifié"
+    },
+    "messages": {
+        "selectStudentForRecords": "Sélectionnez un élève pour voir ses dossiers.",
+        "noRecordsFound": "Aucun dossier trouvé pour cet élève.",
+        "recordsOverview": "Aperçu des dossiers comportementaux et académiques de l'élève",
+        "requiresParentContact": "Ce dossier nécessite un contact parental",
+        "parentContactMade": "Le parent a été contacté",
+        "awaitingResolution": "En attente de résolution",
+        "recordResolved": "Ce dossier a été résolu",
+        "recordCancelled": "Ce dossier a été annulé",
+        "justificationProvided": "Une justification a été fournie",
+        "noJustification": "Aucune justification fournie",
+        "escalationRequired": "Ce problème peut nécessiter une escalade",
+        "followUpNeeded": "Action de suivi nécessaire"
+    },
+    "tabs": {
+        "all": "Tous les dossiers",
+        "active": "Actifs",
+        "resolved": "Résolus",
+        "pending": "En attente",
+        "disciplinary": "Disciplinaire",
+        "academic": "Académique",
+        "behavioral": "Comportemental"
+    },
+    "filters": {
+        "filterBy": "Filtrer par",
+        "dateRange": "Plage de dates",
+        "recordType": "Type de dossier",
+        "status": "Statut",
+        "severity": "Gravité",
+        "teacher": "Enseignant",
+        "subject": "Matière",
+        "clearFilters": "Effacer les filtres",
+        "applyFilters": "Appliquer les filtres"
+    },
+    "studentInfo": {
+        "grade": "Classe"
+    },
+    "statItem": {
+        "gpa": "Moyenne",
+        "attendance": "Présence",
+        "alerts": "Alertes"
+    },
+    "studentSelector": {
+        "students_one": "{{count}} élève",
+        "students_other": "{{count}} élèves"
+    }
+}
