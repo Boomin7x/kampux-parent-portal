@@ -17,6 +17,8 @@ import esBilling from '../pages/Portal/components/billing/_locale/es.json';
 import frBilling from '../pages/Portal/components/billing/_locale/fr.json';
 import complaintsEn from '../pages/Portal/components/complaints/_locale/en.json';
 import complaintsFr from '../pages/Portal/components/complaints/_locale/fr.json';
+import enDashboard from '../pages/Portal/components/dashboard/_locale/en.json';
+import frDashboard from '../pages/Portal/components/dashboard/_locale/fr.json';
 import enLayout from '../pages/Portal/components/layout/_locale/en.json';
 import esLayout from '../pages/Portal/components/layout/_locale/es.json';
 import frLayout from '../pages/Portal/components/layout/_locale/fr.json';
@@ -33,6 +35,7 @@ const resources = {
         student: enStudent,
         portal: enPortal,
         complaints: complaintsEn,
+        dashboard: enDashboard,
     },
     fr: {
         academic: frAcademic,
@@ -42,6 +45,7 @@ const resources = {
         student: frStudent,
         portal: frPortal,
         complaints: complaintsFr,
+        dashboard: frDashboard,
     },
     es: {
         academic: esAcademic,
