@@ -201,13 +201,18 @@ export interface Registration {
 }
 
 export interface PeriodMark {
-    // Define period mark structure if available
+    schoolYearPeriodName: string;
+    schoolYearPeriodAlias: string;
     id: number;
-    periodId: number;
-    subjectId: number;
-    mark: number;
-    coefficient: number;
-    // Add other relevant fields based on actual data structure
+    registrationId: number;
+    schoolYearPeriodId: number;
+    reportCard: string;
+    averageMark: number;
+    averageMarkAppreciationId: number;
+    rank: number;
+    isMarkExcluded: boolean | null;
+    markExcludedPurpose: string | null;
+    conductGrade: string | null;
 }
 
 export interface AnnualMark {

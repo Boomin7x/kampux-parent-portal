@@ -27,7 +27,7 @@ import {
     useTheme,
 } from '@mui/material';
 import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from '../../../../hooks/useTranslation';
 import type {
     AnnualMark,
     DashboardBilling,
@@ -328,22 +328,19 @@ const processAcademicSituation = (
 };
 
 /**
- * Process period marks into term structure
+ * Process period marks into term structure using real API data
  */
 const processTermMarks = (periodMarks: PeriodMark[]): TermMark[] => {
     // Handle empty or null period marks
     const safeMarks = Array.isArray(periodMarks) ? periodMarks : [];
 
-    // Group period marks by period/term
-    const termGroups = new Map<number, PeriodMark[]>();
+    // Group period marks by period name/alias to create terms
+    const termGroups = new Map<string, PeriodMark>();
 
     safeMarks.forEach(mark => {
-        if (mark && typeof mark.periodId === 'number') {
-            const periodId = mark.periodId;
-            if (!termGroups.has(periodId)) {
-                termGroups.set(periodId, []);
-            }
-            termGroups.get(periodId)!.push(mark);
+        if (mark && mark.schoolYearPeriodName) {
+            // Use the period name as the key (e.g., "Trimestre 1", "Trimestre 2", etc.)
+            termGroups.set(mark.schoolYearPeriodName, mark);
         }
     });
 
@@ -351,57 +348,36 @@ const processTermMarks = (periodMarks: PeriodMark[]): TermMark[] => {
 
     // Create standard 3 terms structure
     for (let i = 1; i <= 3; i++) {
-        const termPeriodMarks =
-            Array.from(termGroups.values()).find(
-                (_, index) => index + 1 === i
-            ) || [];
+        const termName = `Trimestre ${i}`;
+        const periodMark = termGroups.get(termName);
 
-        // Calculate average from actual marks
         let average: number | null = null;
         let status: 'completed' | 'pending' | 'not-started' = 'not-started';
 
-        if (termPeriodMarks.length > 0) {
-            const validMarks = termPeriodMarks.filter(
-                mark => mark && typeof mark.mark === 'number' && mark.mark > 0
-            );
-
-            if (validMarks.length > 0) {
-                // Calculate weighted average
-                const totalWeightedSum = validMarks.reduce(
-                    (sum, mark) => sum + mark.mark * (mark.coefficient || 1),
-                    0
-                );
-                const totalCoefficients = validMarks.reduce(
-                    (sum, mark) => sum + (mark.coefficient || 1),
-                    0
-                );
-                average =
-                    totalCoefficients > 0
-                        ? totalWeightedSum / totalCoefficients
-                        : null;
-                status =
-                    validMarks.length === termPeriodMarks.length
-                        ? 'completed'
-                        : 'pending';
-            } else {
+        if (periodMark) {
+            // Use the actual average mark from the API
+            if (
+                typeof periodMark.averageMark === 'number' &&
+                periodMark.averageMark > 0
+            ) {
+                average = periodMark.averageMark;
+                status = 'completed';
+            } else if (
+                periodMark.averageMark === 0 ||
+                periodMark.isMarkExcluded
+            ) {
+                // If mark is 0 or excluded, consider it as pending
                 status = 'pending';
             }
         }
 
-        // Convert PeriodMark to SubjectMark (mock subject names for now)
-        const subjects: SubjectMark[] = termPeriodMarks.map((mark, index) => ({
-            subjectName: `Matière ${mark?.subjectId || index + 1}`, // This should be mapped from actual subject data
-            mark:
-                mark && typeof mark.mark === 'number' && mark.mark > 0
-                    ? mark.mark
-                    : null,
-            coefficient: mark?.coefficient || 1,
-            maxMark: 20, // Standard max mark
-        }));
+        // For now, we don't have subject-level data in the period marks
+        // This should be expanded when subject-level data becomes available
+        const subjects: SubjectMark[] = [];
 
         terms.push({
             term: i,
-            name: `Trimestre ${i}`,
+            name: termName,
             average,
             status,
             subjects,
@@ -853,7 +829,7 @@ const StudentIdCard: React.FC<{ student: StudentIdentity }> = ({ student }) => {
                                 />
                                 {student.isRepeater && (
                                     <Chip
-                                        label="Redoublant"
+                                        label={t('studentIdentity.repeater')}
                                         size="small"
                                         sx={{
                                             height: 22,
@@ -869,7 +845,7 @@ const StudentIdCard: React.FC<{ student: StudentIdentity }> = ({ student }) => {
                                 )}
                                 {student.isOldStudent && (
                                     <Chip
-                                        label="Ancien élève"
+                                        label={t('studentIdentity.oldStudent')}
                                         size="small"
                                         sx={{
                                             height: 22,
@@ -984,7 +960,7 @@ const StudentIdCard: React.FC<{ student: StudentIdentity }> = ({ student }) => {
                                                     display: 'block',
                                                 }}
                                             >
-                                                Date de naissance
+                                                {t('studentIdentity.birthDate')}
                                             </Typography>
                                         </Box>
                                         <Typography
@@ -1006,7 +982,9 @@ const StudentIdCard: React.FC<{ student: StudentIdentity }> = ({ student }) => {
                                                         opacity: 0.8,
                                                     }}
                                                 >
-                                                    ({student.age} ans)
+                                                    ({student.age}{' '}
+                                                    {t('studentIdentity.years')}
+                                                    )
                                                 </Typography>
                                             )}
                                         </Typography>
@@ -1035,7 +1013,7 @@ const StudentIdCard: React.FC<{ student: StudentIdentity }> = ({ student }) => {
                                                     display: 'block',
                                                 }}
                                             >
-                                                Genre
+                                                {t('studentIdentity.gender')}
                                             </Typography>
                                         </Box>
                                         <Typography
@@ -1072,7 +1050,9 @@ const StudentIdCard: React.FC<{ student: StudentIdentity }> = ({ student }) => {
                                                     display: 'block',
                                                 }}
                                             >
-                                                Nationalité
+                                                {t(
+                                                    'studentIdentity.nationality'
+                                                )}
                                             </Typography>
                                         </Box>
                                         <Typography
@@ -1088,6 +1068,206 @@ const StudentIdCard: React.FC<{ student: StudentIdentity }> = ({ student }) => {
                                 )}
                             </Grid>
                         </Box>
+
+                        {/* Parent/Guardian Information Section */}
+                        {(student.father ||
+                            student.mother ||
+                            student.tutor) && (
+                            <Box
+                                sx={{
+                                    pt: 1.5,
+                                    borderTop: `1px solid ${alpha(theme.palette.common.white, 0.2)}`,
+                                }}
+                            >
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        opacity: 0.8,
+                                        display: 'block',
+                                        mb: 1.5,
+                                        fontWeight: 600,
+                                    }}
+                                >
+                                    {t('studentIdentity.parentalInformation')}
+                                </Typography>
+                                <Grid container spacing={1.5}>
+                                    {student.father && (
+                                        <Grid size={{ xs: 12, md: 4 }}>
+                                            <Box>
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                        opacity: 0.8,
+                                                        display: 'block',
+                                                        mb: 0.5,
+                                                    }}
+                                                >
+                                                    {t(
+                                                        'studentIdentity.father'
+                                                    )}
+                                                </Typography>
+                                                <Typography
+                                                    variant="subtitle2"
+                                                    sx={{
+                                                        fontWeight: 600,
+                                                        lineHeight: 1.3,
+                                                        mb: 0.5,
+                                                    }}
+                                                >
+                                                    {student.father.name}
+                                                </Typography>
+                                                {student.father.phone && (
+                                                    <Typography
+                                                        variant="caption"
+                                                        sx={{
+                                                            display: 'block',
+                                                            opacity: 0.8,
+                                                            lineHeight: 1.2,
+                                                        }}
+                                                    >
+                                                        {t(
+                                                            'studentIdentity.phone'
+                                                        )}
+                                                        : {student.father.phone}
+                                                    </Typography>
+                                                )}
+                                                {student.father.email && (
+                                                    <Typography
+                                                        variant="caption"
+                                                        sx={{
+                                                            display: 'block',
+                                                            opacity: 0.8,
+                                                            lineHeight: 1.2,
+                                                        }}
+                                                    >
+                                                        {t(
+                                                            'studentIdentity.email'
+                                                        )}
+                                                        : {student.father.email}
+                                                    </Typography>
+                                                )}
+                                            </Box>
+                                        </Grid>
+                                    )}
+
+                                    {student.mother && (
+                                        <Grid size={{ xs: 12, md: 4 }}>
+                                            <Box>
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                        opacity: 0.8,
+                                                        display: 'block',
+                                                        mb: 0.5,
+                                                    }}
+                                                >
+                                                    {t(
+                                                        'studentIdentity.mother'
+                                                    )}
+                                                </Typography>
+                                                <Typography
+                                                    variant="subtitle2"
+                                                    sx={{
+                                                        fontWeight: 600,
+                                                        lineHeight: 1.3,
+                                                        mb: 0.5,
+                                                    }}
+                                                >
+                                                    {student.mother.name}
+                                                </Typography>
+                                                {student.mother.phone && (
+                                                    <Typography
+                                                        variant="caption"
+                                                        sx={{
+                                                            display: 'block',
+                                                            opacity: 0.8,
+                                                            lineHeight: 1.2,
+                                                        }}
+                                                    >
+                                                        {t(
+                                                            'studentIdentity.phone'
+                                                        )}
+                                                        : {student.mother.phone}
+                                                    </Typography>
+                                                )}
+                                                {student.mother.email && (
+                                                    <Typography
+                                                        variant="caption"
+                                                        sx={{
+                                                            display: 'block',
+                                                            opacity: 0.8,
+                                                            lineHeight: 1.2,
+                                                        }}
+                                                    >
+                                                        {t(
+                                                            'studentIdentity.email'
+                                                        )}
+                                                        : {student.mother.email}
+                                                    </Typography>
+                                                )}
+                                            </Box>
+                                        </Grid>
+                                    )}
+
+                                    {student.tutor && (
+                                        <Grid size={{ xs: 12, md: 4 }}>
+                                            <Box>
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                        opacity: 0.8,
+                                                        display: 'block',
+                                                        mb: 0.5,
+                                                    }}
+                                                >
+                                                    {t('studentIdentity.tutor')}
+                                                </Typography>
+                                                <Typography
+                                                    variant="subtitle2"
+                                                    sx={{
+                                                        fontWeight: 600,
+                                                        lineHeight: 1.3,
+                                                        mb: 0.5,
+                                                    }}
+                                                >
+                                                    {student.tutor.name}
+                                                </Typography>
+                                                {student.tutor.phone && (
+                                                    <Typography
+                                                        variant="caption"
+                                                        sx={{
+                                                            display: 'block',
+                                                            opacity: 0.8,
+                                                            lineHeight: 1.2,
+                                                        }}
+                                                    >
+                                                        {t(
+                                                            'studentIdentity.phone'
+                                                        )}
+                                                        : {student.tutor.phone}
+                                                    </Typography>
+                                                )}
+                                                {student.tutor.email && (
+                                                    <Typography
+                                                        variant="caption"
+                                                        sx={{
+                                                            display: 'block',
+                                                            opacity: 0.8,
+                                                            lineHeight: 1.2,
+                                                        }}
+                                                    >
+                                                        {t(
+                                                            'studentIdentity.email'
+                                                        )}
+                                                        : {student.tutor.email}
+                                                    </Typography>
+                                                )}
+                                            </Box>
+                                        </Grid>
+                                    )}
+                                </Grid>
+                            </Box>
+                        )}
 
                         {/* Academic Details Section */}
                         {(student.studySection ||
@@ -1122,7 +1302,9 @@ const StudentIdCard: React.FC<{ student: StudentIdentity }> = ({ student }) => {
                                                         display: 'block',
                                                     }}
                                                 >
-                                                    Section
+                                                    {t(
+                                                        'studentIdentity.section'
+                                                    )}
                                                 </Typography>
                                             </Box>
                                             <Typography
@@ -1159,7 +1341,9 @@ const StudentIdCard: React.FC<{ student: StudentIdentity }> = ({ student }) => {
                                                         display: 'block',
                                                     }}
                                                 >
-                                                    Langue
+                                                    {t(
+                                                        'studentIdentity.language'
+                                                    )}
                                                 </Typography>
                                             </Box>
                                             <Typography
@@ -1196,7 +1380,7 @@ const StudentIdCard: React.FC<{ student: StudentIdentity }> = ({ student }) => {
                                                         display: 'block',
                                                     }}
                                                 >
-                                                    Niveau
+                                                    {t('studentIdentity.level')}
                                                 </Typography>
                                             </Box>
                                             <Typography
@@ -1225,7 +1409,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
     className = '',
 }) => {
     const theme = useTheme();
-    const { t } = useTranslation(['dashboard', 'common']);
+    const { t } = useTranslation('dashboard');
     const {
         data,
         isLoading: isDataLoading,
@@ -1302,9 +1486,13 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
             (now.getTime() - date.getTime()) / (1000 * 60 * 60)
         );
 
-        if (diffInHours < 1) return "À l'instant";
-        if (diffInHours < 24) return `Il y a ${diffInHours}h`;
-        if (diffInHours < 48) return 'Hier';
+        if (diffInHours < 1) return t('common.justNow');
+        if (diffInHours < 24)
+            return t('common.hoursAgo').replace(
+                '{hours}',
+                diffInHours.toString()
+            );
+        if (diffInHours < 48) return t('common.yesterday');
         return formatDate(dateString);
     };
 
@@ -1396,7 +1584,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                             }}
                         />
                         <Typography variant="subtitle1" color="text.secondary">
-                            Sélectionnez un élève pour voir son tableau de bord
+                            {t('common.selectStudent')}
                         </Typography>
                     </Box>
                 </CardContent>
@@ -1424,7 +1612,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                             }}
                         />
                         <Typography variant="body2" color="text.secondary">
-                            Chargement des données du tableau de bord...
+                            {t('common.loadingData')}
                         </Typography>
                     </Box>
                 </CardContent>
@@ -1450,7 +1638,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                             color="error.main"
                             sx={{ mb: 0.5, fontWeight: 600 }}
                         >
-                            Erreur de chargement
+                            {t('common.loadingError')}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                             {finalError}
@@ -1460,8 +1648,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                             color="text.secondary"
                             sx={{ mt: 1.5 }}
                         >
-                            Veuillez réessayer ou contacter le support si le
-                            problème persiste.
+                            {t('common.tryAgainOrContact')}
                         </Typography>
                     </Box>
                 </CardContent>
@@ -1489,15 +1676,14 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                             }}
                         />
                         <Typography variant="subtitle1" color="text.secondary">
-                            Données non disponibles
+                            {t('common.dataNotAvailable')}
                         </Typography>
                         <Typography
                             variant="body2"
                             color="text.secondary"
                             sx={{ mt: 0.5 }}
                         >
-                            Les données de l'élève sélectionné ne peuvent pas
-                            être chargées pour le moment.
+                            {t('common.studentDataNotLoaded')}
                         </Typography>
                     </Box>
                 </CardContent>
@@ -1567,7 +1753,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                     }}
                 >
                     <MarksIcon sx={{ fontSize: 18 }} />
-                    Notes par Trimestre
+                    {t('academic.termMarks')}
                 </Typography>
 
                 <Grid container spacing={1.5} sx={{ mb: 2 }}>
@@ -1612,10 +1798,10 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                                         <Chip
                                             label={
                                                 status === 'completed'
-                                                    ? 'Terminé'
+                                                    ? t('academic.completed')
                                                     : status === 'pending'
-                                                      ? 'En cours'
-                                                      : 'Non démarré'
+                                                      ? t('academic.pending')
+                                                      : t('academic.notStarted')
                                             }
                                             size="small"
                                             sx={{
@@ -1674,7 +1860,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                                                 variant="caption"
                                                 color="text.secondary"
                                             >
-                                                Moyenne Générale
+                                                {t('academic.generalAverage')}
                                             </Typography>
                                             {term.subjects.length > 0 && (
                                                 <Typography
@@ -1689,7 +1875,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                                                     }}
                                                 >
                                                     {term.subjects.length}{' '}
-                                                    matières
+                                                    {t('academic.subjects')}
                                                 </Typography>
                                             )}
                                         </Box>
@@ -1711,8 +1897,8 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                                                 sx={{ fontStyle: 'italic' }}
                                             >
                                                 {status === 'pending'
-                                                    ? 'En attente'
-                                                    : 'Non démarré'}
+                                                    ? t('academic.waiting')
+                                                    : t('academic.notStarted')}
                                             </Typography>
                                         </Box>
                                     )}
@@ -1746,7 +1932,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                                 : 'text.secondary',
                         }}
                     >
-                        Moyennes Annuelles
+                        {t('academic.annualMarks')}
                     </Typography>
 
                     {isAnnualMarksReady() ? (
@@ -1780,7 +1966,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                                         variant="caption"
                                         color="text.secondary"
                                     >
-                                        Moyenne Générale Annuelle
+                                        {t('academic.annualGeneralAverage')}
                                     </Typography>
                                 </Box>
                             </Grid>
@@ -1812,7 +1998,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                                         variant="caption"
                                         color="text.secondary"
                                     >
-                                        Rang Annuel
+                                        {t('academic.annualRank')}
                                     </Typography>
                                 </Box>
                             </Grid>
@@ -1827,23 +2013,22 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                                     mb: 1,
                                 }}
                             >
-                                En attente
+                                {t('academic.waiting')}
                             </Typography>
                             <Typography
                                 variant="body2"
                                 color="text.secondary"
                                 sx={{ fontStyle: 'italic' }}
                             >
-                                Compléter tous les trimestres pour voir les
-                                moyennes annuelles
+                                {t('academic.completeAllTerms')}
                             </Typography>
                             <Typography
                                 variant="caption"
                                 color="text.secondary"
                                 sx={{ display: 'block', mt: 0.5 }}
                             >
-                                ({dashboardData.completedTerms}/3 trimestres
-                                terminés)
+                                ({dashboardData.completedTerms}/3{' '}
+                                {t('academic.termsCompleted')})
                             </Typography>
                         </Box>
                     )}
@@ -1868,7 +2053,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                     }}
                 >
                     <BillingIcon sx={{ fontSize: 18 }} />
-                    Situation Financière
+                    {t('financial.title')}
                 </Typography>
 
                 {financialSituation ? (
@@ -1895,7 +2080,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                                         color="text.secondary"
                                         sx={{ display: 'block', mb: 0.5 }}
                                     >
-                                        Frais Totaux
+                                        {t('financial.totalFees')}
                                     </Typography>
                                     <Typography
                                         variant="subtitle2"
@@ -1932,7 +2117,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                                         color="text.secondary"
                                         sx={{ display: 'block', mb: 0.5 }}
                                     >
-                                        Montant Payé
+                                        {t('financial.amountPaid')}
                                     </Typography>
                                     <Typography
                                         variant="subtitle2"
@@ -1969,7 +2154,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                                         color="text.secondary"
                                         sx={{ display: 'block', mb: 0.5 }}
                                     >
-                                        Reste à Payer
+                                        {t('financial.remainingToPay')}
                                     </Typography>
                                     <Typography
                                         variant="subtitle2"
@@ -2006,7 +2191,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                                         color="text.secondary"
                                         sx={{ display: 'block', mb: 0.5 }}
                                     >
-                                        Montant Dû
+                                        {t('financial.amountDue')}
                                     </Typography>
                                     <Typography
                                         variant="subtitle2"
@@ -2023,134 +2208,193 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                             </Grid>
                         </Grid>
 
-                        {/* Next Payment Due Alert */}
-                        {financialSituation.nextPaymentDue && (
-                            <Box
-                                sx={{
-                                    p: 1.5,
-                                    borderRadius: 1,
-                                    backgroundColor: financialSituation
-                                        .nextPaymentDue.isOverdue
-                                        ? alpha(theme.palette.error.main, 0.08)
-                                        : alpha(
-                                              theme.palette.warning.main,
-                                              0.08
-                                          ),
-                                    border: 1,
-                                    borderColor: financialSituation
-                                        .nextPaymentDue.isOverdue
-                                        ? alpha(theme.palette.error.main, 0.3)
-                                        : alpha(
-                                              theme.palette.warning.main,
-                                              0.3
-                                          ),
-                                }}
-                            >
-                                <Box
-                                    sx={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: 1.5,
-                                    }}
-                                >
-                                    <Box
-                                        sx={{
-                                            width: 32,
-                                            height: 32,
-                                            borderRadius: 1,
-                                            backgroundColor: financialSituation
-                                                .nextPaymentDue.isOverdue
-                                                ? alpha(
-                                                      theme.palette.error.main,
-                                                      0.15
-                                                  )
-                                                : alpha(
-                                                      theme.palette.warning
-                                                          .main,
-                                                      0.15
-                                                  ),
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            color: financialSituation
-                                                .nextPaymentDue.isOverdue
-                                                ? 'error.main'
-                                                : 'warning.main',
-                                        }}
-                                    >
-                                        <DueIcon sx={{ fontSize: 16 }} />
-                                    </Box>
-                                    <Box sx={{ flex: 1 }}>
-                                        <Typography
-                                            variant="subtitle2"
+                        {/* Amount Not Paid and Due Amount Summary */}
+                        {(financialSituation.remainingToPay > 0 ||
+                            financialSituation.amountDue > 0) && (
+                            <Grid container spacing={1.5}>
+                                {financialSituation.remainingToPay > 0 && (
+                                    <Grid size={{ xs: 12, sm: 6 }}>
+                                        <Box
                                             sx={{
-                                                fontWeight: 600,
-                                                color: financialSituation
-                                                    .nextPaymentDue.isOverdue
-                                                    ? 'error.main'
-                                                    : 'warning.main',
-                                                lineHeight: 1.3,
+                                                p: 1.5,
+                                                borderRadius: 1,
+                                                backgroundColor: alpha(
+                                                    theme.palette.warning.main,
+                                                    0.08
+                                                ),
+                                                border: 1,
+                                                borderColor: alpha(
+                                                    theme.palette.warning.main,
+                                                    0.3
+                                                ),
                                             }}
                                         >
-                                            {financialSituation.nextPaymentDue
-                                                .isOverdue
-                                                ? 'Paiement en Retard'
-                                                : 'Prochaine Échéance'}
-                                        </Typography>
-                                        <Typography
-                                            variant="caption"
-                                            color="text.secondary"
-                                        >
-                                            {
-                                                financialSituation
-                                                    .nextPaymentDue.description
-                                            }{' '}
-                                            -{' '}
-                                            {financialSituation.nextPaymentDue
-                                                .dueDate
-                                                ? formatDate(
-                                                      financialSituation
-                                                          .nextPaymentDue
-                                                          .dueDate
-                                                  )
-                                                : 'Date non définie'}
-                                            {financialSituation.nextPaymentDue
-                                                .isOverdue && (
-                                                <Chip
-                                                    label="EN RETARD"
-                                                    size="small"
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: 1.5,
+                                                }}
+                                            >
+                                                <Box
                                                     sx={{
-                                                        ml: 0.5,
-                                                        height: 16,
-                                                        fontSize: '0.625rem',
+                                                        width: 32,
+                                                        height: 32,
+                                                        borderRadius: 1,
+                                                        backgroundColor: alpha(
+                                                            theme.palette
+                                                                .warning.main,
+                                                            0.15
+                                                        ),
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent:
+                                                            'center',
+                                                        color: 'warning.main',
+                                                    }}
+                                                >
+                                                    <BillingIcon
+                                                        sx={{ fontSize: 16 }}
+                                                    />
+                                                </Box>
+                                                <Box sx={{ flex: 1 }}>
+                                                    <Typography
+                                                        variant="subtitle2"
+                                                        sx={{
+                                                            fontWeight: 600,
+                                                            color: 'warning.main',
+                                                            lineHeight: 1.3,
+                                                        }}
+                                                    >
+                                                        {t(
+                                                            'financial.unpaidAmount'
+                                                        )}
+                                                    </Typography>
+                                                    <Typography
+                                                        variant="caption"
+                                                        color="text.secondary"
+                                                    >
+                                                        {t(
+                                                            'financial.unpaidAmountDescription'
+                                                        )}
+                                                    </Typography>
+                                                </Box>
+                                                <Typography
+                                                    variant="subtitle1"
+                                                    sx={{
+                                                        fontWeight: 700,
+                                                        color: 'warning.main',
+                                                    }}
+                                                >
+                                                    {formatCurrency(
+                                                        financialSituation.remainingToPay
+                                                    )}
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+                                    </Grid>
+                                )}
+
+                                {financialSituation.amountDue > 0 && (
+                                    <Grid size={{ xs: 12, sm: 6 }}>
+                                        <Box
+                                            sx={{
+                                                p: 1.5,
+                                                borderRadius: 1,
+                                                backgroundColor: alpha(
+                                                    theme.palette.error.main,
+                                                    0.08
+                                                ),
+                                                border: 1,
+                                                borderColor: alpha(
+                                                    theme.palette.error.main,
+                                                    0.3
+                                                ),
+                                            }}
+                                        >
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: 1.5,
+                                                }}
+                                            >
+                                                <Box
+                                                    sx={{
+                                                        width: 32,
+                                                        height: 32,
+                                                        borderRadius: 1,
                                                         backgroundColor: alpha(
                                                             theme.palette.error
                                                                 .main,
                                                             0.15
                                                         ),
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent:
+                                                            'center',
                                                         color: 'error.main',
                                                     }}
-                                                />
-                                            )}
-                                        </Typography>
-                                    </Box>
-                                    <Typography
-                                        variant="subtitle1"
-                                        sx={{
-                                            fontWeight: 700,
-                                            color: financialSituation
-                                                .nextPaymentDue.isOverdue
-                                                ? 'error.main'
-                                                : 'warning.main',
-                                        }}
-                                    >
-                                        {formatCurrency(
-                                            financialSituation.nextPaymentDue
-                                                .amount
-                                        )}
-                                    </Typography>
-                                </Box>
-                            </Box>
+                                                >
+                                                    <DueIcon
+                                                        sx={{ fontSize: 16 }}
+                                                    />
+                                                </Box>
+                                                <Box sx={{ flex: 1 }}>
+                                                    <Typography
+                                                        variant="subtitle2"
+                                                        sx={{
+                                                            fontWeight: 600,
+                                                            color: 'error.main',
+                                                            lineHeight: 1.3,
+                                                        }}
+                                                    >
+                                                        {t(
+                                                            'financial.dueAmount'
+                                                        )}
+                                                    </Typography>
+                                                    <Typography
+                                                        variant="caption"
+                                                        color="text.secondary"
+                                                    >
+                                                        {t(
+                                                            'financial.dueAmountDescription'
+                                                        )}
+                                                        {financialSituation
+                                                            .nextPaymentDue
+                                                            ?.dueDate && (
+                                                            <span>
+                                                                {' '}
+                                                                -{' '}
+                                                                {t(
+                                                                    'financial.dueDate'
+                                                                )}
+                                                                :{' '}
+                                                                {formatDate(
+                                                                    financialSituation
+                                                                        .nextPaymentDue
+                                                                        .dueDate
+                                                                )}
+                                                            </span>
+                                                        )}
+                                                    </Typography>
+                                                </Box>
+                                                <Typography
+                                                    variant="subtitle1"
+                                                    sx={{
+                                                        fontWeight: 700,
+                                                        color: 'error.main',
+                                                    }}
+                                                >
+                                                    {formatCurrency(
+                                                        financialSituation.amountDue
+                                                    )}
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+                                    </Grid>
+                                )}
+                            </Grid>
                         )}
 
                         {/* Payment Status Summary */}
@@ -2179,13 +2423,13 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                                         color: 'success.main',
                                     }}
                                 >
-                                    Tous les paiements sont à jour
+                                    {t('financial.allPaymentsCurrent')}
                                 </Typography>
                                 <Typography
                                     variant="caption"
                                     color="text.secondary"
                                 >
-                                    Aucun montant en souffrance pour cet élève
+                                    {t('financial.noOutstandingAmount')}
                                 </Typography>
                             </Box>
                         )}
@@ -2219,11 +2463,10 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                             color="warning.main"
                             sx={{ mb: 0.5, fontWeight: 600 }}
                         >
-                            Données financières non disponibles
+                            {t('financial.dataNotAvailable')}
                         </Typography>
                         <Typography variant="caption" color="text.secondary">
-                            Les informations de facturation ne peuvent pas être
-                            chargées pour le moment.
+                            {t('financial.billingInfoNotLoaded')}
                         </Typography>
                     </Box>
                 )}
@@ -2232,7 +2475,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
             {/* Last Updated */}
             <Box sx={{ textAlign: 'center', py: 1.5 }}>
                 <Typography variant="caption" color="text.secondary">
-                    Dernière mise à jour:{' '}
+                    {t('common.lastUpdated')}:{' '}
                     {formatLastUpdated(dashboardData.lastUpdated)}
                 </Typography>
             </Box>
