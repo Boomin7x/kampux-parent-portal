@@ -9,12 +9,13 @@ export const navigationContent = {
 
     // Navigation Items
     navItems: [
-        { label: 'About', href: '#about' },
-        { label: 'Programs', href: '#programs' },
-        { label: 'Faculty', href: '#faculty' },
-        { label: 'Student Life', href: '#student-life' },
-        { label: 'Facilities', href: '#facilities' },
-        { label: 'Contact', href: '#contact' },
+        { label: 'About', href: '/about' },
+        { label: 'Programs', href: '/academics' },
+        { label: 'Faculty', href: '/faculty' },
+        { label: 'Student Life', href: '/student-life' },
+        { label: 'Facilities', href: '/facilities' },
+        { label: 'Gallery', href: '/gallery' },
+        { label: 'Contact', href: '/contact' },
     ],
 
     // Authentication
