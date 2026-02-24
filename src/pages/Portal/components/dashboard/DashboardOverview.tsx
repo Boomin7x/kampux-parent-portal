@@ -413,40 +413,36 @@ const processAnnualMarks = (
         };
     }
 
-    // Calculate general average from annual marks
+    // Use averageMark directly from the annual marks structure
     const validMarks = safeAnnualMarks.filter(
-        mark => mark && typeof mark.mark === 'number' && mark.mark > 0
+        mark =>
+            mark && typeof mark.averageMark === 'number' && mark.averageMark > 0
     );
 
     let generalAverage: number | null = null;
+    let rank: number | null = null;
 
     if (validMarks.length > 0) {
-        const totalWeightedSum = validMarks.reduce(
-            (sum, mark) => sum + mark.mark * (mark.coefficient || 1),
-            0
-        );
-        const totalCoefficients = validMarks.reduce(
-            (sum, mark) => sum + (mark.coefficient || 1),
-            0
-        );
-        generalAverage =
-            totalCoefficients > 0 ? totalWeightedSum / totalCoefficients : null;
+        // For annual marks, we can use the first valid mark's general average and rank
+        const firstValidMark = validMarks[0];
+        generalAverage = firstValidMark.averageMark;
+        rank = firstValidMark.rank;
     }
 
     const subjects: SubjectMark[] = safeAnnualMarks.map((mark, index) => ({
-        subjectName: `Matière ${mark?.subjectId || index + 1}`, // This should be mapped from actual subject data
+        subjectName: `Subject ${index + 1}`, // This should be mapped from actual subject data
         mark:
-            mark && typeof mark.mark === 'number' && mark.mark > 0
-                ? mark.mark
+            mark && typeof mark.averageMark === 'number' && mark.averageMark > 0
+                ? mark.averageMark
                 : null,
-        coefficient: mark?.coefficient || 1,
+        coefficient: 1, // Not available in AnnualMark structure
         maxMark: 20,
     }));
 
     return {
         subjects,
         generalAverage,
-        rank: null, // This should come from actual ranking data
+        rank,
         classSize: 28,
         isAvailable: true,
     };

@@ -216,12 +216,15 @@ export interface PeriodMark {
 }
 
 export interface AnnualMark {
-    // Define annual mark structure if available
     id: number;
-    subjectId: number;
-    mark: number;
-    coefficient: number;
-    // Add other relevant fields based on actual data structure
+    registrationId: number;
+    reportCard: string;
+    averageMark: number;
+    averageMarkAppreciationId: number;
+    rank: number;
+    isMarkExcluded: boolean | null;
+    markExcludedPurpose: string | null;
+    conductGrade: string | null;
 }
 
 export interface DashboardBilling {
