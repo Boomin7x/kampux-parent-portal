@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Typography, Collapse, IconButton } from '@mui/material';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import {
     ExpandMore as ExpandMoreIcon,
     ExpandLess as ExpandLessIcon,
@@ -53,8 +53,7 @@ export const DepartmentSection: React.FC<DepartmentSectionProps> = ({
                         width: 48,
                         height: 48,
                         borderRadius: 1,
-                        background:
-                            'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                        background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -116,7 +115,10 @@ export const DepartmentSection: React.FC<DepartmentSectionProps> = ({
                 <Box sx={{ p: 2, pt: 0 }}>
                     <Grid container spacing={2}>
                         {faculty.map((member, index) => (
-                            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={member.id}>
+                            <Grid
+                                size={{ xs: 12, sm: 6, md: 4 }}
+                                key={member.id}
+                            >
                                 <FacultyProfileCard
                                     member={member}
                                     index={index}

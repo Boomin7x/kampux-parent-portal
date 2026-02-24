@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography, Card } from '@mui/material';
-import Grid from '@mui/material/Grid2';
+import { Grid } from '@mui/material';
 import { useIntersectionObserver } from '../../../hooks/ui/useIntersectionObserver';
 
 interface Subject {
@@ -83,7 +83,13 @@ export const CurriculumGrid: React.FC<CurriculumGridProps> = ({ subjects }) => {
                                 {subject.weeklyHours} hours/week
                             </Typography>
                         </Box>
-                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: 0.5,
+                            }}
+                        >
                             {subject.courses.map((course, courseIndex) => (
                                 <Typography
                                     key={courseIndex}

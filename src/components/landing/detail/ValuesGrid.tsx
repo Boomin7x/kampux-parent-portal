@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography, Card } from '@mui/material';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import { useIntersectionObserver } from '../../../hooks/ui/useIntersectionObserver';
 
 interface Value {
@@ -21,7 +21,7 @@ export const ValuesGrid: React.FC<ValuesGridProps> = ({ values }) => {
     });
 
     return (
-        <Grid ref={targetRef} container spacing={2}>
+        <Grid ref={targetRef} spacing={2}>
             {values.map((value, index) => (
                 <Grid size={{ xs: 12, sm: 6, md: 4 }} key={value.id}>
                     <Card

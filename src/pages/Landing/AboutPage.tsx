@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Container, Typography, Button } from '@mui/material';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import {
     EmojiObjects as InnovationIcon,
     Favorite as CompassionIcon,
@@ -255,8 +255,8 @@ export const AboutPage: React.FC = () => {
                                 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s',
                         }}
                     >
-                        Empowering students to reach their full potential through
-                        excellence, innovation, and compassion.
+                        Empowering students to reach their full potential
+                        through excellence, innovation, and compassion.
                     </Typography>
                 </Container>
             </Box>
@@ -299,12 +299,13 @@ export const AboutPage: React.FC = () => {
                                         lineHeight: 1.7,
                                     }}
                                 >
-                                    To provide a nurturing and challenging educational
-                                    environment where students develop intellectually,
-                                    socially, and emotionally. We are committed to
-                                    fostering critical thinking, creativity, and a
-                                    lifelong love of learning while instilling strong
-                                    values and global citizenship.
+                                    To provide a nurturing and challenging
+                                    educational environment where students
+                                    develop intellectually, socially, and
+                                    emotionally. We are committed to fostering
+                                    critical thinking, creativity, and a
+                                    lifelong love of learning while instilling
+                                    strong values and global citizenship.
                                 </Typography>
                             </Box>
                         </Grid>
@@ -342,13 +343,14 @@ export const AboutPage: React.FC = () => {
                                         lineHeight: 1.7,
                                     }}
                                 >
-                                    To be a leading educational institution recognized
-                                    for academic excellence, innovative teaching
-                                    methods, and the holistic development of students.
-                                    We envision a community where every student
-                                    discovers their unique potential and becomes a
-                                    confident, compassionate leader ready to make a
-                                    positive impact on the world.
+                                    To be a leading educational institution
+                                    recognized for academic excellence,
+                                    innovative teaching methods, and the
+                                    holistic development of students. We
+                                    envision a community where every student
+                                    discovers their unique potential and becomes
+                                    a confident, compassionate leader ready to
+                                    make a positive impact on the world.
                                 </Typography>
                             </Box>
                         </Grid>
@@ -387,8 +389,8 @@ export const AboutPage: React.FC = () => {
                                 mx: 'auto',
                             }}
                         >
-                            The principles that guide our community and shape our
-                            educational philosophy.
+                            The principles that guide our community and shape
+                            our educational philosophy.
                         </Typography>
                     </Box>
                     <ValuesGrid values={values} />
@@ -423,7 +425,8 @@ export const AboutPage: React.FC = () => {
                                 mx: 'auto',
                             }}
                         >
-                            Meet the dedicated leaders who guide our school community.
+                            Meet the dedicated leaders who guide our school
+                            community.
                         </Typography>
                     </Box>
                     <LeadershipGrid leaders={leaders} />
@@ -504,8 +507,9 @@ export const AboutPage: React.FC = () => {
                                 mx: 'auto',
                             }}
                         >
-                            Experience firsthand what makes our school special. Schedule
-                            a campus tour or contact our admissions team to learn more.
+                            Experience firsthand what makes our school special.
+                            Schedule a campus tour or contact our admissions
+                            team to learn more.
                         </Typography>
                         <Box
                             sx={{
@@ -540,7 +544,8 @@ export const AboutPage: React.FC = () => {
                                     textTransform: 'none',
                                     '&:hover': {
                                         borderColor: '#ffffff',
-                                        backgroundColor: 'rgba(255,255,255,0.1)',
+                                        backgroundColor:
+                                            'rgba(255,255,255,0.1)',
                                     },
                                 }}
                             >

@@ -7,7 +7,7 @@ import {
     InputAdornment,
     Button,
 } from '@mui/material';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import { Search as SearchIcon } from '@mui/icons-material';
 import { FacultyProfileCard } from './FacultyProfileCard';
 
@@ -39,7 +39,7 @@ export const FacultyDirectory: React.FC<FacultyDirectoryProps> = ({
     const [displayCount, setDisplayCount] = useState(9);
 
     const filteredFaculty = useMemo(() => {
-        return faculty.filter((member) => {
+        return faculty.filter(member => {
             const matchesSearch =
                 searchQuery === '' ||
                 member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -62,7 +62,7 @@ export const FacultyDirectory: React.FC<FacultyDirectoryProps> = ({
                     fullWidth
                     placeholder="Search faculty by name or title..."
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={e => setSearchQuery(e.target.value)}
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
@@ -104,7 +104,7 @@ export const FacultyDirectory: React.FC<FacultyDirectoryProps> = ({
                             },
                         }}
                     />
-                    {departments.map((dept) => (
+                    {departments.map(dept => (
                         <Chip
                             key={dept}
                             label={dept}
@@ -154,7 +154,10 @@ export const FacultyDirectory: React.FC<FacultyDirectoryProps> = ({
                 <>
                     <Grid container spacing={2}>
                         {displayedFaculty.map((member, index) => (
-                            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={member.id}>
+                            <Grid
+                                size={{ xs: 12, sm: 6, md: 4 }}
+                                key={member.id}
+                            >
                                 <FacultyProfileCard
                                     member={member}
                                     index={index}
@@ -167,7 +170,9 @@ export const FacultyDirectory: React.FC<FacultyDirectoryProps> = ({
                         <Box sx={{ textAlign: 'center', mt: 4 }}>
                             <Button
                                 variant="outlined"
-                                onClick={() => setDisplayCount((prev) => prev + 9)}
+                                onClick={() =>
+                                    setDisplayCount(prev => prev + 9)
+                                }
                                 sx={{
                                     fontSize: '0.875rem',
                                     textTransform: 'none',
