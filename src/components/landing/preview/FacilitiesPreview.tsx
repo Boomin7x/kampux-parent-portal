@@ -1,145 +1,227 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
 import * as MuiIcons from '@mui/icons-material';
 import { facilitiesPreviewContent } from '../../../content/landing/facilitiesPreviewContent';
-import { PreviewCard, SectionContentGrid, SectionPreview } from '../SectionPreview';
+import { useIntersectionObserver } from '../../../hooks/ui/useIntersectionObserver';
+import { SectionHeader } from '../SectionHeader';
+import { CTAButton } from '../CTAButton';
 
 /**
  * FacilitiesPreview Component
  *
- * Minimal preview of the Facilities section for landing page with:
- * - Key facilities (top 4)
- * - Infrastructure stats
- * - CTA to full Facilities page
+ * Image-left, content-right layout featuring:
+ * - Campus facilities image on left (6 cols)
+ * - Key facilities list on right (6 cols)
+ * - Clean content without statistics
+ * - CTA button: "Tour Our Campus" → /facilities
  */
 export const FacilitiesPreview: React.FC = () => {
-    const { overline, title, subtitle, keyFacilities, stats, cta } =
+    const { overline, title, subtitle, keyFacilities, cta } =
         facilitiesPreviewContent;
 
-    return (
-        <SectionPreview
-            id="facilities"
-            title={title}
-            subtitle={subtitle}
-            overline={overline}
-            ctaText={cta.text}
-            ctaRoute={cta.route}
-            backgroundColor="#fefefe"
-        >
-            {/* Key Facilities */}
-            <SectionContentGrid columns={{ xs: 1, sm: 2, md: 4 }} spacing={2}>
-                {keyFacilities.map(facility => {
-                    const IconComponent =
-                        MuiIcons[facility.icon as keyof typeof MuiIcons];
+    const { isIntersecting, targetRef } = useIntersectionObserver({
+        threshold: 0.1,
+        freezeOnceVisible: true,
+    });
 
-                    return (
-                        <PreviewCard key={facility.id} hoverable>
+    return (
+        <Box
+            id="facilities"
+            component="section"
+            ref={targetRef}
+            sx={{
+                py: { xs: 6, md: 8 },
+                backgroundColor: '#fefefe',
+                position: 'relative',
+            }}
+        >
+            <Container
+                maxWidth="lg"
+                sx={{
+                    opacity: isIntersecting ? 1 : 0,
+                    transform: isIntersecting
+                        ? 'translateY(0)'
+                        : 'translateY(30px)',
+                    transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+                }}
+            >
+                {/* Section Header */}
+                <SectionHeader
+                    title={title}
+                    subtitle={subtitle}
+                    overline={overline}
+                    align="center"
+                />
+
+                {/* Image + Content Layout */}
+                <Grid container spacing={4} alignItems="center" sx={{ mb: 4 }}>
+                    {/* Campus Facilities Image - LEFT */}
+                    <Grid size={{ xs: 12, md: 6 }}>
+                        <Box
+                            sx={{
+                                position: 'relative',
+                                borderRadius: 2,
+                                overflow: 'hidden',
+                                opacity: isIntersecting ? 1 : 0,
+                                transform: isIntersecting
+                                    ? 'translateX(0)'
+                                    : 'translateX(-30px)',
+                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s',
+                            }}
+                        >
+                            <Box
+                                component="img"
+                                src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=80"
+                                alt="Modern school facilities featuring state-of-the-art laboratories and learning spaces"
+                                sx={{
+                                    width: '100%',
+                                    height: 'auto',
+                                    aspectRatio: '4/3',
+                                    objectFit: 'cover',
+                                    borderRadius: 1,
+                                }}
+                                loading="lazy"
+                            />
+                            {/* Image Overlay with Caption */}
                             <Box
                                 sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    height: '100%',
+                                    position: 'absolute',
+                                    bottom: 0,
+                                    left: 0,
+                                    right: 0,
+                                    background:
+                                        'linear-gradient(transparent, rgba(0,0,0,0.6))',
+                                    p: 2.5,
                                 }}
                             >
-                                {/* Icon */}
-                                {IconComponent && (
-                                    <Box
-                                        sx={{
-                                            width: 40,
-                                            height: 40,
-                                            borderRadius: 1,
-                                            backgroundColor: facility.color + '15',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            mb: 1.5,
-                                        }}
-                                    >
-                                        <IconComponent
-                                            sx={{
-                                                fontSize: 20,
-                                                color: facility.color,
-                                            }}
-                                        />
-                                    </Box>
-                                )}
-
-                                {/* Content */}
-                                <Typography
-                                    variant="subtitle2"
-                                    sx={{
-                                        fontWeight: 600,
-                                        mb: 0.5,
-                                        color: 'text.primary',
-                                    }}
-                                >
-                                    {facility.title}
-                                </Typography>
-                                <Typography
-                                    variant="caption"
-                                    sx={{
-                                        color: facility.color,
-                                        fontWeight: 500,
-                                        mb: 1,
-                                    }}
-                                >
-                                    {facility.capacity}
-                                </Typography>
                                 <Typography
                                     variant="body2"
                                     sx={{
-                                        color: 'text.secondary',
-                                        lineHeight: 1.5,
-                                        flex: 1,
-                                    }}
-                                >
-                                    {facility.description}
-                                </Typography>
-                            </Box>
-                        </PreviewCard>
-                    );
-                })}
-            </SectionContentGrid>
-
-            {/* Infrastructure Stats */}
-            <Box
-                sx={{
-                    mt: 4,
-                    p: 2,
-                    borderRadius: 1,
-                    background: 'linear-gradient(135deg, #6366f1 0%, #10b981 100%)',
-                }}
-            >
-                <Grid container spacing={2}>
-                    {stats.map((stat, index) => (
-                        <Grid size={{ xs: 6, sm: 3 }} key={index}>
-                            <Box sx={{ textAlign: 'center' }}>
-                                <Typography
-                                    variant="h4"
-                                    sx={{
-                                        fontWeight: 700,
                                         color: 'white',
-                                        mb: 0.5,
-                                    }}
-                                >
-                                    {stat.number}
-                                </Typography>
-                                <Typography
-                                    variant="caption"
-                                    sx={{
-                                        color: 'rgba(255, 255, 255, 0.9)',
                                         fontWeight: 500,
-                                        whiteSpace: 'pre-line',
+                                        textShadow: '0 1px 2px rgba(0,0,0,0.7)',
+                                        fontSize: '0.875rem',
                                     }}
                                 >
-                                    {stat.label}
+                                    Modern Campus Facilities
                                 </Typography>
                             </Box>
-                        </Grid>
-                    ))}
+                        </Box>
+                    </Grid>
+
+                    {/* Key Facilities List - RIGHT */}
+                    <Grid size={{ xs: 12, md: 6 }}>
+                        <Box
+                            sx={{
+                                opacity: isIntersecting ? 1 : 0,
+                                transform: isIntersecting
+                                    ? 'translateX(0)'
+                                    : 'translateX(30px)',
+                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s',
+                            }}
+                        >
+                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+                                {keyFacilities.map((facility, index) => {
+                                    const IconComponent =
+                                        MuiIcons[facility.icon as keyof typeof MuiIcons];
+
+                                    return (
+                                        <Box
+                                            key={facility.id}
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'flex-start',
+                                                gap: 2,
+                                                p: 2.5,
+                                                borderRadius: 1,
+                                                border: '1px solid',
+                                                borderColor: 'divider',
+                                                backgroundColor: 'background.paper',
+                                                opacity: isIntersecting ? 1 : 0,
+                                                transform: isIntersecting
+                                                    ? 'translateY(0)'
+                                                    : 'translateY(20px)',
+                                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+                                                transitionDelay: `${0.5 + index * 0.1}s`,
+                                                '&:hover': {
+                                                    borderColor: facility.color,
+                                                    backgroundColor: facility.color + '08',
+                                                    transform: 'translateY(-2px)',
+                                                },
+                                            }}
+                                        >
+                                            {/* Facility Icon */}
+                                            {IconComponent && (
+                                                <Box
+                                                    sx={{
+                                                        width: 40,
+                                                        height: 40,
+                                                        borderRadius: 1,
+                                                        backgroundColor: facility.color + '15',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        flexShrink: 0,
+                                                    }}
+                                                >
+                                                    <IconComponent
+                                                        sx={{
+                                                            fontSize: 20,
+                                                            color: facility.color,
+                                                        }}
+                                                    />
+                                                </Box>
+                                            )}
+
+                                            {/* Facility Content */}
+                                            <Box sx={{ flex: 1, minWidth: 0 }}>
+                                                <Typography
+                                                    variant="subtitle1"
+                                                    sx={{
+                                                        fontWeight: 600,
+                                                        mb: 0.5,
+                                                        color: 'text.primary',
+                                                        lineHeight: 1.3,
+                                                    }}
+                                                >
+                                                    {facility.title}
+                                                </Typography>
+                                                <Typography
+                                                    variant="body2"
+                                                    sx={{
+                                                        color: 'text.secondary',
+                                                        lineHeight: 1.5,
+                                                        fontSize: '0.8125rem',
+                                                    }}
+                                                >
+                                                    {facility.description}
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+                                    );
+                                })}
+                            </Box>
+                        </Box>
+                    </Grid>
                 </Grid>
-            </Box>
-        </SectionPreview>
+
+                {/* CTA Button */}
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <CTAButton
+                        to={cta.route}
+                        variant="primary"
+                        size="medium"
+                    >
+                        {cta.text}
+                    </CTAButton>
+                </Box>
+            </Container>
+        </Box>
     );
 };

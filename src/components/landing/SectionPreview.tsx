@@ -40,7 +40,7 @@ export const SectionPreview: React.FC<SectionPreviewProps> = ({
     backgroundColor = 'background.default',
     children,
     className = '',
-    containerMaxWidth = 'lg',
+    containerMaxWidth = 'xl',
     showCTA = true,
 }) => {
     const { isIntersecting, targetRef } = useIntersectionObserver({

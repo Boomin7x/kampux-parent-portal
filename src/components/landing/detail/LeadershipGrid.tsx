@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography, Avatar, Card, Link } from '@mui/material';
-import Grid from '@mui/material/Grid2';
+import Grid from '@mui/material/Grid';
 import { Email as EmailIcon, Phone as PhoneIcon } from '@mui/icons-material';
 import { useIntersectionObserver } from '../../../hooks/ui/useIntersectionObserver';
 
@@ -25,7 +25,11 @@ export const LeadershipGrid: React.FC<LeadershipGridProps> = ({ leaders }) => {
     });
 
     return (
-        <Grid ref={targetRef} container spacing={2}>
+        <Grid
+            container
+            ref={targetRef as React.RefObject<HTMLDivElement>}
+            spacing={2}
+        >
             {leaders.map((leader, index) => (
                 <Grid size={{ xs: 12, sm: 6, md: 4 }} key={leader.id}>
                     <Card

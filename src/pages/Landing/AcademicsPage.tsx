@@ -1,538 +1,1280 @@
 import React, { useState } from 'react';
-import { Box, Container, Typography, Button } from '@mui/material';
 import {
-    Science as ScienceIcon,
-    Book as BookIcon,
-    Calculate as MathIcon,
-    Language as LanguageIcon,
-    Palette as ArtsIcon,
-    FitnessCenter as PEIcon,
-    School as SchoolIcon,
-    TrendingUp as TrendingIcon,
-    Groups as GroupsIcon,
-    EmojiEvents as TrophyIcon,
+    Box,
+    Container,
+    Typography,
+    Grid,
+    Card,
+    CardContent,
+    Avatar,
+    Chip,
+    Tab,
+    Tabs,
+    LinearProgress,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+} from '@mui/material';
+import {
+    Science,
+    MenuBook,
+    Calculate,
+    Language,
+    Palette,
+    FitnessCenter,
+    School,
+    TrendingUp,
+    Groups,
+    EmojiEvents,
+    CheckCircle,
 } from '@mui/icons-material';
+import { ResponsiveImage } from '../../components/landing/shared/ResponsiveImage';
+import { PageHeader } from '../../components/landing/shared/PageHeader';
 import { useIntersectionObserver } from '../../hooks/ui/useIntersectionObserver';
-import {
-    ProgramCard,
-    CurriculumGrid,
-    AcademicStats,
-} from '../../components/landing/detail';
 
+/**
+ * Interface for academic programs
+ */
+interface AcademicProgram {
+    id: string;
+    name: string;
+    level: string;
+    description: string;
+    subjects: string[];
+    highlights: string[];
+    image: string;
+    ageRange: string;
+}
+
+/**
+ * Interface for curriculum subjects
+ */
+interface Subject {
+    id: string;
+    name: string;
+    description: string;
+    icon: React.ReactNode;
+    color: string;
+    features: string[];
+}
+
+/**
+ * Interface for performance metrics
+ */
+interface PerformanceMetric {
+    id: string;
+    label: string;
+    value: string;
+    description: string;
+    icon: React.ReactNode;
+    color: string;
+    progress?: number;
+}
+
+/**
+ * Interface for grade level showcases
+ */
+interface GradeLevel {
+    id: string;
+    level: string;
+    title: string;
+    description: string;
+    keySubjects: string[];
+    specialPrograms: string[];
+    image: string;
+}
+
+/**
+ * AcademicsPage component - Comprehensive academic information
+ */
 export const AcademicsPage: React.FC = () => {
-    const [expandedProgram, setExpandedProgram] = useState<string | null>(
-        'elementary'
-    );
+    const [selectedTab, setSelectedTab] = useState(0);
 
-    const { isIntersecting: heroIntersecting, targetRef: heroRef } =
-        useIntersectionObserver({
-            threshold: 0.1,
-            freezeOnceVisible: true,
-        });
-
-    const stats = [
+    // Academic programs data
+    const academicPrograms: AcademicProgram[] = [
         {
             id: '1',
-            label: 'Student-Teacher Ratio',
-            value: '12:1',
-            icon: <GroupsIcon sx={{ fontSize: 24 }} />,
+            name: 'Elementary Education',
+            level: 'K-5',
+            description:
+                'Building strong foundations in literacy, numeracy, and critical thinking through engaging, hands-on learning experiences.',
+            subjects: [
+                'Mathematics',
+                'English Language Arts',
+                'Science',
+                'Social Studies',
+                'Arts',
+            ],
+            highlights: [
+                'Play-based learning',
+                'STEAM integration',
+                'Character development',
+                'Multilingual support',
+            ],
+            image: '/pexels-cottonbro-7395304.jpg',
+            ageRange: '5-11 years',
         },
         {
             id: '2',
-            label: 'Average Class Size',
-            value: '18',
-            icon: <SchoolIcon sx={{ fontSize: 24 }} />,
+            name: 'Middle School Program',
+            level: '6-8',
+            description:
+                'Fostering intellectual curiosity and independence while providing comprehensive support during this crucial developmental stage.',
+            subjects: [
+                'Advanced Mathematics',
+                'Sciences',
+                'Literature',
+                'History',
+                'Foreign Languages',
+                'Technology',
+            ],
+            highlights: [
+                'Project-based learning',
+                'Leadership opportunities',
+                'Peer mentoring',
+                'College preparation',
+            ],
+            image: '/pexels-rdne-7092613.jpg',
+            ageRange: '11-14 years',
         },
         {
             id: '3',
-            label: 'College Acceptance',
-            value: '98%',
-            icon: <TrendingIcon sx={{ fontSize: 24 }} />,
-        },
-        {
-            id: '4',
-            label: 'Advanced Placement',
-            value: '15+',
-            icon: <TrophyIcon sx={{ fontSize: 24 }} />,
+            name: 'High School Excellence',
+            level: '9-12',
+            description:
+                'Preparing students for university success and lifelong learning through rigorous academics and diverse opportunities.',
+            subjects: [
+                'AP Courses',
+                'Advanced Sciences',
+                'Calculus',
+                'World Languages',
+                'Fine Arts',
+                'Computer Science',
+            ],
+            highlights: [
+                'College credit courses',
+                'Research projects',
+                'Internship programs',
+                'University partnerships',
+            ],
+            image: '/pexels-max-fischer-5212317.jpg',
+            ageRange: '14-18 years',
         },
     ];
 
-    const subjects = [
+    // Core subjects data
+    const coreSubjects: Subject[] = [
         {
             id: '1',
-            name: 'Mathematics',
-            icon: <MathIcon sx={{ fontSize: 24 }} />,
-            courses: [
-                'Pre-Algebra',
-                'Algebra I & II',
-                'Geometry',
-                'Pre-Calculus',
-                'AP Calculus',
+            name: 'STEM Education',
+            description:
+                'Comprehensive Science, Technology, Engineering, and Mathematics curriculum with hands-on laboratories and real-world applications.',
+            icon: <Science />,
+            color: '#10b981',
+            features: [
+                'State-of-the-art labs',
+                'Coding & robotics',
+                'Scientific method',
+                'Innovation projects',
             ],
-            weeklyHours: 5,
         },
         {
             id: '2',
-            name: 'Science',
-            icon: <ScienceIcon sx={{ fontSize: 24 }} />,
-            courses: ['Biology', 'Chemistry', 'Physics', 'Environmental Science'],
-            weeklyHours: 5,
+            name: 'Language Arts',
+            description:
+                'Developing strong communication skills through literature, writing, speaking, and critical analysis across multiple genres.',
+            icon: <MenuBook />,
+            color: '#6366f1',
+            features: [
+                'Creative writing',
+                'Public speaking',
+                'Literary analysis',
+                'Media literacy',
+            ],
         },
         {
             id: '3',
-            name: 'Language Arts',
-            icon: <BookIcon sx={{ fontSize: 24 }} />,
-            courses: [
-                'Literature',
-                'Creative Writing',
-                'Composition',
-                'Public Speaking',
+            name: 'Mathematics',
+            description:
+                'Building mathematical fluency from basic concepts to advanced calculus with emphasis on problem-solving and logical reasoning.',
+            icon: <Calculate />,
+            color: '#8b5cf6',
+            features: [
+                'Problem-based learning',
+                'Mathematical modeling',
+                'Technology integration',
+                'Competition teams',
             ],
-            weeklyHours: 5,
         },
         {
             id: '4',
             name: 'World Languages',
-            icon: <LanguageIcon sx={{ fontSize: 24 }} />,
-            courses: ['Spanish', 'French', 'Mandarin Chinese'],
-            weeklyHours: 3,
+            description:
+                'Immersive language learning programs fostering global citizenship and cultural understanding through authentic experiences.',
+            icon: <Language />,
+            color: '#06b6d4',
+            features: [
+                'Native speaker teachers',
+                'Cultural exchanges',
+                'Immersion programs',
+                'Global partnerships',
+            ],
         },
         {
             id: '5',
-            name: 'Arts',
-            icon: <ArtsIcon sx={{ fontSize: 24 }} />,
-            courses: [
-                'Visual Arts',
-                'Music',
-                'Theater',
-                'Digital Media',
-                'Dance',
+            name: 'Creative Arts',
+            description:
+                'Comprehensive arts education including visual arts, music, drama, and digital media to foster creativity and self-expression.',
+            icon: <Palette />,
+            color: '#f59e0b',
+            features: [
+                'Professional studios',
+                'Performance opportunities',
+                'Digital art tools',
+                'Artist residencies',
             ],
-            weeklyHours: 3,
         },
         {
             id: '6',
             name: 'Physical Education',
-            icon: <PEIcon sx={{ fontSize: 24 }} />,
-            courses: [
-                'Team Sports',
-                'Individual Fitness',
-                'Health & Wellness',
+            description:
+                'Promoting physical fitness, teamwork, and healthy lifestyle habits through diverse sports and wellness programs.',
+            icon: <FitnessCenter />,
+            color: '#ef4444',
+            features: [
+                'Diverse sports programs',
+                'Fitness training',
+                'Wellness education',
+                'Competitive teams',
             ],
-            weeklyHours: 3,
         },
     ];
 
+    // Performance metrics
+    const performanceMetrics: PerformanceMetric[] = [
+        {
+            id: '1',
+            label: 'Student-Teacher Ratio',
+            value: '12:1',
+            description: 'ensuring personalized attention and support',
+            icon: <Groups />,
+            color: '#10b981',
+        },
+        {
+            id: '2',
+            label: 'College Acceptance Rate',
+            value: '98%',
+            description: 'of graduates accepted to top universities',
+            icon: <School />,
+            color: '#6366f1',
+            progress: 98,
+        },
+        {
+            id: '3',
+            label: 'AP Score Excellence',
+            value: '4.2',
+            description: 'average AP exam score (5-point scale)',
+            icon: <TrendingUp />,
+            color: '#8b5cf6',
+            progress: 84,
+        },
+        {
+            id: '4',
+            label: 'Academic Awards',
+            value: '125+',
+            description: 'student achievements this year',
+            icon: <EmojiEvents />,
+            color: '#f59e0b',
+        },
+    ];
+
+    // Grade level showcases
+    const gradeLevels: GradeLevel[] = [
+        {
+            id: '1',
+            level: 'Elementary',
+            title: 'Foundation Years (K-5)',
+            description:
+                'Nurturing young minds through discovery-based learning that builds essential skills while maintaining the joy of learning.',
+            keySubjects: [
+                'Reading & Writing',
+                'Number Sense',
+                'Science Exploration',
+                'Social Skills',
+            ],
+            specialPrograms: [
+                'STEAM Lab',
+                'Art Studio',
+                'Music Program',
+                'Library Adventures',
+            ],
+            image: '/pexels-cottonbro-6208928.jpg',
+        },
+        {
+            id: '2',
+            level: 'Middle School',
+            title: 'Discovery Years (6-8)',
+            description:
+                'Supporting adolescents through academic challenges while developing independence, critical thinking, and leadership skills.',
+            keySubjects: [
+                'Advanced Math',
+                'Laboratory Sciences',
+                'Literature & Composition',
+                'World History',
+            ],
+            specialPrograms: [
+                'Student Government',
+                'Science Fair',
+                'Drama Club',
+                'Debate Team',
+            ],
+            image: '/pexels-zen-chung-5538632.jpg',
+        },
+        {
+            id: '3',
+            level: 'High School',
+            title: 'Excellence Years (9-12)',
+            description:
+                'Preparing students for university success through rigorous academics, leadership opportunities, and real-world experiences.',
+            keySubjects: [
+                'AP Courses',
+                'Advanced Sciences',
+                'Calculus & Statistics',
+                'Research Methods',
+            ],
+            specialPrograms: [
+                'Honor Society',
+                'Internships',
+                'College Partnerships',
+                'Leadership Academy',
+            ],
+            image: '/trnava-university-_9xRHrMOjeg-unsplash.jpg',
+        },
+    ];
+
+    const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
+        setSelectedTab(newValue);
+    };
+
     return (
-        <Box sx={{ backgroundColor: '#fefefe', minHeight: '100vh' }}>
-            {/* Hero Section */}
-            <Box
-                ref={heroRef}
-                component="section"
-                sx={{
-                    position: 'relative',
-                    width: '100%',
-                    aspectRatio: '21/9',
-                    minHeight: { xs: '200px', sm: '300px', md: '400px' },
-                    backgroundColor: '#171717',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+        <Box
+            sx={{
+                minHeight: '100vh',
+                backgroundColor: '#fefefe',
+            }}
+        >
+            {/* Page Header with Hero Banner */}
+            <PageHeader
+                title="Academic Excellence"
+                subtitle="Comprehensive education programs designed to inspire learning and foster academic achievement"
+                backgroundImage="/pexels-matazumultimedia-32951018.jpg"
+                backgroundImageSrcSet={{
+                    small: '/pexels-matazumultimedia-32951018.jpg',
+                    medium: '/pexels-matazumultimedia-32951018.jpg',
+                    large: '/pexels-matazumultimedia-32951018.jpg',
                 }}
-            >
-                <Box
-                    sx={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        background:
-                            'linear-gradient(135deg, rgba(99, 102, 241, 0.9), rgba(139, 92, 246, 0.9))',
-                        zIndex: 1,
-                    }}
+                textColor="light"
+                showOverlay={true}
+                minHeight="400px"
+            />
+
+            {/* Main Content */}
+            <Box component="main">
+                {/* Educational Philosophy Section */}
+                <EducationalPhilosophySection />
+
+                {/* Academic Programs Section */}
+                <ProgramsSection programs={academicPrograms} />
+
+                {/* Core Subjects Curriculum */}
+                <CurriculumSection subjects={coreSubjects} />
+
+                {/* Performance Dashboard */}
+                <PerformanceSection metrics={performanceMetrics} />
+
+                {/* Grade Level Showcases */}
+                <GradeLevelsSection
+                    levels={gradeLevels}
+                    selectedTab={selectedTab}
+                    onTabChange={handleTabChange}
                 />
-                <Container
-                    maxWidth="lg"
-                    sx={{
-                        position: 'relative',
-                        zIndex: 2,
-                        textAlign: 'center',
-                    }}
-                >
+            </Box>
+        </Box>
+    );
+};
+
+
+/**
+ * Educational Philosophy section component
+ */
+const EducationalPhilosophySection: React.FC = () => {
+    const { isIntersecting, targetRef } = useIntersectionObserver({
+        threshold: 0.1,
+        freezeOnceVisible: true,
+    });
+
+    return (
+        <Box
+            ref={targetRef}
+            component="section"
+            id="philosophy"
+            sx={{
+                py: { xs: 6, md: 8 },
+                backgroundColor: '#ffffff',
+            }}
+        >
+            <Container maxWidth="lg">
+                <Grid container spacing={2} alignItems="center">
+                    <Grid size={{ xs: 12, md: 6 }}>
+                        <Box
+                            sx={{
+                                opacity: isIntersecting ? 1 : 0,
+                                transform: isIntersecting
+                                    ? 'translateX(0)'
+                                    : 'translateX(-30px)',
+                                transition:
+                                    'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+                            }}
+                        >
+                            <Typography
+                                variant="h2"
+                                sx={{
+                                    fontSize: '1.5rem',
+                                    fontWeight: 600,
+                                    mb: 1,
+                                    background:
+                                        'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                    backgroundClip: 'text',
+                                    WebkitBackgroundClip: 'text',
+                                    WebkitTextFillColor: 'transparent',
+                                }}
+                            >
+                                Our Educational Philosophy
+                            </Typography>
+                            <Typography
+                                variant="body1"
+                                sx={{
+                                    fontSize: '0.875rem',
+                                    lineHeight: 1.4,
+                                    color: 'text.primary',
+                                    mb: 2,
+                                }}
+                            >
+                                We believe every student is unique and capable
+                                of excellence. Our approach combines rigorous
+                                academics with personalized support, fostering
+                                critical thinking, creativity, and character
+                                development in a nurturing environment.
+                            </Typography>
+                            <List sx={{ mb: 3 }}>
+                                {[
+                                    'Student-centered learning approaches',
+                                    'Inquiry-based curriculum design',
+                                    'Technology-enhanced instruction',
+                                    'Real-world application focus',
+                                    'Collaborative learning communities',
+                                ].map((item, index) => (
+                                    <ListItem
+                                        key={index}
+                                        sx={{ py: 0.5, px: 0 }}
+                                    >
+                                        <ListItemIcon sx={{ minWidth: 32 }}>
+                                            <CheckCircle
+                                                sx={{
+                                                    fontSize: 20,
+                                                    color: 'primary.main',
+                                                }}
+                                            />
+                                        </ListItemIcon>
+                                        <ListItemText
+                                            primary={item}
+                                            primaryTypographyProps={{
+                                                variant: 'body2',
+                                                color: 'text.secondary',
+                                            }}
+                                        />
+                                    </ListItem>
+                                ))}
+                            </List>
+                        </Box>
+                    </Grid>
+                    <Grid size={{ xs: 12, md: 6 }}>
+                        <Box
+                            sx={{
+                                opacity: isIntersecting ? 1 : 0,
+                                transform: isIntersecting
+                                    ? 'translateX(0)'
+                                    : 'translateX(30px)',
+                                transition:
+                                    'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s',
+                            }}
+                        >
+                            <ResponsiveImage
+                                src="/pexels-mary-taylor-5896578.jpg"
+                                alt="Students engaged in classroom learning"
+                                aspectRatio={4 / 3}
+                                borderRadius={2}
+                                objectFit="cover"
+                            />
+                        </Box>
+                    </Grid>
+                </Grid>
+            </Container>
+        </Box>
+    );
+};
+
+/**
+ * Academic Programs section component
+ */
+interface ProgramsSectionProps {
+    programs: AcademicProgram[];
+}
+
+const ProgramsSection: React.FC<ProgramsSectionProps> = ({ programs }) => {
+    const { isIntersecting, targetRef } = useIntersectionObserver({
+        threshold: 0.1,
+        freezeOnceVisible: true,
+    });
+
+    return (
+        <Box
+            ref={targetRef}
+            component="section"
+            id="programs"
+            sx={{
+                py: { xs: 6, md: 8 },
+                backgroundColor: '#f8fafc',
+            }}
+        >
+            <Container maxWidth="lg">
+                <Box sx={{ textAlign: 'center', mb: { xs: 2, md: 3 } }}>
                     <Typography
                         variant="h2"
                         sx={{
-                            fontSize: { xs: '1.5rem', md: '2.5rem' },
-                            fontWeight: 700,
-                            color: '#ffffff',
-                            mb: 2,
-                            opacity: heroIntersecting ? 1 : 0,
-                            transform: heroIntersecting
-                                ? 'translateY(0)'
-                                : 'translateY(30px)',
-                            transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
-                        }}
-                    >
-                        Academic Excellence
-                    </Typography>
-                    <Typography
-                        variant="body1"
-                        sx={{
-                            fontSize: { xs: '0.875rem', md: '1rem' },
-                            color: '#ffffff',
-                            maxWidth: '800px',
-                            mx: 'auto',
-                            opacity: heroIntersecting ? 1 : 0,
-                            transform: heroIntersecting
-                                ? 'translateY(0)'
-                                : 'translateY(30px)',
-                            transition:
-                                'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s',
-                        }}
-                    >
-                        A comprehensive curriculum designed to challenge, inspire, and
-                        prepare students for lifelong success.
-                    </Typography>
-                </Container>
-            </Box>
-
-            {/* Academic Stats */}
-            <Box component="section" sx={{ py: { xs: 6, md: 8 } }}>
-                <Container maxWidth="lg">
-                    <AcademicStats stats={stats} />
-                </Container>
-            </Box>
-
-            {/* Program Overview */}
-            <Box
-                component="section"
-                sx={{ py: { xs: 6, md: 8 }, backgroundColor: '#f8fafc' }}
-            >
-                <Container maxWidth="lg">
-                    <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 8 } }}>
-                        <Typography
-                            variant="h2"
-                            sx={{
-                                fontSize: { xs: '1.5rem', md: '1.5rem' },
-                                fontWeight: 600,
-                                background:
-                                    'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                                backgroundClip: 'text',
-                                WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent',
-                                mb: 2,
-                            }}
-                        >
-                            Programs by Grade Level
-                        </Typography>
-                        <Typography
-                            variant="body1"
-                            sx={{
-                                fontSize: '0.875rem',
-                                color: 'text.secondary',
-                                maxWidth: '700px',
-                                mx: 'auto',
-                            }}
-                        >
-                            Our curriculum is carefully structured to meet students at
-                            every stage of their educational journey.
-                        </Typography>
-                    </Box>
-
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                        <ProgramCard
-                            programName="Elementary Program"
-                            gradeLevel="Grades K-5"
-                            description="Our elementary program builds strong foundational skills in literacy, numeracy, and critical thinking while nurturing curiosity and creativity."
-                            features={[
-                                'Integrated STEM curriculum',
-                                'Project-based learning experiences',
-                                'Daily arts and music instruction',
-                                'Character education program',
-                                'Small class sizes for personalized attention',
-                            ]}
-                            expanded={expandedProgram === 'elementary'}
-                            onChange={(isExpanded) =>
-                                setExpandedProgram(
-                                    isExpanded ? 'elementary' : null
-                                )
-                            }
-                        />
-                        <ProgramCard
-                            programName="Middle School Program"
-                            gradeLevel="Grades 6-8"
-                            description="Middle school students engage in rigorous academic coursework while developing independence, leadership skills, and self-advocacy."
-                            features={[
-                                'Departmentalized instruction',
-                                'Honors course options',
-                                'Advisory program for social-emotional support',
-                                'Technology integration across all subjects',
-                                'Comprehensive elective offerings',
-                            ]}
-                            expanded={expandedProgram === 'middle'}
-                            onChange={(isExpanded) =>
-                                setExpandedProgram(isExpanded ? 'middle' : null)
-                            }
-                        />
-                        <ProgramCard
-                            programName="High School Program"
-                            gradeLevel="Grades 9-12"
-                            description="Our high school program offers challenging coursework, advanced placement options, and college preparation to ensure students are ready for their next chapter."
-                            features={[
-                                '15+ Advanced Placement courses',
-                                'College counseling and career guidance',
-                                'Dual enrollment opportunities',
-                                'Independent study and research options',
-                                'Internship and service learning programs',
-                            ]}
-                            expanded={expandedProgram === 'high'}
-                            onChange={(isExpanded) =>
-                                setExpandedProgram(isExpanded ? 'high' : null)
-                            }
-                        />
-                    </Box>
-                </Container>
-            </Box>
-
-            {/* Curriculum Areas */}
-            <Box component="section" sx={{ py: { xs: 6, md: 8 } }}>
-                <Container maxWidth="lg">
-                    <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 8 } }}>
-                        <Typography
-                            variant="h2"
-                            sx={{
-                                fontSize: { xs: '1.5rem', md: '1.5rem' },
-                                fontWeight: 600,
-                                background:
-                                    'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                                backgroundClip: 'text',
-                                WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent',
-                                mb: 2,
-                            }}
-                        >
-                            Curriculum Areas
-                        </Typography>
-                        <Typography
-                            variant="body1"
-                            sx={{
-                                fontSize: '0.875rem',
-                                color: 'text.secondary',
-                                maxWidth: '700px',
-                                mx: 'auto',
-                            }}
-                        >
-                            A well-rounded education that prepares students for college
-                            and beyond.
-                        </Typography>
-                    </Box>
-                    <CurriculumGrid subjects={subjects} />
-                </Container>
-            </Box>
-
-            {/* Special Programs */}
-            <Box
-                component="section"
-                sx={{ py: { xs: 6, md: 8 }, backgroundColor: '#f8fafc' }}
-            >
-                <Container maxWidth="lg">
-                    <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 8 } }}>
-                        <Typography
-                            variant="h2"
-                            sx={{
-                                fontSize: { xs: '1.5rem', md: '1.5rem' },
-                                fontWeight: 600,
-                                background:
-                                    'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                                backgroundClip: 'text',
-                                WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent',
-                                mb: 2,
-                            }}
-                        >
-                            Special Programs
-                        </Typography>
-                        <Typography
-                            variant="body1"
-                            sx={{
-                                fontSize: '0.875rem',
-                                color: 'text.secondary',
-                                maxWidth: '700px',
-                                mx: 'auto',
-                                mb: 4,
-                            }}
-                        >
-                            Enhanced learning opportunities for students with unique
-                            interests and talents.
-                        </Typography>
-                    </Box>
-
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: 3,
-                        }}
-                    >
-                        <Box
-                            sx={{
-                                p: 3,
-                                backgroundColor: '#ffffff',
-                                border: '1px solid',
-                                borderColor: 'divider',
-                                borderRadius: 1,
-                            }}
-                        >
-                            <Typography
-                                variant="h4"
-                                sx={{
-                                    fontSize: '1.125rem',
-                                    fontWeight: 600,
-                                    color: 'text.primary',
-                                    mb: 1,
-                                }}
-                            >
-                                STEM Innovation Center
-                            </Typography>
-                            <Typography
-                                variant="body2"
-                                sx={{
-                                    fontSize: '0.8125rem',
-                                    color: 'text.secondary',
-                                }}
-                            >
-                                State-of-the-art facilities for robotics, coding, 3D
-                                printing, and engineering projects. Students engage in
-                                hands-on learning and participate in regional and national
-                                competitions.
-                            </Typography>
-                        </Box>
-
-                        <Box
-                            sx={{
-                                p: 3,
-                                backgroundColor: '#ffffff',
-                                border: '1px solid',
-                                borderColor: 'divider',
-                                borderRadius: 1,
-                            }}
-                        >
-                            <Typography
-                                variant="h4"
-                                sx={{
-                                    fontSize: '1.125rem',
-                                    fontWeight: 600,
-                                    color: 'text.primary',
-                                    mb: 1,
-                                }}
-                            >
-                                Performing & Visual Arts Academy
-                            </Typography>
-                            <Typography
-                                variant="body2"
-                                sx={{
-                                    fontSize: '0.8125rem',
-                                    color: 'text.secondary',
-                                }}
-                            >
-                                Comprehensive arts education including theater, music,
-                                dance, and visual arts. Students showcase their work in
-                                annual exhibitions, concerts, and theatrical productions.
-                            </Typography>
-                        </Box>
-
-                        <Box
-                            sx={{
-                                p: 3,
-                                backgroundColor: '#ffffff',
-                                border: '1px solid',
-                                borderColor: 'divider',
-                                borderRadius: 1,
-                            }}
-                        >
-                            <Typography
-                                variant="h4"
-                                sx={{
-                                    fontSize: '1.125rem',
-                                    fontWeight: 600,
-                                    color: 'text.primary',
-                                    mb: 1,
-                                }}
-                            >
-                                Athletic Excellence Program
-                            </Typography>
-                            <Typography
-                                variant="body2"
-                                sx={{
-                                    fontSize: '0.8125rem',
-                                    color: 'text.secondary',
-                                }}
-                            >
-                                Competitive sports programs across 12 varsity sports with
-                                professional coaching, strength and conditioning, and
-                                sports medicine support. Multiple state championships and
-                                college athletic placements.
-                            </Typography>
-                        </Box>
-                    </Box>
-                </Container>
-            </Box>
-
-            {/* CTA Section */}
-            <Box component="section" sx={{ py: { xs: 6, md: 8 } }}>
-                <Container maxWidth="lg">
-                    <Box
-                        sx={{
-                            p: { xs: 3, md: 4 },
+                            fontSize: '1.5rem',
+                            fontWeight: 600,
+                            mb: 1,
                             background:
                                 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                            borderRadius: 1,
-                            textAlign: 'center',
+                            backgroundClip: 'text',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
                         }}
                     >
-                        <Typography
-                            variant="h3"
-                            sx={{
-                                fontSize: { xs: '1.25rem', md: '1.5rem' },
-                                fontWeight: 600,
-                                color: '#ffffff',
-                                mb: 2,
-                            }}
-                        >
-                            Experience Our Academic Programs
-                        </Typography>
-                        <Typography
-                            variant="body1"
-                            sx={{
-                                fontSize: '0.875rem',
-                                color: '#ffffff',
-                                mb: 3,
-                                maxWidth: '600px',
-                                mx: 'auto',
-                            }}
-                        >
-                            Schedule a campus tour to see our classrooms, labs, and
-                            special program facilities in action.
-                        </Typography>
-                        <Button
-                            variant="contained"
-                            size="large"
-                            sx={{
-                                backgroundColor: '#ffffff',
-                                color: 'primary.main',
-                                fontSize: '0.875rem',
+                        Academic Programs
+                    </Typography>
+                    <Typography
+                        variant="subtitle1"
+                        sx={{
+                            fontSize: '1rem',
+                            color: 'text.secondary',
+                            maxWidth: '600px',
+                            mx: 'auto',
+                        }}
+                    >
+                        Comprehensive educational pathways designed for every
+                        stage of learning
+                    </Typography>
+                </Box>
+
+                <Grid container spacing={2}>
+                    {programs.map((program, index) => (
+                        <Grid size={{ xs: 12, md: 4 }} key={program.id}>
+                            <Card
+                                sx={{
+                                    height: '100%',
+                                    border: '1px solid',
+                                    borderColor: 'divider',
+                                    boxShadow: 'none',
+                                    borderRadius: 2,
+                                    overflow: 'hidden',
+                                    opacity: isIntersecting ? 1 : 0,
+                                    transform: isIntersecting
+                                        ? 'translateY(0)'
+                                        : 'translateY(30px)',
+                                    transition:
+                                        'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+                                    transitionDelay: `${index * 0.2}s`,
+                                    '&:hover': {
+                                        boxShadow:
+                                            '0 8px 25px rgba(99, 102, 241, 0.15)',
+                                        transform: 'translateY(-4px)',
+                                    },
+                                }}
+                            >
+                                <ResponsiveImage
+                                    src={program.image}
+                                    alt={program.name}
+                                    aspectRatio={16 / 9}
+                                    borderRadius={0}
+                                    objectFit="cover"
+                                />
+                                <CardContent sx={{ p: 2 }}>
+                                    <Box
+                                        sx={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center',
+                                            mb: 1.5,
+                                        }}
+                                    >
+                                        <Typography
+                                            variant="h4"
+                                            sx={{
+                                                fontSize: '1.125rem',
+                                                fontWeight: 600,
+                                                color: 'text.primary',
+                                            }}
+                                        >
+                                            {program.name}
+                                        </Typography>
+                                        <Chip
+                                            label={program.level}
+                                            size="small"
+                                            sx={{
+                                                backgroundColor: 'primary.100',
+                                                color: 'primary.main',
+                                                fontWeight: 500,
+                                            }}
+                                        />
+                                    </Box>
+                                    <Typography
+                                        variant="caption"
+                                        sx={{
+                                            fontSize: '0.75rem',
+                                            color: 'text.secondary',
+                                            fontWeight: 500,
+                                            mb: 1.5,
+                                            display: 'block',
+                                        }}
+                                    >
+                                        Ages {program.ageRange}
+                                    </Typography>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{
+                                            fontSize: '0.8125rem',
+                                            color: 'text.secondary',
+                                            lineHeight: 1.4,
+                                            mb: 1.5,
+                                        }}
+                                    >
+                                        {program.description}
+                                    </Typography>
+                                    <Box sx={{ mb: 1.5 }}>
+                                        <Typography
+                                            variant="caption"
+                                            sx={{
+                                                color: 'text.secondary',
+                                                fontWeight: 500,
+                                                mb: 1,
+                                                display: 'block',
+                                            }}
+                                        >
+                                            Key Subjects:
+                                        </Typography>
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                flexWrap: 'wrap',
+                                                gap: 0.5,
+                                            }}
+                                        >
+                                            {program.subjects
+                                                .slice(0, 3)
+                                                .map((subject, subIndex) => (
+                                                    <Chip
+                                                        key={subIndex}
+                                                        label={subject}
+                                                        variant="outlined"
+                                                        size="small"
+                                                        sx={{
+                                                            fontSize: '0.75rem',
+                                                        }}
+                                                    />
+                                                ))}
+                                            {program.subjects.length > 3 && (
+                                                <Chip
+                                                    label={`+${program.subjects.length - 3} more`}
+                                                    variant="outlined"
+                                                    size="small"
+                                                    sx={{ fontSize: '0.75rem' }}
+                                                />
+                                            )}
+                                        </Box>
+                                    </Box>
+                                    <Box>
+                                        <Typography
+                                            variant="caption"
+                                            sx={{
+                                                color: 'text.secondary',
+                                                fontWeight: 500,
+                                                mb: 1,
+                                                display: 'block',
+                                            }}
+                                        >
+                                            Program Highlights:
+                                        </Typography>
+                                        <List sx={{ py: 0 }}>
+                                            {program.highlights
+                                                .slice(0, 2)
+                                                .map((highlight, hIndex) => (
+                                                    <ListItem
+                                                        key={hIndex}
+                                                        sx={{ py: 0.25, px: 0 }}
+                                                    >
+                                                        <ListItemIcon
+                                                            sx={{
+                                                                minWidth: 20,
+                                                            }}
+                                                        >
+                                                            <CheckCircle
+                                                                sx={{
+                                                                    fontSize: 14,
+                                                                    color: 'success.main',
+                                                                }}
+                                                            />
+                                                        </ListItemIcon>
+                                                        <ListItemText
+                                                            primary={highlight}
+                                                            primaryTypographyProps={{
+                                                                variant:
+                                                                    'caption',
+                                                                color: 'text.secondary',
+                                                            }}
+                                                        />
+                                                    </ListItem>
+                                                ))}
+                                        </List>
+                                    </Box>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Container>
+        </Box>
+    );
+};
+
+/**
+ * Curriculum section component
+ */
+interface CurriculumSectionProps {
+    subjects: Subject[];
+}
+
+const CurriculumSection: React.FC<CurriculumSectionProps> = ({ subjects }) => {
+    const { isIntersecting, targetRef } = useIntersectionObserver({
+        threshold: 0.1,
+        freezeOnceVisible: true,
+    });
+
+    return (
+        <Box
+            ref={targetRef}
+            component="section"
+            id="curriculum"
+            sx={{
+                py: { xs: 6, md: 8 },
+                backgroundColor: '#ffffff',
+            }}
+        >
+            <Container maxWidth="lg">
+                <Box sx={{ textAlign: 'center', mb: { xs: 4, md: 6 } }}>
+                    <Typography
+                        variant="h2"
+                        sx={{
+                            fontWeight: 600,
+                            mb: 2,
+                            background:
+                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                            backgroundClip: 'text',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                        }}
+                    >
+                        Comprehensive Curriculum
+                    </Typography>
+                    <Typography
+                        variant="subtitle1"
+                        sx={{
+                            color: 'text.secondary',
+                            maxWidth: '600px',
+                            mx: 'auto',
+                        }}
+                    >
+                        Interdisciplinary subjects designed to develop
+                        well-rounded, critical thinkers
+                    </Typography>
+                </Box>
+
+                <Grid container spacing={3}>
+                    {subjects.map((subject, index) => (
+                        <Grid size={{ xs: 12, sm: 6, md: 4 }} key={subject.id}>
+                            <Card
+                                sx={{
+                                    height: '100%',
+                                    border: '1px solid',
+                                    borderColor: 'divider',
+                                    boxShadow: 'none',
+                                    borderRadius: 2,
+                                    transition: 'all 0.3s ease',
+                                    opacity: isIntersecting ? 1 : 0,
+                                    transform: isIntersecting
+                                        ? 'translateY(0)'
+                                        : 'translateY(30px)',
+                                    transitionDelay: `${index * 0.1}s`,
+                                    '&:hover': {
+                                        boxShadow:
+                                            '0 8px 25px rgba(99, 102, 241, 0.15)',
+                                        transform: 'translateY(-4px)',
+                                        borderColor: subject.color,
+                                    },
+                                }}
+                            >
+                                <CardContent sx={{ p: 3 }}>
+                                    <Avatar
+                                        sx={{
+                                            width: 48,
+                                            height: 48,
+                                            backgroundColor: subject.color,
+                                            mb: 2,
+                                        }}
+                                    >
+                                        {subject.icon}
+                                    </Avatar>
+                                    <Typography
+                                        variant="h6"
+                                        sx={{
+                                            fontWeight: 600,
+                                            mb: 1.5,
+                                            color: 'text.primary',
+                                        }}
+                                    >
+                                        {subject.name}
+                                    </Typography>
+                                    <Typography
+                                        variant="body2"
+                                        sx={{
+                                            color: 'text.secondary',
+                                            lineHeight: 1.6,
+                                            mb: 2,
+                                        }}
+                                    >
+                                        {subject.description}
+                                    </Typography>
+                                    <Box>
+                                        <Typography
+                                            variant="caption"
+                                            sx={{
+                                                color: 'text.secondary',
+                                                fontWeight: 500,
+                                                mb: 1,
+                                                display: 'block',
+                                            }}
+                                        >
+                                            Key Features:
+                                        </Typography>
+                                        <List sx={{ py: 0 }}>
+                                            {subject.features.map(
+                                                (feature, fIndex) => (
+                                                    <ListItem
+                                                        key={fIndex}
+                                                        sx={{ py: 0.25, px: 0 }}
+                                                    >
+                                                        <ListItemIcon
+                                                            sx={{
+                                                                minWidth: 20,
+                                                            }}
+                                                        >
+                                                            <CheckCircle
+                                                                sx={{
+                                                                    fontSize: 14,
+                                                                    color: subject.color,
+                                                                }}
+                                                            />
+                                                        </ListItemIcon>
+                                                        <ListItemText
+                                                            primary={feature}
+                                                            primaryTypographyProps={{
+                                                                variant:
+                                                                    'caption',
+                                                                color: 'text.secondary',
+                                                            }}
+                                                        />
+                                                    </ListItem>
+                                                )
+                                            )}
+                                        </List>
+                                    </Box>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Container>
+        </Box>
+    );
+};
+
+/**
+ * Performance section component
+ */
+interface PerformanceSectionProps {
+    metrics: PerformanceMetric[];
+}
+
+const PerformanceSection: React.FC<PerformanceSectionProps> = ({ metrics }) => {
+    const { isIntersecting, targetRef } = useIntersectionObserver({
+        threshold: 0.1,
+        freezeOnceVisible: true,
+    });
+
+    return (
+        <Box
+            ref={targetRef}
+            component="section"
+            id="performance"
+            sx={{
+                py: { xs: 6, md: 8 },
+                backgroundColor: '#f8fafc',
+            }}
+        >
+            <Container maxWidth="lg">
+                <Box sx={{ textAlign: 'center', mb: { xs: 4, md: 6 } }}>
+                    <Typography
+                        variant="h2"
+                        sx={{
+                            fontWeight: 600,
+                            mb: 2,
+                            background:
+                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                            backgroundClip: 'text',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                        }}
+                    >
+                        Academic Performance
+                    </Typography>
+                    <Typography
+                        variant="subtitle1"
+                        sx={{
+                            color: 'text.secondary',
+                            maxWidth: '600px',
+                            mx: 'auto',
+                        }}
+                    >
+                        Measurable outcomes demonstrating our commitment to
+                        educational excellence
+                    </Typography>
+                </Box>
+
+                <Grid container spacing={3}>
+                    {metrics.map((metric, index) => (
+                        <Grid size={{ xs: 12, sm: 6, md: 3 }} key={metric.id}>
+                            <Card
+                                sx={{
+                                    height: '100%',
+                                    textAlign: 'center',
+                                    border: '1px solid',
+                                    borderColor: 'divider',
+                                    boxShadow: 'none',
+                                    borderRadius: 2,
+                                    p: 3,
+                                    opacity: isIntersecting ? 1 : 0,
+                                    transform: isIntersecting
+                                        ? 'translateY(0)'
+                                        : 'translateY(30px)',
+                                    transition:
+                                        'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+                                    transitionDelay: `${index * 0.1}s`,
+                                }}
+                            >
+                                <Avatar
+                                    sx={{
+                                        width: 56,
+                                        height: 56,
+                                        backgroundColor: metric.color,
+                                        mx: 'auto',
+                                        mb: 2,
+                                    }}
+                                >
+                                    {metric.icon}
+                                </Avatar>
+                                <Typography
+                                    variant="h4"
+                                    sx={{
+                                        fontWeight: 700,
+                                        color: metric.color,
+                                        mb: 1,
+                                    }}
+                                >
+                                    {metric.value}
+                                </Typography>
+                                <Typography
+                                    variant="subtitle2"
+                                    sx={{
+                                        fontWeight: 600,
+                                        color: 'text.primary',
+                                        mb: 1,
+                                    }}
+                                >
+                                    {metric.label}
+                                </Typography>
+                                <Typography
+                                    variant="body2"
+                                    sx={{
+                                        color: 'text.secondary',
+                                        mb: metric.progress ? 2 : 0,
+                                    }}
+                                >
+                                    {metric.description}
+                                </Typography>
+                                {metric.progress && (
+                                    <LinearProgress
+                                        variant="determinate"
+                                        value={metric.progress}
+                                        sx={{
+                                            height: 6,
+                                            borderRadius: 3,
+                                            backgroundColor: 'grey.200',
+                                            '& .MuiLinearProgress-bar': {
+                                                backgroundColor: metric.color,
+                                                borderRadius: 3,
+                                            },
+                                        }}
+                                    />
+                                )}
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Container>
+        </Box>
+    );
+};
+
+/**
+ * Grade Levels section component
+ */
+interface GradeLevelsSectionProps {
+    levels: GradeLevel[];
+    selectedTab: number;
+    onTabChange: (event: React.SyntheticEvent, newValue: number) => void;
+}
+
+const GradeLevelsSection: React.FC<GradeLevelsSectionProps> = ({
+    levels,
+    selectedTab,
+    onTabChange,
+}) => {
+    const { isIntersecting, targetRef } = useIntersectionObserver({
+        threshold: 0.1,
+        freezeOnceVisible: true,
+    });
+
+    const selectedLevel = levels[selectedTab];
+
+    return (
+        <Box
+            ref={targetRef}
+            component="section"
+            id="grade-levels"
+            sx={{
+                py: { xs: 6, md: 8 },
+                backgroundColor: '#ffffff',
+            }}
+        >
+            <Container maxWidth="lg">
+                <Box sx={{ textAlign: 'center', mb: { xs: 4, md: 6 } }}>
+                    <Typography
+                        variant="h2"
+                        sx={{
+                            fontWeight: 600,
+                            mb: 2,
+                            background:
+                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                            backgroundClip: 'text',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                        }}
+                    >
+                        Grade Level Showcases
+                    </Typography>
+                    <Typography
+                        variant="subtitle1"
+                        sx={{
+                            color: 'text.secondary',
+                            maxWidth: '600px',
+                            mx: 'auto',
+                        }}
+                    >
+                        Discover what makes each stage of learning special at
+                        our academy
+                    </Typography>
+                </Box>
+
+                <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 4 }}>
+                    <Tabs
+                        value={selectedTab}
+                        onChange={onTabChange}
+                        aria-label="grade level tabs"
+                        variant="fullWidth"
+                        sx={{
+                            '& .MuiTab-root': {
                                 textTransform: 'none',
-                                '&:hover': {
-                                    backgroundColor: '#f8fafc',
-                                },
-                            }}
+                                fontWeight: 500,
+                                fontSize: '0.875rem',
+                            },
+                            '& .Mui-selected': {
+                                color: 'primary.main',
+                            },
+                        }}
+                    >
+                        {levels.map((level, index) => (
+                            <Tab
+                                key={level.id}
+                                label={level.level}
+                                id={`grade-tab-${index}`}
+                                aria-controls={`grade-tabpanel-${index}`}
+                            />
+                        ))}
+                    </Tabs>
+                </Box>
+
+                {selectedLevel && (
+                    <Box
+                        sx={{
+                            opacity: isIntersecting ? 1 : 0,
+                            transform: isIntersecting
+                                ? 'translateY(0)'
+                                : 'translateY(20px)',
+                            transition: 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
+                        }}
+                    >
+                        <Grid
+                            container
+                            spacing={{ xs: 3, md: 4 }}
+                            alignItems="center"
                         >
-                            Schedule a Campus Tour
-                        </Button>
+                            <Grid size={{ xs: 12, md: 6 }}>
+                                <Box>
+                                    <Typography
+                                        variant="h3"
+                                        sx={{
+                                            fontWeight: 600,
+                                            mb: 2,
+                                            color: 'primary.main',
+                                        }}
+                                    >
+                                        {selectedLevel.title}
+                                    </Typography>
+                                    <Typography
+                                        variant="body1"
+                                        sx={{
+                                            fontSize: '1rem',
+                                            lineHeight: 1.7,
+                                            color: 'text.primary',
+                                            mb: 3,
+                                        }}
+                                    >
+                                        {selectedLevel.description}
+                                    </Typography>
+                                    <Box sx={{ mb: 3 }}>
+                                        <Typography
+                                            variant="subtitle2"
+                                            sx={{
+                                                fontWeight: 600,
+                                                mb: 1,
+                                                color: 'text.primary',
+                                            }}
+                                        >
+                                            Key Subjects:
+                                        </Typography>
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                flexWrap: 'wrap',
+                                                gap: 0.5,
+                                                mb: 2,
+                                            }}
+                                        >
+                                            {selectedLevel.keySubjects.map(
+                                                (subject, index) => (
+                                                    <Chip
+                                                        key={index}
+                                                        label={subject}
+                                                        variant="outlined"
+                                                        size="small"
+                                                        sx={{
+                                                            fontSize: '0.75rem',
+                                                        }}
+                                                    />
+                                                )
+                                            )}
+                                        </Box>
+                                    </Box>
+                                    <Box>
+                                        <Typography
+                                            variant="subtitle2"
+                                            sx={{
+                                                fontWeight: 600,
+                                                mb: 1,
+                                                color: 'text.primary',
+                                            }}
+                                        >
+                                            Special Programs:
+                                        </Typography>
+                                        <List sx={{ py: 0 }}>
+                                            {selectedLevel.specialPrograms.map(
+                                                (program, index) => (
+                                                    <ListItem
+                                                        key={index}
+                                                        sx={{ py: 0.5, px: 0 }}
+                                                    >
+                                                        <ListItemIcon
+                                                            sx={{
+                                                                minWidth: 32,
+                                                            }}
+                                                        >
+                                                            <CheckCircle
+                                                                sx={{
+                                                                    fontSize: 18,
+                                                                    color: 'success.main',
+                                                                }}
+                                                            />
+                                                        </ListItemIcon>
+                                                        <ListItemText
+                                                            primary={program}
+                                                            primaryTypographyProps={{
+                                                                variant:
+                                                                    'body2',
+                                                                color: 'text.secondary',
+                                                            }}
+                                                        />
+                                                    </ListItem>
+                                                )
+                                            )}
+                                        </List>
+                                    </Box>
+                                </Box>
+                            </Grid>
+                            <Grid size={{ xs: 12, md: 6 }}>
+                                <ResponsiveImage
+                                    src={selectedLevel.image}
+                                    alt={`${selectedLevel.level} students`}
+                                    aspectRatio={4 / 3}
+                                    borderRadius={2}
+                                    objectFit="cover"
+                                />
+                            </Grid>
+                        </Grid>
                     </Box>
-                </Container>
-            </Box>
+                )}
+            </Container>
         </Box>
     );
 };

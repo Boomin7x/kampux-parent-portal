@@ -79,6 +79,7 @@ i18n.use(LanguageDetector)
             'student',
             'complaints',
             'dashboard',
+            'contact',
         ], // Add namespaces here
         defaultNS: 'academic',
     });

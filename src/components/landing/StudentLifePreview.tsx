@@ -4,11 +4,13 @@ import {
     Science as ScienceIcon,
     Sports as SportsIcon,
 } from '@mui/icons-material';
-import { Box, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
 import { studentLifeSectionContent } from '../../content/landing/studentLifeSection';
-import { SectionPreview } from './SectionPreview';
+import { useIntersectionObserver } from '../../hooks/ui/useIntersectionObserver';
+import { SectionHeader } from './SectionHeader';
+import { CTAButton } from './CTAButton';
 
 // Student Life Preview props
 interface StudentLifePreviewProps {
@@ -17,7 +19,7 @@ interface StudentLifePreviewProps {
 
 // Icon mapping helper
 const getIconComponent = (iconName: string) => {
-    const iconProps = { sx: { fontSize: '1.125rem' } };
+    const iconProps = { sx: { fontSize: '1.25rem' } };
     switch (iconName) {
         case 'Sports':
             return <SportsIcon {...iconProps} />;
@@ -35,133 +37,209 @@ const getIconComponent = (iconName: string) => {
 /**
  * StudentLifePreview Component
  *
- * Compact preview of student activities with:
- * - 3-column grid of activities with icons (18-20px icons)
- * - Each activity: icon + title (subtitle2) + short description (caption)
- * - Compact spacing: gap: 1.5
- * - CTA: "Experience Campus Life" → /student-life
+ * Content-left, image-right layout featuring:
+ * - Activity highlights on left (6 cols)
+ * - Students in activities image on right (6 cols)
+ * - Clean content without statistics
+ * - CTA button: "Experience Campus Life" → /student-life
  */
 export const StudentLifePreview: React.FC<StudentLifePreviewProps> = ({
     className = '',
 }) => {
-    const activities = studentLifeSectionContent.featuredActivities.slice(0, 3);
+    const activities = studentLifeSectionContent.featuredActivities.slice(0, 4);
+
+    const { isIntersecting, targetRef } = useIntersectionObserver({
+        threshold: 0.1,
+        freezeOnceVisible: true,
+    });
 
     return (
-        <SectionPreview
+        <Box
             id="student-life-preview"
-            title="Beyond the Classroom"
-            subtitle="Rich programs that develop character and creativity"
-            overline="STUDENT LIFE"
-            ctaText="Experience Campus Life"
-            ctaRoute="/student-life"
-            backgroundColor="#f8fafc"
+            component="section"
             className={className}
-            containerMaxWidth="lg"
+            ref={targetRef}
+            sx={{
+                py: { xs: 6, md: 8 },
+                backgroundColor: '#f8fafc',
+                position: 'relative',
+            }}
         >
-            {/* Activities Grid */}
-            <Grid container spacing={2}>
-                {activities.map((activity) => (
-                    <Grid
-                        size={{ xs: 12, sm: 6, md: 4 }}
-                        key={activity.id}
-                    >
+            <Container
+                maxWidth="lg"
+                sx={{
+                    opacity: isIntersecting ? 1 : 0,
+                    transform: isIntersecting
+                        ? 'translateY(0)'
+                        : 'translateY(30px)',
+                    transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+                }}
+            >
+                {/* Section Header */}
+                <SectionHeader
+                    title="Beyond the Classroom"
+                    subtitle="Rich programs that develop character and creativity"
+                    overline="STUDENT LIFE"
+                    align="center"
+                />
+
+                {/* Content + Image Layout */}
+                <Grid container spacing={4} alignItems="center" sx={{ mb: 4 }}>
+                    {/* Activity Highlights - LEFT */}
+                    <Grid size={{ xs: 12, md: 6 }}>
                         <Box
                             sx={{
-                                p: 2,
-                                borderRadius: 1,
-                                border: '1px solid',
-                                borderColor: 'divider',
-                                backgroundColor: 'background.paper',
-                                height: '100%',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                gap: 1.5,
-                                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                '&:hover': {
-                                    borderColor: 'primary.main',
-                                    backgroundColor: 'primary.50',
-                                    transform: 'translateY(-2px)',
-                                },
+                                opacity: isIntersecting ? 1 : 0,
+                                transform: isIntersecting
+                                    ? 'translateX(0)'
+                                    : 'translateX(-30px)',
+                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s',
                             }}
                         >
-                            {/* Icon and Title */}
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: 1.5,
-                                }}
-                            >
-                                {/* Icon */}
-                                <Box
-                                    sx={{
-                                        width: 36,
-                                        height: 36,
-                                        borderRadius: 1,
-                                        background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        color: 'white',
-                                        flexShrink: 0,
-                                    }}
-                                >
-                                    {getIconComponent(activity.icon)}
-                                </Box>
+                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+                                {activities.map((activity, index) => (
+                                    <Box
+                                        key={activity.id}
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'flex-start',
+                                            gap: 2,
+                                            p: 2.5,
+                                            borderRadius: 1,
+                                            border: '1px solid',
+                                            borderColor: 'divider',
+                                            backgroundColor: 'background.paper',
+                                            opacity: isIntersecting ? 1 : 0,
+                                            transform: isIntersecting
+                                                ? 'translateY(0)'
+                                                : 'translateY(20px)',
+                                            transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+                                            transitionDelay: `${0.3 + index * 0.1}s`,
+                                            '&:hover': {
+                                                borderColor: activity.color,
+                                                backgroundColor: activity.color + '08',
+                                                transform: 'translateY(-2px)',
+                                            },
+                                        }}
+                                    >
+                                        {/* Activity Icon */}
+                                        <Box
+                                            sx={{
+                                                width: 40,
+                                                height: 40,
+                                                borderRadius: 1,
+                                                backgroundColor: activity.color + '15',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                flexShrink: 0,
+                                                color: activity.color,
+                                            }}
+                                        >
+                                            {getIconComponent(activity.icon)}
+                                        </Box>
 
-                                {/* Title */}
-                                <Typography
-                                    variant="subtitle2"
-                                    sx={{
-                                        fontSize: '0.875rem',
-                                        fontWeight: 600,
-                                        color: 'text.primary',
-                                        lineHeight: 1.3,
-                                    }}
-                                >
-                                    {activity.title}
-                                </Typography>
+                                        {/* Activity Content */}
+                                        <Box sx={{ flex: 1, minWidth: 0 }}>
+                                            <Typography
+                                                variant="subtitle1"
+                                                sx={{
+                                                    fontWeight: 600,
+                                                    mb: 0.5,
+                                                    color: 'text.primary',
+                                                    lineHeight: 1.3,
+                                                }}
+                                            >
+                                                {activity.title}
+                                            </Typography>
+                                            <Typography
+                                                variant="body2"
+                                                sx={{
+                                                    color: 'text.secondary',
+                                                    lineHeight: 1.5,
+                                                    fontSize: '0.8125rem',
+                                                }}
+                                            >
+                                                {activity.description.substring(0, 100)}...
+                                            </Typography>
+                                        </Box>
+                                    </Box>
+                                ))}
                             </Box>
+                        </Box>
+                    </Grid>
 
-                            {/* Description */}
-                            <Typography
-                                variant="body2"
+                    {/* Activities Image - RIGHT */}
+                    <Grid size={{ xs: 12, md: 6 }}>
+                        <Box
+                            sx={{
+                                position: 'relative',
+                                borderRadius: 2,
+                                overflow: 'hidden',
+                                opacity: isIntersecting ? 1 : 0,
+                                transform: isIntersecting
+                                    ? 'translateX(0)'
+                                    : 'translateX(30px)',
+                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s',
+                            }}
+                        >
+                            <Box
+                                component="img"
+                                src="https://images.unsplash.com/photo-1544717297-fa95b6ee9643?auto=format&fit=crop&w=800&q=80"
+                                alt="Students engaging in vibrant extracurricular activities and sports"
                                 sx={{
-                                    fontSize: '0.8125rem',
-                                    color: 'text.secondary',
-                                    lineHeight: 1.5,
-                                    flex: 1,
+                                    width: '100%',
+                                    height: 'auto',
+                                    aspectRatio: '4/3',
+                                    objectFit: 'cover',
+                                    borderRadius: 1,
                                 }}
-                            >
-                                {activity.description.substring(0, 120)}...
-                            </Typography>
-
-                            {/* Participants */}
+                                loading="lazy"
+                            />
+                            {/* Image Overlay with Caption */}
                             <Box
                                 sx={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'space-between',
-                                    pt: 1,
-                                    borderTop: '1px solid',
-                                    borderColor: 'divider',
+                                    position: 'absolute',
+                                    bottom: 0,
+                                    left: 0,
+                                    right: 0,
+                                    background:
+                                        'linear-gradient(transparent, rgba(0,0,0,0.6))',
+                                    p: 2.5,
                                 }}
                             >
                                 <Typography
-                                    variant="caption"
+                                    variant="body2"
                                     sx={{
-                                        fontSize: '0.75rem',
-                                        color: 'primary.main',
-                                        fontWeight: 600,
+                                        color: 'white',
+                                        fontWeight: 500,
+                                        textShadow: '0 1px 2px rgba(0,0,0,0.7)',
+                                        fontSize: '0.875rem',
                                     }}
                                 >
-                                    {activity.participants}
+                                    Vibrant Student Activities
                                 </Typography>
                             </Box>
                         </Box>
                     </Grid>
-                ))}
-            </Grid>
-        </SectionPreview>
+                </Grid>
+
+                {/* CTA Button */}
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <CTAButton
+                        to="/student-life"
+                        variant="primary"
+                        size="medium"
+                    >
+                        Experience Campus Life
+                    </CTAButton>
+                </Box>
+            </Container>
+        </Box>
     );
 };

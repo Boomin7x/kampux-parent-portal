@@ -254,7 +254,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                 component="nav"
                 className={className}
                 sx={{
-                    position: 'fixed',
+                    position: 'sticky',
                     top: 0,
                     left: 0,
                     right: 0,
@@ -344,7 +344,9 @@ export const Navigation: React.FC<NavigationProps> = ({
                                 return (
                                     <Button
                                         key={item.label}
-                                        onClick={() => handleNavClick(item.href)}
+                                        onClick={() =>
+                                            handleNavClick(item.href)
+                                        }
                                         sx={{
                                             color: isActive
                                                 ? '#6366f1'

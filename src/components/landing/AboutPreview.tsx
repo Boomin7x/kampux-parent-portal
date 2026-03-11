@@ -1,8 +1,10 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
 import { aboutSectionContent } from '../../content/landing/aboutSection';
-import { SectionPreview } from './SectionPreview';
+import { useIntersectionObserver } from '../../hooks/ui/useIntersectionObserver';
+import { CTAButton } from './CTAButton';
+import { SectionHeader } from './SectionHeader';
 
 // About Preview props
 interface AboutPreviewProps {
@@ -12,115 +14,180 @@ interface AboutPreviewProps {
 /**
  * AboutPreview Component
  *
- * Compact preview of the About section with:
- * - Mission statement (2-3 sentences)
- * - 3 core values in 2-column grid
- * - Typography: subtitle2 for headers, body2 for text
- * - Compact padding: p: 2
+ * Image-left, content-right layout featuring:
+ * - School building/campus image on left (6 cols)
+ * - Mission statement + core values on right (6 cols)
+ * - Clean content without statistics
  * - CTA button: "Discover Our Story" → /about
  */
 export const AboutPreview: React.FC<AboutPreviewProps> = ({
     className = '',
 }) => {
+    const { isIntersecting, targetRef } = useIntersectionObserver({
+        threshold: 0.1,
+        freezeOnceVisible: true,
+    });
+
     return (
-        <SectionPreview
+        <Box
             id="about-preview"
-            title="About Excellence Academy"
-            subtitle="Empowering students through innovative education"
-            overline="WHO WE ARE"
-            ctaText="Discover Our Story"
-            ctaRoute="/about"
-            backgroundColor="#fefefe"
+            component="section"
             className={className}
-            containerMaxWidth="lg"
+            ref={targetRef}
+            sx={{
+                py: { xs: 6, md: 8 },
+                backgroundColor: '#fefefe',
+                position: 'relative',
+            }}
         >
-            {/* Mission Statement */}
-            <Box
+            <Container
+                maxWidth="lg"
                 sx={{
-                    mb: 4,
-                    textAlign: 'center',
-                    maxWidth: '800px',
-                    mx: 'auto',
+                    opacity: isIntersecting ? 1 : 0,
+                    transform: isIntersecting
+                        ? 'translateY(0)'
+                        : 'translateY(30px)',
+                    transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
                 }}
             >
-                <Typography
-                    variant="body2"
-                    sx={{
-                        fontSize: '0.8125rem',
-                        lineHeight: 1.7,
-                        color: 'text.secondary',
-                    }}
-                >
-                    {aboutSectionContent.story.content}
-                </Typography>
-            </Box>
+                {/* Section Header */}
+                <SectionHeader
+                    title="About Excellence Academy"
+                    subtitle="Empowering students through innovative education"
+                    overline="WHO WE ARE"
+                    align="center"
+                />
 
-            {/* Core Values Grid */}
-            <Grid container spacing={2}>
-                {aboutSectionContent.values.list.slice(0, 3).map((value, index) => (
-                    <Grid
-                        size={{ xs: 12, md: 6 }}
-                        key={index}
-                    >
+                {/* Image + Content Layout */}
+                <Grid container spacing={4} alignItems="center" sx={{ mb: 4 }}>
+                    {/* School Building Image - LEFT */}
+                    <Grid size={{ xs: 12, md: 6 }}>
+                        <Box
+                            component="img"
+                            src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=80"
+                            alt="Excellence Academy campus building exterior with beautiful architecture"
+                            sx={{
+                                width: '100%',
+                                height: 'auto',
+                                borderRadius: 1,
+                                objectFit: 'cover',
+                                aspectRatio: '4/3',
+                                opacity: isIntersecting ? 1 : 0,
+                                transform: isIntersecting
+                                    ? 'translateX(0)'
+                                    : 'translateX(-30px)',
+                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s',
+                            }}
+                            loading="lazy"
+                        />
+                    </Grid>
+
+                    {/* Content - RIGHT */}
+                    <Grid size={{ xs: 12, md: 6 }}>
                         <Box
                             sx={{
-                                p: 2,
-                                borderRadius: 1,
-                                border: '1px solid',
-                                borderColor: 'divider',
-                                backgroundColor: 'background.paper',
-                                height: '100%',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 1.5,
-                                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                '&:hover': {
-                                    borderColor: 'primary.main',
-                                    backgroundColor: 'primary.50',
-                                    transform: 'translateY(-2px)',
-                                },
+                                opacity: isIntersecting ? 1 : 0,
+                                transform: isIntersecting
+                                    ? 'translateX(0)'
+                                    : 'translateX(30px)',
+                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s',
                             }}
                         >
-                            {/* Value Icon/Number */}
-                            <Box
+                            {/* Mission Statement */}
+                            <Typography
+                                variant="body1"
                                 sx={{
-                                    width: 32,
-                                    height: 32,
-                                    borderRadius: '50%',
-                                    background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    flexShrink: 0,
+                                    fontSize: '0.95rem',
+                                    lineHeight: 1.7,
+                                    color: 'text.secondary',
+                                    mb: 3,
                                 }}
                             >
-                                <Typography
-                                    sx={{
-                                        color: 'white',
-                                        fontSize: '0.875rem',
-                                        fontWeight: 600,
-                                    }}
-                                >
-                                    {index + 1}
-                                </Typography>
-                            </Box>
+                                {aboutSectionContent.story.content}
+                            </Typography>
 
-                            {/* Value Text */}
+                            {/* Core Values */}
                             <Typography
                                 variant="subtitle2"
                                 sx={{
                                     fontSize: '0.875rem',
-                                    fontWeight: 500,
+                                    fontWeight: 600,
                                     color: 'text.primary',
-                                    lineHeight: 1.4,
+                                    mb: 2,
                                 }}
                             >
-                                {value}
+                                Our Core Values
                             </Typography>
+
+                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+                                {aboutSectionContent.values.list.slice(0, 3).map((value, index) => (
+                                    <Box
+                                        key={index}
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 1.5,
+                                        }}
+                                    >
+                                        {/* Value Icon */}
+                                        <Box
+                                            sx={{
+                                                width: 24,
+                                                height: 24,
+                                                borderRadius: '50%',
+                                                background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                flexShrink: 0,
+                                            }}
+                                        >
+                                            <Typography
+                                                sx={{
+                                                    color: 'white',
+                                                    fontSize: '0.75rem',
+                                                    fontWeight: 600,
+                                                }}
+                                            >
+                                                {index + 1}
+                                            </Typography>
+                                        </Box>
+
+                                        {/* Value Text */}
+                                        <Typography
+                                            variant="body2"
+                                            sx={{
+                                                fontSize: '0.8125rem',
+                                                fontWeight: 500,
+                                                color: 'text.primary',
+                                                lineHeight: 1.4,
+                                            }}
+                                        >
+                                            {value}
+                                        </Typography>
+                                    </Box>
+                                ))}
+                            </Box>
                         </Box>
                     </Grid>
-                ))}
-            </Grid>
-        </SectionPreview>
+                </Grid>
+
+                {/* CTA Button */}
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <CTAButton
+                        to="/about"
+                        variant="primary"
+                        size="medium"
+                    >
+                        Discover Our Story
+                    </CTAButton>
+                </Box>
+            </Container>
+        </Box>
     );
 };

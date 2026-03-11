@@ -23,10 +23,7 @@ import { ContactPreview } from '../../components/landing/preview/ContactPreview'
  */
 const LandingPage: React.FC = () => {
     return (
-        <Box sx={{ position: 'relative' }}>
-            {/* Navigation */}
-            <Navigation />
-
+        <>
             {/* Hero Section - Full experience (to be redesigned) */}
             <HeroSection />
 
@@ -38,10 +35,7 @@ const LandingPage: React.FC = () => {
             <FacilitiesPreview />
             <GalleryPreview />
             <ContactPreview />
-
-            {/* Footer */}
-            <Footer />
-        </Box>
+        </>
     );
 };
 

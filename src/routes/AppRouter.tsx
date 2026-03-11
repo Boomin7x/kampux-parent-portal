@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import { Box, CircularProgress } from '@mui/material';
-import { LandingPage } from '../pages/LandingPage';
+import LandingPage from '../pages/Landing/LandingPage';
 import AuthPage from '../pages/Auth/AuthPage';
 import LoginPage from '../pages/Auth/LoginPage';
 import { CreateAccountPage } from '../pages/Auth/CreateAccountPage';
@@ -11,6 +11,7 @@ import EmailVerificationPage from '../pages/Auth/EmailVerificationPage';
 import PortalPage from '../pages/Portal/PortalPage';
 import ProtectedRoute from './ProtectedRoute';
 import { ROUTES } from './routes';
+import LandingLayout from '../pages/Landing/landingLayout';
 
 // Lazy load landing detail pages for better performance
 const AboutPage = lazy(() =>
@@ -70,65 +71,73 @@ const LoadingFallback = () => (
 
 const router = createBrowserRouter([
     {
-        path: ROUTES.HOME,
-        element: <LandingPage />,
+        path: '/',
+        element: <LandingLayout />,
+        children: [
+            {
+                index: true,
+                element: <LandingPage />,
+            },
+
+            {
+                path: ROUTES.ABOUT,
+                element: (
+                    <Suspense fallback={<LoadingFallback />}>
+                        <AboutPage />
+                    </Suspense>
+                ),
+            },
+            {
+                path: ROUTES.ACADEMICS,
+                element: (
+                    <Suspense fallback={<LoadingFallback />}>
+                        <AcademicsPage />
+                    </Suspense>
+                ),
+            },
+            {
+                path: ROUTES.FACULTY,
+                element: (
+                    <Suspense fallback={<LoadingFallback />}>
+                        <FacultyPage />
+                    </Suspense>
+                ),
+            },
+            {
+                path: ROUTES.STUDENT_LIFE,
+                element: (
+                    <Suspense fallback={<LoadingFallback />}>
+                        <StudentLifePage />
+                    </Suspense>
+                ),
+            },
+            {
+                path: ROUTES.FACILITIES,
+                element: (
+                    <Suspense fallback={<LoadingFallback />}>
+                        <FacilitiesPage />
+                    </Suspense>
+                ),
+            },
+            {
+                path: ROUTES.GALLERY,
+                element: (
+                    <Suspense fallback={<LoadingFallback />}>
+                        <GalleryPage />
+                    </Suspense>
+                ),
+            },
+            {
+                path: ROUTES.CONTACT,
+                element: (
+                    <Suspense fallback={<LoadingFallback />}>
+                        <ContactPage />
+                    </Suspense>
+                ),
+            },
+        ],
     },
-    {
-        path: ROUTES.ABOUT,
-        element: (
-            <Suspense fallback={<LoadingFallback />}>
-                <AboutPage />
-            </Suspense>
-        ),
-    },
-    {
-        path: ROUTES.ACADEMICS,
-        element: (
-            <Suspense fallback={<LoadingFallback />}>
-                <AcademicsPage />
-            </Suspense>
-        ),
-    },
-    {
-        path: ROUTES.FACULTY,
-        element: (
-            <Suspense fallback={<LoadingFallback />}>
-                <FacultyPage />
-            </Suspense>
-        ),
-    },
-    {
-        path: ROUTES.STUDENT_LIFE,
-        element: (
-            <Suspense fallback={<LoadingFallback />}>
-                <StudentLifePage />
-            </Suspense>
-        ),
-    },
-    {
-        path: ROUTES.FACILITIES,
-        element: (
-            <Suspense fallback={<LoadingFallback />}>
-                <FacilitiesPage />
-            </Suspense>
-        ),
-    },
-    {
-        path: ROUTES.GALLERY,
-        element: (
-            <Suspense fallback={<LoadingFallback />}>
-                <GalleryPage />
-            </Suspense>
-        ),
-    },
-    {
-        path: ROUTES.CONTACT,
-        element: (
-            <Suspense fallback={<LoadingFallback />}>
-                <ContactPage />
-            </Suspense>
-        ),
-    },
+
     {
         path: ROUTES.AUTH,
         element: <AuthPage />,
