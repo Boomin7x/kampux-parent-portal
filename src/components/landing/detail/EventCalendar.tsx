@@ -1,10 +1,9 @@
-import React from 'react';
-import { Box, Typography, Card, Button } from '@mui/material';
 import {
-    CalendarToday as CalendarIcon,
-    AccessTime as TimeIcon,
     LocationOn as LocationIcon,
+    AccessTime as TimeIcon,
 } from '@mui/icons-material';
+import { Box, Button, Card, Typography } from '@mui/material';
+import React, { type RefObject } from 'react';
 import { useIntersectionObserver } from '../../../hooks/ui/useIntersectionObserver';
 
 interface Event {
@@ -33,7 +32,7 @@ export const EventCalendar: React.FC<EventCalendarProps> = ({
 
     return (
         <Card
-            ref={targetRef}
+            ref={targetRef as RefObject<HTMLDivElement>}
             sx={{
                 p: 2,
                 backgroundColor: '#ffffff',

@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import {
-    Box,
-    Typography,
-    Card,
-    Modal,
-    IconButton,
-    Chip,
-} from '@mui/material';
+import { Box, Typography, Card, Modal, IconButton, Chip } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import {
     Close as CloseIcon,
@@ -48,7 +41,9 @@ export const ImageGrid: React.FC<ImageGridProps> = ({
     filterCategories = false,
     className = '',
 }) => {
-    const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+    const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(
+        null
+    );
     const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
     const { isIntersecting, targetRef } = useIntersectionObserver({
@@ -83,12 +78,16 @@ export const ImageGrid: React.FC<ImageGridProps> = ({
     };
 
     const handleNextImage = () => {
-        if (selectedImageIndex !== null && selectedImageIndex < filteredImages.length - 1) {
+        if (
+            selectedImageIndex !== null &&
+            selectedImageIndex < filteredImages.length - 1
+        ) {
             setSelectedImageIndex(selectedImageIndex + 1);
         }
     };
 
-    const selectedImage = selectedImageIndex !== null ? filteredImages[selectedImageIndex] : null;
+    const selectedImage =
+        selectedImageIndex !== null ? filteredImages[selectedImageIndex] : null;
 
     return (
         <Box ref={targetRef} className={className}>
@@ -114,32 +113,50 @@ export const ImageGrid: React.FC<ImageGridProps> = ({
                         clickable
                         onClick={() => setActiveCategory(null)}
                         sx={{
-                            backgroundColor: !activeCategory ? 'primary.main' : 'transparent',
+                            backgroundColor: !activeCategory
+                                ? 'primary.main'
+                                : 'transparent',
                             color: !activeCategory ? '#ffffff' : 'text.primary',
                             border: '1px solid',
-                            borderColor: !activeCategory ? 'primary.main' : 'divider',
+                            borderColor: !activeCategory
+                                ? 'primary.main'
+                                : 'divider',
                             fontSize: '0.8125rem',
                             fontWeight: 600,
                             '&:hover': {
-                                backgroundColor: !activeCategory ? 'primary.dark' : 'action.hover',
+                                backgroundColor: !activeCategory
+                                    ? 'primary.dark'
+                                    : 'action.hover',
                             },
                         }}
                     />
-                    {categories.map((category) => (
+                    {categories.map(category => (
                         <Chip
                             key={category}
                             label={category}
                             clickable
                             onClick={() => setActiveCategory(category)}
                             sx={{
-                                backgroundColor: activeCategory === category ? 'primary.main' : 'transparent',
-                                color: activeCategory === category ? '#ffffff' : 'text.primary',
+                                backgroundColor:
+                                    activeCategory === category
+                                        ? 'primary.main'
+                                        : 'transparent',
+                                color:
+                                    activeCategory === category
+                                        ? '#ffffff'
+                                        : 'text.primary',
                                 border: '1px solid',
-                                borderColor: activeCategory === category ? 'primary.main' : 'divider',
+                                borderColor:
+                                    activeCategory === category
+                                        ? 'primary.main'
+                                        : 'divider',
                                 fontSize: '0.8125rem',
                                 fontWeight: 600,
                                 '&:hover': {
-                                    backgroundColor: activeCategory === category ? 'primary.dark' : 'action.hover',
+                                    backgroundColor:
+                                        activeCategory === category
+                                            ? 'primary.dark'
+                                            : 'action.hover',
                                 },
                             }}
                         />
@@ -167,7 +184,8 @@ export const ImageGrid: React.FC<ImageGridProps> = ({
                                 borderColor: 'divider',
                                 borderRadius: 1,
                                 overflow: 'hidden',
-                                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                transition:
+                                    'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                                 opacity: isIntersecting ? 1 : 0,
                                 transform: isIntersecting
                                     ? 'translateY(0)'
@@ -199,7 +217,8 @@ export const ImageGrid: React.FC<ImageGridProps> = ({
                                         height: '100%',
                                         objectFit: 'cover',
                                         objectPosition: 'center',
-                                        transition: 'transform 0.3s ease-in-out',
+                                        transition:
+                                            'transform 0.3s ease-in-out',
                                     }}
                                 />
 
@@ -213,12 +232,14 @@ export const ImageGrid: React.FC<ImageGridProps> = ({
                                             left: 0,
                                             right: 0,
                                             bottom: 0,
-                                            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                                            backgroundColor:
+                                                'rgba(0, 0, 0, 0.5)',
                                             display: 'flex',
                                             alignItems: 'center',
                                             justifyContent: 'center',
                                             opacity: 0,
-                                            transition: 'opacity 0.3s ease-in-out',
+                                            transition:
+                                                'opacity 0.3s ease-in-out',
                                         }}
                                     >
                                         <ZoomIcon
@@ -328,7 +349,8 @@ export const ImageGrid: React.FC<ImageGridProps> = ({
                                         backgroundColor: 'rgba(0, 0, 0, 0.5)',
                                         color: '#ffffff',
                                         '&:hover': {
-                                            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                                            backgroundColor:
+                                                'rgba(0, 0, 0, 0.7)',
                                         },
                                     }}
                                 >
@@ -338,18 +360,21 @@ export const ImageGrid: React.FC<ImageGridProps> = ({
                                 {/* Navigation Buttons */}
                                 {filteredImages.length > 1 && (
                                     <>
-                                        {selectedImageIndex > 0 && (
+                                        {(selectedImageIndex as number) > 0 && (
                                             <IconButton
                                                 onClick={handlePrevImage}
                                                 sx={{
                                                     position: 'absolute',
                                                     left: -50,
                                                     top: '50%',
-                                                    transform: 'translateY(-50%)',
-                                                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                                                    transform:
+                                                        'translateY(-50%)',
+                                                    backgroundColor:
+                                                        'rgba(0, 0, 0, 0.5)',
                                                     color: '#ffffff',
                                                     '&:hover': {
-                                                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                                                        backgroundColor:
+                                                            'rgba(0, 0, 0, 0.7)',
                                                     },
                                                 }}
                                             >
@@ -357,18 +382,22 @@ export const ImageGrid: React.FC<ImageGridProps> = ({
                                             </IconButton>
                                         )}
 
-                                        {selectedImageIndex < filteredImages.length - 1 && (
+                                        {(selectedImageIndex as number) <
+                                            filteredImages.length - 1 && (
                                             <IconButton
                                                 onClick={handleNextImage}
                                                 sx={{
                                                     position: 'absolute',
                                                     right: -50,
                                                     top: '50%',
-                                                    transform: 'translateY(-50%)',
-                                                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                                                    transform:
+                                                        'translateY(-50%)',
+                                                    backgroundColor:
+                                                        'rgba(0, 0, 0, 0.5)',
                                                     color: '#ffffff',
                                                     '&:hover': {
-                                                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                                                        backgroundColor:
+                                                            'rgba(0, 0, 0, 0.7)',
                                                     },
                                                 }}
                                             >

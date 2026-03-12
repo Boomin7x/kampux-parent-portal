@@ -17,7 +17,13 @@ interface TimelineItemProps {
     description: string;
     image?: string;
     imageAlt?: string;
-    category?: 'education' | 'business' | 'achievement' | 'community' | 'development' | 'milestone';
+    category?:
+        | 'education'
+        | 'business'
+        | 'achievement'
+        | 'community'
+        | 'development'
+        | 'milestone';
     details?: string[];
     statistics?: { label: string; value: string }[];
     isHighlight?: boolean;
@@ -27,7 +33,6 @@ interface TimelineItemProps {
 }
 
 export const TimelineItem: React.FC<TimelineItemProps> = ({
-    id,
     year,
     title,
     description,
@@ -123,7 +128,7 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({
                     borderRadius: '50%',
                     transform: 'translateX(-50%)',
                     zIndex: 2,
-                    display: 'flex',
+                    // display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     color: '#ffffff',
@@ -167,8 +172,14 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({
                     borderColor: isHighlight ? getCategoryColor() : 'divider',
                     borderRadius: 1,
                     position: 'relative',
-                    ml: position === 'left' ? { xs: 0, md: 0 } : { xs: 0, md: 6 },
-                    mr: position === 'right' ? { xs: 0, md: 0 } : { xs: 0, md: 6 },
+                    ml:
+                        position === 'left'
+                            ? { xs: 0, md: 0 }
+                            : { xs: 0, md: 6 },
+                    mr:
+                        position === 'right'
+                            ? { xs: 0, md: 0 }
+                            : { xs: 0, md: 6 },
                     transition: 'all 0.3s ease-in-out',
                     '&:hover': {
                         transform: 'translateY(-2px)',
@@ -185,9 +196,10 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({
                         height: 0,
                         borderTop: '8px solid transparent',
                         borderBottom: '8px solid transparent',
-                        [position === 'left' ? 'borderRight' : 'borderLeft']: `8px solid ${
-                            isHighlight ? getCategoryColor() : '#e0e0e0'
-                        }`,
+                        [position === 'left' ? 'borderRight' : 'borderLeft']:
+                            `8px solid ${
+                                isHighlight ? getCategoryColor() : '#e0e0e0'
+                            }`,
                         display: { xs: 'none', md: 'block' },
                     },
                 }}
@@ -297,7 +309,13 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({
                         >
                             Key Highlights
                         </Typography>
-                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: 0.5,
+                            }}
+                        >
                             {details.map((detail, idx) => (
                                 <Typography
                                     key={idx}

@@ -1,48 +1,39 @@
-import React, { useState, useMemo } from 'react';
 import {
+    Calculate,
+    Email,
+    Groups,
+    Language,
+    MenuBook,
+    Palette,
+    Person,
+    School,
+    Science,
+    Search,
+    TrendingUp,
+    WorkspacePremium,
+} from '@mui/icons-material';
+import {
+    Avatar,
     Box,
-    Container,
-    Typography,
     Button,
     Card,
     CardContent,
-    Avatar,
     Chip,
-    TextField,
+    Container,
     FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
     InputAdornment,
-    Tabs,
-    Tab,
-    List,
-    ListItem,
-    ListItemIcon,
-    ListItemText,
+    InputLabel,
     LinearProgress,
+    MenuItem,
+    Select,
+    TextField,
+    Typography,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import {
-    Science,
-    Calculate,
-    Language,
-    Palette,
-    School,
-    Groups,
-    WorkspacePremium,
-    TrendingUp,
-    EmojiEvents,
-    Search,
-    Email,
-    CheckCircle,
-    Star,
-    Person,
-    MenuBook,
-} from '@mui/icons-material';
-import { useIntersectionObserver } from '../../hooks/ui/useIntersectionObserver';
+import React, { useMemo, useState } from 'react';
 import { PageHeader } from '../../components/landing/shared/PageHeader';
 import { ResponsiveImage } from '../../components/landing/shared/ResponsiveImage';
+import { useIntersectionObserver } from '../../hooks/ui/useIntersectionObserver';
 
 /**
  * Interface for faculty members
@@ -89,7 +80,7 @@ interface DepartmentStats {
 export const FacultyPage: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedDepartment, setSelectedDepartment] = useState('All');
-    const [selectedTab, setSelectedTab] = useState(0);
+    // const [selectedTab, setSelectedTab] = useState(0);
 
     const facultyStatistics: FacultyStatistic[] = [
         {
@@ -338,9 +329,9 @@ export const FacultyPage: React.FC = () => {
         'Physical Education',
     ];
 
-    const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
-        setSelectedTab(newValue);
-    };
+    // const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
+    //     setSelectedTab(newValue);
+    // };
 
     return (
         <Box sx={{ backgroundColor: '#fefefe', minHeight: '100vh' }}>

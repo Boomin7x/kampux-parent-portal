@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, type RefObject } from 'react';
 import {
     Box,
     Typography,
@@ -29,7 +29,7 @@ export const FacultyProfileCard: React.FC<FacultyProfileCardProps> = ({
 
     return (
         <Card
-            ref={targetRef}
+            ref={targetRef as RefObject<HTMLDivElement>}
             sx={{
                 p: 2,
                 height: '100%',
@@ -152,7 +152,13 @@ export const FacultyProfileCard: React.FC<FacultyProfileCardProps> = ({
                     >
                         Qualifications
                     </Typography>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 0.5,
+                        }}
+                    >
                         {member.qualifications.map((qual, idx) => (
                             <Typography
                                 key={idx}

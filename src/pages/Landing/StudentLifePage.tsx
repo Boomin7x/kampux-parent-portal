@@ -1,45 +1,38 @@
-import React, { useState, useMemo } from 'react';
 import {
+    AccessTime,
+    Brush,
+    CalendarToday,
+    CheckCircle,
+    Groups,
+    LocationOn,
+    MenuBook,
+    Person,
+    Schedule,
+    SportsBasketball,
+    VolunteerActivism,
+} from '@mui/icons-material';
+import {
+    Avatar,
     Box,
-    Container,
-    Typography,
+    Button,
     Card,
     CardContent,
-    Avatar,
     Chip,
-    Tabs,
-    Tab,
-    Button,
+    Container,
     List,
     ListItem,
     ListItemIcon,
     ListItemText,
     Paper,
+    Tab,
+    Tabs,
+    Typography,
 } from '@mui/material';
 import Grid from '@mui/material/Grid';
-import {
-    SportsBasketball,
-    Brush,
-    MenuBook,
-    VolunteerActivism,
-    EmojiEvents,
-    Groups,
-    Schedule,
-    LocationOn,
-    Person,
-    Star,
-    CalendarToday,
-    AccessTime,
-    CheckCircle,
-    Favorite,
-    School,
-    MusicNote,
-    SportsVolleyball,
-    Science,
-} from '@mui/icons-material';
-import { useIntersectionObserver } from '../../hooks/ui/useIntersectionObserver';
+import React, { useMemo, useState } from 'react';
 import { PageHeader } from '../../components/landing/shared/PageHeader';
 import { ResponsiveImage } from '../../components/landing/shared/ResponsiveImage';
+import { useIntersectionObserver } from '../../hooks/ui/useIntersectionObserver';
 
 /**
  * Interface for activity categories
@@ -152,7 +145,8 @@ export const StudentLifePage: React.FC = () => {
             icon: <SportsBasketball />,
             color: '#10b981',
             count: 15,
-            description: 'Competitive sports teams and recreational athletics programs',
+            description:
+                'Competitive sports teams and recreational athletics programs',
         },
         {
             id: '2',
@@ -160,7 +154,8 @@ export const StudentLifePage: React.FC = () => {
             icon: <Brush />,
             color: '#f59e0b',
             count: 12,
-            description: 'Creative expression through visual arts, music, and theater',
+            description:
+                'Creative expression through visual arts, music, and theater',
         },
         {
             id: '3',
@@ -168,7 +163,8 @@ export const StudentLifePage: React.FC = () => {
             icon: <MenuBook />,
             color: '#6366f1',
             count: 18,
-            description: 'Subject-focused groups and competitive academic teams',
+            description:
+                'Subject-focused groups and competitive academic teams',
         },
         {
             id: '4',
@@ -176,7 +172,8 @@ export const StudentLifePage: React.FC = () => {
             icon: <VolunteerActivism />,
             color: '#ef4444',
             count: 8,
-            description: 'Volunteer opportunities and social impact initiatives',
+            description:
+                'Volunteer opportunities and social impact initiatives',
         },
     ];
 
@@ -187,79 +184,114 @@ export const StudentLifePage: React.FC = () => {
             id: '1',
             name: 'Varsity Basketball',
             category: 'Sports & Athletics',
-            description: 'Competitive varsity and JV teams with professional coaching and multiple league championships.',
+            description:
+                'Competitive varsity and JV teams with professional coaching and multiple league championships.',
             image: '/pexels-max-fischer-5212317.jpg',
             meetingSchedule: 'Mon-Fri, 3:30-5:30 PM',
             memberCount: 28,
-            highlights: ['League Champions 2023', 'State Tournament Qualifiers', 'Division Leaders'],
+            highlights: [
+                'League Champions 2023',
+                'State Tournament Qualifiers',
+                'Division Leaders',
+            ],
             achievements: ['Regional Champions', 'Sportsmanship Award'],
         },
         {
             id: '2',
             name: 'Soccer Club',
             category: 'Sports & Athletics',
-            description: 'Both competitive and recreational soccer programs welcoming all skill levels.',
+            description:
+                'Both competitive and recreational soccer programs welcoming all skill levels.',
             image: '/pexels-cottonbro-6208926.jpg',
             meetingSchedule: 'Mon, Wed, Fri 3:30-5:00 PM',
             memberCount: 32,
-            highlights: ['All-skill levels welcome', 'Inter-school tournaments', 'Fitness focused'],
+            highlights: [
+                'All-skill levels welcome',
+                'Inter-school tournaments',
+                'Fitness focused',
+            ],
         },
         {
             id: '3',
             name: 'Track & Field',
             category: 'Sports & Athletics',
-            description: 'Distance running, sprints, and field events with individual and team competitions.',
+            description:
+                'Distance running, sprints, and field events with individual and team competitions.',
             meetingSchedule: 'Daily 3:30-5:30 PM',
             memberCount: 25,
-            highlights: ['Individual excellence', 'Team spirit', 'State qualifiers'],
+            highlights: [
+                'Individual excellence',
+                'Team spirit',
+                'State qualifiers',
+            ],
         },
         // Arts & Culture
         {
             id: '4',
             name: 'Drama Club',
             category: 'Arts & Culture',
-            description: 'Annual theatrical productions, improv workshops, and performance opportunities throughout the year.',
+            description:
+                'Annual theatrical productions, improv workshops, and performance opportunities throughout the year.',
             image: '/pexels-cottonbro-6208928.jpg',
             meetingSchedule: 'Tue & Thu, 3:00-5:00 PM',
             memberCount: 35,
             highlights: ['Spring Musical', 'Fall Drama', 'Improv Nights'],
-            achievements: ['Regional Theater Excellence', 'Best Student Production 2023'],
+            achievements: [
+                'Regional Theater Excellence',
+                'Best Student Production 2023',
+            ],
         },
         {
             id: '5',
             name: 'Art Studio',
             category: 'Arts & Culture',
-            description: 'Explore various art mediums including painting, sculpture, and digital art.',
+            description:
+                'Explore various art mediums including painting, sculpture, and digital art.',
             image: '/pexels-cottonbro-7395304.jpg',
             meetingSchedule: 'Open Studio: Daily 3:00-6:00 PM',
             memberCount: 30,
-            highlights: ['Multiple mediums', 'Student exhibitions', 'Portfolio development'],
+            highlights: [
+                'Multiple mediums',
+                'Student exhibitions',
+                'Portfolio development',
+            ],
         },
         {
             id: '6',
             name: 'Orchestra & Band',
             category: 'Arts & Culture',
-            description: 'Concert performances, competitions, and music education for all experience levels.',
+            description:
+                'Concert performances, competitions, and music education for all experience levels.',
             meetingSchedule: 'Daily 7:30-8:30 AM & 3:00-4:30 PM',
             memberCount: 42,
-            highlights: ['Concert performances', 'Music competitions', 'Solo opportunities'],
+            highlights: [
+                'Concert performances',
+                'Music competitions',
+                'Solo opportunities',
+            ],
         },
         // Academic Clubs
         {
             id: '7',
             name: 'Debate Team',
             category: 'Academic Clubs',
-            description: 'Compete in regional and national tournaments while developing critical thinking and public speaking skills.',
+            description:
+                'Compete in regional and national tournaments while developing critical thinking and public speaking skills.',
             meetingSchedule: 'Wed & Fri, 3:30-5:00 PM',
             memberCount: 22,
-            highlights: ['Tournament competitions', 'Public speaking', 'Critical thinking'],
+            highlights: [
+                'Tournament competitions',
+                'Public speaking',
+                'Critical thinking',
+            ],
             achievements: ['State Debate Champions', 'National Qualifiers'],
         },
         {
             id: '8',
             name: 'Robotics Team',
             category: 'Academic Clubs',
-            description: 'Design, build, and program robots for FIRST Robotics competitions.',
+            description:
+                'Design, build, and program robots for FIRST Robotics competitions.',
             meetingSchedule: 'Daily, 3:30-6:00 PM',
             memberCount: 18,
             highlights: ['FIRST Robotics', 'Engineering design', 'Programming'],
@@ -269,35 +301,51 @@ export const StudentLifePage: React.FC = () => {
             id: '9',
             name: 'Science Olympiad',
             category: 'Academic Clubs',
-            description: 'Competitive science team participating in regional and state tournaments.',
+            description:
+                'Competitive science team participating in regional and state tournaments.',
             meetingSchedule: 'Tue & Thu, 3:30-5:00 PM',
             memberCount: 24,
-            highlights: ['Science competitions', 'Team collaboration', 'STEM excellence'],
+            highlights: [
+                'Science competitions',
+                'Team collaboration',
+                'STEM excellence',
+            ],
         },
         // Community Service
         {
             id: '10',
             name: 'Community Service Club',
             category: 'Community Service',
-            description: 'Organize volunteer projects and service initiatives benefiting local and global communities.',
+            description:
+                'Organize volunteer projects and service initiatives benefiting local and global communities.',
             meetingSchedule: 'Thursdays, 3:00-4:30 PM',
             memberCount: 45,
-            highlights: ['Local partnerships', 'Global awareness', 'Leadership development'],
+            highlights: [
+                'Local partnerships',
+                'Global awareness',
+                'Leadership development',
+            ],
         },
         {
             id: '11',
             name: 'Environmental Club',
             category: 'Community Service',
-            description: 'Campus sustainability initiatives, environmental awareness campaigns, and outdoor conservation projects.',
+            description:
+                'Campus sustainability initiatives, environmental awareness campaigns, and outdoor conservation projects.',
             meetingSchedule: 'Tuesdays, 3:30-4:30 PM',
             memberCount: 27,
-            highlights: ['Sustainability projects', 'Environmental awareness', 'Conservation efforts'],
+            highlights: [
+                'Sustainability projects',
+                'Environmental awareness',
+                'Conservation efforts',
+            ],
         },
         {
             id: '12',
             name: 'Peer Tutoring',
             category: 'Community Service',
-            description: 'Students helping students achieve academic success through peer-to-peer learning.',
+            description:
+                'Students helping students achieve academic success through peer-to-peer learning.',
             meetingSchedule: 'Flexible scheduling',
             memberCount: 38,
             highlights: ['Academic support', 'Leadership skills', 'Mentorship'],
@@ -318,14 +366,14 @@ export const StudentLifePage: React.FC = () => {
             id: '2',
             name: 'Marcus Johnson',
             grade: '12th Grade',
-            quote: 'The Robotics Team taught me problem-solving skills that go far beyond engineering. We\'re not just building robots - we\'re building our futures.',
+            quote: "The Robotics Team taught me problem-solving skills that go far beyond engineering. We're not just building robots - we're building our futures.",
             activity: 'Robotics Team Captain',
         },
         {
             id: '3',
             name: 'Emily Rodriguez',
             grade: '10th Grade',
-            quote: 'Through community service, I\'ve learned that small actions can make a big difference. Our environmental projects have real impact.',
+            quote: "Through community service, I've learned that small actions can make a big difference. Our environmental projects have real impact.",
             activity: 'Environmental Club VP',
         },
     ];
@@ -339,7 +387,8 @@ export const StudentLifePage: React.FC = () => {
             time: '7:00 PM',
             location: 'Main Auditorium',
             category: 'Arts',
-            description: 'Annual spring musical featuring our talented drama club students',
+            description:
+                'Annual spring musical featuring our talented drama club students',
         },
         {
             id: '2',
@@ -348,7 +397,8 @@ export const StudentLifePage: React.FC = () => {
             time: '9:00 AM - 3:00 PM',
             location: 'Gymnasium',
             category: 'Academic',
-            description: 'Student research projects and scientific innovations on display',
+            description:
+                'Student research projects and scientific innovations on display',
         },
         {
             id: '3',
@@ -357,7 +407,8 @@ export const StudentLifePage: React.FC = () => {
             time: '6:00 PM',
             location: 'Home Court',
             category: 'Sports',
-            description: 'Varsity basketball team competing for the regional championship',
+            description:
+                'Varsity basketball team competing for the regional championship',
         },
         {
             id: '4',
@@ -375,7 +426,8 @@ export const StudentLifePage: React.FC = () => {
             time: '7:00 PM',
             location: 'Main Auditorium',
             category: 'Arts',
-            description: 'Orchestra and band performances celebrating musical excellence',
+            description:
+                'Orchestra and band performances celebrating musical excellence',
         },
         {
             id: '6',
@@ -384,7 +436,8 @@ export const StudentLifePage: React.FC = () => {
             time: '9:00 AM - 3:00 PM',
             location: 'Various Locations',
             category: 'Service',
-            description: 'School-wide volunteer projects in the local community',
+            description:
+                'School-wide volunteer projects in the local community',
         },
     ];
 
@@ -392,10 +445,15 @@ export const StudentLifePage: React.FC = () => {
     const filteredActivities = useMemo(() => {
         if (selectedCategory === 0) return studentActivities;
         const categoryName = activityCategories[selectedCategory - 1]?.name;
-        return studentActivities.filter(activity => activity.category === categoryName);
+        return studentActivities.filter(
+            activity => activity.category === categoryName
+        );
     }, [selectedCategory]);
 
-    const handleCategoryChange = (_: React.SyntheticEvent, newValue: number) => {
+    const handleCategoryChange = (
+        _: React.SyntheticEvent,
+        newValue: number
+    ) => {
         setSelectedCategory(newValue);
     };
 
@@ -430,7 +488,9 @@ export const StudentLifePage: React.FC = () => {
                 />
 
                 {/* Student Testimonials */}
-                <StudentTestimonialsSection testimonials={studentTestimonials} />
+                <StudentTestimonialsSection
+                    testimonials={studentTestimonials}
+                />
 
                 {/* Events Calendar */}
                 <EventsCalendarSection events={upcomingEvents} />
@@ -449,7 +509,9 @@ interface StudentLifeStatsSectionProps {
     statistics: StudentLifeStatistic[];
 }
 
-const StudentLifeStatsSection: React.FC<StudentLifeStatsSectionProps> = ({ statistics }) => {
+const StudentLifeStatsSection: React.FC<StudentLifeStatsSectionProps> = ({
+    statistics,
+}) => {
     const { isIntersecting, targetRef } = useIntersectionObserver({
         threshold: 0.1,
         freezeOnceVisible: true,
@@ -473,7 +535,8 @@ const StudentLifeStatsSection: React.FC<StudentLifeStatsSectionProps> = ({ stati
                             fontSize: '1.5rem',
                             fontWeight: 600,
                             mb: 1,
-                            background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                            background:
+                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -490,7 +553,8 @@ const StudentLifeStatsSection: React.FC<StudentLifeStatsSectionProps> = ({ stati
                             mx: 'auto',
                         }}
                     >
-                        Discover the vibrant opportunities that make our school community special
+                        Discover the vibrant opportunities that make our school
+                        community special
                     </Typography>
                 </Box>
 
@@ -605,7 +669,8 @@ const ActivityCategoriesSection: React.FC<ActivityCategoriesSectionProps> = ({
                             fontSize: '1.5rem',
                             fontWeight: 600,
                             mb: 1,
-                            background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                            background:
+                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -622,7 +687,8 @@ const ActivityCategoriesSection: React.FC<ActivityCategoriesSectionProps> = ({
                             mx: 'auto',
                         }}
                     >
-                        Explore our diverse range of extracurricular activities and find your passion
+                        Explore our diverse range of extracurricular activities
+                        and find your passion
                     </Typography>
                 </Box>
 
@@ -644,7 +710,7 @@ const ActivityCategoriesSection: React.FC<ActivityCategoriesSectionProps> = ({
                         }}
                     >
                         <Tab label="All Activities" />
-                        {categories.map((category) => (
+                        {categories.map(category => (
                             <Tab key={category.id} label={category.name} />
                         ))}
                     </Tabs>
@@ -670,7 +736,8 @@ const ActivityCategoriesSection: React.FC<ActivityCategoriesSectionProps> = ({
                                         'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
                                     transitionDelay: `${index * 0.1}s`,
                                     '&:hover': {
-                                        boxShadow: '0 8px 25px rgba(99, 102, 241, 0.15)',
+                                        boxShadow:
+                                            '0 8px 25px rgba(99, 102, 241, 0.15)',
                                         transform: 'translateY(-2px)',
                                     },
                                 }}
@@ -733,7 +800,12 @@ const ActivityCategoriesSection: React.FC<ActivityCategoriesSectionProps> = ({
                                                 mb: 0.5,
                                             }}
                                         >
-                                            <Schedule sx={{ fontSize: 14, color: 'text.secondary' }} />
+                                            <Schedule
+                                                sx={{
+                                                    fontSize: 14,
+                                                    color: 'text.secondary',
+                                                }}
+                                            />
                                             <Typography
                                                 variant="caption"
                                                 sx={{
@@ -751,7 +823,12 @@ const ActivityCategoriesSection: React.FC<ActivityCategoriesSectionProps> = ({
                                                 gap: 0.5,
                                             }}
                                         >
-                                            <Person sx={{ fontSize: 14, color: 'text.secondary' }} />
+                                            <Person
+                                                sx={{
+                                                    fontSize: 14,
+                                                    color: 'text.secondary',
+                                                }}
+                                            />
                                             <Typography
                                                 variant="caption"
                                                 sx={{
@@ -763,43 +840,55 @@ const ActivityCategoriesSection: React.FC<ActivityCategoriesSectionProps> = ({
                                             </Typography>
                                         </Box>
                                     </Box>
-                                    {activity.highlights && activity.highlights.length > 0 && (
-                                        <Box>
-                                            <Typography
-                                                variant="caption"
-                                                sx={{
-                                                    color: 'text.secondary',
-                                                    fontWeight: 500,
-                                                    mb: 0.5,
-                                                    display: 'block',
-                                                }}
-                                            >
-                                                Highlights:
-                                            </Typography>
-                                            <Box
-                                                sx={{
-                                                    display: 'flex',
-                                                    flexWrap: 'wrap',
-                                                    gap: 0.5,
-                                                }}
-                                            >
-                                                {activity.highlights.slice(0, 3).map((highlight, hIndex) => (
-                                                    <Chip
-                                                        key={hIndex}
-                                                        label={highlight}
-                                                        variant="filled"
-                                                        size="small"
-                                                        sx={{
-                                                            fontSize: '0.75rem',
-                                                            height: '18px',
-                                                            backgroundColor: 'primary.50',
-                                                            color: 'primary.main',
-                                                        }}
-                                                    />
-                                                ))}
+                                    {activity.highlights &&
+                                        activity.highlights.length > 0 && (
+                                            <Box>
+                                                <Typography
+                                                    variant="caption"
+                                                    sx={{
+                                                        color: 'text.secondary',
+                                                        fontWeight: 500,
+                                                        mb: 0.5,
+                                                        display: 'block',
+                                                    }}
+                                                >
+                                                    Highlights:
+                                                </Typography>
+                                                <Box
+                                                    sx={{
+                                                        display: 'flex',
+                                                        flexWrap: 'wrap',
+                                                        gap: 0.5,
+                                                    }}
+                                                >
+                                                    {activity.highlights
+                                                        .slice(0, 3)
+                                                        .map(
+                                                            (
+                                                                highlight,
+                                                                hIndex
+                                                            ) => (
+                                                                <Chip
+                                                                    key={hIndex}
+                                                                    label={
+                                                                        highlight
+                                                                    }
+                                                                    variant="filled"
+                                                                    size="small"
+                                                                    sx={{
+                                                                        fontSize:
+                                                                            '0.75rem',
+                                                                        height: '18px',
+                                                                        backgroundColor:
+                                                                            'primary.50',
+                                                                        color: 'primary.main',
+                                                                    }}
+                                                                />
+                                                            )
+                                                        )}
+                                                </Box>
                                             </Box>
-                                        </Box>
-                                    )}
+                                        )}
                                     <Box sx={{ mt: 1.5, textAlign: 'center' }}>
                                         <Button
                                             variant="outlined"
@@ -831,7 +920,9 @@ interface StudentTestimonialsSectionProps {
     testimonials: StudentTestimonial[];
 }
 
-const StudentTestimonialsSection: React.FC<StudentTestimonialsSectionProps> = ({ testimonials }) => {
+const StudentTestimonialsSection: React.FC<StudentTestimonialsSectionProps> = ({
+    testimonials,
+}) => {
     const { isIntersecting, targetRef } = useIntersectionObserver({
         threshold: 0.1,
         freezeOnceVisible: true,
@@ -855,7 +946,8 @@ const StudentTestimonialsSection: React.FC<StudentTestimonialsSectionProps> = ({
                             fontSize: '1.5rem',
                             fontWeight: 600,
                             mb: 1,
-                            background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                            background:
+                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -872,7 +964,8 @@ const StudentTestimonialsSection: React.FC<StudentTestimonialsSectionProps> = ({
                             mx: 'auto',
                         }}
                     >
-                        Hear from our students about their experiences and growth
+                        Hear from our students about their experiences and
+                        growth
                     </Typography>
                 </Box>
 
@@ -949,7 +1042,8 @@ const StudentTestimonialsSection: React.FC<StudentTestimonialsSectionProps> = ({
                                                 color: 'text.secondary',
                                             }}
                                         >
-                                            {testimonial.grade} • {testimonial.activity}
+                                            {testimonial.grade} •{' '}
+                                            {testimonial.activity}
                                         </Typography>
                                     </Box>
                                 </Box>
@@ -985,7 +1079,9 @@ interface EventsCalendarSectionProps {
     events: CampusEvent[];
 }
 
-const EventsCalendarSection: React.FC<EventsCalendarSectionProps> = ({ events }) => {
+const EventsCalendarSection: React.FC<EventsCalendarSectionProps> = ({
+    events,
+}) => {
     const { isIntersecting, targetRef } = useIntersectionObserver({
         threshold: 0.1,
         freezeOnceVisible: true,
@@ -1009,7 +1105,8 @@ const EventsCalendarSection: React.FC<EventsCalendarSectionProps> = ({ events })
                             fontSize: '1.5rem',
                             fontWeight: 600,
                             mb: 1,
-                            background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                            background:
+                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -1026,7 +1123,8 @@ const EventsCalendarSection: React.FC<EventsCalendarSectionProps> = ({ events })
                             mx: 'auto',
                         }}
                     >
-                        Don't miss out on these exciting upcoming events and activities
+                        Don't miss out on these exciting upcoming events and
+                        activities
                     </Typography>
                 </Box>
 
@@ -1089,7 +1187,12 @@ const EventsCalendarSection: React.FC<EventsCalendarSectionProps> = ({ events })
                                             mb: 0.5,
                                         }}
                                     >
-                                        <CalendarToday sx={{ fontSize: 14, color: 'text.secondary' }} />
+                                        <CalendarToday
+                                            sx={{
+                                                fontSize: 14,
+                                                color: 'text.secondary',
+                                            }}
+                                        />
                                         <Typography
                                             variant="caption"
                                             sx={{
@@ -1097,10 +1200,12 @@ const EventsCalendarSection: React.FC<EventsCalendarSectionProps> = ({ events })
                                                 color: 'text.secondary',
                                             }}
                                         >
-                                            {new Date(event.date).toLocaleDateString('en-US', {
+                                            {new Date(
+                                                event.date
+                                            ).toLocaleDateString('en-US', {
                                                 weekday: 'short',
                                                 month: 'short',
-                                                day: 'numeric'
+                                                day: 'numeric',
                                             })}
                                         </Typography>
                                     </Box>
@@ -1112,7 +1217,12 @@ const EventsCalendarSection: React.FC<EventsCalendarSectionProps> = ({ events })
                                             mb: 0.5,
                                         }}
                                     >
-                                        <AccessTime sx={{ fontSize: 14, color: 'text.secondary' }} />
+                                        <AccessTime
+                                            sx={{
+                                                fontSize: 14,
+                                                color: 'text.secondary',
+                                            }}
+                                        />
                                         <Typography
                                             variant="caption"
                                             sx={{
@@ -1130,7 +1240,12 @@ const EventsCalendarSection: React.FC<EventsCalendarSectionProps> = ({ events })
                                             gap: 0.5,
                                         }}
                                     >
-                                        <LocationOn sx={{ fontSize: 14, color: 'text.secondary' }} />
+                                        <LocationOn
+                                            sx={{
+                                                fontSize: 14,
+                                                color: 'text.secondary',
+                                            }}
+                                        />
                                         <Typography
                                             variant="caption"
                                             sx={{
@@ -1216,8 +1331,11 @@ const DailyScheduleSection: React.FC = () => {
                         <Box
                             sx={{
                                 opacity: isIntersecting ? 1 : 0,
-                                transform: isIntersecting ? 'translateX(0)' : 'translateX(-30px)',
-                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+                                transform: isIntersecting
+                                    ? 'translateX(0)'
+                                    : 'translateX(-30px)',
+                                transition:
+                                    'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
                             }}
                         >
                             <Typography
@@ -1226,7 +1344,8 @@ const DailyScheduleSection: React.FC = () => {
                                     fontSize: '1.5rem',
                                     fontWeight: 600,
                                     mb: 1,
-                                    background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                    background:
+                                        'linear-gradient(135deg, #6366f1, #8b5cf6)',
                                     backgroundClip: 'text',
                                     WebkitBackgroundClip: 'text',
                                     WebkitTextFillColor: 'transparent',
@@ -1242,7 +1361,8 @@ const DailyScheduleSection: React.FC = () => {
                                     mb: 3,
                                 }}
                             >
-                                A structured day that balances academics with personal growth
+                                A structured day that balances academics with
+                                personal growth
                             </Typography>
                             <Paper
                                 sx={{
@@ -1261,7 +1381,8 @@ const DailyScheduleSection: React.FC = () => {
                                                 py: 1.5,
                                                 px: 0,
                                                 borderBottom:
-                                                    index < scheduleItems.length - 1
+                                                    index <
+                                                    scheduleItems.length - 1
                                                         ? '1px solid'
                                                         : 'none',
                                                 borderColor: 'divider',
@@ -1272,10 +1393,13 @@ const DailyScheduleSection: React.FC = () => {
                                                     sx={{
                                                         width: 20,
                                                         height: 20,
-                                                        backgroundColor: 'primary.main',
+                                                        backgroundColor:
+                                                            'primary.main',
                                                     }}
                                                 >
-                                                    <CheckCircle sx={{ fontSize: 14 }} />
+                                                    <CheckCircle
+                                                        sx={{ fontSize: 14 }}
+                                                    />
                                                 </Avatar>
                                             </ListItemIcon>
                                             <ListItemText
@@ -1283,7 +1407,8 @@ const DailyScheduleSection: React.FC = () => {
                                                     <Box
                                                         sx={{
                                                             display: 'flex',
-                                                            alignItems: 'center',
+                                                            alignItems:
+                                                                'center',
                                                             gap: 2,
                                                             mb: 0.5,
                                                         }}
@@ -1291,10 +1416,12 @@ const DailyScheduleSection: React.FC = () => {
                                                         <Typography
                                                             variant="caption"
                                                             sx={{
-                                                                fontSize: '0.75rem',
+                                                                fontSize:
+                                                                    '0.75rem',
                                                                 fontWeight: 600,
                                                                 color: 'primary.main',
-                                                                minWidth: '120px',
+                                                                minWidth:
+                                                                    '120px',
                                                             }}
                                                         >
                                                             {item.time}
@@ -1302,7 +1429,8 @@ const DailyScheduleSection: React.FC = () => {
                                                         <Typography
                                                             variant="subtitle2"
                                                             sx={{
-                                                                fontSize: '0.875rem',
+                                                                fontSize:
+                                                                    '0.875rem',
                                                                 fontWeight: 600,
                                                                 color: 'text.primary',
                                                             }}
@@ -1315,7 +1443,8 @@ const DailyScheduleSection: React.FC = () => {
                                                     <Typography
                                                         variant="body2"
                                                         sx={{
-                                                            fontSize: '0.8125rem',
+                                                            fontSize:
+                                                                '0.8125rem',
                                                             color: 'text.secondary',
                                                             lineHeight: 1.4,
                                                         }}
@@ -1334,8 +1463,11 @@ const DailyScheduleSection: React.FC = () => {
                         <Box
                             sx={{
                                 opacity: isIntersecting ? 1 : 0,
-                                transform: isIntersecting ? 'translateX(0)' : 'translateX(30px)',
-                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s',
+                                transform: isIntersecting
+                                    ? 'translateX(0)'
+                                    : 'translateX(30px)',
+                                transition:
+                                    'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s',
                             }}
                         >
                             <Typography
@@ -1352,7 +1484,8 @@ const DailyScheduleSection: React.FC = () => {
                             <Paper
                                 sx={{
                                     p: 2,
-                                    background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                    background:
+                                        'linear-gradient(135deg, #6366f1, #8b5cf6)',
                                     color: 'white',
                                     borderRadius: 2,
                                     textAlign: 'center',
@@ -1366,8 +1499,9 @@ const DailyScheduleSection: React.FC = () => {
                                         opacity: 0.9,
                                     }}
                                 >
-                                    Ready to explore your interests and make new friends?
-                                    Browse our activities and find your perfect fit!
+                                    Ready to explore your interests and make new
+                                    friends? Browse our activities and find your
+                                    perfect fit!
                                 </Typography>
                                 <Button
                                     variant="contained"

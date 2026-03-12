@@ -25,30 +25,29 @@ interface ActivityCatalogProps {
     activities: Activity[];
 }
 
+const categories = ['All', 'Sports', 'Arts', 'Academic', 'Service'] as const;
+
 export const ActivityCatalog: React.FC<ActivityCatalogProps> = ({
     activities,
 }) => {
     const [selectedCategory, setSelectedCategory] = useState<number>(0);
     const [searchQuery, setSearchQuery] = useState('');
 
-    const categories = ['All', 'Sports', 'Arts', 'Academic', 'Service'];
-
     const filteredActivities = useMemo(() => {
+        const selectedCategoryName = categories[selectedCategory];
+        const lowercaseQuery = searchQuery.toLowerCase();
+
         return activities.filter(activity => {
             const matchesCategory =
                 selectedCategory === 0 ||
-                activity.category === categories[selectedCategory];
+                activity.category === selectedCategoryName;
             const matchesSearch =
                 searchQuery === '' ||
-                activity.name
-                    .toLowerCase()
-                    .includes(searchQuery.toLowerCase()) ||
-                activity.description
-                    .toLowerCase()
-                    .includes(searchQuery.toLowerCase());
+                activity.name.toLowerCase().includes(lowercaseQuery) ||
+                activity.description.toLowerCase().includes(lowercaseQuery);
             return matchesCategory && matchesSearch;
         });
-    }, [activities, selectedCategory, searchQuery]);
+    }, [activities, selectedCategory, searchQuery, categories]);
 
     const categoryCount = (category: string) => {
         if (category === 'All') return activities.length;
@@ -77,7 +76,7 @@ export const ActivityCatalog: React.FC<ActivityCatalogProps> = ({
                         },
                     }}
                 >
-                    {categories.map((category, index) => (
+                    {categories.map(category => (
                         <Tab
                             key={category}
                             label={

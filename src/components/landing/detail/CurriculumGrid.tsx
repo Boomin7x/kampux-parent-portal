@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type RefObject } from 'react';
 import { Box, Typography, Card } from '@mui/material';
 import { Grid } from '@mui/material';
 import { useIntersectionObserver } from '../../../hooks/ui/useIntersectionObserver';
@@ -22,7 +22,11 @@ export const CurriculumGrid: React.FC<CurriculumGridProps> = ({ subjects }) => {
     });
 
     return (
-        <Grid ref={targetRef} container spacing={2}>
+        <Grid
+            ref={targetRef as RefObject<HTMLDivElement>}
+            container
+            spacing={2}
+        >
             {subjects.map((subject, index) => (
                 <Grid size={{ xs: 12, sm: 6, md: 4 }} key={subject.id}>
                     <Card

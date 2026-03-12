@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type RefObject } from 'react';
 import { Box, Typography, Card, Chip, Button } from '@mui/material';
 import { Group as GroupIcon } from '@mui/icons-material';
 import { useIntersectionObserver } from '../../../hooks/ui/useIntersectionObserver';
@@ -27,7 +27,7 @@ export const ClubCard: React.FC<ClubCardProps> = ({ activity, index = 0 }) => {
 
     return (
         <Card
-            ref={targetRef}
+            ref={targetRef as RefObject<HTMLDivElement>}
             sx={{
                 p: 2,
                 height: '100%',
@@ -49,7 +49,14 @@ export const ClubCard: React.FC<ClubCardProps> = ({ activity, index = 0 }) => {
                 },
             }}
         >
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2, mb: 2 }}>
+            <Box
+                sx={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: 2,
+                    mb: 2,
+                }}
+            >
                 <Box
                     sx={{
                         width: 40,
@@ -85,7 +92,9 @@ export const ClubCard: React.FC<ClubCardProps> = ({ activity, index = 0 }) => {
                         sx={{
                             height: 20,
                             fontSize: '0.75rem',
-                            backgroundColor: getCategoryColor(activity.category),
+                            backgroundColor: getCategoryColor(
+                                activity.category
+                            ),
                             color: '#ffffff',
                             fontWeight: 600,
                         }}
@@ -112,7 +121,14 @@ export const ClubCard: React.FC<ClubCardProps> = ({ activity, index = 0 }) => {
                     borderColor: 'divider',
                 }}
             >
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mb: 2 }}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 1,
+                        mb: 2,
+                    }}
+                >
                     <Typography
                         variant="caption"
                         sx={{
@@ -122,8 +138,12 @@ export const ClubCard: React.FC<ClubCardProps> = ({ activity, index = 0 }) => {
                     >
                         <strong>Schedule:</strong> {activity.meetingSchedule}
                     </Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                        <GroupIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
+                    <Box
+                        sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
+                    >
+                        <GroupIcon
+                            sx={{ fontSize: 16, color: 'text.secondary' }}
+                        />
                         <Typography
                             variant="caption"
                             sx={{

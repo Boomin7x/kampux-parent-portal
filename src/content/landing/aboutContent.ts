@@ -7,10 +7,9 @@ import type { AboutContent } from '../../pages/Landing/_models/AboutContent.type
 
 export const aboutContent: AboutContent = {
     mission:
-        "At Kampux Academy, we are dedicated to nurturing curious, confident, and compassionate learners who are prepared to thrive in an ever-changing world. Through innovative teaching methods, personalized learning experiences, and a supportive community, we empower students to discover their unique strengths and passions. Our mission is to cultivate critical thinkers, creative problem-solvers, and responsible global citizens who will make meaningful contributions to society. We believe that every student deserves an education that honors their individuality while preparing them for academic excellence and lifelong success. By fostering a culture of respect, integrity, and collaboration, we create an environment where students can explore, grow, and achieve their fullest potential.",
+        'At Kampux Academy, we are dedicated to nurturing curious, confident, and compassionate learners who are prepared to thrive in an ever-changing world. Through innovative teaching methods, personalized learning experiences, and a supportive community, we empower students to discover their unique strengths and passions. Our mission is to cultivate critical thinkers, creative problem-solvers, and responsible global citizens who will make meaningful contributions to society. We believe that every student deserves an education that honors their individuality while preparing them for academic excellence and lifelong success. By fostering a culture of respect, integrity, and collaboration, we create an environment where students can explore, grow, and achieve their fullest potential.',
 
-    vision:
-        "Our vision is to be the leading educational institution recognized for transforming lives through excellence in teaching, character development, and innovation. We aspire to create a learning community where every student is inspired to pursue their dreams with confidence and purpose. By embracing cutting-edge educational practices and maintaining our commitment to holistic development, we aim to prepare students who will become the leaders, innovators, and changemakers of tomorrow. We envision a future where our graduates make lasting positive impacts in their communities and the world at large.",
+    vision: 'Our vision is to be the leading educational institution recognized for transforming lives through excellence in teaching, character development, and innovation. We aspire to create a learning community where every student is inspired to pursue their dreams with confidence and purpose. By embracing cutting-edge educational practices and maintaining our commitment to holistic development, we aim to prepare students who will become the leaders, innovators, and changemakers of tomorrow. We envision a future where our graduates make lasting positive impacts in their communities and the world at large.',
 
     coreValues: [
         {
@@ -89,7 +88,7 @@ export const aboutContent: AboutContent = {
             id: 'academic-director',
             name: 'Dr. James Richardson',
             role: 'Academic Director',
-            bio: "Dr. James Richardson oversees all academic programs at Kampux Academy, ensuring rigorous curriculum standards and innovative teaching methodologies. With a Ph.D. in Educational Psychology from Harvard and 20 years of experience in curriculum design, he has pioneered project-based learning initiatives that engage students in real-world problem-solving. Dr. Richardson previously served as Dean of Academics at a prestigious independent school, where he led the development of interdisciplinary programs that integrated technology across all subject areas. His research on student engagement and differentiated instruction has been published in leading educational journals.",
+            bio: 'Dr. James Richardson oversees all academic programs at Kampux Academy, ensuring rigorous curriculum standards and innovative teaching methodologies. With a Ph.D. in Educational Psychology from Harvard and 20 years of experience in curriculum design, he has pioneered project-based learning initiatives that engage students in real-world problem-solving. Dr. Richardson previously served as Dean of Academics at a prestigious independent school, where he led the development of interdisciplinary programs that integrated technology across all subject areas. His research on student engagement and differentiated instruction has been published in leading educational journals.',
             photoUrl: '/images/leadership/james-richardson.jpg',
             email: 'j.richardson@kampux.edu',
             qualifications: [
@@ -180,8 +179,7 @@ export const aboutContent: AboutContent = {
         {
             year: '2015',
             title: 'Global Partnerships Initiative',
-            description:
-                'Kampux established exchange programs with schools in six countries, providing students with opportunities for international collaboration and cultural immersion. These partnerships enriched our curriculum and broadened our students' global perspectives.',
+            description: `Kampux established exchange programs with schools in six countries, providing students with opportunities for international collaboration and cultural immersion. These partnerships enriched our curriculum and broadened our students' global perspectives.`,
         },
         {
             year: '2020',
@@ -202,7 +200,8 @@ export const aboutContent: AboutContent = {
             id: 'college-acceptance',
             label: 'College Acceptance',
             value: '100%',
-            description: '4-year college acceptance rate for 15 consecutive years',
+            description:
+                '4-year college acceptance rate for 15 consecutive years',
             icon: 'School',
         },
         {
@@ -237,7 +236,8 @@ export const aboutContent: AboutContent = {
             id: 'satisfaction',
             label: 'Parent Satisfaction',
             value: '98%',
-            description: 'Parents rate their experience as excellent or outstanding',
+            description:
+                'Parents rate their experience as excellent or outstanding',
             icon: 'ThumbUp',
         },
     ],

@@ -7,7 +7,7 @@ import type { FacultyContent } from '../../pages/Landing/_models/FacultyContent.
 
 export const facultyContent: FacultyContent = {
     overview:
-        "At Kampux Academy, our exceptional faculty members are the heart of our educational mission. Comprising passionate educators, dedicated mentors, and accomplished scholars, our teaching staff brings diverse expertise and unwavering commitment to student success. Each faculty member is carefully selected not only for their academic credentials and subject matter expertise, but also for their ability to inspire curiosity, foster critical thinking, and build meaningful relationships with students. With an average of 14 years of teaching experience and over 75% holding advanced degrees in their fields, our faculty represents the pinnacle of educational excellence. They continuously engage in professional development, collaborate across disciplines, and innovate their teaching practices to ensure every student receives a world-class education.",
+        'At Kampux Academy, our exceptional faculty members are the heart of our educational mission. Comprising passionate educators, dedicated mentors, and accomplished scholars, our teaching staff brings diverse expertise and unwavering commitment to student success. Each faculty member is carefully selected not only for their academic credentials and subject matter expertise, but also for their ability to inspire curiosity, foster critical thinking, and build meaningful relationships with students. With an average of 14 years of teaching experience and over 75% holding advanced degrees in their fields, our faculty represents the pinnacle of educational excellence. They continuously engage in professional development, collaborate across disciplines, and innovate their teaching practices to ensure every student receives a world-class education.',
 
     stats: {
         totalFaculty: 82,
@@ -88,7 +88,7 @@ export const facultyContent: FacultyContent = {
             name: 'Dr. Sarah Williams',
             title: 'Chair, Humanities Department',
             department: 'Humanities & English',
-            bio: "Dr. Sarah Williams has been inspiring students to love literature for over 20 years. With a Ph.D. in English Literature from Yale University, she specializes in American literature and creative writing. Dr. Williams has published two books of poetry and numerous scholarly articles on 20th-century American authors. She believes that studying literature helps students understand themselves and the world around them. Her AP English Literature students consistently achieve scores of 4 or 5, and many have gone on to pursue degrees in English and journalism at prestigious universities.",
+            bio: 'Dr. Sarah Williams has been inspiring students to love literature for over 20 years. With a Ph.D. in English Literature from Yale University, she specializes in American literature and creative writing. Dr. Williams has published two books of poetry and numerous scholarly articles on 20th-century American authors. She believes that studying literature helps students understand themselves and the world around them. Her AP English Literature students consistently achieve scores of 4 or 5, and many have gone on to pursue degrees in English and journalism at prestigious universities.',
             photoUrl: '/images/faculty/sarah-williams.jpg',
             email: 's.williams@kampux.edu',
             qualifications: [
@@ -97,14 +97,18 @@ export const facultyContent: FacultyContent = {
                 'Published author and poet',
             ],
             yearsOfExperience: 20,
-            specializations: ['American Literature', 'Creative Writing', 'AP English Literature'],
+            specializations: [
+                'American Literature',
+                'Creative Writing',
+                'AP English Literature',
+            ],
         },
         {
             id: 'michael-zhang',
             name: 'Dr. Michael Zhang',
             title: 'Chair, Mathematics Department',
             department: 'Mathematics',
-            bio: "Dr. Michael Zhang brings enthusiasm and clarity to complex mathematical concepts. After earning his Ph.D. in Mathematics from MIT, he worked as a research mathematician before discovering his passion for teaching. Dr. Zhang has developed innovative approaches to teaching calculus and statistics, making abstract concepts accessible through real-world applications. He coaches the Math Olympiad team, which has won multiple state championships under his guidance. His students appreciate his patience, humor, and ability to explain difficult concepts in multiple ways until understanding clicks.",
+            bio: 'Dr. Michael Zhang brings enthusiasm and clarity to complex mathematical concepts. After earning his Ph.D. in Mathematics from MIT, he worked as a research mathematician before discovering his passion for teaching. Dr. Zhang has developed innovative approaches to teaching calculus and statistics, making abstract concepts accessible through real-world applications. He coaches the Math Olympiad team, which has won multiple state championships under his guidance. His students appreciate his patience, humor, and ability to explain difficult concepts in multiple ways until understanding clicks.',
             photoUrl: '/images/faculty/michael-zhang.jpg',
             email: 'm.zhang@kampux.edu',
             qualifications: [
@@ -113,14 +117,18 @@ export const facultyContent: FacultyContent = {
                 'Published researcher in mathematical modeling',
             ],
             yearsOfExperience: 16,
-            specializations: ['Calculus', 'Statistics', 'Mathematical Competition Coaching'],
+            specializations: [
+                'Calculus',
+                'Statistics',
+                'Mathematical Competition Coaching',
+            ],
         },
         {
             id: 'jennifer-martinez',
             name: 'Dr. Jennifer Martinez',
             title: 'Chair, Science Department',
             department: 'Science',
-            bio: "Dr. Jennifer Martinez is a passionate advocate for hands-on science education. With a doctorate in Biology from UC Berkeley and years of field research experience, she brings authentic scientific inquiry into her classroom. Dr. Martinez has led student research projects that have been presented at national science conferences, and several of her students have won prestigious science competition awards. She believes that every student can be a scientist and works tirelessly to make science accessible, engaging, and relevant. Her ecology elective includes field trips to local ecosystems where students conduct original research.",
+            bio: 'Dr. Jennifer Martinez is a passionate advocate for hands-on science education. With a doctorate in Biology from UC Berkeley and years of field research experience, she brings authentic scientific inquiry into her classroom. Dr. Martinez has led student research projects that have been presented at national science conferences, and several of her students have won prestigious science competition awards. She believes that every student can be a scientist and works tirelessly to make science accessible, engaging, and relevant. Her ecology elective includes field trips to local ecosystems where students conduct original research.',
             photoUrl: '/images/faculty/jennifer-martinez.jpg',
             email: 'j.martinez@kampux.edu',
             qualifications: [
@@ -129,7 +137,11 @@ export const facultyContent: FacultyContent = {
                 'Published researcher in ecology and conservation',
             ],
             yearsOfExperience: 18,
-            specializations: ['AP Biology', 'Ecology', 'Student Research Mentorship'],
+            specializations: [
+                'AP Biology',
+                'Ecology',
+                'Student Research Mentorship',
+            ],
         },
         {
             id: 'robert-thompson',
@@ -145,7 +157,11 @@ export const facultyContent: FacultyContent = {
                 'Gilder Lehrman Institute Master Teacher',
             ],
             yearsOfExperience: 22,
-            specializations: ['US History', 'Civics Education', 'Model UN Coaching'],
+            specializations: [
+                'US History',
+                'Civics Education',
+                'Model UN Coaching',
+            ],
         },
         {
             id: 'carmen-rodriguez',
@@ -161,14 +177,18 @@ export const facultyContent: FacultyContent = {
                 'ACTFL Certified Language Tester',
             ],
             yearsOfExperience: 15,
-            specializations: ['AP Spanish Language', 'Spanish Literature', 'Cultural Studies'],
+            specializations: [
+                'AP Spanish Language',
+                'Spanish Literature',
+                'Cultural Studies',
+            ],
         },
         {
             id: 'rachel-cohen',
             name: 'Ms. Rachel Cohen',
             title: 'Chair, Visual & Performing Arts Department',
             department: 'Visual & Performing Arts',
-            bio: "Rachel Cohen is an accomplished artist and arts educator who believes in the transformative power of creative expression. After receiving her MFA in Studio Art from RISD, she exhibited her work in galleries across the country before dedicating herself to teaching. Ms. Cohen has built our arts program into one of the most respected in the region, with student artwork regularly selected for regional and national exhibitions. She teaches everything from foundational drawing to advanced portfolio development for college-bound art students. Under her leadership, our annual art show has become a major community event celebrating student creativity.",
+            bio: 'Rachel Cohen is an accomplished artist and arts educator who believes in the transformative power of creative expression. After receiving her MFA in Studio Art from RISD, she exhibited her work in galleries across the country before dedicating herself to teaching. Ms. Cohen has built our arts program into one of the most respected in the region, with student artwork regularly selected for regional and national exhibitions. She teaches everything from foundational drawing to advanced portfolio development for college-bound art students. Under her leadership, our annual art show has become a major community event celebrating student creativity.',
             photoUrl: '/images/faculty/rachel-cohen.jpg',
             email: 'r.cohen@kampux.edu',
             qualifications: [
@@ -177,14 +197,18 @@ export const facultyContent: FacultyContent = {
                 'Exhibiting artist with national recognition',
             ],
             yearsOfExperience: 13,
-            specializations: ['Drawing & Painting', 'AP Studio Art', 'Portfolio Development'],
+            specializations: [
+                'Drawing & Painting',
+                'AP Studio Art',
+                'Portfolio Development',
+            ],
         },
         {
             id: 'kevin-park',
             name: 'Mr. Kevin Park',
             title: 'Chair, Technology & Engineering Department',
             department: 'Technology & Engineering',
-            bio: "Kevin Park bridges the worlds of industry and education, bringing real-world technology experience into the classroom. After working as a software engineer at major tech companies, he transitioned to teaching to share his passion for computer science with the next generation. Mr. Park teaches everything from introductory programming to advanced data structures, and his students have created impressive apps, websites, and coding projects. He coaches our award-winning robotics team and has established partnerships with local tech companies that provide internship opportunities for students. His teaching emphasizes not just coding skills, but also computational thinking and ethical technology use.",
+            bio: 'Kevin Park bridges the worlds of industry and education, bringing real-world technology experience into the classroom. After working as a software engineer at major tech companies, he transitioned to teaching to share his passion for computer science with the next generation. Mr. Park teaches everything from introductory programming to advanced data structures, and his students have created impressive apps, websites, and coding projects. He coaches our award-winning robotics team and has established partnerships with local tech companies that provide internship opportunities for students. His teaching emphasizes not just coding skills, but also computational thinking and ethical technology use.',
             photoUrl: '/images/faculty/kevin-park.jpg',
             email: 'k.park@kampux.edu',
             qualifications: [
@@ -193,7 +217,11 @@ export const facultyContent: FacultyContent = {
                 'Former software engineer at Google and Microsoft',
             ],
             yearsOfExperience: 11,
-            specializations: ['AP Computer Science', 'Robotics', 'Software Development'],
+            specializations: [
+                'AP Computer Science',
+                'Robotics',
+                'Software Development',
+            ],
         },
         {
             id: 'amanda-johnson',
@@ -241,7 +269,11 @@ export const facultyContent: FacultyContent = {
                 'Published author of short fiction',
             ],
             yearsOfExperience: 14,
-            specializations: ['Creative Writing', 'Composition', 'Literary Magazine Advising'],
+            specializations: [
+                'Creative Writing',
+                'Composition',
+                'Literary Magazine Advising',
+            ],
         },
         {
             id: 'james-wilson',
@@ -257,7 +289,11 @@ export const facultyContent: FacultyContent = {
                 'Former policy analyst for international NGO',
             ],
             yearsOfExperience: 10,
-            specializations: ['World History', 'AP Government', 'Current Events'],
+            specializations: [
+                'World History',
+                'AP Government',
+                'Current Events',
+            ],
         },
         {
             id: 'maria-garcia',
@@ -273,7 +309,11 @@ export const facultyContent: FacultyContent = {
                 'HSK Level 6 Certification (Native Proficiency)',
             ],
             yearsOfExperience: 12,
-            specializations: ['AP Mandarin', 'Chinese Culture', 'Study Abroad Programs'],
+            specializations: [
+                'AP Mandarin',
+                'Chinese Culture',
+                'Study Abroad Programs',
+            ],
         },
         {
             id: 'thomas-anderson',
@@ -289,14 +329,18 @@ export const facultyContent: FacultyContent = {
                 'Professional saxophonist with orchestral experience',
             ],
             yearsOfExperience: 15,
-            specializations: ['Band Direction', 'AP Music Theory', 'Jazz Studies'],
+            specializations: [
+                'Band Direction',
+                'AP Music Theory',
+                'Jazz Studies',
+            ],
         },
         {
             id: 'emily-nguyen',
             name: 'Dr. Emily Nguyen',
             title: 'Biology & Environmental Science Teacher',
             department: 'Science',
-            bio: "Dr. Emily Nguyen combines rigorous science education with environmental advocacy. After earning her Ph.D. in Environmental Biology, she worked in conservation before transitioning to teaching to inspire the next generation of environmental stewards. Dr. Nguyen takes students on field expeditions to study local ecosystems and leads service projects focused on sustainability and conservation. Her AP Biology students achieve exceptional exam results, and her environmental science elective addresses pressing ecological challenges through hands-on projects. She advises the Environmental Club and has helped Kampux achieve recognition as a Green School.",
+            bio: 'Dr. Emily Nguyen combines rigorous science education with environmental advocacy. After earning her Ph.D. in Environmental Biology, she worked in conservation before transitioning to teaching to inspire the next generation of environmental stewards. Dr. Nguyen takes students on field expeditions to study local ecosystems and leads service projects focused on sustainability and conservation. Her AP Biology students achieve exceptional exam results, and her environmental science elective addresses pressing ecological challenges through hands-on projects. She advises the Environmental Club and has helped Kampux achieve recognition as a Green School.',
             photoUrl: '/images/faculty/emily-nguyen.jpg',
             email: 'e.nguyen@kampux.edu',
             qualifications: [
@@ -305,7 +349,11 @@ export const facultyContent: FacultyContent = {
                 'Certified Project Wild Educator',
             ],
             yearsOfExperience: 9,
-            specializations: ['AP Biology', 'Environmental Science', 'Field Research'],
+            specializations: [
+                'AP Biology',
+                'Environmental Science',
+                'Field Research',
+            ],
         },
         {
             id: 'christopher-lee',
@@ -352,6 +400,5 @@ export const facultyContent: FacultyContent = {
         },
     ],
 
-    recruitmentInfo:
-        'Kampux Academy seeks passionate, innovative educators who are committed to excellence and student success. We offer competitive salaries, comprehensive benefits, and a supportive professional environment. Faculty positions typically require a minimum of a bachelor's degree in the subject area (master's or doctorate preferred), teaching credentials, and demonstrated commitment to progressive education. Interested candidates should submit their CV, cover letter, and teaching philosophy to careers@kampux.edu.',
+    recruitmentInfo: `Kampux Academy seeks passionate, innovative educators who are committed to excellence and student success. We offer competitive salaries, comprehensive benefits, and a supportive professional environment. Faculty positions typically require a minimum of a bachelor's degree in the subject area (master's or doctorate preferred), teaching credentials, and demonstrated commitment to progressive education. Interested candidates should submit their CV, cover letter, and teaching philosophy to careers@kampux.edu.`,
 };

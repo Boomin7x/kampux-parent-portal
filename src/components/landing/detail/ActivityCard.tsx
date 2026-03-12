@@ -1,12 +1,5 @@
-import React from 'react';
-import {
-    Box,
-    Typography,
-    Card,
-    Chip,
-    Button,
-    IconButton,
-} from '@mui/material';
+import React, { type RefObject } from 'react';
+import { Box, Typography, Card, Chip, Button, IconButton } from '@mui/material';
 import {
     ArrowForward as ArrowIcon,
     Schedule as TimeIcon,
@@ -74,10 +67,14 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
 
     const getDifficultyColor = (level?: string) => {
         switch (level) {
-            case 'Beginner': return 'success';
-            case 'Intermediate': return 'warning';
-            case 'Advanced': return 'error';
-            default: return 'default';
+            case 'Beginner':
+                return 'success';
+            case 'Intermediate':
+                return 'warning';
+            case 'Advanced':
+                return 'error';
+            default:
+                return 'default';
         }
     };
 
@@ -86,7 +83,7 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
 
     return (
         <Card
-            ref={targetRef}
+            ref={targetRef as RefObject<HTMLDivElement>}
             className={className}
             sx={{
                 position: 'relative',
@@ -145,7 +142,8 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        background: 'linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%)',
+                        background:
+                            'linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%)',
                         opacity: 0,
                         transition: 'opacity 0.3s ease-in-out',
                     }}
@@ -164,7 +162,13 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
                         zIndex: 2,
                     }}
                 >
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 1,
+                        }}
+                    >
                         <Chip
                             label={category}
                             size="small"
@@ -200,7 +204,9 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
                             size="small"
                             sx={{
                                 backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                                color: isFavorite ? 'error.main' : 'text.secondary',
+                                color: isFavorite
+                                    ? 'error.main'
+                                    : 'text.secondary',
                                 '&:hover': {
                                     backgroundColor: 'rgba(255, 255, 255, 1)',
                                     color: 'error.main',
@@ -341,47 +347,90 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
                 </Typography>
 
                 {/* Activity Info */}
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mb: 2 }}>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 1,
+                        mb: 2,
+                    }}
+                >
                     {schedule && (
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <TimeIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 1,
+                            }}
+                        >
+                            <TimeIcon
+                                sx={{ fontSize: 16, color: 'text.secondary' }}
+                            />
                             <Typography
                                 variant="caption"
-                                sx={{ fontSize: '0.75rem', color: 'text.secondary' }}
+                                sx={{
+                                    fontSize: '0.75rem',
+                                    color: 'text.secondary',
+                                }}
                             >
                                 {schedule}
                             </Typography>
                         </Box>
                     )}
                     {location && (
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <LocationIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 1,
+                            }}
+                        >
+                            <LocationIcon
+                                sx={{ fontSize: 16, color: 'text.secondary' }}
+                            />
                             <Typography
                                 variant="caption"
-                                sx={{ fontSize: '0.75rem', color: 'text.secondary' }}
+                                sx={{
+                                    fontSize: '0.75rem',
+                                    color: 'text.secondary',
+                                }}
                             >
                                 {location}
                             </Typography>
                         </Box>
                     )}
                     {capacity && (
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <GroupIcon sx={{ fontSize: 16, color: 'text.secondary' }} />
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 1,
+                            }}
+                        >
+                            <GroupIcon
+                                sx={{ fontSize: 16, color: 'text.secondary' }}
+                            />
                             <Typography
                                 variant="caption"
                                 sx={{
                                     fontSize: '0.75rem',
-                                    color: isFullyBooked ? 'error.main' : 'text.secondary',
+                                    color: isFullyBooked
+                                        ? 'error.main'
+                                        : 'text.secondary',
                                 }}
                             >
                                 {enrolled}/{capacity} enrolled
                                 {availableSpots && availableSpots > 0 && (
                                     <span style={{ color: '#4caf50' }}>
-                                        {' '}({availableSpots} spots left)
+                                        {' '}
+                                        ({availableSpots} spots left)
                                     </span>
                                 )}
                                 {isFullyBooked && (
-                                    <span style={{ color: '#f44336' }}> (Full)</span>
+                                    <span style={{ color: '#f44336' }}>
+                                        {' '}
+                                        (Full)
+                                    </span>
                                 )}
                             </Typography>
                         </Box>
@@ -425,16 +474,20 @@ export const ActivityCard: React.FC<ActivityCardProps> = ({
                     <Button
                         variant="contained"
                         size="small"
-                        disabled={isFullyBooked}
+                        disabled={isFullyBooked as boolean}
                         endIcon={<ArrowIcon sx={{ fontSize: 14 }} />}
                         onClick={() => onEnroll?.(id)}
                         sx={{
                             fontSize: '0.75rem',
                             textTransform: 'none',
                             flex: 2,
-                            backgroundColor: isFullyBooked ? 'grey.400' : 'primary.main',
+                            backgroundColor: isFullyBooked
+                                ? 'grey.400'
+                                : 'primary.main',
                             '&:hover': {
-                                backgroundColor: isFullyBooked ? 'grey.400' : 'primary.dark',
+                                backgroundColor: isFullyBooked
+                                    ? 'grey.400'
+                                    : 'primary.dark',
                             },
                         }}
                     >

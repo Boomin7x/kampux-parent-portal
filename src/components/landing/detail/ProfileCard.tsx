@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
+import {
+    School as EducationIcon,
+    Email as EmailIcon,
+    ExpandMore as ExpandIcon,
+    LinkedIn as LinkedInIcon,
+    Phone as PhoneIcon,
+    Star as StarIcon,
+} from '@mui/icons-material';
 import {
     Box,
-    Typography,
     Card,
     Chip,
-    Button,
     Collapse,
-    Link,
     IconButton,
+    Link,
+    Typography,
 } from '@mui/material';
-import {
-    Email as EmailIcon,
-    Phone as PhoneIcon,
-    LinkedIn as LinkedInIcon,
-    ExpandMore as ExpandIcon,
-    Star as StarIcon,
-    School as EducationIcon,
-} from '@mui/icons-material';
+import React, { useState, type RefObject } from 'react';
 import { useIntersectionObserver } from '../../../hooks/ui/useIntersectionObserver';
 
 interface ProfileCardProps {
@@ -40,7 +39,6 @@ interface ProfileCardProps {
 }
 
 export const ProfileCard: React.FC<ProfileCardProps> = ({
-    id,
     name,
     title,
     department,
@@ -91,7 +89,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 
     return (
         <Card
-            ref={targetRef}
+            ref={targetRef as RefObject<HTMLDivElement>}
             className={className}
             sx={{
                 position: 'relative',
@@ -121,7 +119,8 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                 sx={{
                     position: 'relative',
                     height: 200,
-                    background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+                    background:
+                        'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -256,21 +255,25 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                         >
                             Specialties
                         </Typography>
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                            {specialties.slice(0, expanded ? specialties.length : 3).map((specialty, idx) => (
-                                <Chip
-                                    key={idx}
-                                    label={specialty}
-                                    size="small"
-                                    variant="outlined"
-                                    sx={{
-                                        fontSize: '0.75rem',
-                                        height: 24,
-                                        borderColor: 'divider',
-                                        color: 'text.secondary',
-                                    }}
-                                />
-                            ))}
+                        <Box
+                            sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}
+                        >
+                            {specialties
+                                .slice(0, expanded ? specialties.length : 3)
+                                .map((specialty, idx) => (
+                                    <Chip
+                                        key={idx}
+                                        label={specialty}
+                                        size="small"
+                                        variant="outlined"
+                                        sx={{
+                                            fontSize: '0.75rem',
+                                            height: 24,
+                                            borderColor: 'divider',
+                                            color: 'text.secondary',
+                                        }}
+                                    />
+                                ))}
                         </Box>
                     </Box>
                 )}
@@ -295,7 +298,13 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                                     <EducationIcon sx={{ fontSize: 16 }} />
                                     Education & Qualifications
                                 </Typography>
-                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: 0.5,
+                                    }}
+                                >
                                     {qualifications.map((qual, idx) => (
                                         <Typography
                                             key={idx}
@@ -329,7 +338,13 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                                 >
                                     Recent Achievements
                                 </Typography>
-                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: 0.5,
+                                    }}
+                                >
                                     {achievements.map((achievement, idx) => (
                                         <Typography
                                             key={idx}
@@ -409,13 +424,18 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                     )}
 
                     {/* Expand Button */}
-                    {(bio.length > 150 || qualifications.length > 0 || achievements.length > 0 || specialties.length > 3) && (
+                    {(bio.length > 150 ||
+                        qualifications.length > 0 ||
+                        achievements.length > 0 ||
+                        specialties.length > 3) && (
                         <IconButton
                             onClick={() => setExpanded(!expanded)}
                             size="small"
                             sx={{
                                 color: 'text.secondary',
-                                transform: expanded ? 'rotate(180deg)' : 'rotate(0)',
+                                transform: expanded
+                                    ? 'rotate(180deg)'
+                                    : 'rotate(0)',
                                 transition: 'transform 0.2s ease-in-out',
                                 '&:hover': { color: 'primary.main' },
                             }}

@@ -1,15 +1,12 @@
-import { Box } from '@mui/material';
 import React from 'react';
 import { HeroSection } from '../../components/landing/HeroSection';
-import { Navigation } from '../../components/landing/Navigation';
-import { Footer } from '../../components/landing/Footer';
 import { AboutPreview } from '../../components/landing/preview/AboutPreview';
 import { AcademicPreview } from '../../components/landing/preview/AcademicPreview';
-import { FacultyPreview } from '../../components/landing/preview/FacultyPreview';
-import { StudentLifePreview } from '../../components/landing/preview/StudentLifePreview';
-import { FacilitiesPreview } from '../../components/landing/preview/FacilitiesPreview';
-import { GalleryPreview } from '../../components/landing/preview/GalleryPreview';
 import { ContactPreview } from '../../components/landing/preview/ContactPreview';
+import { FacilitiesPreview } from '../../components/landing/preview/FacilitiesPreview';
+import { FacultyPreview } from '../../components/landing/preview/FacultyPreview';
+import { GalleryPreview } from '../../components/landing/preview/GalleryPreview';
+import { StudentLifePreview } from '../../components/landing/preview/StudentLifePreview';
 
 /**
  * LandingPage Component

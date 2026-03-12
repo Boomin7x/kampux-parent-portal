@@ -1,6 +1,10 @@
 import React, { useState, useCallback } from 'react';
 import { Box, Grid, Modal, IconButton, Typography } from '@mui/material';
-import { Close as CloseIcon, ChevronLeft, ChevronRight } from '@mui/icons-material';
+import {
+    Close as CloseIcon,
+    ChevronLeft,
+    ChevronRight,
+} from '@mui/icons-material';
 import { ResponsiveImage } from './ResponsiveImage';
 import { useIntersectionObserver } from '../../../hooks/ui/useIntersectionObserver';
 
@@ -93,43 +97,49 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
     });
 
     // Handle image click for modal view
-    const handleImageClick = useCallback((index: number) => {
-        if (enableModal) {
-            setSelectedImageIndex(index);
-            setModalOpen(true);
-        }
-    }, [enableModal]);
+    const handleImageClick = useCallback(
+        (index: number) => {
+            if (enableModal) {
+                setSelectedImageIndex(index);
+                setModalOpen(true);
+            }
+        },
+        [enableModal]
+    );
 
     // Navigate to previous image in modal
     const handlePrevImage = useCallback(() => {
-        setSelectedImageIndex((prev) =>
+        setSelectedImageIndex(prev =>
             prev === 0 ? images.length - 1 : prev - 1
         );
     }, [images.length]);
 
     // Navigate to next image in modal
     const handleNextImage = useCallback(() => {
-        setSelectedImageIndex((prev) =>
+        setSelectedImageIndex(prev =>
             prev === images.length - 1 ? 0 : prev + 1
         );
     }, [images.length]);
 
     // Handle keyboard navigation in modal
-    const handleKeyDown = useCallback((event: React.KeyboardEvent) => {
-        if (!modalOpen) return;
+    const handleKeyDown = useCallback(
+        (event: React.KeyboardEvent) => {
+            if (!modalOpen) return;
 
-        switch (event.key) {
-            case 'Escape':
-                setModalOpen(false);
-                break;
-            case 'ArrowLeft':
-                handlePrevImage();
-                break;
-            case 'ArrowRight':
-                handleNextImage();
-                break;
-        }
-    }, [modalOpen, handlePrevImage, handleNextImage]);
+            switch (event.key) {
+                case 'Escape':
+                    setModalOpen(false);
+                    break;
+                case 'ArrowLeft':
+                    handlePrevImage();
+                    break;
+                case 'ArrowRight':
+                    handleNextImage();
+                    break;
+            }
+        },
+        [modalOpen, handlePrevImage, handleNextImage]
+    );
 
     const selectedImage = images[selectedImageIndex];
 
@@ -139,7 +149,9 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
             className={className}
             sx={{
                 opacity: isIntersecting ? 1 : 0,
-                transform: isIntersecting ? 'translateY(0)' : 'translateY(30px)',
+                transform: isIntersecting
+                    ? 'translateY(0)'
+                    : 'translateY(30px)',
                 transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
             }}
             onKeyDown={handleKeyDown}
@@ -154,7 +166,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                             sx={{
                                 fontWeight: 600,
                                 mb: 1,
-                                background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                background:
+                                    'linear-gradient(135deg, #6366f1, #8b5cf6)',
                                 backgroundClip: 'text',
                                 WebkitBackgroundClip: 'text',
                                 WebkitTextFillColor: 'transparent',
@@ -186,10 +199,12 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                             onClick={() => handleImageClick(index)}
                             sx={{
                                 cursor: enableModal ? 'pointer' : 'default',
-                                transition: 'transform 0.3s ease',
-                                '&:hover': enableModal ? {
-                                    transform: 'scale(1.02)',
-                                } : {},
+                                // transition: 'transform 0.3s ease',
+                                '&:hover': enableModal
+                                    ? {
+                                          transform: 'scale(1.02)',
+                                      }
+                                    : {},
                                 opacity: isIntersecting ? 1 : 0,
                                 transform: isIntersecting
                                     ? 'translateY(0)'
@@ -276,7 +291,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                         backgroundColor: 'rgba(0, 0, 0, 0.5)',
                                         color: 'white',
                                         '&:hover': {
-                                            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                                            backgroundColor:
+                                                'rgba(0, 0, 0, 0.7)',
                                         },
                                     }}
                                 >
@@ -293,7 +309,8 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({
                                         backgroundColor: 'rgba(0, 0, 0, 0.5)',
                                         color: 'white',
                                         '&:hover': {
-                                            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                                            backgroundColor:
+                                                'rgba(0, 0, 0, 0.7)',
                                         },
                                     }}
                                 >

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type RefObject } from 'react';
 import { Box, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useIntersectionObserver } from '../../../hooks/ui/useIntersectionObserver';
@@ -21,7 +21,11 @@ export const AcademicStats: React.FC<AcademicStatsProps> = ({ stats }) => {
     });
 
     return (
-        <Grid container spacing={2} ref={targetRef}>
+        <Grid
+            container
+            spacing={2}
+            ref={targetRef as RefObject<HTMLDivElement>}
+        >
             {stats.map((stat, index) => (
                 <Grid
                     size={{ xs: 12, sm: 6, md: stats.length > 4 ? 2.4 : 3 }}

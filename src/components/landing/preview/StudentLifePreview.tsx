@@ -1,10 +1,10 @@
+import * as MuiIcons from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-import * as MuiIcons from '@mui/icons-material';
 import { studentLifePreviewContent } from '../../../content/landing/studentLifePreviewContent';
-import { PreviewCard, SectionContentGrid, SectionPreview } from '../SectionPreview';
 import { useIntersectionObserver } from '../../../hooks/ui/useIntersectionObserver';
+import { SectionPreview } from '../SectionPreview';
 
 /**
  * StudentLifePreview Component
@@ -46,42 +46,57 @@ export const StudentLifePreview: React.FC = () => {
                                 transform: isIntersecting
                                     ? 'translateX(0)'
                                     : 'translateX(-30px)',
-                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+                                transition:
+                                    'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
                             }}
                         >
                             {/* Featured Activities - Compact Grid */}
                             <Grid container spacing={2}>
                                 {featuredActivities.map((activity, index) => {
                                     const IconComponent =
-                                        MuiIcons[activity.icon as keyof typeof MuiIcons];
+                                        MuiIcons[
+                                            activity.icon as keyof typeof MuiIcons
+                                        ];
 
                                     return (
-                                        <Grid size={{ xs: 12, sm: 6 }} key={activity.id}>
+                                        <Grid
+                                            size={{ xs: 12, sm: 6 }}
+                                            key={activity.id}
+                                        >
                                             <Box
                                                 sx={{
                                                     p: 2,
                                                     borderRadius: 1,
                                                     border: '1px solid',
                                                     borderColor: 'divider',
-                                                    backgroundColor: 'background.paper',
+                                                    backgroundColor:
+                                                        'background.paper',
                                                     height: '100%',
-                                                    opacity: isIntersecting ? 1 : 0,
+                                                    opacity: isIntersecting
+                                                        ? 1
+                                                        : 0,
                                                     transform: isIntersecting
                                                         ? 'translateY(0)'
                                                         : 'translateY(20px)',
-                                                    transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+                                                    transition:
+                                                        'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
                                                     transitionDelay: `${0.1 + index * 0.1}s`,
                                                     '&:hover': {
-                                                        borderColor: activity.color,
-                                                        backgroundColor: activity.color + '08',
-                                                        transform: 'translateY(-2px)',
+                                                        borderColor:
+                                                            activity.color,
+                                                        backgroundColor:
+                                                            activity.color +
+                                                            '08',
+                                                        transform:
+                                                            'translateY(-2px)',
                                                     },
                                                 }}
                                             >
                                                 <Box
                                                     sx={{
                                                         display: 'flex',
-                                                        alignItems: 'flex-start',
+                                                        alignItems:
+                                                            'flex-start',
                                                         gap: 1.5,
                                                         mb: 1,
                                                     }}
@@ -93,10 +108,14 @@ export const StudentLifePreview: React.FC = () => {
                                                                 width: 32,
                                                                 height: 32,
                                                                 borderRadius: 1,
-                                                                backgroundColor: activity.color + '15',
+                                                                backgroundColor:
+                                                                    activity.color +
+                                                                    '15',
                                                                 display: 'flex',
-                                                                alignItems: 'center',
-                                                                justifyContent: 'center',
+                                                                alignItems:
+                                                                    'center',
+                                                                justifyContent:
+                                                                    'center',
                                                                 flexShrink: 0,
                                                             }}
                                                         >
@@ -110,7 +129,12 @@ export const StudentLifePreview: React.FC = () => {
                                                     )}
 
                                                     {/* Header */}
-                                                    <Box sx={{ flex: 1, minWidth: 0 }}>
+                                                    <Box
+                                                        sx={{
+                                                            flex: 1,
+                                                            minWidth: 0,
+                                                        }}
+                                                    >
                                                         <Typography
                                                             variant="subtitle2"
                                                             sx={{
@@ -129,7 +153,9 @@ export const StudentLifePreview: React.FC = () => {
                                                                 fontWeight: 500,
                                                             }}
                                                         >
-                                                            {activity.participants}
+                                                            {
+                                                                activity.participants
+                                                            }
                                                         </Typography>
                                                     </Box>
                                                 </Box>
@@ -164,7 +190,8 @@ export const StudentLifePreview: React.FC = () => {
                                 transform: isIntersecting
                                     ? 'translateX(0)'
                                     : 'translateX(30px)',
-                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+                                transition:
+                                    'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
                                 transitionDelay: '0.2s',
                             }}
                         >
@@ -213,9 +240,12 @@ export const StudentLifePreview: React.FC = () => {
                     mt: 4,
                     p: 2,
                     borderRadius: 1,
-                    background: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
+                    background:
+                        'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
                     opacity: isIntersecting ? 1 : 0,
-                    transform: isIntersecting ? 'translateY(0)' : 'translateY(30px)',
+                    transform: isIntersecting
+                        ? 'translateY(0)'
+                        : 'translateY(30px)',
                     transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
                     transitionDelay: '0.6s',
                 }}

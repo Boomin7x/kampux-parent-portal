@@ -49,7 +49,7 @@ export const ImageHero: React.FC<ImageHeroProps> = ({
                 // Background image
                 backgroundImage: `url(${backgroundImage})`,
                 backgroundSize: 'cover',
-                backgroundPosition: 'center',
+                // backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
                 // Responsive background positioning
                 backgroundPosition: {
@@ -96,9 +96,10 @@ export const ImageHero: React.FC<ImageHeroProps> = ({
                         <Chip
                             label={badge}
                             sx={{
-                                backgroundColor: badgeColor === 'primary'
-                                    ? 'primary.main'
-                                    : 'secondary.main',
+                                backgroundColor:
+                                    badgeColor === 'primary'
+                                        ? 'primary.main'
+                                        : 'secondary.main',
                                 color: '#ffffff',
                                 fontWeight: 600,
                                 fontSize: '0.8125rem',
@@ -107,7 +108,8 @@ export const ImageHero: React.FC<ImageHeroProps> = ({
                                 transform: isIntersecting
                                     ? 'translateY(0)'
                                     : 'translateY(20px)',
-                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+                                transition:
+                                    'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
                                 transitionDelay: '0.1s',
                             }}
                         />
@@ -138,16 +140,21 @@ export const ImageHero: React.FC<ImageHeroProps> = ({
                             variant="h2"
                             component="h2"
                             sx={{
-                                fontSize: { xs: '1.25rem', sm: '1.5rem', md: '1.75rem' },
+                                fontSize: {
+                                    xs: '1.25rem',
+                                    sm: '1.5rem',
+                                    md: '1.75rem',
+                                },
                                 fontWeight: 400,
                                 mb: 2,
-                                opacity: 0.9,
+                                // opacity: 0.9,
                                 textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
                                 opacity: isIntersecting ? 0.9 : 0,
                                 transform: isIntersecting
                                     ? 'translateY(0)'
                                     : 'translateY(30px)',
-                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+                                transition:
+                                    'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
                                 transitionDelay: '0.4s',
                             }}
                         >
@@ -163,13 +170,14 @@ export const ImageHero: React.FC<ImageHeroProps> = ({
                                 lineHeight: 1.6,
                                 maxWidth: '600px',
                                 mx: textAlign === 'center' ? 'auto' : 0,
-                                opacity: 0.85,
+                                // opacity: 0.85,
                                 textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
                                 opacity: isIntersecting ? 0.85 : 0,
                                 transform: isIntersecting
                                     ? 'translateY(0)'
                                     : 'translateY(20px)',
-                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+                                transition:
+                                    'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
                                 transitionDelay: '0.5s',
                             }}
                         >
