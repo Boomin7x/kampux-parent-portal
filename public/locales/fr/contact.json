@@ -1,0 +1,46 @@
+{
+  "overline": "Contacter Excellence Academy",
+  "title": "Contactez-nous",
+  "subtitle": "Prêt à commencer votre parcours éducatif ? Nous sommes là pour vous guider à chaque étape.",
+  "image": {
+    "alt": "Entrée accueillante de l'Excellence Academy montrant notre engagement envers l'excellence éducative",
+    "caption": "Bienvenue à Excellence Academy"
+  },
+  "quickContact": {
+    "phone": {
+      "title": "Appelez-nous",
+      "value": "(555) 123-4567",
+      "description": "Disponible pendant les heures de bureau"
+    },
+    "email": {
+      "title": "Envoyez-nous un e-mail",
+      "value": "info@excellenceacademy.edu",
+      "description": "Demandes générales et support"
+    },
+    "location": {
+      "title": "Rendez-nous visite",
+      "value": "123 Boulevard de l'Éducation",
+      "description": "Cité du Savoir, CS 12345"
+    },
+    "hours": {
+      "title": "Heures de bureau",
+      "value": "Lundi - Vendredi",
+      "description": "8h00 - 16h00"
+    }
+  },
+  "primaryActions": {
+    "portal": {
+      "title": "Accédez à votre tableau de bord",
+      "description": "Suivez les progrès académiques de votre enfant, consultez les devoirs et restez connecté.",
+      "buttonText": "Portail des parents"
+    },
+    "tour": {
+      "title": "Planifiez votre visite",
+      "description": "Découvrez nos installations de classe mondiale et rencontrez notre équipe dévouée.",
+      "buttonText": "Réserver une visite"
+    }
+  },
+  "cta": {
+    "text": "Contactez-nous"
+  }
+}

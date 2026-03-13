@@ -13,9 +13,10 @@ import {
     useTheme,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { navigationContent } from '../../content/landing/navigationContent';
 import { useIsAuthenticated } from '../../pages/Auth/_hooks/useAuth';
+import { ROUTES } from '../../routes/routes';
 import { LanguageSelector } from '../common/LanguageSelector';
 import AuthenticatedUserDisplay from './AuthenticatedUserDisplay';
 
@@ -43,6 +44,7 @@ export const Navigation: React.FC<NavigationProps> = ({
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const navigate = useNavigate();
+    const location = useLocation();
     const isAuthenticated = useIsAuthenticated();
 
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -66,21 +68,18 @@ export const Navigation: React.FC<NavigationProps> = ({
 
     // Handle navigation to portal
     const handlePortalClick = () => {
-        navigate('/auth');
+        navigate(ROUTES.AUTH);
     };
 
-    // Handle smooth scroll to sections
+    // Handle navigation to routes
     const handleNavClick = (href: string) => {
-        if (href.startsWith('#')) {
-            const element = document.querySelector(href);
-            if (element) {
-                element.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start',
-                });
-            }
-        }
+        navigate(href);
         setMobileOpen(false);
+    };
+
+    // Check if route is active
+    const isActiveRoute = (href: string): boolean => {
+        return location.pathname === href;
     };
 
     // Mobile drawer content
@@ -164,37 +163,45 @@ export const Navigation: React.FC<NavigationProps> = ({
                     {navigationContent.mobileNav.menuLabel}
                 </Typography>
                 <List sx={{ p: 0 }}>
-                    {navItems.map((item, _index) => (
-                        <ListItem
-                            key={item.label}
-                            disablePadding
-                            sx={{ mb: 1 }}
-                        >
-                            <ListItemButton
-                                onClick={() => handleNavClick(item.href)}
-                                sx={{
-                                    px: 0,
-                                    py: 2,
-                                    borderRadius: 1,
-                                    transition: 'all 0.2s ease',
-                                    '&:hover': {
-                                        backgroundColor:
-                                            'rgba(255, 255, 255, 0.05)',
-                                        transform: 'translateX(8px)',
-                                    },
-                                }}
+                    {navItems.map((item, _index) => {
+                        const isActive = isActiveRoute(item.href);
+                        return (
+                            <ListItem
+                                key={item.label}
+                                disablePadding
+                                sx={{ mb: 1 }}
                             >
-                                <ListItemText
-                                    primary={item.label}
-                                    primaryTypographyProps={{
-                                        fontSize: '1rem',
-                                        fontWeight: 500,
-                                        color: 'rgba(255, 255, 255, 0.9)',
+                                <ListItemButton
+                                    onClick={() => handleNavClick(item.href)}
+                                    sx={{
+                                        px: 0,
+                                        py: 2,
+                                        borderRadius: 1,
+                                        backgroundColor: isActive
+                                            ? 'rgba(99, 102, 241, 0.15)'
+                                            : 'transparent',
+                                        transition: 'all 0.2s ease',
+                                        '&:hover': {
+                                            backgroundColor:
+                                                'rgba(255, 255, 255, 0.05)',
+                                            transform: 'translateX(8px)',
+                                        },
                                     }}
-                                />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
+                                >
+                                    <ListItemText
+                                        primary={item.label}
+                                        primaryTypographyProps={{
+                                            fontSize: '1rem',
+                                            fontWeight: isActive ? 600 : 500,
+                                            color: isActive
+                                                ? '#6366f1'
+                                                : 'rgba(255, 255, 255, 0.9)',
+                                        }}
+                                    />
+                                </ListItemButton>
+                            </ListItem>
+                        );
+                    })}
                 </List>
 
                 {/* Language Selector */}
@@ -247,7 +254,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                 component="nav"
                 className={className}
                 sx={{
-                    position: 'fixed',
+                    position: 'sticky',
                     top: 0,
                     left: 0,
                     right: 0,
@@ -286,7 +293,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                                 transform: 'scale(1.02)',
                             },
                         }}
-                        onClick={() => handleNavClick('#hero')}
+                        onClick={() => navigate(ROUTES.HOME)}
                     >
                         <Box
                             sx={{
@@ -332,41 +339,50 @@ export const Navigation: React.FC<NavigationProps> = ({
                                 gap: 1,
                             }}
                         >
-                            {navItems.map(item => (
-                                <Button
-                                    key={item.label}
-                                    onClick={() => handleNavClick(item.href)}
-                                    sx={{
-                                        color:
-                                            transparent && !scrolled
-                                                ? 'rgba(255, 255, 255, 0.9)'
-                                                : 'rgba(26, 26, 26, 0.8)',
-                                        fontWeight: 500,
-                                        fontSize: '0.875rem',
-                                        px: 2.5,
-                                        py: 1.5,
-                                        borderRadius: 1,
-                                        textTransform: 'none',
-                                        minWidth: 'auto',
-                                        position: 'relative',
-                                        transition:
-                                            'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                        '&:hover': {
-                                            color:
-                                                transparent && !scrolled
-                                                    ? 'white'
-                                                    : '#6366f1',
-                                            backgroundColor:
-                                                transparent && !scrolled
-                                                    ? 'rgba(255, 255, 255, 0.1)'
-                                                    : 'rgba(99, 102, 241, 0.05)',
-                                            transform: 'translateY(-1px)',
-                                        },
-                                    }}
-                                >
-                                    {item.label}
-                                </Button>
-                            ))}
+                            {navItems.map(item => {
+                                const isActive = isActiveRoute(item.href);
+                                return (
+                                    <Button
+                                        key={item.label}
+                                        onClick={() =>
+                                            handleNavClick(item.href)
+                                        }
+                                        sx={{
+                                            color: isActive
+                                                ? '#6366f1'
+                                                : transparent && !scrolled
+                                                  ? 'rgba(255, 255, 255, 0.9)'
+                                                  : 'rgba(26, 26, 26, 0.8)',
+                                            fontWeight: isActive ? 600 : 500,
+                                            fontSize: '0.875rem',
+                                            px: 2.5,
+                                            py: 1.5,
+                                            borderRadius: 1,
+                                            textTransform: 'none',
+                                            minWidth: 'auto',
+                                            position: 'relative',
+                                            backgroundColor: isActive
+                                                ? 'rgba(99, 102, 241, 0.08)'
+                                                : 'transparent',
+                                            transition:
+                                                'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                            '&:hover': {
+                                                color:
+                                                    transparent && !scrolled
+                                                        ? 'white'
+                                                        : '#6366f1',
+                                                backgroundColor:
+                                                    transparent && !scrolled
+                                                        ? 'rgba(255, 255, 255, 0.1)'
+                                                        : 'rgba(99, 102, 241, 0.05)',
+                                                transform: 'translateY(-1px)',
+                                            },
+                                        }}
+                                    >
+                                        {item.label}
+                                    </Button>
+                                );
+                            })}
 
                             {/* Language Selector */}
                             <Box sx={{ ml: 3 }}>

@@ -9,6 +9,7 @@ import {
     YouTube as YouTubeIcon,
 } from '@mui/icons-material';
 import { Box, Link, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { footerContent } from '../../content/landing/footerContent';
@@ -22,23 +23,23 @@ interface FooterProps {
 const getIconComponent = (iconName: string) => {
     switch (iconName) {
         case 'Phone':
-            return <PhoneIcon />;
+            return <PhoneIcon fontSize="small" />;
         case 'Email':
-            return <EmailIcon />;
+            return <EmailIcon fontSize="small" />;
         case 'LocationOn':
-            return <LocationIcon />;
+            return <LocationIcon fontSize="small" />;
         case 'Facebook':
-            return <FacebookIcon />;
+            return <FacebookIcon fontSize="small" />;
         case 'Twitter':
-            return <TwitterIcon />;
+            return <TwitterIcon fontSize="small" />;
         case 'Instagram':
-            return <InstagramIcon />;
+            return <InstagramIcon fontSize="small" />;
         case 'LinkedIn':
-            return <LinkedInIcon />;
+            return <LinkedInIcon fontSize="small" />;
         case 'YouTube':
-            return <YouTubeIcon />;
+            return <YouTubeIcon fontSize="small" />;
         default:
-            return <PhoneIcon />;
+            return <PhoneIcon fontSize="small" />;
     }
 };
 
@@ -69,58 +70,48 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
             sx={{
                 position: 'relative',
                 backgroundColor: footerContent.styling.backgroundColor,
-                pt: { xs: 12, md: 16 },
-                pb: { xs: 6, md: 8 },
-                overflow: 'hidden',
+                pt: { xs: 6, md: 8 },
+                pb: { xs: 4, md: 6 },
             }}
         >
             {/* Main Footer Content */}
             <Box
                 sx={{
-                    width: '95%',
-                    maxWidth: '1600px',
+                    maxWidth: '1200px',
                     mx: 'auto',
-                    px: { xs: 3, md: 6, lg: 8 },
+                    px: { xs: 2, md: 3 },
                 }}
             >
                 {/* Footer Grid */}
-                <Box
+                <Grid
+                    container
+                    spacing={2}
                     sx={{
-                        display: 'grid',
-                        gridTemplateColumns: {
-                            xs: '1fr',
-                            sm: 'repeat(2, 1fr)',
-                            md: 'repeat(4, 1fr)',
-                            lg: '2fr 1fr 1fr 1fr',
-                        },
-                        gap: { xs: 8, md: 6 },
-                        mb: { xs: 10, md: 12 },
+                        mb: { xs: 4, md: 6 },
                     }}
                 >
                     {/* Brand Column */}
-                    <Box>
+                    <Grid size={{ xs: 12, sm: 6, md: 4 }}>
                         {/* School Name */}
                         <Typography
-                            variant="h3"
+                            variant="h4"
                             sx={{
-                                fontSize: { xs: '2rem', md: '2.5rem' },
-                                fontWeight: 700,
-                                mb: 3,
+                                fontSize: '1.125rem',
+                                fontWeight: 600,
+                                mb: 1.5,
                                 color: '#ffffff',
-                                lineHeight: 1.1,
+                                lineHeight: 1.2,
                             }}
                         >
-                            {footerContent.brand.name.primary}
-                            <br />
+                            {footerContent.brand.name.primary}{' '}
                             <Box
                                 component="span"
                                 sx={{
                                     background:
-                                        footerContent.styling.brandGradient,
+                                        'linear-gradient(135deg, #6366f1, #8b5cf6)',
                                     backgroundClip: 'text',
                                     WebkitBackgroundClip: 'text',
                                     WebkitTextFillColor: 'transparent',
-                                    fontWeight: 300,
                                 }}
                             >
                                 {footerContent.brand.name.secondary}
@@ -129,12 +120,12 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
 
                         {/* Tagline */}
                         <Typography
+                            variant="body2"
                             sx={{
-                                fontSize: '1rem',
-                                lineHeight: 1.6,
+                                fontSize: '0.8125rem',
+                                lineHeight: 1.5,
                                 color: 'rgba(255, 255, 255, 0.7)',
-                                mb: 4,
-                                maxWidth: '300px',
+                                mb: 2,
                             }}
                         >
                             {footerContent.brand.tagline}
@@ -145,7 +136,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                             sx={{
                                 display: 'flex',
                                 flexDirection: 'column',
-                                gap: 2,
+                                gap: 1,
                             }}
                         >
                             {footerContent.contactInfo.map((contact, index) => (
@@ -158,71 +149,56 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                     }
                                     sx={{
                                         display: 'flex',
-                                        alignItems: 'flex-start',
-                                        gap: 2,
+                                        alignItems: 'center',
+                                        gap: 1,
                                         cursor:
                                             contact.href !== '#'
                                                 ? 'pointer'
                                                 : 'default',
+                                        transition: 'color 0.2s ease',
                                         '&:hover': {
-                                            '& .contact-icon': {
-                                                transform:
-                                                    contact.href !== '#'
-                                                        ? 'scale(1.1)'
-                                                        : 'scale(1)',
-                                            },
+                                            color:
+                                                contact.href !== '#'
+                                                    ? '#6366f1'
+                                                    : 'inherit',
                                         },
                                     }}
                                 >
                                     <Box
-                                        className="contact-icon"
                                         sx={{
                                             color: 'rgba(255, 255, 255, 0.6)',
-                                            transition: 'transform 0.3s ease',
-                                            flexShrink: 0,
-                                            mt: 0.5,
+                                            display: 'flex',
+                                            alignItems: 'center',
                                         }}
                                     >
                                         {getIconComponent(contact.icon)}
                                     </Box>
-                                    <Box>
-                                        <Typography
-                                            sx={{
-                                                fontSize: '0.75rem',
-                                                fontWeight: 600,
-                                                color: 'rgba(255, 255, 255, 0.5)',
-                                                textTransform: 'uppercase',
-                                                letterSpacing: '0.05em',
-                                                mb: 0.5,
-                                            }}
-                                        >
-                                            {contact.label}
-                                        </Typography>
-                                        <Typography
-                                            sx={{
-                                                fontSize: '0.875rem',
-                                                color: 'rgba(255, 255, 255, 0.8)',
-                                                lineHeight: 1.4,
-                                            }}
-                                        >
-                                            {contact.value}
-                                        </Typography>
-                                    </Box>
+                                    <Typography
+                                        variant="caption"
+                                        sx={{
+                                            fontSize: '0.75rem',
+                                            color: 'rgba(255, 255, 255, 0.8)',
+                                        }}
+                                    >
+                                        {contact.value}
+                                    </Typography>
                                 </Box>
                             ))}
                         </Box>
-                    </Box>
+                    </Grid>
 
-                    {/* About Links */}
-                    <Box>
+                    {/* Quick Links Column 1 */}
+                    <Grid size={{ xs: 6, sm: 3, md: 2 }}>
                         <Typography
+                            variant="caption"
                             sx={{
-                                fontSize: '0.875rem',
+                                fontSize: '0.75rem',
                                 fontWeight: 600,
                                 color: 'rgba(255, 255, 255, 0.9)',
                                 textTransform: 'uppercase',
-                                letterSpacing: '0.1em',
-                                mb: 4,
+                                letterSpacing: '0.08em',
+                                mb: 1.5,
+                                display: 'block',
                             }}
                         >
                             About
@@ -231,7 +207,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                             sx={{
                                 display: 'flex',
                                 flexDirection: 'column',
-                                gap: 2,
+                                gap: 1,
                             }}
                         >
                             {footerContent.links.about.map((link, index) => (
@@ -239,11 +215,11 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                     key={index}
                                     onClick={() => handleLinkClick(link.href)}
                                     sx={{
-                                        fontSize: '0.875rem',
+                                        fontSize: '0.8125rem',
                                         color: 'rgba(255, 255, 255, 0.7)',
                                         textDecoration: 'none',
                                         cursor: 'pointer',
-                                        transition: 'color 0.3s ease',
+                                        transition: 'color 0.2s ease',
                                         '&:hover': {
                                             color: '#6366f1',
                                         },
@@ -253,18 +229,20 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 </Link>
                             ))}
                         </Box>
-                    </Box>
+                    </Grid>
 
-                    {/* Academics Links */}
-                    <Box>
+                    {/* Quick Links Column 2 */}
+                    <Grid size={{ xs: 6, sm: 3, md: 2 }}>
                         <Typography
+                            variant="caption"
                             sx={{
-                                fontSize: '0.875rem',
+                                fontSize: '0.75rem',
                                 fontWeight: 600,
                                 color: 'rgba(255, 255, 255, 0.9)',
                                 textTransform: 'uppercase',
-                                letterSpacing: '0.1em',
-                                mb: 4,
+                                letterSpacing: '0.08em',
+                                mb: 1.5,
+                                display: 'block',
                             }}
                         >
                             Academics
@@ -273,7 +251,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                             sx={{
                                 display: 'flex',
                                 flexDirection: 'column',
-                                gap: 2,
+                                gap: 1,
                             }}
                         >
                             {footerContent.links.academics.map(
@@ -284,11 +262,11 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                             handleLinkClick(link.href)
                                         }
                                         sx={{
-                                            fontSize: '0.875rem',
+                                            fontSize: '0.8125rem',
                                             color: 'rgba(255, 255, 255, 0.7)',
                                             textDecoration: 'none',
                                             cursor: 'pointer',
-                                            transition: 'color 0.3s ease',
+                                            transition: 'color 0.2s ease',
                                             '&:hover': {
                                                 color: '#6366f1',
                                             },
@@ -299,18 +277,68 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 )
                             )}
                         </Box>
-                    </Box>
+                    </Grid>
 
-                    {/* Resources Links */}
-                    <Box>
+                    {/* Quick Links Column 3 */}
+                    <Grid size={{ xs: 6, sm: 3, md: 2 }}>
                         <Typography
+                            variant="caption"
                             sx={{
-                                fontSize: '0.875rem',
+                                fontSize: '0.75rem',
                                 fontWeight: 600,
                                 color: 'rgba(255, 255, 255, 0.9)',
                                 textTransform: 'uppercase',
-                                letterSpacing: '0.1em',
-                                mb: 4,
+                                letterSpacing: '0.08em',
+                                mb: 1.5,
+                                display: 'block',
+                            }}
+                        >
+                            Student Life
+                        </Typography>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: 1,
+                            }}
+                        >
+                            {footerContent.links.studentLife?.map(
+                                (link, index) => (
+                                    <Link
+                                        key={index}
+                                        onClick={() =>
+                                            handleLinkClick(link.href)
+                                        }
+                                        sx={{
+                                            fontSize: '0.8125rem',
+                                            color: 'rgba(255, 255, 255, 0.7)',
+                                            textDecoration: 'none',
+                                            cursor: 'pointer',
+                                            transition: 'color 0.2s ease',
+                                            '&:hover': {
+                                                color: '#6366f1',
+                                            },
+                                        }}
+                                    >
+                                        {link.label}
+                                    </Link>
+                                )
+                            )}
+                        </Box>
+                    </Grid>
+
+                    {/* Quick Links Column 4 */}
+                    <Grid size={{ xs: 6, sm: 3, md: 2 }}>
+                        <Typography
+                            variant="caption"
+                            sx={{
+                                fontSize: '0.75rem',
+                                fontWeight: 600,
+                                color: 'rgba(255, 255, 255, 0.9)',
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.08em',
+                                mb: 1.5,
+                                display: 'block',
                             }}
                         >
                             Resources
@@ -319,7 +347,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                             sx={{
                                 display: 'flex',
                                 flexDirection: 'column',
-                                gap: 2,
+                                gap: 1,
                             }}
                         >
                             {footerContent.links.resources.map(
@@ -330,11 +358,11 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                             handleLinkClick(link.href)
                                         }
                                         sx={{
-                                            fontSize: '0.875rem',
+                                            fontSize: '0.8125rem',
                                             color: 'rgba(255, 255, 255, 0.7)',
                                             textDecoration: 'none',
                                             cursor: 'pointer',
-                                            transition: 'color 0.3s ease',
+                                            transition: 'color 0.2s ease',
                                             '&:hover': {
                                                 color: '#6366f1',
                                             },
@@ -345,8 +373,8 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 )
                             )}
                         </Box>
-                    </Box>
-                </Box>
+                    </Grid>
+                </Grid>
 
                 {/* Divider */}
                 <Box
@@ -354,7 +382,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                         width: '100%',
                         height: 1,
                         backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                        mb: { xs: 6, md: 8 },
+                        mb: 2,
                     }}
                 />
 
@@ -362,16 +390,17 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                 <Box
                     sx={{
                         display: 'flex',
-                        flexDirection: { xs: 'column', md: 'row' },
+                        flexDirection: { xs: 'column', sm: 'row' },
                         justifyContent: 'space-between',
-                        alignItems: { xs: 'flex-start', md: 'center' },
-                        gap: { xs: 4, md: 0 },
+                        alignItems: { xs: 'flex-start', sm: 'center' },
+                        gap: 2,
                     }}
                 >
                     {/* Copyright */}
                     <Typography
+                        variant="caption"
                         sx={{
-                            fontSize: '0.875rem',
+                            fontSize: '0.75rem',
                             color: 'rgba(255, 255, 255, 0.6)',
                         }}
                     >
@@ -383,7 +412,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                     <Box
                         sx={{
                             display: 'flex',
-                            gap: 2,
+                            gap: 1,
                             alignItems: 'center',
                         }}
                     >
@@ -392,9 +421,9 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 key={index}
                                 onClick={() => handleLinkClick(social.href)}
                                 sx={{
-                                    width: 40,
-                                    height: 40,
-                                    borderRadius: '50%',
+                                    width: 32,
+                                    height: 32,
+                                    borderRadius: 1,
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
@@ -404,13 +433,13 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                     color: 'rgba(255, 255, 255, 0.7)',
                                     cursor: 'pointer',
                                     transition:
-                                        'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                        'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
                                     '&:hover': {
                                         backgroundColor:
                                             'rgba(99, 102, 241, 0.2)',
                                         borderColor: '#6366f1',
                                         color: '#6366f1',
-                                        transform: 'translateY(-3px)',
+                                        transform: 'translateY(-2px)',
                                     },
                                 }}
                             >

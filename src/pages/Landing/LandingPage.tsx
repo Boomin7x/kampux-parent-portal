@@ -1,28 +1,38 @@
-import { Box } from '@mui/material';
 import React from 'react';
-import { AboutSection } from '../../components/landing/AboutSection';
-import { AcademicSection } from '../../components/landing/AcademicSection';
-import { ContactSection } from '../../components/landing/ContactSection';
-import { FacilitiesSection } from '../../components/landing/FacilitiesSection';
-import { FacultySection } from '../../components/landing/FacultySection';
-import { GallerySection } from '../../components/landing/GallerySection';
 import { HeroSection } from '../../components/landing/HeroSection';
-import { Navigation } from '../../components/landing/Navigation';
-import { StudentLifeSection } from '../../components/landing/StudentLifeSection';
+import { AboutPreview } from '../../components/landing/preview/AboutPreview';
+import { AcademicPreview } from '../../components/landing/preview/AcademicPreview';
+import { ContactPreview } from '../../components/landing/preview/ContactPreview';
+import { FacilitiesPreview } from '../../components/landing/preview/FacilitiesPreview';
+import { FacultyPreview } from '../../components/landing/preview/FacultyPreview';
+import { GalleryPreview } from '../../components/landing/preview/GalleryPreview';
+import { StudentLifePreview } from '../../components/landing/preview/StudentLifePreview';
 
+/**
+ * LandingPage Component
+ *
+ * Main landing page with:
+ * - Navigation & Footer
+ * - Hero section (full experience)
+ * - Preview sections (minimal content-dense design)
+ * - Optimized layout with alternating backgrounds
+ * - Responsive spacing per DESIGN_PATTERN.md
+ */
 const LandingPage: React.FC = () => {
     return (
-        <Box sx={{ position: 'relative' }}>
-            <Navigation />
+        <>
+            {/* Hero Section - Full experience (to be redesigned) */}
             <HeroSection />
-            <AboutSection />
-            <AcademicSection />
-            <FacultySection />
-            <StudentLifeSection />
-            <FacilitiesSection />
-            <GallerySection />
-            <ContactSection />
-        </Box>
+
+            {/* Preview Sections - Minimal design pattern */}
+            <AboutPreview />
+            <AcademicPreview />
+            <FacultyPreview />
+            <StudentLifePreview />
+            <FacilitiesPreview />
+            <GalleryPreview />
+            <ContactPreview />
+        </>
     );
 };
 
