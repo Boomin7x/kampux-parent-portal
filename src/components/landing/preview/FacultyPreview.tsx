@@ -66,7 +66,8 @@ export const FacultyPreview: React.FC = () => {
                                 transform: isIntersecting
                                     ? 'translateX(0)'
                                     : 'translateX(-30px)',
-                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s',
+                                transition:
+                                    'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s',
                             }}
                         >
                             <Box
@@ -117,10 +118,17 @@ export const FacultyPreview: React.FC = () => {
                                 transform: isIntersecting
                                     ? 'translateX(0)'
                                     : 'translateX(30px)',
-                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s',
+                                transition:
+                                    'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s',
                             }}
                         >
-                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: 2.5,
+                                }}
+                            >
                                 {featuredFaculty.map((faculty, index) => (
                                     <Box
                                         key={faculty.id}
@@ -137,7 +145,8 @@ export const FacultyPreview: React.FC = () => {
                                             transform: isIntersecting
                                                 ? 'translateY(0)'
                                                 : 'translateY(20px)',
-                                            transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+                                            transition:
+                                                'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
                                             transitionDelay: `${0.5 + index * 0.1}s`,
                                             '&:hover': {
                                                 borderColor: 'primary.main',
@@ -220,11 +229,7 @@ export const FacultyPreview: React.FC = () => {
                         justifyContent: 'center',
                     }}
                 >
-                    <CTAButton
-                        to={cta.route}
-                        variant="primary"
-                        size="medium"
-                    >
+                    <CTAButton to={cta.route} variant="primary" size="medium">
                         {cta.text}
                     </CTAButton>
                 </Box>

@@ -1,112 +1,112 @@
 {
-  "errors": {
-    "failedToLoad": "Failed to load billing data",
-    "unexpectedError": "An unexpected error occurred"
-  },
-  "loading": {
-    "loadingData": "Loading billing data..."
-  },
-  "noData": {
-    "title": "No billing data available",
-    "description": "No billing information found for this student."
-  },
-  "noStudent": {
-    "selectStudent": "Select a student to view billing information"
-  },
-  "overview": {
-    "billing": "Billing",
-    "title": "'s Billing",
-    "total": "Total",
-    "paid": "Paid",
-    "outstanding": "Outstanding",
-    "overdue": "Overdue",
-    "dueSoon": "Due Soon",
-    "unpaid": "Unpaid",
-    "viewAll": "View All",
-    "payNow": "Pay Now",
-    "download": "Download",
-    "view": "View"
-  },
-  "tabs": {
-    "all": "All",
-    "unpaid": "Unpaid",
-    "overdue": "Overdue",
-    "dueSoon": "Due Soon",
-    "paid": "Paid"
-  },
-  "status": {
-    "paid": "Paid",
-    "unpaid": "Unpaid",
-    "overdue": "Overdue",
-    "dueSoon": "Due Soon",
-    "cancelled": "Cancelled"
-  },
-  "payment": {
-    "receipt": "Receipt",
-    "reference": "Reference",
-    "date": "Date",
-    "amount": "Amount",
-    "method": "Method",
-    "status": "Status",
-    "description": "Description",
-    "breakdown": "Breakdown"
-  },
-  "fees": {
-    "tuition": "Tuition",
-    "transport": "Transport",
-    "activities": "Activities",
-    "materials": "Materials",
-    "registration": "Registration",
-    "exam": "Exam",
-    "other": "Other",
-    "schoolFees": "School Fees",
-    "notSpecified": "Not specified",
-    "inscription": "Registration"
-  },
-  "labels": {
-    "outstanding": "Outstanding",
-    "billing": "'s Billing",
-    "overdue": "Overdue",
-    "dueSoon": "Due Soon",
-    "totalPaid": "Total Paid",
-    "validPayments": "Valid Payments",
-    "cancelledPayments": "Cancelled Payments",
-    "paymentHistory": "Payment History",
-    "paymentDetails": "Payment Details",
-    "operationDetails": "Operation Details",
-    "billingDetails": "Billing Details",
-    "makePayment": "Make Payment",
-    "statement": "Statement",
-    "history": "History",
-    "actions": "Actions",
-    "dueDate": "Due Date"
-  },
-  "messages": {
-    "selectStudentForHistory": "Please select a student to view payment history.",
-    "noPaymentsFound": "No payments found for this student.",
-    "detailOfOperations": "Detail of payment operations made",
-    "noUnpaidAmount": "No unpaid amount",
-    "noOverduePayments": "No overdue payments. Great job staying on track!",
-    "noPaymentsDue": "No payments due in the next 14 days.",
-    "noPaymentsMade": "No payments have been made yet.",
-    "daysOverdue": "days overdue",
-    "days": "days",
-    "remaining": "remaining",
-    "due": "Due",
-    "net": "Net",
-    "validatedPayment": "Validated",
-    "cancelledPayment": "Cancelled",
-    "invoice": "Invoice",
-    "paymentMode": "Payment Mode",
-    "bearer": "Bearer",
-    "issueDate": "Issue Date",
-    "detailedAmounts": "Detailed Amounts",
-    "paymentCancelled": "PAYMENT CANCELLED",
-    "reason": "Reason",
-    "cancellationDate": "Cancellation Date",
-    "dateReference": "Date / Reference",
-    "amount": "Amount",
-    "distribution": "Distribution",
-    "cashier": "Cashier"
-  }
+    "errors": {
+        "failedToLoad": "Failed to load billing data",
+        "unexpectedError": "An unexpected error occurred"
+    },
+    "loading": {
+        "loadingData": "Loading billing data..."
+    },
+    "noData": {
+        "title": "No billing data available",
+        "description": "No billing information found for this student."
+    },
+    "noStudent": {
+        "selectStudent": "Select a student to view billing information"
+    },
+    "overview": {
+        "billing": "Billing",
+        "title": "'s Billing",
+        "total": "Total",
+        "paid": "Paid",
+        "outstanding": "Outstanding",
+        "overdue": "Overdue",
+        "dueSoon": "Due Soon",
+        "unpaid": "Unpaid",
+        "viewAll": "View All",
+        "payNow": "Pay Now",
+        "download": "Download",
+        "view": "View"
+    },
+    "tabs": {
+        "all": "All",
+        "unpaid": "Unpaid",
+        "overdue": "Overdue",
+        "dueSoon": "Due Soon",
+        "paid": "Paid"
+    },
+    "status": {
+        "paid": "Paid",
+        "unpaid": "Unpaid",
+        "overdue": "Overdue",
+        "dueSoon": "Due Soon",
+        "cancelled": "Cancelled"
+    },
+    "payment": {
+        "receipt": "Receipt",
+        "reference": "Reference",
+        "date": "Date",
+        "amount": "Amount",
+        "method": "Method",
+        "status": "Status",
+        "description": "Description",
+        "breakdown": "Breakdown"
+    },
+    "fees": {
+        "tuition": "Tuition",
+        "transport": "Transport",
+        "activities": "Activities",
+        "materials": "Materials",
+        "registration": "Registration",
+        "exam": "Exam",
+        "other": "Other",
+        "schoolFees": "School Fees",
+        "notSpecified": "Not specified",
+        "inscription": "Registration"
+    },
+    "labels": {
+        "outstanding": "Outstanding",
+        "billing": "'s Billing",
+        "overdue": "Overdue",
+        "dueSoon": "Due Soon",
+        "totalPaid": "Total Paid",
+        "validPayments": "Valid Payments",
+        "cancelledPayments": "Cancelled Payments",
+        "paymentHistory": "Payment History",
+        "paymentDetails": "Payment Details",
+        "operationDetails": "Operation Details",
+        "billingDetails": "Billing Details",
+        "makePayment": "Make Payment",
+        "statement": "Statement",
+        "history": "History",
+        "actions": "Actions",
+        "dueDate": "Due Date"
+    },
+    "messages": {
+        "selectStudentForHistory": "Please select a student to view payment history.",
+        "noPaymentsFound": "No payments found for this student.",
+        "detailOfOperations": "Detail of payment operations made",
+        "noUnpaidAmount": "No unpaid amount",
+        "noOverduePayments": "No overdue payments. Great job staying on track!",
+        "noPaymentsDue": "No payments due in the next 14 days.",
+        "noPaymentsMade": "No payments have been made yet.",
+        "daysOverdue": "days overdue",
+        "days": "days",
+        "remaining": "remaining",
+        "due": "Due",
+        "net": "Net",
+        "validatedPayment": "Validated",
+        "cancelledPayment": "Cancelled",
+        "invoice": "Invoice",
+        "paymentMode": "Payment Mode",
+        "bearer": "Bearer",
+        "issueDate": "Issue Date",
+        "detailedAmounts": "Detailed Amounts",
+        "paymentCancelled": "PAYMENT CANCELLED",
+        "reason": "Reason",
+        "cancellationDate": "Cancellation Date",
+        "dateReference": "Date / Reference",
+        "amount": "Amount",
+        "distribution": "Distribution",
+        "cashier": "Cashier"
+    }
 }

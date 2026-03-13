@@ -404,7 +404,6 @@ export const AcademicsPage: React.FC = () => {
     );
 };
 
-
 /**
  * Educational Philosophy section component
  */

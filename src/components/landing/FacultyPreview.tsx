@@ -38,11 +38,8 @@ export const FacultyPreview: React.FC<FacultyPreviewProps> = ({
         >
             {/* Faculty Grid */}
             <Grid container spacing={2}>
-                {featuredFaculty.map((faculty) => (
-                    <Grid
-                        size={{ xs: 12, sm: 6, md: 4 }}
-                        key={faculty.id}
-                    >
+                {featuredFaculty.map(faculty => (
+                    <Grid size={{ xs: 12, sm: 6, md: 4 }} key={faculty.id}>
                         <Box
                             sx={{
                                 p: 2,
@@ -56,7 +53,8 @@ export const FacultyPreview: React.FC<FacultyPreviewProps> = ({
                                 alignItems: 'center',
                                 textAlign: 'center',
                                 gap: 1.5,
-                                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                transition:
+                                    'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                                 '&:hover': {
                                     borderColor: 'primary.main',
                                     backgroundColor: 'primary.50',

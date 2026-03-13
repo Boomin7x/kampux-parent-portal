@@ -41,7 +41,8 @@ export const ImageTextBlock: React.FC<ImageTextBlockProps> = ({
     });
 
     const textColorValue = textColor === 'light' ? '#ffffff' : 'text.primary';
-    const secondaryTextColor = textColor === 'light' ? 'rgba(255, 255, 255, 0.8)' : 'text.secondary';
+    const secondaryTextColor =
+        textColor === 'light' ? 'rgba(255, 255, 255, 0.8)' : 'text.secondary';
 
     const handleCtaClick = () => {
         if (onCtaClick) {
@@ -212,19 +213,21 @@ export const ImageTextBlock: React.FC<ImageTextBlockProps> = ({
             <Grid container spacing={{ xs: 3, md: 4 }} alignItems="center">
                 {imagePosition === 'left' ? (
                     <>
-                        <Grid size={{ xs: 12, md: 6 }}>
-                            {ImageContent}
-                        </Grid>
-                        <Grid size={{ xs: 12, md: 6 }}>
-                            {TextContent}
-                        </Grid>
+                        <Grid size={{ xs: 12, md: 6 }}>{ImageContent}</Grid>
+                        <Grid size={{ xs: 12, md: 6 }}>{TextContent}</Grid>
                     </>
                 ) : (
                     <>
-                        <Grid size={{ xs: 12, md: 6 }} sx={{ order: { xs: 2, md: 1 } }}>
+                        <Grid
+                            size={{ xs: 12, md: 6 }}
+                            sx={{ order: { xs: 2, md: 1 } }}
+                        >
                             {TextContent}
                         </Grid>
-                        <Grid size={{ xs: 12, md: 6 }} sx={{ order: { xs: 1, md: 2 } }}>
+                        <Grid
+                            size={{ xs: 12, md: 6 }}
+                            sx={{ order: { xs: 1, md: 2 } }}
+                        >
                             {ImageContent}
                         </Grid>
                     </>

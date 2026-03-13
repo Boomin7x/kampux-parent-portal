@@ -39,17 +39,16 @@ export const EventsPreview: React.FC<EventsPreviewProps> = ({
         >
             {/* Events Grid */}
             <Grid container spacing={2}>
-                {events.map((event) => (
-                    <Grid
-                        size={{ xs: 12, md: 4 }}
-                        key={event.id}
-                    >
+                {events.map(event => (
+                    <Grid size={{ xs: 12, md: 4 }} key={event.id}>
                         <Box
                             sx={{
                                 p: 2,
                                 borderRadius: 1,
                                 border: '1px solid',
-                                borderColor: event.urgent ? 'error.main' : 'divider',
+                                borderColor: event.urgent
+                                    ? 'error.main'
+                                    : 'divider',
                                 backgroundColor: event.urgent
                                     ? 'error.50'
                                     : 'background.paper',
@@ -57,7 +56,8 @@ export const EventsPreview: React.FC<EventsPreviewProps> = ({
                                 display: 'flex',
                                 flexDirection: 'column',
                                 gap: 1.5,
-                                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                transition:
+                                    'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                                 '&:hover': {
                                     borderColor: event.urgent
                                         ? 'error.main'
@@ -92,7 +92,9 @@ export const EventsPreview: React.FC<EventsPreviewProps> = ({
                                         color: 'white',
                                     }}
                                 >
-                                    <CalendarIcon sx={{ fontSize: '1.125rem' }} />
+                                    <CalendarIcon
+                                        sx={{ fontSize: '1.125rem' }}
+                                    />
                                 </Box>
 
                                 {/* Urgent Badge */}
@@ -120,7 +122,9 @@ export const EventsPreview: React.FC<EventsPreviewProps> = ({
                                 sx={{
                                     fontSize: '0.75rem',
                                     fontWeight: 600,
-                                    color: event.urgent ? 'error.main' : 'primary.main',
+                                    color: event.urgent
+                                        ? 'error.main'
+                                        : 'primary.main',
                                     textTransform: 'uppercase',
                                     letterSpacing: '0.05em',
                                 }}

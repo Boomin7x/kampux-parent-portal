@@ -21,7 +21,11 @@ export const ValuesGrid: React.FC<ValuesGridProps> = ({ values }) => {
     });
 
     return (
-        <Grid container ref={targetRef as React.RefObject<HTMLDivElement>} spacing={2}>
+        <Grid
+            container
+            ref={targetRef as React.RefObject<HTMLDivElement>}
+            spacing={2}
+        >
             {values.map((value, index) => (
                 <Grid size={{ xs: 12, sm: 6, md: 4 }} key={value.id}>
                     <Card

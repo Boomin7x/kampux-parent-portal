@@ -1,125 +1,125 @@
 {
-  "errors": {
-    "failedToLoad": "Failed to load student sheet data",
-    "unexpectedError": "An unexpected error occurred"
-  },
-  "loading": {
-    "loadingData": "Loading student sheet records..."
-  },
-  "noData": {
-    "title": "No student sheet records available",
-    "description": "No sheet records found for this student."
-  },
-  "noStudent": {
-    "selectStudent": "Select a Student"
-  },
-  "overview": {
-    "title": "Student Sheet",
-    "totalRecords": "Total Records",
-    "activeIssues": "Active Issues",
-    "resolvedIssues": "Resolved Issues",
-    "pendingActions": "Pending Actions",
-    "latestRecords": "Latest Records",
-    "recordSummary": "Record Summary"
-  },
-  "recordTypes": {
-    "sanctions": "Sanctions",
-    "absenceRecords": "Absence Records",
-    "disciplinaryReports": "Disciplinary Reports",
-    "behaviorNotes": "Behavior Notes",
-    "achievements": "Achievements",
-    "incidents": "Incidents",
-    "warnings": "Warnings",
-    "counseling": "Counseling Sessions"
-  },
-  "status": {
-    "resolved": "Resolved",
-    "pending": "Pending",
-    "active": "Active",
-    "cancelled": "Cancelled",
-    "justified": "Justified",
-    "unjustified": "Unjustified",
-    "inProgress": "In Progress",
-    "completed": "Completed",
-    "expired": "Expired"
-  },
-  "severity": {
-    "low": "Low",
-    "medium": "Medium",
-    "high": "High",
-    "critical": "Critical"
-  },
-  "actions": {
-    "view": "View",
-    "edit": "Edit",
-    "resolve": "Resolve",
-    "cancel": "Cancel",
-    "justify": "Justify",
-    "contact": "Contact",
-    "download": "Download",
-    "print": "Print"
-  },
-  "labels": {
-    "date": "Date",
-    "type": "Type",
-    "description": "Description",
-    "status": "Status",
-    "severity": "Severity",
-    "teacher": "Teacher",
-    "subject": "Subject",
-    "action": "Action",
-    "notes": "Notes",
-    "createdBy": "Created By",
-    "lastModified": "Last Modified",
-    "dueDate": "Due Date",
-    "resolution": "Resolution",
-    "contactRequired": "Contact Required",
-    "parentNotified": "Parent Notified"
-  },
-  "messages": {
-    "selectStudentForRecords": "Select a student to view their sheet records.",
-    "noRecordsFound": "No sheet records found for this student.",
-    "recordsOverview": "Overview of student behavioral and academic records",
-    "requiresParentContact": "This record requires parent contact",
-    "parentContactMade": "Parent has been contacted",
-    "awaitingResolution": "Awaiting resolution",
-    "recordResolved": "This record has been resolved",
-    "recordCancelled": "This record has been cancelled",
-    "justificationProvided": "Justification has been provided",
-    "noJustification": "No justification provided",
-    "escalationRequired": "This issue may require escalation",
-    "followUpNeeded": "Follow-up action needed"
-  },
-  "tabs": {
-    "all": "All Records",
-    "active": "Active",
-    "resolved": "Resolved",
-    "pending": "Pending",
-    "disciplinary": "Disciplinary",
-    "academic": "Academic",
-    "behavioral": "Behavioral"
-  },
-  "filters": {
-    "filterBy": "Filter by",
-    "dateRange": "Date Range",
-    "recordType": "Record Type",
-    "status": "Status",
-    "severity": "Severity",
-    "teacher": "Teacher",
-    "subject": "Subject",
-    "clearFilters": "Clear Filters",
-    "applyFilters": "Apply Filters"
-  },
-  "studentInfo": {
-    "grade": "Grade"
-  },
-  "statItem": {
-    "gpa": "GPA",
-    "attendance": "Attend.",
-    "alerts": "Alerts"
-  },
-  "studentSelector": {
-    "students_one": "{{count}} student",
-    "students_other": "{{count}} students"
-  }
+    "errors": {
+        "failedToLoad": "Failed to load student sheet data",
+        "unexpectedError": "An unexpected error occurred"
+    },
+    "loading": {
+        "loadingData": "Loading student sheet records..."
+    },
+    "noData": {
+        "title": "No student sheet records available",
+        "description": "No sheet records found for this student."
+    },
+    "noStudent": {
+        "selectStudent": "Select a Student"
+    },
+    "overview": {
+        "title": "Student Sheet",
+        "totalRecords": "Total Records",
+        "activeIssues": "Active Issues",
+        "resolvedIssues": "Resolved Issues",
+        "pendingActions": "Pending Actions",
+        "latestRecords": "Latest Records",
+        "recordSummary": "Record Summary"
+    },
+    "recordTypes": {
+        "sanctions": "Sanctions",
+        "absenceRecords": "Absence Records",
+        "disciplinaryReports": "Disciplinary Reports",
+        "behaviorNotes": "Behavior Notes",
+        "achievements": "Achievements",
+        "incidents": "Incidents",
+        "warnings": "Warnings",
+        "counseling": "Counseling Sessions"
+    },
+    "status": {
+        "resolved": "Resolved",
+        "pending": "Pending",
+        "active": "Active",
+        "cancelled": "Cancelled",
+        "justified": "Justified",
+        "unjustified": "Unjustified",
+        "inProgress": "In Progress",
+        "completed": "Completed",
+        "expired": "Expired"
+    },
+    "severity": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High",
+        "critical": "Critical"
+    },
+    "actions": {
+        "view": "View",
+        "edit": "Edit",
+        "resolve": "Resolve",
+        "cancel": "Cancel",
+        "justify": "Justify",
+        "contact": "Contact",
+        "download": "Download",
+        "print": "Print"
+    },
+    "labels": {
+        "date": "Date",
+        "type": "Type",
+        "description": "Description",
+        "status": "Status",
+        "severity": "Severity",
+        "teacher": "Teacher",
+        "subject": "Subject",
+        "action": "Action",
+        "notes": "Notes",
+        "createdBy": "Created By",
+        "lastModified": "Last Modified",
+        "dueDate": "Due Date",
+        "resolution": "Resolution",
+        "contactRequired": "Contact Required",
+        "parentNotified": "Parent Notified"
+    },
+    "messages": {
+        "selectStudentForRecords": "Select a student to view their sheet records.",
+        "noRecordsFound": "No sheet records found for this student.",
+        "recordsOverview": "Overview of student behavioral and academic records",
+        "requiresParentContact": "This record requires parent contact",
+        "parentContactMade": "Parent has been contacted",
+        "awaitingResolution": "Awaiting resolution",
+        "recordResolved": "This record has been resolved",
+        "recordCancelled": "This record has been cancelled",
+        "justificationProvided": "Justification has been provided",
+        "noJustification": "No justification provided",
+        "escalationRequired": "This issue may require escalation",
+        "followUpNeeded": "Follow-up action needed"
+    },
+    "tabs": {
+        "all": "All Records",
+        "active": "Active",
+        "resolved": "Resolved",
+        "pending": "Pending",
+        "disciplinary": "Disciplinary",
+        "academic": "Academic",
+        "behavioral": "Behavioral"
+    },
+    "filters": {
+        "filterBy": "Filter by",
+        "dateRange": "Date Range",
+        "recordType": "Record Type",
+        "status": "Status",
+        "severity": "Severity",
+        "teacher": "Teacher",
+        "subject": "Subject",
+        "clearFilters": "Clear Filters",
+        "applyFilters": "Apply Filters"
+    },
+    "studentInfo": {
+        "grade": "Grade"
+    },
+    "statItem": {
+        "gpa": "GPA",
+        "attendance": "Attend.",
+        "alerts": "Alerts"
+    },
+    "studentSelector": {
+        "students_one": "{{count}} student",
+        "students_other": "{{count}} students"
+    }
 }

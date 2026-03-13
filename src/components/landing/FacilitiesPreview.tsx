@@ -37,11 +37,8 @@ export const FacilitiesPreview: React.FC<FacilitiesPreviewProps> = ({
         >
             {/* Facilities Grid */}
             <Grid container spacing={2}>
-                {facilities.map((facility) => (
-                    <Grid
-                        size={{ xs: 12, sm: 6 }}
-                        key={facility.id}
-                    >
+                {facilities.map(facility => (
+                    <Grid size={{ xs: 12, sm: 6 }} key={facility.id}>
                         <Box
                             sx={{
                                 position: 'relative',
@@ -51,7 +48,8 @@ export const FacilitiesPreview: React.FC<FacilitiesPreviewProps> = ({
                                 backgroundImage: `url("${facility.image}")`,
                                 backgroundSize: 'cover',
                                 backgroundPosition: 'center',
-                                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                transition:
+                                    'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                                 '&:hover': {
                                     transform: 'scale(1.02)',
                                     '& .overlay': {

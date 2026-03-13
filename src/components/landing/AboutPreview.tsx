@@ -76,7 +76,8 @@ export const AboutPreview: React.FC<AboutPreviewProps> = ({
                                 transform: isIntersecting
                                     ? 'translateX(0)'
                                     : 'translateX(-30px)',
-                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s',
+                                transition:
+                                    'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s',
                             }}
                             loading="lazy"
                         />
@@ -90,7 +91,8 @@ export const AboutPreview: React.FC<AboutPreviewProps> = ({
                                 transform: isIntersecting
                                     ? 'translateX(0)'
                                     : 'translateX(30px)',
-                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s',
+                                transition:
+                                    'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s',
                             }}
                         >
                             {/* Mission Statement */}
@@ -119,54 +121,63 @@ export const AboutPreview: React.FC<AboutPreviewProps> = ({
                                 Our Core Values
                             </Typography>
 
-                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-                                {aboutSectionContent.values.list.slice(0, 3).map((value, index) => (
-                                    <Box
-                                        key={index}
-                                        sx={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: 1.5,
-                                        }}
-                                    >
-                                        {/* Value Icon */}
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: 1.5,
+                                }}
+                            >
+                                {aboutSectionContent.values.list
+                                    .slice(0, 3)
+                                    .map((value, index) => (
                                         <Box
+                                            key={index}
                                             sx={{
-                                                width: 24,
-                                                height: 24,
-                                                borderRadius: '50%',
-                                                background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
                                                 display: 'flex',
                                                 alignItems: 'center',
-                                                justifyContent: 'center',
-                                                flexShrink: 0,
+                                                gap: 1.5,
                                             }}
                                         >
-                                            <Typography
+                                            {/* Value Icon */}
+                                            <Box
                                                 sx={{
-                                                    color: 'white',
-                                                    fontSize: '0.75rem',
-                                                    fontWeight: 600,
+                                                    width: 24,
+                                                    height: 24,
+                                                    borderRadius: '50%',
+                                                    background:
+                                                        'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    flexShrink: 0,
                                                 }}
                                             >
-                                                {index + 1}
+                                                <Typography
+                                                    sx={{
+                                                        color: 'white',
+                                                        fontSize: '0.75rem',
+                                                        fontWeight: 600,
+                                                    }}
+                                                >
+                                                    {index + 1}
+                                                </Typography>
+                                            </Box>
+
+                                            {/* Value Text */}
+                                            <Typography
+                                                variant="body2"
+                                                sx={{
+                                                    fontSize: '0.8125rem',
+                                                    fontWeight: 500,
+                                                    color: 'text.primary',
+                                                    lineHeight: 1.4,
+                                                }}
+                                            >
+                                                {value}
                                             </Typography>
                                         </Box>
-
-                                        {/* Value Text */}
-                                        <Typography
-                                            variant="body2"
-                                            sx={{
-                                                fontSize: '0.8125rem',
-                                                fontWeight: 500,
-                                                color: 'text.primary',
-                                                lineHeight: 1.4,
-                                            }}
-                                        >
-                                            {value}
-                                        </Typography>
-                                    </Box>
-                                ))}
+                                    ))}
                             </Box>
                         </Box>
                     </Grid>
@@ -179,11 +190,7 @@ export const AboutPreview: React.FC<AboutPreviewProps> = ({
                         justifyContent: 'center',
                     }}
                 >
-                    <CTAButton
-                        to="/about"
-                        variant="primary"
-                        size="medium"
-                    >
+                    <CTAButton to="/about" variant="primary" size="medium">
                         Discover Our Story
                     </CTAButton>
                 </Box>

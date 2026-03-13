@@ -58,7 +58,7 @@ export const AcademicPreview: React.FC<AcademicPreviewProps> = ({
         >
             {/* Programs Grid */}
             <Grid container spacing={2} sx={{ mb: 3 }}>
-                {programs.map((program) => (
+                {programs.map(program => (
                     <Grid size={{ xs: 12, sm: 6, md: 4 }} key={program.id}>
                         <Box
                             sx={{
@@ -71,7 +71,8 @@ export const AcademicPreview: React.FC<AcademicPreviewProps> = ({
                                 display: 'flex',
                                 flexDirection: 'column',
                                 gap: 1.5,
-                                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                transition:
+                                    'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                                 '&:hover': {
                                     borderColor: 'primary.main',
                                     backgroundColor: 'primary.50',
@@ -85,7 +86,8 @@ export const AcademicPreview: React.FC<AcademicPreviewProps> = ({
                                     width: 40,
                                     height: 40,
                                     borderRadius: 1,
-                                    background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                    background:
+                                        'linear-gradient(135deg, #6366f1, #8b5cf6)',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
@@ -144,23 +146,25 @@ export const AcademicPreview: React.FC<AcademicPreviewProps> = ({
                                     mt: 'auto',
                                 }}
                             >
-                                {program.features.slice(0, 3).map((feature, idx) => (
-                                    <Typography
-                                        key={idx}
-                                        variant="caption"
-                                        sx={{
-                                            fontSize: '0.75rem',
-                                            px: 1,
-                                            py: 0.5,
-                                            borderRadius: 0.5,
-                                            backgroundColor: 'primary.100',
-                                            color: 'primary.main',
-                                            fontWeight: 500,
-                                        }}
-                                    >
-                                        {feature}
-                                    </Typography>
-                                ))}
+                                {program.features
+                                    .slice(0, 3)
+                                    .map((feature, idx) => (
+                                        <Typography
+                                            key={idx}
+                                            variant="caption"
+                                            sx={{
+                                                fontSize: '0.75rem',
+                                                px: 1,
+                                                py: 0.5,
+                                                borderRadius: 0.5,
+                                                backgroundColor: 'primary.100',
+                                                color: 'primary.main',
+                                                fontWeight: 500,
+                                            }}
+                                        >
+                                            {feature}
+                                        </Typography>
+                                    ))}
                             </Box>
                         </Box>
                     </Grid>

@@ -1,18 +1,18 @@
 {
-  "errors": {
-    "failedToLoadStudents": "Failed to load students",
-    "errorOccurred": "An error occurred",
-    "clickToRetry": "Click to retry",
-    "noApiData": "No API data available..."
-  },
-  "loading": {
-    "loadingStudents": "Loading students from API..."
-  },
-  "noStudents": {
-    "title": "No students found",
-    "description": "The API returned no students for this parent account."
-  },
-  "studentSelection": {
-    "pleaseSelectStudent": "Please select a student to view marks"
-  }
+    "errors": {
+        "failedToLoadStudents": "Failed to load students",
+        "errorOccurred": "An error occurred",
+        "clickToRetry": "Click to retry",
+        "noApiData": "No API data available..."
+    },
+    "loading": {
+        "loadingStudents": "Loading students from API..."
+    },
+    "noStudents": {
+        "title": "No students found",
+        "description": "The API returned no students for this parent account."
+    },
+    "studentSelection": {
+        "pleaseSelectStudent": "Please select a student to view marks"
+    }
 }

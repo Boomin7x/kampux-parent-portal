@@ -1,9 +1,9 @@
 {
-  "studentIdentity": {
-    "title": "Identité de l'Élève",
-    "activeStudent": "Élève Actif",
-    "class": "Classe",
-    "studentId": "Matricule",
-    "schoolYear": "Année Scolaire en Cours"
-  }
+    "studentIdentity": {
+        "title": "Identité de l'Élève",
+        "activeStudent": "Élève Actif",
+        "class": "Classe",
+        "studentId": "Matricule",
+        "schoolYear": "Année Scolaire en Cours"
+    }
 }

@@ -63,45 +63,52 @@ export const GalleryPreview: React.FC = () => {
                                 transform: isIntersecting
                                     ? 'translateX(0)'
                                     : 'translateX(-30px)',
-                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s',
+                                transition:
+                                    'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s',
                             }}
                         >
                             {/* Mini Gallery Grid */}
                             <Grid container spacing={2} sx={{ mb: 3 }}>
-                                {previewImages.slice(1, 5).map((image, index) => (
-                                    <Grid size={{ xs: 6 }} key={image.id}>
-                                        <Box
-                                            sx={{
-                                                position: 'relative',
-                                                borderRadius: 1,
-                                                overflow: 'hidden',
-                                                aspectRatio: '4/3',
-                                                opacity: isIntersecting ? 1 : 0,
-                                                transform: isIntersecting
-                                                    ? 'translateY(0)'
-                                                    : 'translateY(20px)',
-                                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
-                                                transitionDelay: `${0.3 + index * 0.1}s`,
-                                                '&:hover': {
-                                                    transform: 'scale(1.02) translateY(-2px)',
-                                                },
-                                            }}
-                                        >
+                                {previewImages
+                                    .slice(1, 5)
+                                    .map((image, index) => (
+                                        <Grid size={{ xs: 6 }} key={image.id}>
                                             <Box
-                                                component="img"
-                                                src={`https://images.unsplash.com/photo-${1580234567890 + index * 1000000}?auto=format&fit=crop&w=300&h=225&q=80`}
-                                                alt={image.title}
                                                 sx={{
-                                                    width: '100%',
-                                                    height: '100%',
-                                                    objectFit: 'cover',
+                                                    position: 'relative',
                                                     borderRadius: 1,
+                                                    overflow: 'hidden',
+                                                    aspectRatio: '4/3',
+                                                    opacity: isIntersecting
+                                                        ? 1
+                                                        : 0,
+                                                    transform: isIntersecting
+                                                        ? 'translateY(0)'
+                                                        : 'translateY(20px)',
+                                                    transition:
+                                                        'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+                                                    transitionDelay: `${0.3 + index * 0.1}s`,
+                                                    '&:hover': {
+                                                        transform:
+                                                            'scale(1.02) translateY(-2px)',
+                                                    },
                                                 }}
-                                                loading="lazy"
-                                            />
-                                        </Box>
-                                    </Grid>
-                                ))}
+                                            >
+                                                <Box
+                                                    component="img"
+                                                    src={`https://images.unsplash.com/photo-${1580234567890 + index * 1000000}?auto=format&fit=crop&w=300&h=225&q=80`}
+                                                    alt={image.title}
+                                                    sx={{
+                                                        width: '100%',
+                                                        height: '100%',
+                                                        objectFit: 'cover',
+                                                        borderRadius: 1,
+                                                    }}
+                                                    loading="lazy"
+                                                />
+                                            </Box>
+                                        </Grid>
+                                    ))}
                             </Grid>
 
                             {/* Gallery Description */}
@@ -111,7 +118,8 @@ export const GalleryPreview: React.FC = () => {
                                     transform: isIntersecting
                                         ? 'translateY(0)'
                                         : 'translateY(20px)',
-                                    transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.6s',
+                                    transition:
+                                        'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.6s',
                                 }}
                             >
                                 <Typography
@@ -134,8 +142,10 @@ export const GalleryPreview: React.FC = () => {
                                         mb: 2,
                                     }}
                                 >
-                                    Discover memorable moments from our vibrant school community.
-                                    From academic achievements to sporting victories and artistic excellence.
+                                    Discover memorable moments from our vibrant
+                                    school community. From academic achievements
+                                    to sporting victories and artistic
+                                    excellence.
                                 </Typography>
                                 <Typography
                                     variant="body2"
@@ -145,8 +155,9 @@ export const GalleryPreview: React.FC = () => {
                                         fontSize: '0.8125rem',
                                     }}
                                 >
-                                    Explore our comprehensive gallery featuring events, celebrations,
-                                    achievements, and daily life at Excellence Academy.
+                                    Explore our comprehensive gallery featuring
+                                    events, celebrations, achievements, and
+                                    daily life at Excellence Academy.
                                 </Typography>
                             </Box>
                         </Box>
@@ -163,7 +174,8 @@ export const GalleryPreview: React.FC = () => {
                                 transform: isIntersecting
                                     ? 'translateX(0)'
                                     : 'translateX(30px)',
-                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s',
+                                transition:
+                                    'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s',
                                 '&:hover': {
                                     '& .gallery-overlay': {
                                         opacity: 0.9,
@@ -196,7 +208,8 @@ export const GalleryPreview: React.FC = () => {
                                         'linear-gradient(transparent, rgba(0,0,0,0.6))',
                                     p: 2.5,
                                     opacity: 0.8,
-                                    transition: 'opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                    transition:
+                                        'opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                                 }}
                             >
                                 <Typography
@@ -208,7 +221,8 @@ export const GalleryPreview: React.FC = () => {
                                         fontSize: '0.875rem',
                                     }}
                                 >
-                                    Capturing Excellence Academy's Vibrant Community
+                                    Capturing Excellence Academy's Vibrant
+                                    Community
                                 </Typography>
                             </Box>
                         </Box>
@@ -222,11 +236,7 @@ export const GalleryPreview: React.FC = () => {
                         justifyContent: 'center',
                     }}
                 >
-                    <CTAButton
-                        to={cta.route}
-                        variant="primary"
-                        size="medium"
-                    >
+                    <CTAButton to={cta.route} variant="primary" size="medium">
                         {cta.text}
                     </CTAButton>
                 </Box>

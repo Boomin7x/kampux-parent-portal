@@ -21,7 +21,8 @@ export const VisualLayoutExamples: React.FC = () => {
             src: '/images/sample/classroom-1.jpg',
             alt: 'Modern classroom with interactive whiteboard',
             title: 'Interactive Learning Environment',
-            description: 'State-of-the-art classrooms equipped with the latest technology',
+            description:
+                'State-of-the-art classrooms equipped with the latest technology',
             category: 'Classrooms',
         },
         {
@@ -58,7 +59,12 @@ export const VisualLayoutExamples: React.FC = () => {
         email: 'sarah.johnson@school.edu',
         phone: '+1 (555) 123-4567',
         avatar: '/images/faculty/sarah-johnson.jpg',
-        specialties: ['Calculus', 'Statistics', 'Data Analysis', 'Linear Algebra'],
+        specialties: [
+            'Calculus',
+            'Statistics',
+            'Data Analysis',
+            'Linear Algebra',
+        ],
         achievements: [
             'Outstanding Teacher Award 2023',
             'Published 25+ peer-reviewed papers',
@@ -69,7 +75,8 @@ export const VisualLayoutExamples: React.FC = () => {
     const sampleActivity = {
         id: 'activity-1',
         title: 'Advanced Robotics Club',
-        description: 'Learn to build and program robots using cutting-edge technology. Students work on real-world projects and compete in national competitions.',
+        description:
+            'Learn to build and program robots using cutting-edge technology. Students work on real-world projects and compete in national competitions.',
         image: '/images/activities/robotics-club.jpg',
         imageAlt: 'Students working on robot programming',
         category: 'STEM',
@@ -90,7 +97,8 @@ export const VisualLayoutExamples: React.FC = () => {
             id: 'timeline-1',
             year: '2020',
             title: 'Digital Transformation Initiative',
-            description: 'Launched comprehensive digital learning platform and equipped all classrooms with interactive technology.',
+            description:
+                'Launched comprehensive digital learning platform and equipped all classrooms with interactive technology.',
             image: '/images/timeline/digital-transformation.jpg',
             category: 'development' as const,
             details: [
@@ -110,7 +118,8 @@ export const VisualLayoutExamples: React.FC = () => {
             id: 'timeline-2',
             year: '2019',
             title: 'New Science Building Opens',
-            description: 'State-of-the-art science facility with advanced laboratories and research spaces opened to students.',
+            description:
+                'State-of-the-art science facility with advanced laboratories and research spaces opened to students.',
             image: '/images/timeline/science-building.jpg',
             category: 'education' as const,
             details: [
@@ -259,9 +268,13 @@ export const VisualLayoutExamples: React.FC = () => {
                     <Grid size={{ xs: 12, sm: 6, md: 4 }}>
                         <ActivityCard
                             {...sampleActivity}
-                            onEnroll={(id) => console.log('Enroll clicked:', id)}
-                            onViewDetails={(id) => console.log('Details clicked:', id)}
-                            onFavoriteToggle={(id) => console.log('Favorite toggled:', id)}
+                            onEnroll={id => console.log('Enroll clicked:', id)}
+                            onViewDetails={id =>
+                                console.log('Details clicked:', id)
+                            }
+                            onFavoriteToggle={id =>
+                                console.log('Favorite toggled:', id)
+                            }
                         />
                     </Grid>
                 </Grid>
@@ -282,11 +295,7 @@ export const VisualLayoutExamples: React.FC = () => {
                 </Typography>
                 <Box sx={{ position: 'relative' }}>
                     {timelineItems.map((item, index) => (
-                        <TimelineItem
-                            key={item.id}
-                            {...item}
-                            index={index}
-                        />
+                        <TimelineItem key={item.id} {...item} index={index} />
                     ))}
                 </Box>
             </Container>

@@ -11,6 +11,7 @@ This guide documents the Phase 3 visual components designed to create compelling
 **Purpose**: Create impactful header sections with background images and overlays.
 
 **Key Features**:
+
 - Responsive background image handling
 - Customizable overlay colors and opacity
 - Staggered text animations
@@ -18,6 +19,7 @@ This guide documents the Phase 3 visual components designed to create compelling
 - Multiple text alignment options
 
 **Usage Examples**:
+
 ```tsx
 // About page hero
 <ImageHero
@@ -45,6 +47,7 @@ This guide documents the Phase 3 visual components designed to create compelling
 **Purpose**: Create versatile side-by-side content layouts with images.
 
 **Key Features**:
+
 - Left or right image positioning
 - Responsive layout (stacks on mobile)
 - CTA button integration
@@ -52,6 +55,7 @@ This guide documents the Phase 3 visual components designed to create compelling
 - Custom aspect ratios
 
 **Usage Examples**:
+
 ```tsx
 // Mission statement with image
 <ImageTextBlock
@@ -81,6 +85,7 @@ This guide documents the Phase 3 visual components designed to create compelling
 **Purpose**: Responsive photo galleries with lightbox and filtering capabilities.
 
 **Key Features**:
+
 - Responsive column configuration
 - Category filtering
 - Lightbox modal with navigation
@@ -88,6 +93,7 @@ This guide documents the Phase 3 visual components designed to create compelling
 - Hover animations and overlays
 
 **Usage Examples**:
+
 ```tsx
 // Campus facilities gallery
 <ImageGrid
@@ -115,6 +121,7 @@ This guide documents the Phase 3 visual components designed to create compelling
 **Purpose**: Professional profile cards with prominent photo treatment.
 
 **Key Features**:
+
 - Gradient header backgrounds with patterns
 - Large, bordered profile images
 - Expandable content sections
@@ -122,6 +129,7 @@ This guide documents the Phase 3 visual components designed to create compelling
 - Multiple variants (faculty, leadership, staff)
 
 **Usage Examples**:
+
 ```tsx
 // Faculty member card
 <ProfileCard
@@ -154,6 +162,7 @@ This guide documents the Phase 3 visual components designed to create compelling
 **Purpose**: Dynamic, visually-rich activity and program showcases.
 
 **Key Features**:
+
 - Large activity images with overlays
 - Category and difficulty badges
 - Enrollment tracking
@@ -161,6 +170,7 @@ This guide documents the Phase 3 visual components designed to create compelling
 - Interactive favorite/enroll buttons
 
 **Usage Examples**:
+
 ```tsx
 // Student club showcase
 <ActivityCard
@@ -196,6 +206,7 @@ This guide documents the Phase 3 visual components designed to create compelling
 **Purpose**: Visual timeline entries with accompanying images.
 
 **Key Features**:
+
 - Alternating left/right positioning
 - Category-specific icons and colors
 - Image integration
@@ -203,6 +214,7 @@ This guide documents the Phase 3 visual components designed to create compelling
 - Responsive design (linear on mobile)
 
 **Usage Examples**:
+
 ```tsx
 // School history timeline
 <TimelineItem
@@ -214,11 +226,11 @@ This guide documents the Phase 3 visual components designed to create compelling
     details={[
         'Installed 150+ interactive whiteboards',
         'Deployed 1:1 device program',
-        'Launched custom LMS'
+        'Launched custom LMS',
     ]}
     statistics={[
         { label: 'Classrooms', value: '150+' },
-        { label: 'Devices', value: '2,000' }
+        { label: 'Devices', value: '2,000' },
     ]}
     isHighlight={true}
     position="right"
@@ -228,27 +240,31 @@ This guide documents the Phase 3 visual components designed to create compelling
 ## Design Principles
 
 ### 1. Image Quality Standards
+
 - **Resolution**: Minimum 1200px width for hero images
 - **Aspect Ratios**:
-  - Hero: 16:9 (landscape)
-  - Cards: 4:3 (balanced)
-  - Profiles: 1:1 (square)
+    - Hero: 16:9 (landscape)
+    - Cards: 4:3 (balanced)
+    - Profiles: 1:1 (square)
 - **Format**: WebP preferred, JPG fallback
 - **Optimization**: <500KB for cards, <1MB for heroes
 
 ### 2. Visual Hierarchy
+
 - **Primary Images**: Hero banners, feature images
 - **Secondary Images**: Card images, profile photos
 - **Supporting Images**: Timeline, gallery items
 - **Decorative**: Background patterns, gradients
 
 ### 3. Color Treatment
+
 - **Overlays**: Black with 30-50% opacity for text readability
 - **Borders**: 1px solid with theme divider color
 - **Gradients**: Primary purple gradient for headers
 - **Hover States**: Scale transforms and border color changes
 
 ### 4. Animation Patterns
+
 - **Entrance**: Fade up with staggered delays
 - **Hover**: Subtle scale (1.02-1.05) and elevation
 - **Interaction**: Smooth transitions (0.3s ease-in-out)
@@ -257,6 +273,7 @@ This guide documents the Phase 3 visual components designed to create compelling
 ## Page-Specific Implementation
 
 ### About Page
+
 ```tsx
 <ImageHero
     title="About Riverside Academy"
@@ -282,6 +299,7 @@ This guide documents the Phase 3 visual components designed to create compelling
 ```
 
 ### Academics Page
+
 ```tsx
 <ImageHero
     title="Academic Excellence"
@@ -305,6 +323,7 @@ This guide documents the Phase 3 visual components designed to create compelling
 ```
 
 ### Faculty Page
+
 ```tsx
 <ImageHero
     title="Our Educators"
@@ -326,6 +345,7 @@ This guide documents the Phase 3 visual components designed to create compelling
 ```
 
 ### Student Life Page
+
 ```tsx
 <ImageHero
     title="Vibrant Student Life"
@@ -356,24 +376,28 @@ This guide documents the Phase 3 visual components designed to create compelling
 ## Best Practices
 
 ### 1. Content Strategy
+
 - **Image Selection**: Choose high-quality, authentic photos
 - **Text Balance**: Keep descriptions concise and impactful
 - **Call-to-Actions**: Use clear, action-oriented language
 - **Categories**: Group related content logically
 
 ### 2. Performance Optimization
+
 - **Lazy Loading**: Implement for images below the fold
 - **Responsive Images**: Use srcSet for different screen sizes
 - **Compression**: Optimize images without quality loss
 - **Caching**: Implement proper cache headers
 
 ### 3. Accessibility
+
 - **Alt Text**: Descriptive alternative text for all images
 - **Contrast**: Ensure text readability over images
 - **Focus States**: Visible focus indicators for keyboard navigation
 - **Screen Readers**: Proper ARIA labels and structure
 
 ### 4. Mobile Considerations
+
 - **Touch Targets**: Minimum 44px for interactive elements
 - **Scroll Performance**: Use transform3d for smooth animations
 - **Image Sizing**: Optimize for mobile bandwidth
@@ -382,6 +406,7 @@ This guide documents the Phase 3 visual components designed to create compelling
 ## Component Combinations
 
 ### Hero + Text Blocks Pattern
+
 ```tsx
 <ImageHero title="Section Title" backgroundImage="/hero.jpg" />
 <Container>
@@ -392,6 +417,7 @@ This guide documents the Phase 3 visual components designed to create compelling
 ```
 
 ### Profile Gallery Pattern
+
 ```tsx
 <ImageHero title="Meet Our Team" />
 <Container>
@@ -406,6 +432,7 @@ This guide documents the Phase 3 visual components designed to create compelling
 ```
 
 ### Timeline Narrative Pattern
+
 ```tsx
 <ImageHero title="Our Journey" />
 <Container>
@@ -423,18 +450,21 @@ This guide documents the Phase 3 visual components designed to create compelling
 ## Maintenance Guidelines
 
 ### 1. Image Management
+
 - **Naming**: Use descriptive, consistent naming conventions
 - **Organization**: Group by section/category
 - **Backup**: Maintain high-resolution originals
 - **Updates**: Regular refresh of outdated content
 
 ### 2. Performance Monitoring
+
 - **Load Times**: Monitor image loading performance
 - **Bundle Size**: Track component bundle impact
 - **User Metrics**: Analyze engagement with visual content
 - **Core Web Vitals**: Optimize for Google's metrics
 
 ### 3. Content Updates
+
 - **Seasonal**: Update images for current seasons/events
 - **Achievements**: Refresh statistics and accomplishments
 - **Staff Changes**: Update profile information promptly

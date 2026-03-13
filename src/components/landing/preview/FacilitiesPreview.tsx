@@ -67,7 +67,8 @@ export const FacilitiesPreview: React.FC = () => {
                                 transform: isIntersecting
                                     ? 'translateX(0)'
                                     : 'translateX(-30px)',
-                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s',
+                                transition:
+                                    'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s',
                             }}
                         >
                             <Box
@@ -118,13 +119,22 @@ export const FacilitiesPreview: React.FC = () => {
                                 transform: isIntersecting
                                     ? 'translateX(0)'
                                     : 'translateX(30px)',
-                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s',
+                                transition:
+                                    'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s',
                             }}
                         >
-                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: 2.5,
+                                }}
+                            >
                                 {keyFacilities.map((facility, index) => {
                                     const IconComponent =
-                                        MuiIcons[facility.icon as keyof typeof MuiIcons];
+                                        MuiIcons[
+                                            facility.icon as keyof typeof MuiIcons
+                                        ];
 
                                     return (
                                         <Box
@@ -137,17 +147,21 @@ export const FacilitiesPreview: React.FC = () => {
                                                 borderRadius: 1,
                                                 border: '1px solid',
                                                 borderColor: 'divider',
-                                                backgroundColor: 'background.paper',
+                                                backgroundColor:
+                                                    'background.paper',
                                                 opacity: isIntersecting ? 1 : 0,
                                                 transform: isIntersecting
                                                     ? 'translateY(0)'
                                                     : 'translateY(20px)',
-                                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+                                                transition:
+                                                    'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
                                                 transitionDelay: `${0.5 + index * 0.1}s`,
                                                 '&:hover': {
                                                     borderColor: facility.color,
-                                                    backgroundColor: facility.color + '08',
-                                                    transform: 'translateY(-2px)',
+                                                    backgroundColor:
+                                                        facility.color + '08',
+                                                    transform:
+                                                        'translateY(-2px)',
                                                 },
                                             }}
                                         >
@@ -158,10 +172,13 @@ export const FacilitiesPreview: React.FC = () => {
                                                         width: 40,
                                                         height: 40,
                                                         borderRadius: 1,
-                                                        backgroundColor: facility.color + '15',
+                                                        backgroundColor:
+                                                            facility.color +
+                                                            '15',
                                                         display: 'flex',
                                                         alignItems: 'center',
-                                                        justifyContent: 'center',
+                                                        justifyContent:
+                                                            'center',
                                                         flexShrink: 0,
                                                     }}
                                                 >
@@ -213,11 +230,7 @@ export const FacilitiesPreview: React.FC = () => {
                         justifyContent: 'center',
                     }}
                 >
-                    <CTAButton
-                        to={cta.route}
-                        variant="primary"
-                        size="medium"
-                    >
+                    <CTAButton to={cta.route} variant="primary" size="medium">
                         {cta.text}
                     </CTAButton>
                 </Box>

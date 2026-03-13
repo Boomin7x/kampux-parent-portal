@@ -38,11 +38,8 @@ export const GalleryPreview: React.FC<GalleryPreviewProps> = ({
         >
             {/* Gallery Grid */}
             <Grid container spacing={1.5}>
-                {galleryItems.map((item) => (
-                    <Grid
-                        size={{ xs: 6, sm: 4, md: 4 }}
-                        key={item.id}
-                    >
+                {galleryItems.map(item => (
+                    <Grid size={{ xs: 6, sm: 4, md: 4 }} key={item.id}>
                         <Box
                             sx={{
                                 position: 'relative',
@@ -53,7 +50,8 @@ export const GalleryPreview: React.FC<GalleryPreviewProps> = ({
                                 backgroundSize: 'cover',
                                 backgroundPosition: 'center',
                                 cursor: 'pointer',
-                                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                transition:
+                                    'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                                 '&:hover': {
                                     transform: 'scale(1.02)',
                                     zIndex: 1,

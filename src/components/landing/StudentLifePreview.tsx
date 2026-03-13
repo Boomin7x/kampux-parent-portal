@@ -93,10 +93,17 @@ export const StudentLifePreview: React.FC<StudentLifePreviewProps> = ({
                                 transform: isIntersecting
                                     ? 'translateX(0)'
                                     : 'translateX(-30px)',
-                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s',
+                                transition:
+                                    'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s',
                             }}
                         >
-                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: 2.5,
+                                }}
+                            >
                                 {activities.map((activity, index) => (
                                     <Box
                                         key={activity.id}
@@ -113,11 +120,13 @@ export const StudentLifePreview: React.FC<StudentLifePreviewProps> = ({
                                             transform: isIntersecting
                                                 ? 'translateY(0)'
                                                 : 'translateY(20px)',
-                                            transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+                                            transition:
+                                                'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
                                             transitionDelay: `${0.3 + index * 0.1}s`,
                                             '&:hover': {
                                                 borderColor: activity.color,
-                                                backgroundColor: activity.color + '08',
+                                                backgroundColor:
+                                                    activity.color + '08',
                                                 transform: 'translateY(-2px)',
                                             },
                                         }}
@@ -128,7 +137,8 @@ export const StudentLifePreview: React.FC<StudentLifePreviewProps> = ({
                                                 width: 40,
                                                 height: 40,
                                                 borderRadius: 1,
-                                                backgroundColor: activity.color + '15',
+                                                backgroundColor:
+                                                    activity.color + '15',
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
@@ -160,7 +170,11 @@ export const StudentLifePreview: React.FC<StudentLifePreviewProps> = ({
                                                     fontSize: '0.8125rem',
                                                 }}
                                             >
-                                                {activity.description.substring(0, 100)}...
+                                                {activity.description.substring(
+                                                    0,
+                                                    100
+                                                )}
+                                                ...
                                             </Typography>
                                         </Box>
                                     </Box>
@@ -180,7 +194,8 @@ export const StudentLifePreview: React.FC<StudentLifePreviewProps> = ({
                                 transform: isIntersecting
                                     ? 'translateX(0)'
                                     : 'translateX(30px)',
-                                transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s',
+                                transition:
+                                    'all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s',
                             }}
                         >
                             <Box

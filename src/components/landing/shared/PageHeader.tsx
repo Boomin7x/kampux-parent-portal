@@ -97,9 +97,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
         if (customBreadcrumbs) return customBreadcrumbs;
 
         const pathSegments = location.pathname.split('/').filter(Boolean);
-        const breadcrumbs: BreadcrumbItem[] = [
-            { label: 'Home', href: '/' }
-        ];
+        const breadcrumbs: BreadcrumbItem[] = [{ label: 'Home', href: '/' }];
 
         // Add current page based on path
         if (pathSegments.length > 0) {
@@ -183,7 +181,9 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
                     sx={{
                         maxWidth: '800px',
                         opacity: isIntersecting ? 1 : 0,
-                        transform: isIntersecting ? 'translateY(0)' : 'translateY(30px)',
+                        transform: isIntersecting
+                            ? 'translateY(0)'
+                            : 'translateY(30px)',
                         transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
                     }}
                 >
@@ -196,7 +196,10 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
                                 flexWrap: 'nowrap',
                             },
                             '& .MuiBreadcrumbs-separator': {
-                                color: textColor === 'light' ? 'rgba(255, 255, 255, 0.7)' : 'text.secondary',
+                                color:
+                                    textColor === 'light'
+                                        ? 'rgba(255, 255, 255, 0.7)'
+                                        : 'text.secondary',
                             },
                         }}
                     >
@@ -206,7 +209,10 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
                                     <Typography
                                         variant="caption"
                                         sx={{
-                                            color: textColor === 'light' ? 'rgba(255, 255, 255, 0.9)' : 'text.primary',
+                                            color:
+                                                textColor === 'light'
+                                                    ? 'rgba(255, 255, 255, 0.9)'
+                                                    : 'text.primary',
                                             fontWeight: 500,
                                         }}
                                     >
@@ -218,10 +224,16 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
                                         to={item.href}
                                         variant="caption"
                                         sx={{
-                                            color: textColor === 'light' ? 'rgba(255, 255, 255, 0.7)' : 'text.secondary',
+                                            color:
+                                                textColor === 'light'
+                                                    ? 'rgba(255, 255, 255, 0.7)'
+                                                    : 'text.secondary',
                                             textDecoration: 'none',
                                             '&:hover': {
-                                                color: textColor === 'light' ? 'white' : 'primary.main',
+                                                color:
+                                                    textColor === 'light'
+                                                        ? 'white'
+                                                        : 'primary.main',
                                                 textDecoration: 'underline',
                                             },
                                         }}
@@ -241,18 +253,22 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
                             fontWeight: 700,
                             lineHeight: 1.1,
                             mb: subtitle ? 2 : 0,
-                            background: textColor === 'dark' && !backgroundImage
-                                ? 'linear-gradient(135deg, #6366f1, #8b5cf6)'
-                                : undefined,
-                            backgroundClip: textColor === 'dark' && !backgroundImage
-                                ? 'text'
-                                : undefined,
-                            WebkitBackgroundClip: textColor === 'dark' && !backgroundImage
-                                ? 'text'
-                                : undefined,
-                            WebkitTextFillColor: textColor === 'dark' && !backgroundImage
-                                ? 'transparent'
-                                : undefined,
+                            background:
+                                textColor === 'dark' && !backgroundImage
+                                    ? 'linear-gradient(135deg, #6366f1, #8b5cf6)'
+                                    : undefined,
+                            backgroundClip:
+                                textColor === 'dark' && !backgroundImage
+                                    ? 'text'
+                                    : undefined,
+                            WebkitBackgroundClip:
+                                textColor === 'dark' && !backgroundImage
+                                    ? 'text'
+                                    : undefined,
+                            WebkitTextFillColor:
+                                textColor === 'dark' && !backgroundImage
+                                    ? 'transparent'
+                                    : undefined,
                         }}
                     >
                         {title}
@@ -265,7 +281,10 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
                             sx={{
                                 fontSize: { xs: '1rem', md: '1.25rem' },
                                 fontWeight: 400,
-                                color: textColor === 'light' ? 'rgba(255, 255, 255, 0.9)' : 'text.secondary',
+                                color:
+                                    textColor === 'light'
+                                        ? 'rgba(255, 255, 255, 0.9)'
+                                        : 'text.secondary',
                                 maxWidth: '600px',
                                 lineHeight: 1.5,
                             }}

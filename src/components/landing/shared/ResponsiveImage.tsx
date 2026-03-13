@@ -118,7 +118,9 @@ export const ResponsiveImage: React.FC<ResponsiveImageProps> = ({
     }, [srcSet]);
 
     // Generate sizes attribute for responsive images
-    const sizes = srcSet ? '(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 1920px' : undefined;
+    const sizes = srcSet
+        ? '(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 1920px'
+        : undefined;
 
     return (
         <Box

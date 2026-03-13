@@ -1,28 +1,28 @@
 {
-  "navigation": {
-    "dashboard": "Dashboard",
-    "billing": "Billing",
-    "feeOverview": "Fee Overview",
-    "paymentHistory": "Payment History",
-    "academicResults": "Academic Results",
-    "studentMarks": "Student Marks",
-    "resultsOverview": "Results Overview",
-    "sequentialAssessments": "Sequential Assessments",
-    "termReports": "Term Reports",
-    "timetable": "Timetable",
-    "attendance": "Attendance",
-    "attendanceTracking": "Attendance Tracking",
-    "studentSheet": "Student Sheet"
-  },
-  "header": {
-    "parentPortal": "Parent Portal"
-  },
-  "footer": {
-    "schoolName": "Excellence Academy",
-    "version": "Parent Portal v2.0",
-    "backToHome": "Back to Home"
-  },
-  "actions": {
-    "complaint": "Complaint"
-  }
+    "navigation": {
+        "dashboard": "Dashboard",
+        "billing": "Billing",
+        "feeOverview": "Fee Overview",
+        "paymentHistory": "Payment History",
+        "academicResults": "Academic Results",
+        "studentMarks": "Student Marks",
+        "resultsOverview": "Results Overview",
+        "sequentialAssessments": "Sequential Assessments",
+        "termReports": "Term Reports",
+        "timetable": "Timetable",
+        "attendance": "Attendance",
+        "attendanceTracking": "Attendance Tracking",
+        "studentSheet": "Student Sheet"
+    },
+    "header": {
+        "parentPortal": "Parent Portal"
+    },
+    "footer": {
+        "schoolName": "Excellence Academy",
+        "version": "Parent Portal v2.0",
+        "backToHome": "Back to Home"
+    },
+    "actions": {
+        "complaint": "Complaint"
+    }
 }

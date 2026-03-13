@@ -7,7 +7,7 @@ import type { StudentLifeContent } from '../../pages/Landing/_models/StudentLife
 
 export const studentLifeContent: StudentLifeContent = {
     philosophy:
-        "At Kampux Academy, we believe that education extends far beyond the classroom. Student life is where young people discover their passions, develop leadership skills, build lasting friendships, and learn what it means to be part of a vibrant community. Through diverse activities, clubs, athletics, and events, students explore new interests, challenge themselves, and grow as individuals. We are committed to creating an inclusive environment where every student finds their place and develops the confidence to pursue their dreams. Our student life programs emphasize character development, teamwork, creativity, and service to others. By balancing academic rigor with rich co-curricular opportunities, we nurture well-rounded individuals prepared to thrive in college and beyond.",
+        'At Kampux Academy, we believe that education extends far beyond the classroom. Student life is where young people discover their passions, develop leadership skills, build lasting friendships, and learn what it means to be part of a vibrant community. Through diverse activities, clubs, athletics, and events, students explore new interests, challenge themselves, and grow as individuals. We are committed to creating an inclusive environment where every student finds their place and develops the confidence to pursue their dreams. Our student life programs emphasize character development, teamwork, creativity, and service to others. By balancing academic rigor with rich co-curricular opportunities, we nurture well-rounded individuals prepared to thrive in college and beyond.',
 
     activities: [
         {
@@ -294,7 +294,7 @@ export const studentLifeContent: StudentLifeContent = {
             time: '7:00 PM',
             location: 'Performing Arts Center',
             description:
-                'Our theater department presents Arthur Miller\'s classic drama. Three performances: November 12, 13, and 14. Tickets available at the door.',
+                "Our theater department presents Arthur Miller's classic drama. Three performances: November 12, 13, and 14. Tickets available at the door.",
             category: 'Arts & Culture',
         },
         {
@@ -324,7 +324,7 @@ export const studentLifeContent: StudentLifeContent = {
             time: '9:00 AM-3:00 PM',
             location: 'Various Community Sites',
             description:
-                'Honor Dr. King\'s legacy through community service. Student volunteers serve at local nonprofits, food banks, and community centers.',
+                "Honor Dr. King's legacy through community service. Student volunteers serve at local nonprofits, food banks, and community centers.",
             category: 'Community Service',
         },
         {

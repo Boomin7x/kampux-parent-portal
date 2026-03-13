@@ -105,7 +105,11 @@ export const ProgramCard: React.FC<ProgramCardProps> = ({
                     {features.map((feature, index) => (
                         <Box
                             key={index}
-                            sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'flex-start',
+                                gap: 1,
+                            }}
                         >
                             <CheckCircleIcon
                                 sx={{

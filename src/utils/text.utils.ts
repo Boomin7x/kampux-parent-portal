@@ -66,7 +66,9 @@ export const getInitials = (name: string): string => {
     if (parts.length === 1) {
         return parts[0].charAt(0).toUpperCase();
     }
-    return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+    return (
+        parts[0].charAt(0) + parts[parts.length - 1].charAt(0)
+    ).toUpperCase();
 };
 
 /**
@@ -102,7 +104,10 @@ export const countWords = (text: string): number => {
 /**
  * Estimate reading time in minutes
  */
-export const estimateReadingTime = (text: string, wordsPerMinute: number = 200): number => {
+export const estimateReadingTime = (
+    text: string,
+    wordsPerMinute: number = 200
+): number => {
     const wordCount = countWords(text);
     return Math.ceil(wordCount / wordsPerMinute);
 };
@@ -142,7 +147,11 @@ export const nl2br = (text: string): string => {
 /**
  * Pluralize word based on count
  */
-export const pluralize = (word: string, count: number, suffix: string = 's'): string => {
+export const pluralize = (
+    word: string,
+    count: number,
+    suffix: string = 's'
+): string => {
     return count === 1 ? word : word + suffix;
 };
 

@@ -1,22 +1,22 @@
 {
-  "header": {
-    "parentPortal": "Parent Portal"
-  },
-  "navigation": {
-    "dashboard": "Dashboard",
-    "billing": "Billing",
-    "feeOverview": "Fee Overview",
-    "paymentHistory": "Payment History",
-    "academicResults": "Academic Results",
-    "studentMarks": "Student Marks",
-    "timetable": "Timetable",
-    "attendance": "Attendance",
-    "attendanceTracking": "Attendance Tracking",
-    "studentSheet": "Student Sheet"
-  },
-  "footer": {
-    "backToHome": "Back to Home",
-    "schoolName": "Univsoft School",
-    "version": "Version 1.0.0"
-  }
+    "header": {
+        "parentPortal": "Parent Portal"
+    },
+    "navigation": {
+        "dashboard": "Dashboard",
+        "billing": "Billing",
+        "feeOverview": "Fee Overview",
+        "paymentHistory": "Payment History",
+        "academicResults": "Academic Results",
+        "studentMarks": "Student Marks",
+        "timetable": "Timetable",
+        "attendance": "Attendance",
+        "attendanceTracking": "Attendance Tracking",
+        "studentSheet": "Student Sheet"
+    },
+    "footer": {
+        "backToHome": "Back to Home",
+        "schoolName": "Univsoft School",
+        "version": "Version 1.0.0"
+    }
 }

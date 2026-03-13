@@ -4,22 +4,22 @@
         "overview": "Resumen de asistencia",
         "monthlyTab": "Calendario mensual",
         "weeklyTab": "Horario semanal",
-        "periodTab": "Asistencia por período",
+        "periodTab": "Asistencia por perï¿½odo",
         "monthlyHeader": "Resumen mensual",
         "stats": {
             "rate": "Tasa de asistencia",
-            "present": "Días presentes",
-            "late": "Días tarde",
-            "absent": "Días ausentes"
+            "present": "Dï¿½as presentes",
+            "late": "Dï¿½as tarde",
+            "absent": "Dï¿½as ausentes"
         },
         "days": {
             "sun": "Dom",
             "mon": "Lun",
             "tue": "Mar",
-            "wed": "Mié",
+            "wed": "Miï¿½",
             "thu": "Jue",
             "fri": "Vie",
-            "sat": "Sáb"
+            "sat": "Sï¿½b"
         },
         "weekend": "Fin de semana",
         "legend": "LEYENDA",
@@ -28,17 +28,17 @@
             "late": "Tarde",
             "absent": "Ausente",
             "earlyOut": "Salida temprana",
-            "notYet": "Aún no",
+            "notYet": "Aï¿½n no",
             "unknown": "Desconocido",
-            "lateArrival": "Llegada tardía",
+            "lateArrival": "Llegada tardï¿½a",
             "earlyDismissal": "Salida temprana"
         },
         "weeklySummary": "Resumen semanal",
-        "period": "Período {{period}}",
+        "period": "Perï¿½odo {{period}}",
         "weekdays": {
             "monday": "Lunes",
             "tuesday": "Martes",
-            "wednesday": "Miércoles",
+            "wednesday": "Miï¿½rcoles",
             "thursday": "Jueves",
             "friday": "Viernes"
         },
@@ -47,12 +47,12 @@
             "overallStatus": "Estado general",
             "timeIn": "Hora de entrada",
             "timeOut": "Hora de salida",
-            "periodsPresent": "Períodos presentes",
+            "periodsPresent": "Perï¿½odos presentes",
             "notes": "Notas",
             "close": "Cerrar",
-            "periodTitle": "Detalles de asistencia por período",
+            "periodTitle": "Detalles de asistencia por perï¿½odo",
             "teacher": "Profesor",
-            "location": "Ubicación",
+            "location": "Ubicaciï¿½n",
             "requiresContact": "Requiere contacto de los padres"
         }
     },
@@ -60,14 +60,14 @@
         "selectStudent": "Selecciona un estudiante para ver su horario semanal",
         "loading": "Cargando horario semanal...",
         "error": "Error al cargar el horario",
-        "unexpectedError": "Ocurrió un error inesperado",
+        "unexpectedError": "Ocurriï¿½ un error inesperado",
         "header": "Horario Semanal",
         "subjects_one": "{{count}} Materia",
         "subjects_other": "{{count}} Materias",
         "weekOf": "Semana del",
         "to": "al",
         "totalClasses": "Total de clases",
-        "sessions_one": "{{count}} sesión",
+        "sessions_one": "{{count}} sesiï¿½n",
         "sessions_other": "{{count}} sesiones",
         "disciplines_one": "{{count}} disciplina",
         "disciplines_other": "{{count}} disciplinas",
@@ -75,9 +75,9 @@
         "dailySchedule": "Horario diario",
         "today": "Hoy",
         "workload": {
-            "heavy": "Día intenso",
-            "moderate": "Día normal",
-            "light": "Día ligero"
+            "heavy": "Dï¿½a intenso",
+            "moderate": "Dï¿½a normal",
+            "light": "Dï¿½a ligero"
         },
         "classes_one": "{{count}} clase",
         "classes_other": "{{count}} clases",

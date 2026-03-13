@@ -89,7 +89,11 @@ export const FacultyCard: React.FC<FacultyCardProps> = ({
                             fontSize: '0.75rem',
                         }}
                     >
-                        {faculty.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+                        {faculty.name
+                            .split(' ')
+                            .map(n => n[0])
+                            .join('')
+                            .slice(0, 2)}
                     </Avatar>
                     <Typography
                         variant="subtitle2"
@@ -156,18 +160,20 @@ export const FacultyCard: React.FC<FacultyCardProps> = ({
                         Qualifications:
                     </Typography>
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                        {faculty.qualifications.slice(0, 2).map((qual, qualIndex) => (
-                            <Chip
-                                key={qualIndex}
-                                label={qual}
-                                variant="outlined"
-                                size="small"
-                                sx={{
-                                    fontSize: '0.75rem',
-                                    height: '18px',
-                                }}
-                            />
-                        ))}
+                        {faculty.qualifications
+                            .slice(0, 2)
+                            .map((qual, qualIndex) => (
+                                <Chip
+                                    key={qualIndex}
+                                    label={qual}
+                                    variant="outlined"
+                                    size="small"
+                                    sx={{
+                                        fontSize: '0.75rem',
+                                        height: '18px',
+                                    }}
+                                />
+                            ))}
                         {faculty.qualifications.length > 2 && (
                             <Chip
                                 label={`+${faculty.qualifications.length - 2} more`}

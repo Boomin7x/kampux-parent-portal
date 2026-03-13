@@ -1,46 +1,46 @@
 {
-  "overline": "Contact Excellence Academy",
-  "title": "Connect With Us",
-  "subtitle": "Ready to begin your educational journey? We're here to guide you every step of the way.",
-  "image": {
-    "alt": "Welcoming entrance to Excellence Academy showcasing our commitment to educational excellence",
-    "caption": "Welcome to Excellence Academy"
-  },
-  "quickContact": {
-    "phone": {
-      "title": "Call Us",
-      "value": "(555) 123-4567",
-      "description": "Available during office hours"
+    "overline": "Contact Excellence Academy",
+    "title": "Connect With Us",
+    "subtitle": "Ready to begin your educational journey? We're here to guide you every step of the way.",
+    "image": {
+        "alt": "Welcoming entrance to Excellence Academy showcasing our commitment to educational excellence",
+        "caption": "Welcome to Excellence Academy"
     },
-    "email": {
-      "title": "Email Us",
-      "value": "info@excellenceacademy.edu",
-      "description": "General inquiries & support"
+    "quickContact": {
+        "phone": {
+            "title": "Call Us",
+            "value": "(555) 123-4567",
+            "description": "Available during office hours"
+        },
+        "email": {
+            "title": "Email Us",
+            "value": "info@excellenceacademy.edu",
+            "description": "General inquiries & support"
+        },
+        "location": {
+            "title": "Visit Us",
+            "value": "123 Education Boulevard",
+            "description": "Learning City, LC 12345"
+        },
+        "hours": {
+            "title": "Office Hours",
+            "value": "Monday - Friday",
+            "description": "8:00 AM - 4:00 PM"
+        }
     },
-    "location": {
-      "title": "Visit Us",
-      "value": "123 Education Boulevard",
-      "description": "Learning City, LC 12345"
+    "primaryActions": {
+        "portal": {
+            "title": "Access Your Dashboard",
+            "description": "Monitor your child's academic progress, view assignments, and stay connected.",
+            "buttonText": "Parent Portal"
+        },
+        "tour": {
+            "title": "Schedule Your Visit",
+            "description": "Experience our world-class facilities and meet our dedicated team.",
+            "buttonText": "Book Tour"
+        }
     },
-    "hours": {
-      "title": "Office Hours",
-      "value": "Monday - Friday",
-      "description": "8:00 AM - 4:00 PM"
+    "cta": {
+        "text": "Get in Touch"
     }
-  },
-  "primaryActions": {
-    "portal": {
-      "title": "Access Your Dashboard",
-      "description": "Monitor your child's academic progress, view assignments, and stay connected.",
-      "buttonText": "Parent Portal"
-    },
-    "tour": {
-      "title": "Schedule Your Visit",
-      "description": "Experience our world-class facilities and meet our dedicated team.",
-      "buttonText": "Book Tour"
-    }
-  },
-  "cta": {
-    "text": "Get in Touch"
-  }
 }

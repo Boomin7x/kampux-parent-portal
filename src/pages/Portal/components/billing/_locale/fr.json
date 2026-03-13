@@ -1,112 +1,112 @@
 {
-  "errors": {
-    "failedToLoad": "Échec du chargement des données de facturation",
-    "unexpectedError": "Une erreur inattendue s'est produite"
-  },
-  "loading": {
-    "loadingData": "Chargement des données de facturation..."
-  },
-  "noData": {
-    "title": "Aucune donnée de facturation disponible",
-    "description": "Aucune information de facturation trouvée pour cet étudiant."
-  },
-  "noStudent": {
-    "selectStudent": "Sélectionnez un étudiant pour voir les informations de facturation"
-  },
-  "overview": {
-    "billing": "Facturation",
-    "title": " - Facturation",
-    "total": "Total",
-    "paid": "Payé",
-    "outstanding": "Impayé",
-    "overdue": "En retard",
-    "dueSoon": "Bientôt dû",
-    "unpaid": "Non payé",
-    "viewAll": "Voir tout",
-    "payNow": "Payer maintenant",
-    "download": "Télécharger",
-    "view": "Voir"
-  },
-  "tabs": {
-    "all": "Tout",
-    "unpaid": "Non payé",
-    "overdue": "En retard",
-    "dueSoon": "Bientôt dû",
-    "paid": "Payé"
-  },
-  "status": {
-    "paid": "Payé",
-    "unpaid": "Non payé",
-    "overdue": "En retard",
-    "dueSoon": "Bientôt dû",
-    "cancelled": "Annulé"
-  },
-  "payment": {
-    "receipt": "Reçu",
-    "reference": "Référence",
-    "date": "Date",
-    "amount": "Montant",
-    "method": "Méthode",
-    "status": "Statut",
-    "description": "Description",
-    "breakdown": "Détail"
-  },
-  "fees": {
-    "tuition": "Scolarité",
-    "transport": "Transport",
-    "activities": "Activités",
-    "materials": "Matériel",
-    "registration": "Inscription",
-    "exam": "Examen",
-    "other": "Autre",
-    "schoolFees": "Frais de scolarité",
-    "notSpecified": "Non spécifié",
-    "inscription": "Inscription"
-  },
-  "labels": {
-    "outstanding": "Impayé",
-    "billing": " - Facturation",
-    "overdue": "En retard",
-    "dueSoon": "Bientôt dû",
-    "totalPaid": "Total Payé",
-    "validPayments": "Paiements Valides",
-    "cancelledPayments": "Paiements Annulés",
-    "paymentHistory": "Historique des Paiements",
-    "paymentDetails": "Détails du Paiement",
-    "operationDetails": "Détail des opérations",
-    "billingDetails": "Détails de Facturation",
-    "makePayment": "Effectuer un Paiement",
-    "statement": "Relevé",
-    "history": "Historique",
-    "actions": "Actions",
-    "dueDate": "Date d'Échéance"
-  },
-  "messages": {
-    "selectStudentForHistory": "Veuillez sélectionner un étudiant pour voir l'historique des paiements.",
-    "noPaymentsFound": "Aucun paiement trouvé pour cet étudiant.",
-    "detailOfOperations": "Détail des opérations de paiement effectuées",
-    "noUnpaidAmount": "Aucun montant impayé",
-    "noOverduePayments": "Aucun paiement en retard. Excellent travail pour rester à jour !",
-    "noPaymentsDue": "Aucun paiement dû dans les 14 prochains jours.",
-    "noPaymentsMade": "Aucun paiement n'a encore été effectué.",
-    "daysOverdue": "jours de retard",
-    "days": "jours",
-    "remaining": "restant",
-    "due": "Échéance",
-    "net": "Net",
-    "validatedPayment": "Validé",
-    "cancelledPayment": "Annulé",
-    "invoice": "Facture",
-    "paymentMode": "Mode de paiement",
-    "bearer": "Porteur",
-    "issueDate": "Date d'émission",
-    "detailedAmounts": "Montants Détaillés",
-    "paymentCancelled": "PAIEMENT ANNULÉ",
-    "reason": "Motif",
-    "cancellationDate": "Date d'annulation",
-    "dateReference": "Date / Référence",
-    "amount": "Montant",
-    "distribution": "Répartition",
-    "cashier": "Caissier"
-  }
+    "errors": {
+        "failedToLoad": "Échec du chargement des données de facturation",
+        "unexpectedError": "Une erreur inattendue s'est produite"
+    },
+    "loading": {
+        "loadingData": "Chargement des données de facturation..."
+    },
+    "noData": {
+        "title": "Aucune donnée de facturation disponible",
+        "description": "Aucune information de facturation trouvée pour cet étudiant."
+    },
+    "noStudent": {
+        "selectStudent": "Sélectionnez un étudiant pour voir les informations de facturation"
+    },
+    "overview": {
+        "billing": "Facturation",
+        "title": " - Facturation",
+        "total": "Total",
+        "paid": "Payé",
+        "outstanding": "Impayé",
+        "overdue": "En retard",
+        "dueSoon": "Bientôt dû",
+        "unpaid": "Non payé",
+        "viewAll": "Voir tout",
+        "payNow": "Payer maintenant",
+        "download": "Télécharger",
+        "view": "Voir"
+    },
+    "tabs": {
+        "all": "Tout",
+        "unpaid": "Non payé",
+        "overdue": "En retard",
+        "dueSoon": "Bientôt dû",
+        "paid": "Payé"
+    },
+    "status": {
+        "paid": "Payé",
+        "unpaid": "Non payé",
+        "overdue": "En retard",
+        "dueSoon": "Bientôt dû",
+        "cancelled": "Annulé"
+    },
+    "payment": {
+        "receipt": "Reçu",
+        "reference": "Référence",
+        "date": "Date",
+        "amount": "Montant",
+        "method": "Méthode",
+        "status": "Statut",
+        "description": "Description",
+        "breakdown": "Détail"
+    },
+    "fees": {
+        "tuition": "Scolarité",
+        "transport": "Transport",
+        "activities": "Activités",
+        "materials": "Matériel",
+        "registration": "Inscription",
+        "exam": "Examen",
+        "other": "Autre",
+        "schoolFees": "Frais de scolarité",
+        "notSpecified": "Non spécifié",
+        "inscription": "Inscription"
+    },
+    "labels": {
+        "outstanding": "Impayé",
+        "billing": " - Facturation",
+        "overdue": "En retard",
+        "dueSoon": "Bientôt dû",
+        "totalPaid": "Total Payé",
+        "validPayments": "Paiements Valides",
+        "cancelledPayments": "Paiements Annulés",
+        "paymentHistory": "Historique des Paiements",
+        "paymentDetails": "Détails du Paiement",
+        "operationDetails": "Détail des opérations",
+        "billingDetails": "Détails de Facturation",
+        "makePayment": "Effectuer un Paiement",
+        "statement": "Relevé",
+        "history": "Historique",
+        "actions": "Actions",
+        "dueDate": "Date d'Échéance"
+    },
+    "messages": {
+        "selectStudentForHistory": "Veuillez sélectionner un étudiant pour voir l'historique des paiements.",
+        "noPaymentsFound": "Aucun paiement trouvé pour cet étudiant.",
+        "detailOfOperations": "Détail des opérations de paiement effectuées",
+        "noUnpaidAmount": "Aucun montant impayé",
+        "noOverduePayments": "Aucun paiement en retard. Excellent travail pour rester à jour !",
+        "noPaymentsDue": "Aucun paiement dû dans les 14 prochains jours.",
+        "noPaymentsMade": "Aucun paiement n'a encore été effectué.",
+        "daysOverdue": "jours de retard",
+        "days": "jours",
+        "remaining": "restant",
+        "due": "Échéance",
+        "net": "Net",
+        "validatedPayment": "Validé",
+        "cancelledPayment": "Annulé",
+        "invoice": "Facture",
+        "paymentMode": "Mode de paiement",
+        "bearer": "Porteur",
+        "issueDate": "Date d'émission",
+        "detailedAmounts": "Montants Détaillés",
+        "paymentCancelled": "PAIEMENT ANNULÉ",
+        "reason": "Motif",
+        "cancellationDate": "Date d'annulation",
+        "dateReference": "Date / Référence",
+        "amount": "Montant",
+        "distribution": "Répartition",
+        "cashier": "Caissier"
+    }
 }

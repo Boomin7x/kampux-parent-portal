@@ -34,7 +34,7 @@ export const pageMetadata: Record<string, PageMetadata> = {
     about: {
         title: 'About Us - Kampux Academy Mission & Values',
         description:
-            'Learn about Kampux Academy\'s mission, vision, core values, and dedicated leadership team. Discover our rich history and commitment to transforming lives through education.',
+            "Learn about Kampux Academy's mission, vision, core values, and dedicated leadership team. Discover our rich history and commitment to transforming lives through education.",
         keywords: [
             'school mission',
             'educational values',
@@ -49,7 +49,7 @@ export const pageMetadata: Record<string, PageMetadata> = {
     academics: {
         title: 'Academic Programs - Kampux Academy Curriculum',
         description:
-            'Explore Kampux Academy\'s comprehensive academic programs including 28 AP courses, STEM excellence, arts programs, and college-preparatory curriculum for grades K-12.',
+            "Explore Kampux Academy's comprehensive academic programs including 28 AP courses, STEM excellence, arts programs, and college-preparatory curriculum for grades K-12.",
         keywords: [
             'academic programs',
             'AP courses',
@@ -64,7 +64,7 @@ export const pageMetadata: Record<string, PageMetadata> = {
     faculty: {
         title: 'Faculty & Staff - Kampux Academy Educators',
         description:
-            'Meet Kampux Academy\'s exceptional faculty members - experienced educators with advanced degrees dedicated to inspiring students and fostering academic excellence.',
+            "Meet Kampux Academy's exceptional faculty members - experienced educators with advanced degrees dedicated to inspiring students and fostering academic excellence.",
         keywords: [
             'teachers',
             'faculty',
@@ -94,7 +94,7 @@ export const pageMetadata: Record<string, PageMetadata> = {
     facilities: {
         title: 'Campus & Facilities - Kampux Academy',
         description:
-            'Tour Kampux Academy\'s state-of-the-art facilities including STEM labs, performing arts center, athletic complex, and sustainable campus features.',
+            "Tour Kampux Academy's state-of-the-art facilities including STEM labs, performing arts center, athletic complex, and sustainable campus features.",
         keywords: [
             'school facilities',
             'campus tour',
@@ -110,7 +110,12 @@ export const pageMetadata: Record<string, PageMetadata> = {
         title: 'Photo Gallery - Life at Kampux Academy',
         description:
             'View photos of student life, campus facilities, events, and activities at Kampux Academy. See our vibrant community in action.',
-        keywords: ['photo gallery', 'campus photos', 'student activities', 'school events'],
+        keywords: [
+            'photo gallery',
+            'campus photos',
+            'student activities',
+            'school events',
+        ],
         ogTitle: 'Gallery - See Kampux Academy in Action',
         ogDescription:
             'Browse photos of our vibrant campus community, from classroom innovation to athletic achievements and artistic performances.',

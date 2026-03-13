@@ -1,20 +1,20 @@
 {
-  "messages": {
-    "noRecordsFound": "No student records found."
-  },
-  "noStudent": {
-    "selectStudent": "Select a Student"
-  },
-  "studentInfo": {
-    "grade": "Grade"
-  },
-  "statItem": {
-    "gpa": "GPA",
-    "attendance": "Attend.",
-    "alerts": "Alerts"
-  },
-  "studentSelector": {
-    "students_one": "{{count}} student",
-    "students_other": "{{count}} students"
-  }
+    "messages": {
+        "noRecordsFound": "No student records found."
+    },
+    "noStudent": {
+        "selectStudent": "Select a Student"
+    },
+    "studentInfo": {
+        "grade": "Grade"
+    },
+    "statItem": {
+        "gpa": "GPA",
+        "attendance": "Attend.",
+        "alerts": "Alerts"
+    },
+    "studentSelector": {
+        "students_one": "{{count}} student",
+        "students_other": "{{count}} students"
+    }
 }

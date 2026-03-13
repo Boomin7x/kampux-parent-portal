@@ -1,51 +1,51 @@
 {
-  "title": "New Complaint",
-  "studentId": "Student ID: {{id}}",
-  "noStudentSelected": "Please select a student to submit a complaint.",
-  "loadingCategoriesError": "Error loading complaint categories.",
-  "alerts": {
-    "submitSuccess": "Complaint submitted successfully. You will receive a confirmation.",
-    "submitError": "Error submitting complaint. Please try again."
-  },
-  "form": {
-    "category": {
-      "label": "Complaint Category *"
+    "title": "New Complaint",
+    "studentId": "Student ID: {{id}}",
+    "noStudentSelected": "Please select a student to submit a complaint.",
+    "loadingCategoriesError": "Error loading complaint categories.",
+    "alerts": {
+        "submitSuccess": "Complaint submitted successfully. You will receive a confirmation.",
+        "submitError": "Error submitting complaint. Please try again."
     },
-    "summary": {
-      "label": "Complaint Summary *",
-      "placeholder": "A concise summary in a few words...",
-      "helperText": "{{count}}/100 characters"
+    "form": {
+        "category": {
+            "label": "Complaint Category *"
+        },
+        "summary": {
+            "label": "Complaint Summary *",
+            "placeholder": "A concise summary in a few words...",
+            "helperText": "{{count}}/100 characters"
+        },
+        "description": {
+            "label": "Detailed Description *",
+            "placeholder": "Describe your complaint in detail...",
+            "helperText": "{{count}}/500 characters"
+        },
+        "cancelButton": "Cancel",
+        "submitButton": {
+            "default": "Submit Complaint",
+            "pending": "Submitting..."
+        }
     },
-    "description": {
-      "label": "Detailed Description *",
-      "placeholder": "Describe your complaint in detail...",
-      "helperText": "{{count}}/500 characters"
+    "preview": {
+        "title": "COMPLAINT PREVIEW",
+        "category": "Category:",
+        "summary": "Summary:",
+        "description": "Description:"
     },
-    "cancelButton": "Cancel",
-    "submitButton": {
-      "default": "Submit Complaint",
-      "pending": "Submitting..."
+    "validation": {
+        "category": {
+            "required": "Complaint category is required"
+        },
+        "summary": {
+            "required": "Summary is required",
+            "min": "Summary must be at least 5 characters",
+            "max": "Summary must not exceed 100 characters"
+        },
+        "description": {
+            "required": "Description is required",
+            "min": "Description must be at least 20 characters",
+            "max": "Description must not exceed 500 characters"
+        }
     }
-  },
-  "preview": {
-    "title": "COMPLAINT PREVIEW",
-    "category": "Category:",
-    "summary": "Summary:",
-    "description": "Description:"
-  },
-  "validation": {
-    "category": {
-      "required": "Complaint category is required"
-    },
-    "summary": {
-      "required": "Summary is required",
-      "min": "Summary must be at least 5 characters",
-      "max": "Summary must not exceed 100 characters"
-    },
-    "description": {
-      "required": "Description is required",
-      "min": "Description must be at least 20 characters",
-      "max": "Description must not exceed 500 characters"
-    }
-  }
 }
