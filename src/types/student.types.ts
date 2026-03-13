@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 // Student-related type definitions for the parent portal system
 
 export interface Student {
