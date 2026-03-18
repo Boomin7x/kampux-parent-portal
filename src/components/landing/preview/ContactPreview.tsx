@@ -43,12 +43,12 @@ export const ContactPreview: React.FC = () => {
             ref={targetRef}
             sx={{
                 py: { xs: 6, md: 8 },
-                backgroundColor: '#fefefe',
+                backgroundColor: '#f8fafc',
                 position: 'relative',
             }}
         >
             <Container
-                maxWidth="lg"
+                maxWidth="xl"
                 sx={{
                     opacity: isIntersecting ? 1 : 0,
                     transform: isIntersecting
@@ -274,7 +274,7 @@ export const ContactPreview: React.FC = () => {
 
                                     return (
                                         <Grid
-                                            size={{ xs: 12, sm: 6 }}
+                                            size={{ xs: 12 }}
                                             key={contact.id}
                                         >
                                             {cardContent}

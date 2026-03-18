@@ -31,7 +31,7 @@ export const FacultyPreview: React.FC = () => {
             ref={targetRef}
             sx={{
                 py: { xs: 6, md: 8 },
-                backgroundColor: '#fefefe',
+                backgroundColor: '#f8fafc',
                 position: 'relative',
             }}
         >

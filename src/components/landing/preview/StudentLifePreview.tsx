@@ -33,7 +33,7 @@ export const StudentLifePreview: React.FC = () => {
             overline={overline}
             ctaText={cta.text}
             ctaRoute={cta.route}
-            backgroundColor="#f8fafc"
+            backgroundColor="#fefefe"
         >
             {/* Main Content with Image */}
             <Box ref={targetRef} sx={{ mb: 4 }}>

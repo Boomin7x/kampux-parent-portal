@@ -1,6 +1,7 @@
-import { Box, Button, Typography } from '@mui/material';
-import React, { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Icon } from '@iconify/react';
+import { alpha, Box, Button, Container, Grid, Typography } from '@mui/material';
+import React, { useMemo, type FC } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
     heroSectionContent,
     type IHeroSectionContent,
@@ -8,13 +9,132 @@ import {
 import { useIntersectionObserver } from '../../hooks/ui/useIntersectionObserver';
 import useGetHeroInformation from '../../pages/Landing/_hooks/useGetHeroInformation';
 import type { HeroApiResponse } from '../../pages/Landing/_models/HeroSection';
-
 // API Response Interface
 
 // Hero Section props
 interface HeroSectionProps {
     className?: string;
 }
+
+const threeCardsNav = [
+    {
+        name: 'programs',
+        icon: 'material-symbols-light:menu-book-outline-rounded',
+        link: '/academics',
+        img: '/pexels-boomheadshot-31785121.jpg',
+    },
+    {
+        name: 'History',
+        icon: null,
+        link: '/about',
+        img: '/pexels-katerina-holmes-5905554.jpg',
+    },
+    {
+        name: 'Admission',
+        icon: 'game-icons:graduate-cap',
+        link: '/admission',
+        img: '/pexels-mickael-ange-konan-2156070331-34526425.jpg',
+    },
+];
+const NavCards: FC<{ items: IThreeCardNav; index?: number }> = ({
+    items,
+    index = 0,
+}) => {
+    const isEven = index % 2 === 0;
+
+    return (
+        <Box
+            component={Link}
+            to={items?.link}
+            sx={{
+                textDecoration: 'none',
+                height: '100%',
+                minHeight: { xs: '100px', md: '120px' }, // Ensures cards are uniform height
+                display: 'flex',
+                flexDirection: 'row', // Keep horizontal to look like a navigation bar
+                alignItems: 'center',
+                justifyContent: items?.icon ? 'flex-start' : 'center', // Center text if no icon
+                px: 3,
+                position: 'relative',
+                borderRadius: { xs: '0px', md: '8px' }, // Modern rounded look
+                transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                overflow: 'hidden',
+                '&:before': {
+                    content: '""',
+                    position: 'absolute',
+                    inset: 0,
+                    backgroundImage: theme =>
+                        isEven
+                            ? `linear-gradient(135deg, ${alpha(theme.palette.secondary.dark, 1)}, ${alpha(theme.palette.secondary.light, 0.4)})`
+                            : `linear-gradient(135deg, ${alpha(theme.palette.primary.dark, 1)}, ${alpha(theme.palette.primary.light, 0.8)})`,
+                },
+                backgroundImage: `url(${items?.img})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+                '&:hover': {
+                    transform: 'translateY(-8px)',
+                    boxShadow: '0 12px 40px rgba(0,0,0,0.25)',
+                    '& .card-icon': { transform: 'scale(1.1) rotate(-5deg)' },
+                    '& .inner-border': { opacity: 1, inset: '4px' },
+                },
+            }}
+        >
+            {/* Animated Inner Border */}
+            <Box
+                className="inner-border"
+                sx={{
+                    display: { xs: 'none', md: 'inline-block' },
+                    position: 'absolute',
+                    inset: '8px',
+                    border: '1px solid rgba(255, 255, 255, 0.3)',
+                    borderRadius: '8px',
+                    pointerEvents: 'none',
+                    transition: 'all 0.3s ease',
+                    opacity: 0.5,
+                }}
+            />
+
+            {items?.icon && (
+                <Box
+                    className="card-icon"
+                    component={Icon}
+                    icon={items?.icon}
+                    sx={{
+                        position: 'relative',
+                        fontSize: { xs: '2.5rem', md: '3rem' },
+                        mr: 2,
+                        transition: 'all 0.3s ease',
+                        color: theme =>
+                            isEven
+                                ? theme.palette.secondary.contrastText
+                                : theme.palette.primary.contrastText,
+                    }}
+                />
+            )}
+
+            <Typography
+                variant="h6"
+                sx={{
+                    position: 'relative',
+                    fontWeight: 800,
+                    letterSpacing: '0.5px',
+                    textTransform: 'uppercase', // More "Nav-like"
+                    fontSize: { xs: '0.9rem', md: '1.1rem' },
+                    color: theme =>
+                        isEven
+                            ? theme.palette.secondary.contrastText
+                            : theme.palette.primary.contrastText,
+                }}
+            >
+                {items?.name}
+            </Typography>
+        </Box>
+    );
+};
+
+type IThreeCardNav = (typeof threeCardsNav)[0];
 
 const transformApiToHeroContent = (
     apiData: HeroApiResponse[]
@@ -102,9 +222,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
             ref={targetRef}
             sx={{
                 position: 'relative',
-                height: '100vh',
+                height: '80vh',
                 minHeight: '650px',
-                overflow: 'hidden',
+                // overflow: 'hidden',
                 backgroundImage: `url("${dynamicContent.backgroundImage}")`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center center',
@@ -122,6 +242,32 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
                 },
             }}
         >
+            <Box
+                sx={{
+                    position: 'absolute',
+                    // Instead of a fixed height, use minHeight to allow growth on mobile
+                    minHeight: { xs: 'auto', md: '8rem' },
+                    bottom: 0,
+                    right: 0,
+                    left: 0,
+                    transform: 'translateY(50%)',
+                    zIndex: 3,
+                    display: 'flex',
+                    alignItems: 'center',
+                }}
+            >
+                <Container maxWidth="xl">
+                    <Grid container spacing={{ xs: 0, md: 3 }}>
+                        {' '}
+                        {/* Increased spacing for a breathable look */}
+                        {threeCardsNav.map((items, idx) => (
+                            <Grid key={items?.link} size={{ xs: 12, md: 4 }}>
+                                <NavCards items={items} index={idx} />
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Container>
+            </Box>
             {/* Main Content Container */}
             <Box
                 sx={{
@@ -361,6 +507,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ className = '' }) => {
             {/* Elegant Scroll Indicator */}
             <Box
                 sx={{
+                    display: { xs: 'none', md: 'inline-block' },
                     position: 'absolute',
                     bottom: 50,
                     left: '5%',
