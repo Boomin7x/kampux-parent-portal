@@ -1,6 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
-import { Box, CircularProgress } from '@mui/material';
 import LandingPage from '../pages/Landing/LandingPage';
 import AuthPage from '../pages/Auth/AuthPage';
 import LoginPage from '../pages/Auth/LoginPage';
@@ -12,6 +11,7 @@ import PortalPage from '../pages/Portal/PortalPage';
 import ProtectedRoute from './ProtectedRoute';
 import { ROUTES } from './routes';
 import LandingLayout from '../pages/Landing/landingLayout';
+import { LoadingFallback } from '../components/ui/LoadingFallback';
 
 // Lazy load landing detail pages for better performance
 const AboutPage = lazy(() =>
@@ -49,24 +49,10 @@ const ContactPage = lazy(() =>
         default: module.ContactPage,
     }))
 );
-
-// Loading fallback component
-const LoadingFallback = () => (
-    <Box
-        sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minHeight: '100vh',
-            backgroundColor: '#fefefe',
-        }}
-    >
-        <CircularProgress
-            sx={{
-                color: '#6366f1',
-            }}
-        />
-    </Box>
+const AdmissionPage = lazy(() =>
+    import('../pages/Landing/AdmissionPage').then(module => ({
+        default: module.AdmissionPage,
+    }))
 );
 
 const router = createBrowserRouter([
@@ -132,6 +118,14 @@ const router = createBrowserRouter([
                 element: (
                     <Suspense fallback={<LoadingFallback />}>
                         <ContactPage />
+                    </Suspense>
+                ),
+            },
+            {
+                path: ROUTES.ADMISSION,
+                element: (
+                    <Suspense fallback={<LoadingFallback />}>
+                        <AdmissionPage />
                     </Suspense>
                 ),
             },

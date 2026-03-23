@@ -15,6 +15,7 @@ export const navigationContent = {
         { label: 'Student Life', href: '/student-life' },
         { label: 'Facilities', href: '/facilities' },
         { label: 'Gallery', href: '/gallery' },
+        { label: 'Admission', href: '/admission' },
         { label: 'Contact', href: '/contact' },
     ],
 

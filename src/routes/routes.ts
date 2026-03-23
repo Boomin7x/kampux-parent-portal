@@ -13,6 +13,7 @@ export const ROUTES = {
     FACILITIES: '/facilities',
     GALLERY: '/gallery',
     CONTACT: '/contact',
+    ADMISSION: '/admission',
     PROGRAM: '/program',
 
     // Auth Routes
