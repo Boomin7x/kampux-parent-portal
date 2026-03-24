@@ -14,6 +14,7 @@ export const ROUTES = {
     GALLERY: '/gallery',
     CONTACT: '/contact',
     ADMISSION: '/admission',
+    TRAINING: '/training',
     PROGRAM: '/program',
 
     // Auth Routes

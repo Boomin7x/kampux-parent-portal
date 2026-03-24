@@ -54,6 +54,11 @@ const AdmissionPage = lazy(() =>
         default: module.AdmissionPage,
     }))
 );
+const TrainingPage = lazy(() =>
+    import('../pages/Landing/TrainingPage').then(module => ({
+        default: module.TrainingPage,
+    }))
+);
 
 const router = createBrowserRouter([
     {
@@ -126,6 +131,14 @@ const router = createBrowserRouter([
                 element: (
                     <Suspense fallback={<LoadingFallback />}>
                         <AdmissionPage />
+                    </Suspense>
+                ),
+            },
+            {
+                path: ROUTES.TRAINING,
+                element: (
+                    <Suspense fallback={<LoadingFallback />}>
+                        <TrainingPage />
                     </Suspense>
                 ),
             },
