@@ -183,31 +183,31 @@ export const HeroSwiper: React.FC<HeroSwiperProps> = ({
 export const defaultHeroSlides: HeroSlide[] = [
     {
         id: '1',
-        title: 'Excellence in Education',
-        subtitle: "Nurturing Tomorrow's Leaders Today",
+        title: 'Excellence en Education ',
+        subtitle: 'Former dès aujourd’hui les leaders de demain',
         description:
-            'Providing exceptional education with a focus on academic excellence, character development, and preparing students for a successful future.',
-        ctaText: 'Access Parent Portal',
+            'Offrir une éducation de qualité exceptionnelle, axée sur l’excellence académique, le développement du caractère et la préparation des élèves à un avenir réussi.',
+        ctaText: 'Accès au portail parent',
         ctaLink: '/auth',
         backgroundGradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     },
     {
         id: '2',
-        title: 'Innovative Learning Environment',
-        subtitle: 'Where Curiosity Meets Knowledge',
+        title: 'Environnement Educative Innovante',
+        subtitle: 'Là où la curiosité rencontre le savoir',
         description:
-            'Our modern facilities and innovative teaching methods create an environment where students thrive and reach their full potential.',
-        ctaText: 'Discover Our Programs',
+            'Nos infrastructures modernes et nos méthodes pédagogiques innovantes créent un environnement où les élèves s’épanouissent et atteignent leur plein potentiel.',
+        ctaText: 'Découvrir Nos programmes',
         ctaLink: '/programs',
         backgroundGradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
     },
     {
         id: '3',
-        title: 'Building Strong Communities',
-        subtitle: 'Together We Achieve More',
+        title: 'Construire des communautés solides',
+        subtitle: 'Ensemble, nous accomplissons davantage',
         description:
-            'Fostering strong relationships between students, families, and educators to create a supportive community that champions success.',
-        ctaText: 'Join Our Community',
+            'Favoriser des relations solides entre les élèves, les familles et les éducateurs afin de créer une communauté bienveillante qui soutient la réussite.',
+        ctaText: 'Rejoindre Notre Communauté',
         ctaLink: '/community',
         backgroundGradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
     },

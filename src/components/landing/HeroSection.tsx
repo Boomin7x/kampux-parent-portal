@@ -18,13 +18,13 @@ interface HeroSectionProps {
 
 const threeCardsNav = [
     {
-        name: 'programs',
+        name: 'Programmes',
         icon: 'material-symbols-light:menu-book-outline-rounded',
         link: '/academics',
         img: '/pexels-boomheadshot-31785121.jpg',
     },
     {
-        name: 'History',
+        name: 'A propos',
         icon: null,
         link: '/about',
         img: '/pexels-katerina-holmes-5905554.jpg',

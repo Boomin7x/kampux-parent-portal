@@ -1,67 +1,47 @@
 // Academic Section Content
 export const academicSectionContent = {
     // Section Header
-    overline: 'Academic Programs',
+    overline: 'Programmes Académiques',
 
     // Main Headlines
     title: {
-        primary: 'Excellence',
-        secondary: 'Across', // This gets gradient styling
-        tertiary: 'Every Level',
+        primary: 'L \' Excellence',
+        secondary: 'A', // This gets gradient styling
+        tertiary: 'Tous les Niveaux',
     },
 
     // Subtitle
     subtitle:
-        'Comprehensive programs designed to challenge, inspire, and prepare students for lifelong success.',
+        'Des programmes complets conçus pour défier, inspirer et préparer les élèves à un succès durable.',
 
     // Academic Programs Data
     programs: [
         {
             id: 'elementary',
-            title: 'Elementary Excellence',
-            level: 'Grades K-5',
+            title: 'Primaire',
+            level: 'Petite Section-CM2',
             description:
-                'Building strong foundations through hands-on learning, creativity, and character development in our nurturing elementary environment.',
+                'Bâtir de solides bases grâce à un apprentissage pratique, à la créativité et au développement du caractère dans notre environnement primaire bienveillant.',
             icon: 'School', // Material-UI icon name
             color: '#6366f1',
             backgroundImage: '/pexels-rdne-8500421.jpg',
             features: [
-                'Small Classes',
-                'STEAM Learning',
-                'Character Building',
-                'Creative Arts',
+                'Classes réduites',
+                'Apprentissage STEAM',
+                'Character BuiApprentissage STEAM',
+                'Arts créatifs',
             ],
             stats: [
-                { label: 'Class Size', value: '12:1' },
-                { label: 'Programs', value: '8+' },
-            ],
-        },
-        {
-            id: 'middle',
-            title: 'Middle School Growth',
-            level: 'Grades 6-8',
-            description:
-                'Developing critical thinking and leadership skills during these crucial formative years with personalized attention and advanced curricula.',
-            icon: 'MenuBook',
-            color: '#8b5cf6',
-            backgroundImage: '/shraga-kopstein-eUa90rsmjIs-unsplash.jpg',
-            features: [
-                'Advanced Academics',
-                'Leadership',
-                'Technology',
-                'Social Development',
-            ],
-            stats: [
-                { label: 'Honor Students', value: '85%' },
-                { label: 'Clubs', value: '15+' },
+                { label: 'Taille de Classe', value: '12:4' },
+                { label: 'Programmes', value: '+5' },
             ],
         },
         {
             id: 'high',
-            title: 'College Preparatory',
-            level: 'Grades 9-12',
+            title: 'College',
+            level: '6ème-Terminale',
             description:
-                'Comprehensive preparation for higher education with AP courses, college counseling, and real-world application opportunities.',
+                "Préparation complète pour l'education supérieure avec des cours AP, une orientation universitaire et des opportunités d'application du monde réel.",
             icon: 'School',
             color: '#ec4899',
             backgroundImage: '/joydeep-sensarma-utyOEK4GwDM-unsplash.jpg',

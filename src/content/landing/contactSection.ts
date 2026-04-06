@@ -1,51 +1,51 @@
 // Contact Section Content
 export const contactSectionContent = {
     // Section Header
-    overline: 'Contact Excellence Academy',
+    overline: 'Nos Contacts',
 
     // Main Headlines
     title: {
-        primary: 'Connect',
-        secondary: 'With Us', // This gets gradient styling
+        primary: 'Restez',
+        secondary: 'Connectés avec Nous', // This gets gradient styling
     },
 
     // Subtitle
     subtitle:
-        "Ready to begin your educational journey? We're here to guide you every step of the way.",
+        'Prêt à commencer votre parcours éducatif ? Nous sommes là pour vous accompagner à chaque étape.',
 
     // Contact Information
     contactInfo: [
         {
             id: 'phone',
-            title: 'Call Us',
-            value: '(555) 123-4567',
-            description: 'Available during office hours',
+            title: 'Appelez-nous',
+            value: '(237) 6 XX XX XX XX',
+            description: 'Disponible pendant les heures de bureau',
             icon: 'Phone', // Material-UI icon name
             color: '#6366f1',
             action: 'tel:+15551234567',
         },
         {
             id: 'email',
-            title: 'Email Us',
+            title: 'Envoyez-nous un Email',
             value: 'info@excellenceacademy.edu',
-            description: 'General inquiries & support',
+            description: 'Inquiries générales & support',
             icon: 'Email',
             color: '#8b5cf6',
             action: 'mailto:info@excellenceacademy.edu',
         },
         {
             id: 'location',
-            title: 'Visit Us',
-            value: '123 Education Boulevard',
+            title: 'Passez nous voir',
+            value: 'Yaoundé, Cameroun',
             description: 'Learning City, LC 12345',
             icon: 'LocationOn',
             color: '#10b981',
         },
         {
             id: 'hours',
-            title: 'Office Hours',
-            value: 'Monday - Friday',
-            description: '8:00 AM - 4:00 PM',
+            title: 'Horaires de Bureau',
+            value: 'Lundi - Vendredi',
+            description: '8h00  - 16h00 ',
             icon: 'Schedule',
             color: '#f59e0b',
         },
@@ -53,28 +53,28 @@ export const contactSectionContent = {
 
     // Action Items
     actions: {
-        title: 'Take Action',
+        title: 'Agissez dès Maintenant',
         items: [
             {
                 id: 'portal',
-                category: 'Parent Portal',
-                title: 'Access Your Dashboard',
+                category: 'Portail Parent',
+                title: 'Accédez à votre tableau de bord',
                 description:
-                    "Monitor your child's academic progress, view assignments, track attendance, and stay connected with educators.",
+                    'Suivez les progrès scolaires de votre enfant, consultez les devoirs, suivez l’assiduité et restez en contact avec les enseignants.',
                 icon: 'School',
                 color: '#6366f1',
-                buttonText: 'Sign In Now',
+                buttonText: 'Connectez-vous maintenant',
                 action: 'navigate-to-auth',
             },
             {
                 id: 'tour',
-                category: 'Campus Tour',
-                title: 'Schedule Your Visit',
+                category: 'Visite de l’Établissement',
+                title: 'Planifiez votre Visite',
                 description:
-                    'Experience our world-class facilities and meet our dedicated team of educators.',
+                    "Découvrez nos installations de classe mondiale et rencontrez notre équipe dédiée d'enseignants.",
                 icon: 'TourOutlined',
                 color: '#10b981',
-                buttonText: 'Book Now',
+                buttonText: 'Reservez dès maintenant',
                 action: 'schedule-tour',
             },
         ],

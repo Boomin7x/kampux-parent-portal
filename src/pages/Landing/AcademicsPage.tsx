@@ -44,7 +44,6 @@ interface AcademicProgram {
     subjects: string[];
     highlights: string[];
     image: string;
-    ageRange: string;
 }
 
 /**
@@ -96,7 +95,7 @@ export const AcademicsPage: React.FC = () => {
         {
             id: '1',
             name: 'Elementary Education',
-            level: 'K-5',
+            level: 'K-6',
             description:
                 'Building strong foundations in literacy, numeracy, and critical thinking through engaging, hands-on learning experiences.',
             subjects: [
@@ -113,35 +112,11 @@ export const AcademicsPage: React.FC = () => {
                 'Multilingual support',
             ],
             image: '/pexels-cottonbro-7395304.jpg',
-            ageRange: '5-11 years',
         },
         {
             id: '2',
-            name: 'Middle School Program',
-            level: '6-8',
-            description:
-                'Fostering intellectual curiosity and independence while providing comprehensive support during this crucial developmental stage.',
-            subjects: [
-                'Advanced Mathematics',
-                'Sciences',
-                'Literature',
-                'History',
-                'Foreign Languages',
-                'Technology',
-            ],
-            highlights: [
-                'Project-based learning',
-                'Leadership opportunities',
-                'Peer mentoring',
-                'College preparation',
-            ],
-            image: '/pexels-rdne-7092613.jpg',
-            ageRange: '11-14 years',
-        },
-        {
-            id: '3',
             name: 'High School Excellence',
-            level: '9-12',
+            level: 'F1-Uppersixth',
             description:
                 'Preparing students for university success and lifelong learning through rigorous academics and diverse opportunities.',
             subjects: [
@@ -159,7 +134,6 @@ export const AcademicsPage: React.FC = () => {
                 'University partnerships',
             ],
             image: '/pexels-max-fischer-5212317.jpg',
-            ageRange: '14-18 years',
         },
     ];
 
@@ -294,7 +268,7 @@ export const AcademicsPage: React.FC = () => {
         {
             id: '1',
             level: 'Elementary',
-            title: 'Foundation Years (K-5)',
+            title: 'Foundation Years (K-6)',
             description:
                 'Nurturing young minds through discovery-based learning that builds essential skills while maintaining the joy of learning.',
             keySubjects: [
@@ -310,26 +284,6 @@ export const AcademicsPage: React.FC = () => {
                 'Library Adventures',
             ],
             image: '/pexels-cottonbro-6208928.jpg',
-        },
-        {
-            id: '2',
-            level: 'Middle School',
-            title: 'Discovery Years (6-8)',
-            description:
-                'Supporting adolescents through academic challenges while developing independence, critical thinking, and leadership skills.',
-            keySubjects: [
-                'Advanced Math',
-                'Laboratory Sciences',
-                'Literature & Composition',
-                'World History',
-            ],
-            specialPrograms: [
-                'Student Government',
-                'Science Fair',
-                'Drama Club',
-                'Debate Team',
-            ],
-            image: '/pexels-zen-chung-5538632.jpg',
         },
         {
             id: '3',
@@ -376,7 +330,7 @@ export const AcademicsPage: React.FC = () => {
                 }}
                 textColor="light"
                 showOverlay={true}
-                minHeight="400px"
+                minHeight="500px"
             />
 
             {/* Main Content */}
@@ -423,8 +377,13 @@ const EducationalPhilosophySection: React.FC = () => {
                 backgroundColor: '#ffffff',
             }}
         >
-            <Container maxWidth="lg">
-                <Grid container spacing={2} alignItems="center">
+            <Container maxWidth="md" sx={{ mx: 'auto' }}>
+                <Grid
+                    container
+                    spacing={1}
+                    alignItems="center"
+                    justifyContent="center"
+                >
                     <Grid size={{ xs: 12, md: 6 }}>
                         <Box
                             sx={{
@@ -442,7 +401,7 @@ const EducationalPhilosophySection: React.FC = () => {
                                     fontSize: '1.5rem',
                                     fontWeight: 600,
                                     mb: 1,
-                                    background:
+                                    background: 
                                         'linear-gradient(135deg, #6366f1, #8b5cf6)',
                                     backgroundClip: 'text',
                                     WebkitBackgroundClip: 'text',
@@ -512,7 +471,7 @@ const EducationalPhilosophySection: React.FC = () => {
                             <ResponsiveImage
                                 src="/pexels-mary-taylor-5896578.jpg"
                                 alt="Students engaged in classroom learning"
-                                aspectRatio={4 / 3}
+                                aspectRatio={4 / 4}
                                 borderRadius={2}
                                 objectFit="cover"
                             />
@@ -547,7 +506,7 @@ const ProgramsSection: React.FC<ProgramsSectionProps> = ({ programs }) => {
                 backgroundColor: '#f8fafc',
             }}
         >
-            <Container maxWidth="lg">
+            <Container maxWidth="md" sx={{ mx: 'auto' }}>
                 <Box sx={{ textAlign: 'center', mb: { xs: 2, md: 3 } }}>
                     <Typography
                         variant="h2"
@@ -569,7 +528,7 @@ const ProgramsSection: React.FC<ProgramsSectionProps> = ({ programs }) => {
                         sx={{
                             fontSize: '1rem',
                             color: 'text.secondary',
-                            maxWidth: '600px',
+                            maxWidth: '900px',
                             mx: 'auto',
                         }}
                     >
@@ -578,12 +537,21 @@ const ProgramsSection: React.FC<ProgramsSectionProps> = ({ programs }) => {
                     </Typography>
                 </Box>
 
-                <Grid container spacing={2}>
-                    {programs.map((program, index) => (
-                        <Grid size={{ xs: 12, md: 4 }} key={program.id}>
-                            <Card
+                <Grid
+                    container
+                    spacing={2}
+                    justifyContent="center"
+                    sx={{ maxWidth: 1000 }}>
+                        {programs.map((program, index) => (
+                        <Grid
+                            size={{ xs: 20, md: 6 }}
+                            key={program.id}
+                            sx={{ display: 'inline-flex' }}
+                        >
+                            <Card 
                                 sx={{
-                                    height: '100%',
+                                    width: 'auto',
+                                    height: 'auto',
                                     border: '1px solid',
                                     borderColor: 'divider',
                                     boxShadow: 'none',
@@ -606,16 +574,21 @@ const ProgramsSection: React.FC<ProgramsSectionProps> = ({ programs }) => {
                                 <ResponsiveImage
                                     src={program.image}
                                     alt={program.name}
-                                    aspectRatio={16 / 9}
+                                    aspectRatio={12 / 10}
                                     borderRadius={0}
                                     objectFit="cover"
                                 />
-                                <CardContent sx={{ p: 2 }}>
+                                <CardContent sx={{ p: 3, textAlign: 'center' }}>
                                     <Box
                                         sx={{
                                             display: 'flex',
-                                            justifyContent: 'space-between',
+                                            flexDirection: {
+                                                xs: 'column',
+                                                sm: 'row',
+                                            },
+                                            justifyContent: 'center',
                                             alignItems: 'center',
+                                            gap: 2,
                                             mb: 1.5,
                                         }}
                                     >
@@ -649,17 +622,6 @@ const ProgramsSection: React.FC<ProgramsSectionProps> = ({ programs }) => {
                                             display: 'block',
                                         }}
                                     >
-                                        Ages {program.ageRange}
-                                    </Typography>
-                                    <Typography
-                                        variant="body2"
-                                        sx={{
-                                            fontSize: '0.8125rem',
-                                            color: 'text.secondary',
-                                            lineHeight: 1.4,
-                                            mb: 1.5,
-                                        }}
-                                    >
                                         {program.description}
                                     </Typography>
                                     <Box sx={{ mb: 1.5 }}>
@@ -678,7 +640,8 @@ const ProgramsSection: React.FC<ProgramsSectionProps> = ({ programs }) => {
                                             sx={{
                                                 display: 'flex',
                                                 flexWrap: 'wrap',
-                                                gap: 0.5,
+                                                justifyContent: 'center',
+                                                gap: 2.5,
                                             }}
                                         >
                                             {program.subjects
@@ -716,37 +679,28 @@ const ProgramsSection: React.FC<ProgramsSectionProps> = ({ programs }) => {
                                         >
                                             Program Highlights:
                                         </Typography>
-                                        <List sx={{ py: 0 }}>
-                                            {program.highlights
-                                                .slice(0, 2)
-                                                .map((highlight, hIndex) => (
-                                                    <ListItem
-                                                        key={hIndex}
-                                                        sx={{ py: 0.25, px: 0 }}
-                                                    >
-                                                        <ListItemIcon
-                                                            sx={{
-                                                                minWidth: 20,
-                                                            }}
-                                                        >
-                                                            <CheckCircle
-                                                                sx={{
-                                                                    fontSize: 14,
-                                                                    color: 'success.main',
-                                                                }}
-                                                            />
-                                                        </ListItemIcon>
-                                                        <ListItemText
-                                                            primary={highlight}
-                                                            primaryTypographyProps={{
-                                                                variant:
-                                                                    'caption',
-                                                                color: 'text.secondary',
-                                                            }}
-                                                        />
-                                                    </ListItem>
-                                                ))}
-                                        </List>
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, alignItems: 'center' }}>
+                                            {program.highlights.slice(0, 2).map((highlight, hIndex) => (
+                                                <Box
+                                                    key={hIndex}
+                                                    sx={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        gap: 1,
+                                                        px: 1.5,
+                                                        py: 0.5,
+                                                        backgroundColor: 'success.50',
+                                                        borderRadius: 1,
+                                                        width: 'fit-content',
+                                                    }}
+                                                >
+                                                    <CheckCircle sx={{ fontSize: 14, color: 'success.main' }} />
+                                                    <Typography variant="caption" sx={{ fontWeight: 500 }}>
+                                                        {highlight}
+                                                    </Typography>
+                                                </Box>
+                                            ))}
+                                        </Box>
                                     </Box>
                                 </CardContent>
                             </Card>
@@ -834,12 +788,13 @@ const CurriculumSection: React.FC<CurriculumSectionProps> = ({ subjects }) => {
                                     },
                                 }}
                             >
-                                <CardContent sx={{ p: 3 }}>
+                                <CardContent sx={{ p: 3, textAlign: 'center' }}>
                                     <Avatar
                                         sx={{
                                             width: 48,
                                             height: 48,
                                             backgroundColor: subject.color,
+                                            mx: 'auto',
                                             mb: 2,
                                         }}
                                     >
@@ -877,37 +832,28 @@ const CurriculumSection: React.FC<CurriculumSectionProps> = ({ subjects }) => {
                                         >
                                             Key Features:
                                         </Typography>
-                                        <List sx={{ py: 0 }}>
-                                            {subject.features.map(
-                                                (feature, fIndex) => (
-                                                    <ListItem
-                                                        key={fIndex}
-                                                        sx={{ py: 0.25, px: 0 }}
-                                                    >
-                                                        <ListItemIcon
-                                                            sx={{
-                                                                minWidth: 20,
-                                                            }}
-                                                        >
-                                                            <CheckCircle
-                                                                sx={{
-                                                                    fontSize: 14,
-                                                                    color: subject.color,
-                                                                }}
-                                                            />
-                                                        </ListItemIcon>
-                                                        <ListItemText
-                                                            primary={feature}
-                                                            primaryTypographyProps={{
-                                                                variant:
-                                                                    'caption',
-                                                                color: 'text.secondary',
-                                                            }}
-                                                        />
-                                                    </ListItem>
-                                                )
-                                            )}
-                                        </List>
+                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}>
+                                            {subject.features.map((feature, fIndex) => (
+                                                <Box
+                                                    key={fIndex}
+                                                    sx={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        gap: 1,
+                                                        px: 1.5,
+                                                        py: 0.5,
+                                                        backgroundColor: 'grey.100',
+                                                        borderRadius: 1,
+                                                        width: 'fit-content',
+                                                    }}
+                                                >
+                                                    <CheckCircle sx={{ fontSize: 14, color: subject.color }} />
+                                                    <Typography variant="caption" sx={{ fontWeight: 500 }}>
+                                                        {feature}
+                                                    </Typography>
+                                                </Box>
+                                            ))}
+                                        </Box>
                                     </Box>
                                 </CardContent>
                             </Card>

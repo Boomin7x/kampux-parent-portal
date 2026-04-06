@@ -18,9 +18,9 @@ const PartnersPreview: FC<IPartnersPreview> = ({ className }) => {
     return (
         <SectionPreview
             id="partners-preview"
-            title="Our Strategic Partners"
-            subtitle="Collaborating with industry leaders to provide world-class education."
-            overline="PARTNERSHIPS"
+            title="Nos Partenaires Stratégiques"
+            subtitle="Collaborer avec des leaders du secteur pour offrir une éducation de classe mondiale."
+            overline="PARTENAIRES"
             backgroundColor="#fefefe"
             className={className}
             containerMaxWidth="xl"

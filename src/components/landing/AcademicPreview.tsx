@@ -47,10 +47,10 @@ export const AcademicPreview: React.FC<AcademicPreviewProps> = ({
     return (
         <SectionPreview
             id="academic-preview"
-            title="Academic Excellence"
-            subtitle="Comprehensive programs for every stage"
-            overline="PROGRAMS"
-            ctaText="Explore Programs"
+            title="Etablissement d' Excellence"
+            subtitle="Des programmes complets pour chaque étape."
+            overline="PROGRAMMES"
+            ctaText="Découvrez les programmes"
             ctaRoute="/academics"
             backgroundColor="#f8fafc"
             className={className}

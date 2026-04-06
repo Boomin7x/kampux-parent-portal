@@ -1,33 +1,33 @@
 // About Section Content
 export const aboutSectionContent = {
     // Section Header
-    overline: 'About Excellence Academy',
+    overline: 'A propos de Nous',
 
     // Main Headlines
     title: {
-        primary: 'Shaping',
-        secondary: 'Excellence', // This gets gradient styling
+        primary: 'Structurez',
+        secondary: "D' Excellence", // This gets gradient styling
     },
 
     // Subtitle
     subtitle:
-        'Empowering students through innovative education and dedicated mentorship.',
+        'Autonomiser les élèves grâce à une éducation innovante et un accompagnement personnalisé.',
 
     // Main Story Content
     story: {
-        title: 'Our Story',
+        title: 'Notre Histoire',
         content:
-            'Excellence Academy is dedicated to providing a comprehensive, challenging, and supportive educational experience. We foster critical thinking, creativity, and character development while maintaining the highest academic standards.',
+            "L'Académie d'Excellence est dédiée à la fourniture d'une expérience éducative globale, exigeante et soutenante. Nous favorisons la pensée critique, la créativité et le développement de la caractère tout en maintenant les normes académiques les plus élevées.",
     },
 
     // Values/Driving Forces
     values: {
-        title: 'What Drives Us',
+        title: 'Nos moteurs d’action',
         list: [
-            'Academic Excellence & Innovation',
-            'Character Development & Integrity',
-            'Community Collaboration & Support',
-            'Individual Growth & Achievement',
+            'Excellence Academique & Innovation',
+            'Développement & Integrité',
+            'Collaboration et soutien communautaires',
+            'Croissance et réussite individuelle',
         ],
     },
 
@@ -35,26 +35,26 @@ export const aboutSectionContent = {
     images: [
         {
             src: '/pexels-rdne-8500421.jpg',
-            alt: 'Students in classroom learning',
+            alt: 'Apprentissage des élèves en classe',
             type: 'large', // Takes full width
         },
         {
             src: '/shraga-kopstein-eUa90rsmjIs-unsplash.jpg',
-            alt: 'School building exterior',
+            alt: 'Exterieur du bâtiment scolaire',
             type: 'small', // Grid item
         },
         {
             src: '/joydeep-sensarma-utyOEK4GwDM-unsplash.jpg',
-            alt: 'Students collaborating',
+            alt: 'Élèves en collaboration',
             type: 'small', // Grid item
         },
     ],
 
     // Quote/Testimonial
     quote: {
-        text: "Excellence is not a skill, it's an attitude that shapes every moment of learning.",
-        attribution: 'School Philosophy',
-        year: 'Established 1985',
+        text: 'L’excellence n’est pas une compétence, c’est une attitude qui façonne chaque instant d’apprentissage.',
+        attribution: 'Philosophie de l’école',
+        year: 'Etablie en 2005',
     },
 };
 

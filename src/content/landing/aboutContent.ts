@@ -7,65 +7,65 @@ import type { AboutContent } from '../../pages/Landing/_models/AboutContent.type
 
 export const aboutContent: AboutContent = {
     mission:
-        'At Kampux Academy, we are dedicated to nurturing curious, confident, and compassionate learners who are prepared to thrive in an ever-changing world. Through innovative teaching methods, personalized learning experiences, and a supportive community, we empower students to discover their unique strengths and passions. Our mission is to cultivate critical thinkers, creative problem-solvers, and responsible global citizens who will make meaningful contributions to society. We believe that every student deserves an education that honors their individuality while preparing them for academic excellence and lifelong success. By fostering a culture of respect, integrity, and collaboration, we create an environment where students can explore, grow, and achieve their fullest potential.',
+        'GBS Les Kamites, nous nous engageons à former des apprenants curieux, confiants et bienveillants, prêts à s’épanouir dans un monde en constante évolution. Grâce à des méthodes d’enseignement innovantes, des expériences d’apprentissage personnalisées et une communauté solidaire, nous donnons aux élèves les moyens de découvrir leurs forces et leurs passions uniques.Notre mission est de former des esprits critiques, des résolveurs de problèmes créatifs et des citoyens du monde responsables, capables d’apporter des contributions significatives à la société. Nous croyons que chaque élève mérite une éducation qui respecte son individualité tout en le préparant à l’excellence académique et à une réussite durable.En favorisant une culture de respect, d’intégrité et de collaboration, nous créons un environnement où les élèves peuvent explorer, grandir et atteindre leur plein potentiel.',
 
-    vision: 'Our vision is to be the leading educational institution recognized for transforming lives through excellence in teaching, character development, and innovation. We aspire to create a learning community where every student is inspired to pursue their dreams with confidence and purpose. By embracing cutting-edge educational practices and maintaining our commitment to holistic development, we aim to prepare students who will become the leaders, innovators, and changemakers of tomorrow. We envision a future where our graduates make lasting positive impacts in their communities and the world at large.',
+    vision: 'Notre vision est d’être une institution éducative de référence, reconnue pour transformer des vies grâce à l’excellence de son enseignement, au développement du caractère et à l’innovation. Nous aspirons à créer une communauté d’apprentissage où chaque élève est inspiré à poursuivre ses rêves avec confiance et détermination. Nous nous efforçons de préparer nos élèves à devenir des leaders éclairés, des penseurs critiques et des citoyens engagés qui contribueront positivement à un monde en évolution rapide. En intégrant les dernières avancées pédagogiques et technologiques, nous visons à offrir une éducation qui non seulement répond aux besoins d’aujourd’hui, mais anticipe également les défis de demain. Notre engagement envers l’excellence, la diversité et l’inclusion nous guide dans notre mission de façonner l’avenir de l’éducation.',
 
     coreValues: [
         {
             id: 'excellence',
-            title: 'Academic Excellence',
+            title: "Etablissement d' Excellence",
             description:
-                'We maintain the highest standards in teaching and learning, challenging students to reach beyond their perceived limitations and achieve academic success.',
+                'Nous maintenons les normes les plus élevées en matière d’enseignement et d’apprentissage, en encourageant les élèves à dépasser leurs limites perçues et à atteindre la réussite académique..',
             icon: 'EmojiEvents',
         },
         {
             id: 'integrity',
-            title: 'Integrity',
+            title: 'Integrité',
             description:
-                'We foster honesty, ethical behavior, and strong moral character in all aspects of school life, preparing students to make principled decisions.',
+                'Nous favorisons l’honnêteté, le comportement éthique et le caractère moral fort dans tous les aspects de la vie scolaire, préparant les élèves à prendre des décisions fondées sur des principes.',
             icon: 'Verified',
         },
         {
             id: 'innovation',
             title: 'Innovation',
             description:
-                'We embrace creative thinking and encourage students to explore new ideas, technologies, and approaches to problem-solving.',
+                'Nous valorisons la pensée créative et encourageons les élèves à explorer de nouvelles idées, technologies et approches pour résoudre les problèmes.',
             icon: 'Lightbulb',
         },
         {
             id: 'community',
-            title: 'Community',
+            title: 'Communauté',
             description:
-                'We build strong relationships among students, families, and staff, creating a supportive environment where everyone feels valued and connected.',
+                'Nous construisons des relations solides entre les élèves, les familles et le personnel, créant un environnement de soutien où chacun se sent valorisé et connecté.',
             icon: 'People',
         },
         {
             id: 'diversity',
-            title: 'Diversity & Inclusion',
+            title: 'Diversité et inclusion',
             description:
-                'We celebrate diverse backgrounds, perspectives, and experiences, ensuring every student feels welcomed and empowered to contribute.',
+                'Nous célébrons les contextes divers, les perspectives et les expériences, en veillant à ce que chaque élève se sente bienvenu et capable de contribuer.',
             icon: 'PublicOutlined',
         },
         {
             id: 'growth',
-            title: 'Continuous Growth',
+            title: 'Développement Continu',
             description:
-                'We promote lifelong learning and personal development, encouraging students and staff to continuously improve and adapt.',
+                'Nous promouvons l’apprentissage tout au long de la vie et le développement personnel, encourageant les élèves et le personnel à s’améliorer continuellement et à s’adapter.',
             icon: 'TrendingUp',
         },
         {
             id: 'responsibility',
-            title: 'Social Responsibility',
+            title: 'Responsabilité Sociale',
             description:
-                'We inspire students to become active, engaged citizens who contribute positively to their communities and the global society.',
+                'Nous inspirons les élèves à devenir des citoyens actifs et engagés qui contribuent positivement à leurs communautés et à la société mondiale.',
             icon: 'VolunteerActivism',
         },
         {
             id: 'wellness',
-            title: 'Holistic Wellness',
+            title: 'Bien-être global',
             description:
-                'We prioritize the physical, emotional, and mental well-being of our students, providing resources and support for balanced development.',
+                'Nous privilégions le bien-être physique, émotionnel et mental de nos élèves, en offrant des ressources et un accompagnement pour un développement équilibré.',
             icon: 'FavoriteBorder',
         },
     ],
@@ -75,13 +75,13 @@ export const aboutContent: AboutContent = {
             id: 'principal',
             name: 'Dr. Margaret Chen',
             role: 'Principal',
-            bio: "Dr. Margaret Chen brings over 25 years of educational leadership experience to Kampux Academy. With a doctorate in Educational Administration from Stanford University and a master's in Curriculum Development, she has dedicated her career to transforming traditional education models. Before joining Kampux, Dr. Chen served as Assistant Superintendent for Curriculum and Instruction in a large metropolitan district, where she implemented innovative STEM programs that increased student achievement by 35%. Her vision for student-centered learning and commitment to educational equity have earned her numerous accolades, including the National Distinguished Principal Award.",
+            bio: 'Le Dr Margaret Chen apporte plus de 25 ans d’expérience en leadership éducatif à GBS Les Kamites. Titulaire d’un doctorat en administration de l’éducation de l’Université de Stanford et d’un master en développement de curriculum, elle a consacré sa carrière à transformer les modèles éducatifs traditionnels. Avant de rejoindre Kampux, le Dr Chen a été surintendante adjointe pour le curriculum et l’enseignement dans un grand district métropolitain, où elle a mis en œuvre des programmes STEM innovants ayant augmenté la réussite des élèves de 35 %. Sa vision d’un apprentissage centré sur l’élève et son engagement envers l’équité éducative lui ont valu de nombreuses distinctions, dont le prix du Directeur National Distingué.',
             photoUrl: '/images/leadership/margaret-chen.jpg',
             email: 'm.chen@kampux.edu',
             qualifications: [
-                'Ed.D. in Educational Administration, Stanford University',
-                'M.A. in Curriculum Development, Columbia University',
-                'National Distinguished Principal Award',
+                'Doctorat en administration de l’éducation (Ed.D.), Université de Stanford',
+                'Master en développement de curriculum (M.A.), Université Columbia',
+                'Prix du Directeur National Distingué',
             ],
         },
         {

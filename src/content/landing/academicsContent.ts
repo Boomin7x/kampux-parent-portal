@@ -13,7 +13,7 @@ export const academicsContent: AcademicsContent = {
         {
             id: 'elementary',
             name: 'Elementary Program',
-            gradeLevel: 'Kindergarten - Grade 5',
+            gradeLevel: 'Kindergarten - Grade 6',
             description:
                 'Our elementary program builds a strong foundation in literacy, mathematics, and scientific inquiry while nurturing curiosity and creativity. Students develop essential skills through hands-on learning experiences, collaborative projects, and personalized instruction.',
             features: [
@@ -36,34 +36,9 @@ export const academicsContent: AcademicsContent = {
             ],
         },
         {
-            id: 'middle',
-            name: 'Middle School Program',
-            gradeLevel: 'Grades 6-8',
-            description:
-                'Our middle school program challenges students to think critically, work collaboratively, and develop their unique identities. The curriculum balances core academic subjects with exploratory courses, providing opportunities for students to discover their passions.',
-            features: [
-                'Interdisciplinary project-based learning units',
-                'Advisory program providing academic and social-emotional support',
-                'Advanced coursework options in all subject areas',
-                'Design thinking and entrepreneurship electives',
-                'Comprehensive digital literacy and coding curriculum',
-                'Leadership opportunities through student government and clubs',
-            ],
-            subjects: [
-                'English Language Arts',
-                'Mathematics (Pre-Algebra to Geometry)',
-                'Physical Science',
-                'Life Science',
-                'World History',
-                'Geography',
-                'Spanish or Mandarin',
-                'Electives (Arts, Technology, Engineering)',
-            ],
-        },
-        {
             id: 'high',
             name: 'High School Program',
-            gradeLevel: 'Grades 9-12',
+            gradeLevel: 'F1-Uppersixth',
             description:
                 'Our high school program offers a rigorous college-preparatory curriculum with extensive Advanced Placement options and personalized pathways. Students engage in deep inquiry, independent research, and real-world applications while receiving comprehensive college counseling support.',
             features: [
