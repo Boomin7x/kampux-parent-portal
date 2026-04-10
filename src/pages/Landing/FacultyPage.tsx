@@ -115,7 +115,7 @@ export const FacultyPage: React.FC = () => {
             description: 'années d’expérience dans l’enseignement',
             icon: <TrendingUp />,
             color: '#f59e0b',
-        }
+        },
     ];
 
     // Faculty members data
@@ -137,7 +137,7 @@ export const FacultyPage: React.FC = () => {
             achievements: [
                 'Encadrement des meilleurs élèves',
                 'Participation aux Olympiades scolaires',
-            ]
+            ],
         },
         {
             id: '2',
@@ -153,7 +153,7 @@ export const FacultyPage: React.FC = () => {
             achievements: [
                 'Organisation de foires scientifiques',
                 'Encadrement de projets scientifiques',
-            ]
+            ],
         },
         {
             id: '3',
@@ -172,7 +172,7 @@ export const FacultyPage: React.FC = () => {
             achievements: [
                 'Amélioration du niveau linguistique des élèves',
                 'Organisation de clubs de langues',
-            ]
+            ],
         },
         {
             id: '4',
@@ -187,7 +187,7 @@ export const FacultyPage: React.FC = () => {
             achievements: [
                 'Organisation d’expositions scolaires',
                 'Encadrement artistique des élèves',
-            ]
+            ],
         },
         {
             id: '5',
@@ -202,7 +202,7 @@ export const FacultyPage: React.FC = () => {
             achievements: [
                 'Encadrement aux concours littéraires',
                 'Promotion de la lecture',
-            ]
+            ],
         },
         {
             id: '6',
@@ -217,7 +217,7 @@ export const FacultyPage: React.FC = () => {
             achievements: [
                 'Encadrement de projets scientifiques',
                 'Initiation à la robotique',
-            ]
+            ],
         },
         {
             id: '7',
@@ -232,7 +232,7 @@ export const FacultyPage: React.FC = () => {
             achievements: [
                 'Organisation de compétitions scolaires',
                 'Encadrement des équipes sportives',
-            ]
+            ],
         },
         {
             id: '8',
@@ -247,7 +247,7 @@ export const FacultyPage: React.FC = () => {
             achievements: [
                 'Organisation de spectacles scolaires',
                 'Encadrement de chorales',
-            ]
+            ],
         },
     ];
 
@@ -259,7 +259,8 @@ export const FacultyPage: React.FC = () => {
             facultyCount: 3,
             icon: <Calculate />,
             color: '#6366f1',
-            description: 'Développement des compétences en mathématiques et du raisonnement logique',
+            description:
+                'Développement des compétences en mathématiques et du raisonnement logique',
         },
         {
             id: '2',
@@ -267,7 +268,8 @@ export const FacultyPage: React.FC = () => {
             facultyCount: 4,
             icon: <Science />,
             color: '#10b981',
-            description: 'Sciences expérimentales avec des approches pratiques et méthodiques',
+            description:
+                'Sciences expérimentales avec des approches pratiques et méthodiques',
         },
         {
             id: '3',
@@ -275,7 +277,8 @@ export const FacultyPage: React.FC = () => {
             facultyCount: 3,
             icon: <Language />,
             color: '#8b5cf6',
-            description: 'Apprentissage des langues et développement des compétences en communication',
+            description:
+                'Apprentissage des langues et développement des compétences en communication',
         },
         {
             id: '4',
@@ -299,8 +302,9 @@ export const FacultyPage: React.FC = () => {
             facultyCount: 2,
             icon: <Person />,
             color: '#ef4444',
-            description: 'Sport, bien-être et développement physique des élèves',
-        }
+            description:
+                'Sport, bien-être et développement physique des élèves',
+        },
     ];
 
     // Filtered faculty based on search and department

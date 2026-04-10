@@ -93,10 +93,11 @@ export const AcademicsPage: React.FC = () => {
     // Academic programs data
     const academicPrograms: AcademicProgram[] = [
         {
-                id: '1',
+            id: '1',
             name: 'Maternelle & Primaire',
             level: 'Maternelle-CM2',
-            description: 'Poser des bases solides en lecture, écriture, numération et pensée critique grâce à des expériences d’apprentissage pratiques et engageantes.',
+            description:
+                'Poser des bases solides en lecture, écriture, numération et pensée critique grâce à des expériences d’apprentissage pratiques et engageantes.',
             subjects: [
                 'Mathématiques',
                 'Arts du langage',
@@ -110,20 +111,21 @@ export const AcademicsPage: React.FC = () => {
                 'Développement du caractère',
                 'Soutien multilingue',
             ],
-            image: '/pexels-cottonbro-7395304.jpg'
+            image: '/pexels-cottonbro-7395304.jpg',
         },
         {
             id: '2',
             name: 'Excellence au Lycée',
             level: 'F1-Sixième Supérieure',
-            description: 'Préparer les élèves à réussir à l’université et tout au long de la vie grâce à un enseignement rigoureux et à des opportunités diversifiées.',
+            description:
+                'Préparer les élèves à réussir à l’université et tout au long de la vie grâce à un enseignement rigoureux et à des opportunités diversifiées.',
             subjects: [
                 'Cours AP',
                 'Sciences Avancées',
                 'Calcul',
                 'Langues étrangères',
                 'Beaux-Arts',
-                'Informatique'
+                'Informatique',
             ],
             highlights: [
                 'Cours créditables pour l’université',
@@ -131,16 +133,17 @@ export const AcademicsPage: React.FC = () => {
                 'Programmes de stages',
                 'Partenariats universitaires',
             ],
-            image: '/pexels-max-fischer-5212317.jpg'
-        }
+            image: '/pexels-max-fischer-5212317.jpg',
+        },
     ];
 
- // Core subjects data
+    // Core subjects data
     const coreSubjects: Subject[] = [
         {
             id: '1',
             name: 'Éducation STEM',
-            description: 'Programme complet en Sciences, Technologie, Ingénierie et Mathématiques avec laboratoires pratiques et applications concrètes.',
+            description:
+                'Programme complet en Sciences, Technologie, Ingénierie et Mathématiques avec laboratoires pratiques et applications concrètes.',
             icon: <Science />,
             color: '#10b981',
             features: [
@@ -148,12 +151,13 @@ export const AcademicsPage: React.FC = () => {
                 'Programmation et robotique',
                 'Méthode scientifique',
                 'Projets d’innovation',
-            ]
+            ],
         },
         {
             id: '2',
             name: 'Arts du Langage',
-            description: 'Développement de compétences en communication à travers la littérature, l’écriture, l’oral et l’analyse critique dans plusieurs genres.',
+            description:
+                'Développement de compétences en communication à travers la littérature, l’écriture, l’oral et l’analyse critique dans plusieurs genres.',
             icon: <MenuBook />,
             color: '#6366f1',
             features: [
@@ -161,12 +165,13 @@ export const AcademicsPage: React.FC = () => {
                 'Prise de parole en public',
                 'Analyse littéraire',
                 'Éducation aux médias',
-            ]
+            ],
         },
         {
             id: '3',
             name: 'Mathématiques',
-            description: 'Développer la maîtrise des mathématiques, des concepts de base au calcul avancé, avec un accent sur la résolution de problèmes et le raisonnement logique.',
+            description:
+                'Développer la maîtrise des mathématiques, des concepts de base au calcul avancé, avec un accent sur la résolution de problèmes et le raisonnement logique.',
             icon: <Calculate />,
             color: '#8b5cf6',
             features: [
@@ -174,12 +179,13 @@ export const AcademicsPage: React.FC = () => {
                 'Modélisation mathématique',
                 'Intégration des technologies',
                 'Équipes de compétition',
-            ]
+            ],
         },
         {
             id: '4',
             name: 'Langues Étrangères',
-            description: 'Programmes immersifs favorisant la citoyenneté mondiale et la compréhension culturelle à travers des expériences authentiques.',
+            description:
+                'Programmes immersifs favorisant la citoyenneté mondiale et la compréhension culturelle à travers des expériences authentiques.',
             icon: <Language />,
             color: '#06b6d4',
             features: [
@@ -187,12 +193,13 @@ export const AcademicsPage: React.FC = () => {
                 'Échanges culturels',
                 'Programmes d’immersion',
                 'Partenariats internationaux',
-            ]
+            ],
         },
         {
             id: '5',
             name: 'Arts Créatifs',
-            description: 'Programme complet en arts incluant arts visuels, musique, théâtre et médias numériques pour stimuler la créativité et l’expression personnelle.',
+            description:
+                'Programme complet en arts incluant arts visuels, musique, théâtre et médias numériques pour stimuler la créativité et l’expression personnelle.',
             icon: <Palette />,
             color: '#f59e0b',
             features: [
@@ -200,12 +207,13 @@ export const AcademicsPage: React.FC = () => {
                 'Opportunités de performance',
                 'Outils d’art numérique',
                 'Résidences d’artistes',
-            ]
+            ],
         },
         {
             id: '6',
             name: 'Éducation Physique',
-            description: 'Promotion de la forme physique, du travail en équipe et d’un mode de vie sain à travers des sports et programmes de bien-être diversifiés.',
+            description:
+                'Promotion de la forme physique, du travail en équipe et d’un mode de vie sain à travers des sports et programmes de bien-être diversifiés.',
             icon: <FitnessCenter />,
             color: '#ef4444',
             features: [
@@ -213,7 +221,7 @@ export const AcademicsPage: React.FC = () => {
                 'Entraînement physique',
                 'Éducation au bien-être',
                 'Équipes de compétition',
-            ]
+            ],
         },
     ];
 
@@ -223,7 +231,8 @@ export const AcademicsPage: React.FC = () => {
             id: '1',
             label: 'Ratio Élèves-Enseignant',
             value: '8:1',
-            description: 'assurant une attention et un accompagnement personnalisés',
+            description:
+                'assurant une attention et un accompagnement personnalisés',
             icon: <Groups />,
             color: '#10b981',
         },
@@ -231,7 +240,8 @@ export const AcademicsPage: React.FC = () => {
             id: '2',
             label: 'Taux d’Admission à l’Université',
             value: '98%',
-            description: 'des diplômés acceptés dans les meilleures universités',
+            description:
+                'des diplômés acceptés dans les meilleures universités',
             icon: <School />,
             color: '#6366f1',
             progress: 98,

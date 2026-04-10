@@ -141,7 +141,8 @@ export const AdmissionPage: React.FC = () => {
         {
             id: '1',
             title: 'Information & Orientation',
-            description: 'Découvrez notre école, ses programmes et conditions d’admission',
+            description:
+                'Découvrez notre école, ses programmes et conditions d’admission',
             icon: <Info />,
             details: [
                 'Consulter les programmes de la maternelle, primaire et collège',
@@ -155,7 +156,8 @@ export const AdmissionPage: React.FC = () => {
         {
             id: '2',
             title: 'Dépôt du dossier de candidature',
-            description: 'Constituez et déposez votre dossier pour l’année 2026-2027',
+            description:
+                'Constituez et déposez votre dossier pour l’année 2026-2027',
             icon: <Assignment />,
             details: [
                 'Remplir la fiche d’inscription en ligne ou sur place',
@@ -182,7 +184,8 @@ export const AdmissionPage: React.FC = () => {
         {
             id: '4',
             title: 'Test d’entrée & Entretien',
-            description: 'Évaluation académique adaptée à l’âge et entretien avec les parents',
+            description:
+                'Évaluation académique adaptée à l’âge et entretien avec les parents',
             icon: <School />,
             details: [
                 'Test de niveau (Français, Mathématiques pour primaire et collège)',
@@ -195,7 +198,8 @@ export const AdmissionPage: React.FC = () => {
         {
             id: '5',
             title: 'Résultats d’admission',
-            description: 'Annonce des résultats et instructions pour finaliser l’inscription',
+            description:
+                'Annonce des résultats et instructions pour finaliser l’inscription',
             icon: <Verified />,
             details: [
                 'Notification par affichage, appel ou email',
@@ -208,7 +212,8 @@ export const AdmissionPage: React.FC = () => {
         {
             id: '6',
             title: 'Inscription définitive & Préparation',
-            description: 'Finalisez l’inscription et préparez l’enfant pour la rentrée',
+            description:
+                'Finalisez l’inscription et préparez l’enfant pour la rentrée',
             icon: <CheckCircle />,
             details: [
                 'Paiement des frais de scolarité et services supplémentaires (bus, cantine, garderie)',
@@ -242,7 +247,8 @@ export const AdmissionPage: React.FC = () => {
             id: '2',
             category: 'Informations Personnelles',
             title: 'Détails de l’élève et de la famille',
-            description: 'Fournir les informations personnelles et familiales complètes',
+            description:
+                'Fournir les informations personnelles et familiales complètes',
             documents: [
                 'Acte de naissance (copie certifiée)',
                 'Passeport ou carte d’identité',
@@ -369,7 +375,8 @@ export const AdmissionPage: React.FC = () => {
             id: '2',
             title: "Début des sessions d'information",
             date: '10 juillet 2026',
-            description: "Sessions d'information virtuelles et en présentiel pour les parents et élèves",
+            description:
+                "Sessions d'information virtuelles et en présentiel pour les parents et élèves",
             type: 'event',
         },
         {
@@ -399,28 +406,31 @@ export const AdmissionPage: React.FC = () => {
             id: '6',
             title: 'Notification des admissions',
             date: '12 août 2026',
-            description: "Les décisions d'admission sont communiquées aux familles des candidats",
+            description:
+                "Les décisions d'admission sont communiquées aux familles des candidats",
             type: 'notification',
         },
         {
             id: '7',
             title: "Date limite d'inscription",
             date: '20 août 2026',
-            description: "Dernier délai pour confirmer l'inscription et verser l'acompte",
+            description:
+                "Dernier délai pour confirmer l'inscription et verser l'acompte",
             type: 'deadline',
         },
         {
             id: '8',
             title: 'Orientation des nouveaux élèves',
             date: '25 août 2026',
-            description: "Séance d'accueil et orientation pour les élèves et leurs familles",
+            description:
+                "Séance d'accueil et orientation pour les élèves et leurs familles",
             type: 'event',
         },
     ];
 
     // FAQ data
     const faqItems: FAQItem[] = [
-       {
+        {
             id: '1',
             question: 'Quelle est la date limite de dépôt des candidatures ?',
             answer: 'La date limite de dépôt des candidatures est le 25 juillet 2026. Nous encourageons les soumissions anticipées car certaines places peuvent être attribuées au fur et à mesure de la réception des dossiers.',
@@ -955,7 +965,7 @@ const RequirementsSection: React.FC<RequirementsSectionProps> = ({
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                       Exigences d’admission
+                        Exigences d’admission
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -1456,7 +1466,7 @@ const TuitionFeesSection: React.FC<TuitionFeesSectionProps> = ({
                                                     fontWeight: 600,
                                                 }}
                                             >
-                                                Frais de scolarité 
+                                                Frais de scolarité
                                             </Typography>
                                             <Typography
                                                 variant="subtitle2"
@@ -1826,7 +1836,7 @@ const ContactApplicationSection: React.FC = () => {
             icon: <LocationOn />,
             title: 'Nous rendre visite',
             details: ['Yaoundé - Cameroun', 'SOA, EBOGO'],
-        }
+        },
     ];
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

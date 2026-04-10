@@ -442,7 +442,7 @@ export const GalleryPage: React.FC = () => {
                                                 fontSize: '0.8125rem',
                                             }}
                                         >
-                                            Photos 
+                                            Photos
                                         </Typography>
                                     </Box>
                                 </Grid>
@@ -727,7 +727,7 @@ export const GalleryPage: React.FC = () => {
                                 variant="h6"
                                 sx={{ mb: 1, color: 'text.secondary' }}
                             >
-                               Aucune photo trouvée
+                                Aucune photo trouvée
                             </Typography>
                             <Typography
                                 variant="body2"
