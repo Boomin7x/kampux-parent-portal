@@ -133,7 +133,7 @@ export const ContactPage: React.FC = () => {
                 "Processus de candidature, questions d'inscription et accompagnement des nouveaux élèves.",
             icon: <AdmissionsIcon />,
             contact: {
-                email: 'gbsleskamites@gmail.com',
+                email: 'gsbleskamites@gmail.com',
                 phone: '(237) 6 77 42 12 52',
                 hours: 'Lun-Ven 08:00 - 17:00',
             },
@@ -146,7 +146,7 @@ export const ContactPage: React.FC = () => {
                 'Questions liées au programme, soutien académique et conditions de diplomation.',
             icon: <AcademicsIcon />,
             contact: {
-                email: 'gbsleskamites@gmail.com',
+                email: 'gsbleskamites@gmail.com',
                 phone: '(237) 6 77 42 12 52',
                 hours: 'Lun-Ven 07:30 - 16:30',
             },
@@ -159,7 +159,7 @@ export const ContactPage: React.FC = () => {
                 'Orientation, accompagnement des étudiants et activités parascolaires.',
             icon: <SocialIcon />,
             contact: {
-                email: 'gbsleskamites@gmail.com',
+                email: 'gsbleskamites@gmail.com',
                 phone: '(237) 6 77 42 12 52',
                 hours: 'Lun-Ven 08:00 - 18:00',
             },
@@ -172,7 +172,7 @@ export const ContactPage: React.FC = () => {
                 'Programmes sportifs, bourses sportives et informations sur les équipes.',
             icon: <AthleticsIcon />,
             contact: {
-                email: 'gbsleskamites@gmail.com',
+                email: 'gsbleskamites@gmail.com',
                 phone: '(237) 6 77 42 12 52',
                 hours: 'Lun-Sam 07:00 - 20:00',
             },
@@ -185,7 +185,7 @@ export const ContactPage: React.FC = () => {
                 'Installations du campus, demandes de maintenance et informations sur les bâtiments.',
             icon: <BusinessIcon />,
             contact: {
-                email: 'gbsleskamites@gmail.com',
+                email: 'gsbleskamites@gmail.com',
                 phone: '(237) 6 77 42 12 52',
                 hours: 'Lun-Ven 07:00 - 15:30',
             },
@@ -198,7 +198,7 @@ export const ContactPage: React.FC = () => {
                 'Assistance IT, accès au portail et support technique.',
             icon: <TechIcon />,
             contact: {
-                email: 'gbsleskamites@gmail.com',
+                email: 'gsbleskamites@gmail.com',
                 phone: '(237) 6 77 42 12 52',
                 hours: 'Lun-Ven 08:00 - 17:00',
             },
@@ -211,7 +211,7 @@ export const ContactPage: React.FC = () => {
                 'Services infirmiers, dossiers médicaux et programmes de bien-être.',
             icon: <HealthIcon />,
             contact: {
-                email: 'gbsleskamites@gmail.com',
+                email: 'gsbleskamites@gmail.com',
                 phone: '(237) 6 77 42 12 52',
                 hours: 'Lun-Ven 08:00 - 16:00',
             },
@@ -224,7 +224,7 @@ export const ContactPage: React.FC = () => {
                 'Itinéraires des bus, demandes de transport et informations de sécurité.',
             icon: <TransportIcon />,
             contact: {
-                email: 'gbsleskamites@gmail.com',
+                email: 'gsbleskamites@gmail.com',
                 phone: '(237) 6 77 42 12 52',
                 hours: 'Lun-Ven 06:00 - 17:00',
             },
@@ -244,9 +244,9 @@ export const ContactPage: React.FC = () => {
         {
             type: 'Email',
             icon: <EmailIcon />,
-            primary: 'gbsleskamites@gmail.com',
+            primary: 'gsbleskamites@gmail.com',
             secondary: 'Renseignements généraux',
-            action: 'mailto:gbsleskamites@gmail.com',
+            action: 'mailto:gsbleskamites@gmail.com',
         },
         {
             type: 'Address',
@@ -497,7 +497,7 @@ export const ContactPage: React.FC = () => {
                                         <TextField
                                             fullWidth
                                             type="email"
-                                            label="Addresse mail"
+                                            label="Adresse Email"
                                             value={formData.email}
                                             onChange={handleInputChange(
                                                 'email'
@@ -1020,7 +1020,7 @@ export const ContactPage: React.FC = () => {
                                             mb: 3,
                                         }}
                                     >
-                                        GBS Les Kamites
+                                        GSB Les Kamites
                                         <br />
                                         SOA , lieu-dit EBOGO
                                         <br />
@@ -1116,7 +1116,7 @@ export const ContactPage: React.FC = () => {
                                             color: 'error.main',
                                         }}
                                     >
-                                        Line D'Urgence
+                                        Ligne D'Urgence
                                     </Typography>
 
                                     <Typography

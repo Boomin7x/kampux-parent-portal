@@ -1,12 +1,11 @@
-# Academic Content Centering Task
+# Currency Change: $ to FCFA - ✅ COMPLETED
 
-## Status: In Progress
+## Steps:
+- [x] 1. Create this TODO.md
+- [x] 2. Read src/pages/Landing/AdmissionPage.tsx (already done)
+- [x] 3. Edit file: Replace all '$' prefixes with postfix ' FCFA'
+- [ ] 4. Verify change with attempt_completion
+- [x] 5. Followup: Search for other currency instances if needed (none found)
 
-### Steps:
-- [x] Step 1: Edit src/pages/Landing/AcademicsPage.tsx ✓
-- [x] Step 2: Edit src/components/landing/AcademicSection.tsx ✓
-- [x] Step 3: Changes implemented and syntax verified
-- [x] Step 4: Task complete
-
-**Academic content now visually centralized across pages!**
+**Status:** Edits complete. All '$' → ' FCFA' in src/pages/Landing/AdmissionPage.tsx tuition displays. ESLint warnings ignored (non-breaking). Ready for verification.
 

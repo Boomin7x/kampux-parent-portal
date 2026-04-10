@@ -2,19 +2,19 @@
 export const navigationContent = {
     // Brand/Logo
     brand: {
-        name: 'Excellence Academy',
-        shortName: 'EA',
-        logoText: 'EA', // Text displayed in logo box
+        name: 'GSB Les Kamites',
+        shortName: 'GSB',
+        logoImage: '/assets/logo-gsb.jpg', // Image du logo
     },
 
     // Navigation Items
     navItems: [
         { label: 'A propos', href: '/about' },
-        { label: 'Programmes', href: '/academics' },
+        { label: 'Programme', href: '/academics' },
         { label: 'Formation', href: '/faculty' },
         { label: 'Vie Scolaire', href: '/student-life' },
         { label: 'Facilité', href: '/facilities' },
-        { label: 'Gallerie', href: '/gallery' },
+        { label: 'Galerie', href: '/gallery' },
         // { label: 'Formation', href: '/training' },
         { label: 'Admission', href: '/admission' },
         { label: 'Contact', href: '/contact' },
@@ -22,9 +22,9 @@ export const navigationContent = {
 
     // Authentication
     auth: {
-        portalButtonText: 'Portal',
-        portalButtonTextMobile: 'Access Portal',
-        signInText: 'Sign In',
+        portalButtonText: 'Portail',
+        portalButtonTextMobile: "Portail d'accès",
+        signInText: 'Se connecter',
     },
 
     // Mobile Navigation
