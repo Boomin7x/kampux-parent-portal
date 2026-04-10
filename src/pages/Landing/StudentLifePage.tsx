@@ -399,7 +399,7 @@ export const StudentLifePage: React.FC = () => {
             category: 'Service',
             description:
                 'Projets de bénévolat à l’échelle de l’école dans la communauté locale',
-        }
+        },
     ];
 
     // Filter activities by selected category
@@ -503,7 +503,7 @@ const StudentLifeStatsSection: React.FC<StudentLifeStatsSectionProps> = ({
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                       Vie d'élèves en un coup d’œi
+                        Vie d'élèves en un coup d’œi
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -925,8 +925,7 @@ const StudentTestimonialsSection: React.FC<StudentTestimonialsSectionProps> = ({
                             mx: 'auto',
                         }}
                     >
-                        Découvrez les expériences et le parcours de nos
-                        élèves
+                        Découvrez les expériences et le parcours de nos élèves
                     </Typography>
                 </Box>
 
@@ -1437,7 +1436,7 @@ const DailyScheduleSection: React.FC = () => {
                                     color: 'text.primary',
                                 }}
                             >
-                               Vivez l’expérience !
+                                Vivez l’expérience !
                             </Typography>
                             <Paper
                                 sx={{

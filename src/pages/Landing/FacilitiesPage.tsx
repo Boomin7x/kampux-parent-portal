@@ -34,7 +34,7 @@ interface FacilityCategory {
 
 // Données des catégories d’installations
 const facilityCategories: FacilityCategory[] = [
-  {
+    {
         id: 'academic',
         title: 'Installations pédagogiques',
         description:
@@ -439,7 +439,7 @@ export const FacilitiesPage: React.FC = () => {
                                             color: 'rgba(0, 0, 0, 0.8)',
                                         }}
                                     >
-                                     Équipements spécialisés
+                                        Équipements spécialisés
                                     </Typography>
                                 </Box>
 
@@ -474,7 +474,7 @@ export const FacilitiesPage: React.FC = () => {
                                             color: 'rgba(0, 0, 0, 0.8)',
                                         }}
                                     >
-                                       Superficie du campus
+                                        Superficie du campus
                                     </Typography>
                                 </Box>
                             </Box>
@@ -518,7 +518,7 @@ export const FacilitiesPage: React.FC = () => {
                                 textTransform: 'uppercase',
                             }}
                         >
-                           Découvrez nos Facilités
+                            Découvrez nos Facilités
                         </Typography>
 
                         <Typography
@@ -771,7 +771,7 @@ export const FacilitiesPage: React.FC = () => {
                                 color: '#1a1a1a',
                             }}
                         >
-                            Mise en avant {' '}
+                            Mise en avant{' '}
                             <Box
                                 component="span"
                                 sx={{

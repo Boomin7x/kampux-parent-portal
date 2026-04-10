@@ -179,7 +179,8 @@ export const AboutPage: React.FC = () => {
             id: '1',
             label: 'Taux de réussite des étudiants',
             value: '98%',
-            description: 'des diplômés poursuivent leurs études dans des universités de premier plan',
+            description:
+                'des diplômés poursuivent leurs études dans des universités de premier plan',
             icon: <TrendingUp />,
             color: '#10b981',
             progress: 98,
@@ -206,7 +207,8 @@ export const AboutPage: React.FC = () => {
             id: '4',
             label: 'Prix et distinctions',
             value: '50+',
-            description: 'Récompenses nationales et internationales pour l’excellence académique et les initiatives innovantes',
+            description:
+                'Récompenses nationales et internationales pour l’excellence académique et les initiatives innovantes',
             icon: <EmojiEvents />,
             color: '#06b6d4',
         },
@@ -248,7 +250,8 @@ export const AboutPage: React.FC = () => {
             description:
                 'Attribué le statut de « École d’Excellence » et reconnu comme un établissement éducatif de premier plan dans la région.',
             image: '/pexels-rdne-7092339.jpg',
-            achievement: 'École classée parmi les  meilleures au niveau national',
+            achievement:
+                'École classée parmi les  meilleures au niveau national',
         },
     ];
 
