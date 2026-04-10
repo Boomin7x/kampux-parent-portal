@@ -3,7 +3,7 @@ export const footerContent = {
     // Brand Section
     brand: {
         name: {
-            primary: 'GBS',
+            primary: 'GSB',
             secondary: 'Les Kamites', // Gets gradient styling
         },
         tagline:
@@ -21,13 +21,13 @@ export const footerContent = {
         {
             icon: 'Email',
             label: 'E-mail',
-            value: 'info@excellenceacademy.edu',
+            value: 'gsbleskamites@gmail.com',
             href: 'mailto:info@excellenceacademy.edu',
         },
         {
             icon: 'LocationOn',
             label: 'Addresse',
-            value: 'Yaoundé Cameroun, SOA lieux dit EBOGO',
+            value: 'Yaoundé Cameroun, SOA lieu-dit EBOGO',
             href: '#', // No action for address
         },
     ],
