@@ -22,19 +22,6 @@ export const academicPreviewContent = {
             ],
         },
         {
-            id: 'middle',
-            title: 'Middle School Growth',
-            level: 'Grades 6-8',
-            description:
-                'Developing critical thinking and leadership skills with personalized attention and advanced curricula.',
-            icon: 'MenuBook',
-            color: '#8b5cf6',
-            stats: [
-                { label: 'Honor Students', value: '85%' },
-                { label: 'Clubs', value: '15+' },
-            ],
-        },
-        {
             id: 'high',
             title: 'College Preparatory',
             level: 'Grades 9-12',

@@ -33,10 +33,10 @@ export const EventsPreview: React.FC<EventsPreviewProps> = ({
     return (
         <SectionPreview
             id="events-preview"
-            title="Stay Informed"
-            subtitle="Important announcements and upcoming events"
-            overline="EVENTS & ANNOUNCEMENTS"
-            ctaText="View All Events"
+            title="Restez Informé"
+            subtitle="Annonces importantes et événements à venir"
+            overline="ÉVÉNEMENTS ET ANNONCES"
+            ctaText="Voir tous les événements"
             ctaRoute="/events"
             backgroundColor="#f8fafc"
             className={className}

@@ -13,9 +13,9 @@ const LandingLayout = () => {
             transparentNav={false}
             seo={{
                 description:
-                    'this is a portal for parent about thier kids and also a school website',
+                    'Ce portail est pour les parents à propos de leurs enfants et site web pour l établissement',
                 title: 'Kampux-portal',
-                keywords: 'kamput,school,website,',
+                keywords: 'kampux,établissement,site web,',
                 ogImage: '',
                 ogUrl: 'univ-soft.com',
             }}

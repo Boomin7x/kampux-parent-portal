@@ -54,11 +54,11 @@ const AdmissionPage = lazy(() =>
         default: module.AdmissionPage,
     }))
 );
-const TrainingPage = lazy(() =>
-    import('../pages/Landing/TrainingPage').then(module => ({
-        default: module.TrainingPage,
-    }))
-);
+// const TrainingPage = lazy(() =>
+//     import('../pages/Landing/TrainingPage').then(module => ({
+//         default: module.TrainingPage,
+//     }))
+// );
 
 const router = createBrowserRouter([
     {
@@ -134,14 +134,14 @@ const router = createBrowserRouter([
                     </Suspense>
                 ),
             },
-            {
-                path: ROUTES.TRAINING,
-                element: (
-                    <Suspense fallback={<LoadingFallback />}>
-                        <TrainingPage />
-                    </Suspense>
-                ),
-            },
+            // {
+            //     path: ROUTES.TRAINING,
+            //     element: (
+            //         <Suspense fallback={<LoadingFallback />}>
+            //             <TrainingPage />
+            //         </Suspense>
+            //     ),
+            // },
         ],
     },
 

@@ -3,36 +3,36 @@ export const heroSectionContent = {
     overline: 'Excellence Academy • Est. 1985',
 
     title: {
-        primary: 'Shape',
-        secondary: 'Tomorrow',
+        primary: 'Structurez',
+        secondary: 'Demain',
     },
 
     subtitle:
-        "Where academic excellence meets character development, creating leaders for tomorrow's world.",
+        'Là où l’excellence académique rencontre le développement du caractère, pour former les leaders de demain.',
 
     buttons: {
         primary: {
-            text: 'Access Parent Portal',
-            action: 'navigate-to-auth',
+            text: 'Accès au portail parent',
+            action: 'naviguer-au-portal',
         },
         secondary: {
-            text: 'Discover More',
-            action: 'scroll-to-about',
+            text: 'Découvrir plus',
+            action: 'scrollez-vers-à propos',
         },
     },
 
     stats: [
-        { number: '98%', label: 'University Acceptance' },
-        { number: '1:8', label: 'Student to Teacher' },
-        { number: '45+', label: 'Programs & Activities' },
-        { number: '25+', label: 'Years of Excellence' },
+        { number: '95%', label: 'Taux de Succès' },
+        { number: '1:8', label: 'Elèves à Enseignants' },
+        { number: '15+', label: 'Programmes & Activités' },
+        { number: '10+', label: 'Années d Existance' },
     ],
 
     backgroundImage: '/porter-raab-Ucr4Yp-t364-unsplash.jpg',
 
     scrollIndicator: {
-        text: 'Scroll to explore',
-        targetSection: 'about',
+        text: 'Scrollez pour explorer',
+        targetSection: 'A propos',
     },
 };
 

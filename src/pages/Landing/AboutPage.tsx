@@ -98,33 +98,33 @@ export const AboutPage: React.FC = () => {
     const schoolValues: SchoolValue[] = [
         {
             id: '1',
-            title: 'Academic Excellence',
+            title: "Etablissemnt d' Excellence",
             description:
-                'Striving for the highest standards in education and fostering intellectual curiosity in every student.',
+                'S’efforcer d’atteindre les plus hauts standards en éducation et de stimuler la curiosité intellectuelle de chaque élève.',
             icon: <School />,
             color: '#6366f1',
         },
         {
             id: '2',
-            title: 'Character Development',
+            title: 'Développement de la Caractère',
             description:
-                'Building strong moral foundations and developing responsible, compassionate global citizens.',
+                'Bâtir de solides fondations morales et former des citoyens du monde responsables et compatissants.',
             icon: <Psychology />,
             color: '#8b5cf6',
         },
         {
             id: '3',
-            title: 'Innovation & Creativity',
+            title: 'Innovation & Créativité',
             description:
-                'Encouraging creative thinking and embracing innovative approaches to learning and problem-solving.',
+                'Encourager la pensée créative et adopter des approches innovantes pour l’apprentissage et la résolution de problèmes.',
             icon: <Lightbulb />,
             color: '#06b6d4',
         },
         {
             id: '4',
-            title: 'Diversity & Inclusion',
+            title: 'Diversité & Inclusion',
             description:
-                'Celebrating our diverse community and ensuring every student feels valued, respected, and supported.',
+                'Célébrer notre communauté diversifiée et veiller à ce que chaque élève se sente valorisé, respecté et soutenu.',
             icon: <Diversity3 />,
             color: '#10b981',
         },
@@ -135,41 +135,41 @@ export const AboutPage: React.FC = () => {
         {
             id: '1',
             name: 'Dr. Sarah Johnson',
-            position: 'Principal & Chief Executive',
-            bio: 'Leading Excellence Academy with 15+ years of educational leadership experience, Dr. Johnson brings innovative vision and unwavering commitment to student success.',
+            position: 'Principal & Directrice Générale',
+            bio: 'À la tête d’Excellence Academy avec plus de 15 ans d’expérience en leadership éducatif, le Dr Johnson apporte une vision innovante et un engagement sans faille envers la réussite des élèves.',
             image: '/pexels-katerina-holmes-5905554.jpg',
             qualifications: [
-                'Ed.D in Educational Leadership',
-                'M.Ed in Curriculum & Instruction',
-                'B.A. in Elementary Education',
+                'Doctorat en leadership éducatif (Ed.D)',
+                'Master en curriculum et pédagogie (M.Ed)',
+                'Licence en enseignement primaire (B.A.)',
             ],
-            experience: '15+ years in educational leadership',
+            experience: '+15 ans en leadership éducatif',
         },
         {
             id: '2',
             name: 'Prof. Michael Chen',
-            position: 'Academic Director',
-            bio: 'Overseeing our comprehensive academic programs, Prof. Chen ensures curriculum excellence and innovative teaching methodologies across all grade levels.',
+            position: 'Directeur Académique',
+            bio: 'Supervisant nos programmes académiques complets, le Professeur Chen veille à l’excellence du curriculum et à l’innovation des méthodes d’enseignement à tous les niveaux scolaires.',
             image: '/patrick-amoy-6DfEbkqsTiA-unsplash.jpg',
             qualifications: [
-                'Ph.D in Education',
-                'M.A. in Mathematics',
-                'B.S. in Computer Science',
+                'Doctorat en éducation (Ph.D)',
+                'Master en mathématiques (M.A.)',
+                'Licence en informatique (B.S.)',
             ],
-            experience: '12+ years in curriculum development',
+            experience: '+12 ans en développement du curriculum',
         },
         {
             id: '3',
             name: 'Dr. Emily Rodriguez',
-            position: 'Student Affairs Director',
-            bio: 'Dedicated to student wellbeing and development, Dr. Rodriguez leads our comprehensive student support services and extracurricular programs.',
+            position: 'Directeur des affaires étudiantes',
+            bio: 'Dévoué au bien-être et au développement des étudiants, le Dr Rodriguez dirige nos services complets de soutien aux étudiants ainsi que les programmes extrascolaires.',
             image: '/pexels-rdne-7845454.jpg',
             qualifications: [
-                'Ph.D in Psychology',
-                'M.A. in Counseling',
-                'B.A. in Social Work',
+                'Doctorat en psychologie (Ph.D)',
+                'Master en conseil (M.A.)',
+                'Licence en travail social (B.A.)',
             ],
-            experience: '10+ years in student services',
+            experience: '+10 ans en services aux étudiants',
         },
     ];
 
@@ -177,36 +177,36 @@ export const AboutPage: React.FC = () => {
     const achievements: Achievement[] = [
         {
             id: '1',
-            label: 'Student Success Rate',
+            label: 'Taux de réussite des étudiants',
             value: '98%',
-            description: 'of graduates advance to top-tier universities',
+            description: 'des diplômés poursuivent leurs études dans des universités de premier plan',
             icon: <TrendingUp />,
             color: '#10b981',
             progress: 98,
         },
         {
             id: '2',
-            label: 'Teaching Excellence',
+            label: 'Excellence pédagogique',
             value: '95%',
-            description: 'of faculty hold advanced degrees',
+            description: 'des enseignants détiennent des diplômes avancés',
             icon: <Star />,
             color: '#f59e0b',
             progress: 95,
         },
         {
             id: '3',
-            label: 'Student Engagement',
+            label: 'Engagement des étudiants',
             value: '92%',
-            description: 'participate in extracurricular activities',
+            description: 'participent aux activités extrascolaires',
             icon: <Groups />,
             color: '#8b5cf6',
             progress: 92,
         },
         {
             id: '4',
-            label: 'Awards & Recognition',
+            label: 'Prix et distinctions',
             value: '50+',
-            description: 'national and international accolades',
+            description: 'Récompenses nationales et internationales pour l’excellence académique et les initiatives innovantes',
             icon: <EmojiEvents />,
             color: '#06b6d4',
         },
@@ -216,39 +216,39 @@ export const AboutPage: React.FC = () => {
     const historyMilestones: HistoryMilestone[] = [
         {
             id: '1',
-            year: '2010',
-            title: 'Foundation',
+            year: '2019',
+            title: 'Fondation',
             description:
-                'Excellence Academy was established with a vision to provide world-class education in a nurturing environment.',
+                'GBS Les Kamites a été fondée dans le but d’offrir une éducation de classe mondiale dans un environnement bienveillant.',
             image: '/trnava-university-_9xRHrMOjeg-unsplash.jpg',
-            achievement: 'First intake of 150 students',
+            achievement: 'Première promotion de 100 élèves',
         },
         {
             id: '2',
-            year: '2015',
-            title: 'Expansion & Growth',
+            year: '2022',
+            title: 'Expansion et développement',
             description:
-                'Major campus expansion including state-of-the-art science laboratories and modern sports facilities.',
+                'Extension majeure du campus avec l’ajout du cursus secondaire, comprenant des laboratoires scientifiques ultramodernes et des installations sportives modernes.',
             image: '/pexels-cics-uma-ipn-238541486-12238968.jpg',
-            achievement: 'Student body grew to 500+',
+            achievement: "La population d'élèves a augmenté de +200",
         },
         {
             id: '3',
-            year: '2020',
-            title: 'Digital Innovation',
+            year: '2024',
+            title: 'Innovation Digitale',
             description:
-                'Pioneered comprehensive digital learning platform, ensuring seamless education during global challenges.',
+                'A initié une plateforme d’apprentissage numérique complète, garantissant une éducation fluide lors de défis mondiaux.',
             image: '/pexels-max-fischer-5212317.jpg',
-            achievement: '100% digital readiness achieved',
+            achievement: 'Préparation numérique atteinte',
         },
         {
             id: '4',
-            year: '2024',
-            title: 'Excellence Recognition',
+            year: '2026',
+            title: 'Reconnaissance de l’excellence',
             description:
-                'Awarded "School of Excellence" status and recognized as a leading educational institution in the region.',
+                'Attribué le statut de « École d’Excellence » et reconnu comme un établissement éducatif de premier plan dans la région.',
             image: '/pexels-rdne-7092339.jpg',
-            achievement: 'Top 5% nationally ranked school',
+            achievement: 'École classée parmi les  meilleures au niveau national',
         },
     ];
 
@@ -261,8 +261,8 @@ export const AboutPage: React.FC = () => {
         >
             {/* Page Header with Hero Banner */}
             <PageHeader
-                title="About Excellence Academy"
-                subtitle="Discover our mission, values, and commitment to educational excellence"
+                title="A propos de Nous"
+                subtitle="Découvrez notre mission, nos valeurs et notre engagement envers l’excellence éducative."
                 backgroundImage="/pexels-charlotte-may-5965698.jpg"
                 backgroundImageSrcSet={{
                     small: '/pexels-charlotte-may-5965698.jpg',
@@ -336,7 +336,7 @@ const MissionVisionSection: React.FC = () => {
                                     color: '#6366f1',
                                 }}
                             >
-                                Our Mission
+                                Notre Mission
                             </Typography>
                             <Typography
                                 variant="body1"
@@ -347,12 +347,12 @@ const MissionVisionSection: React.FC = () => {
                                     mb: 1.5,
                                 }}
                             >
-                                To provide exceptional education that nurtures
-                                intellectual curiosity, character development,
-                                and global citizenship. We empower students to
-                                become confident, creative, and compassionate
-                                leaders who will make a positive impact on the
-                                world.
+                                Offrir une éducation exceptionnelle qui favorise
+                                la curiosité intellectuelle, le développement du
+                                caractère et la citoyenneté mondiale. Nous
+                                donnons aux élèves les moyens de devenir des
+                                leaders confiants, créatifs et compatissants,
+                                capables d’avoir un impact positif sur le monde.
                             </Typography>
                             <Typography
                                 variant="body2"
@@ -362,8 +362,9 @@ const MissionVisionSection: React.FC = () => {
                                     fontStyle: 'italic',
                                 }}
                             >
-                                "Excellence is not a destination, it's a journey
-                                of continuous growth and learning."
+                                "L’excellence n’est pas une destination, c’est
+                                un voyage de croissance et d’apprentissage
+                                continus.
                             </Typography>
                         </Box>
                     </Grid>
@@ -387,7 +388,7 @@ const MissionVisionSection: React.FC = () => {
                                     color: '#8b5cf6',
                                 }}
                             >
-                                Our Vision
+                                Notre Vision
                             </Typography>
                             <Typography
                                 variant="body1"
@@ -398,12 +399,12 @@ const MissionVisionSection: React.FC = () => {
                                     mb: 1.5,
                                 }}
                             >
-                                To be recognized as the premier educational
-                                institution that inspires innovation, celebrates
-                                diversity, and cultivates future leaders. We
-                                envision a learning community where every
-                                student thrives academically, socially, and
-                                emotionally.
+                                Être reconnu comme le principal établissement
+                                éducatif qui inspire l’innovation, célèbre la
+                                diversité et forme les leaders de demain. Nous
+                                envisageons une communauté d’apprentissage où
+                                chaque élève s’épanouit sur les plans
+                                académique, social et émotionnel.
                             </Typography>
                             <Typography
                                 variant="body2"
@@ -413,8 +414,8 @@ const MissionVisionSection: React.FC = () => {
                                     fontStyle: 'italic',
                                 }}
                             >
-                                "Shaping tomorrow's leaders through today's
-                                exceptional education."
+                                "Formant les leaders de demain par une éducation
+                                exceptionnelle de aujourd’hui."
                             </Typography>
                         </Box>
                     </Grid>
@@ -462,7 +463,7 @@ const ValuesSection: React.FC<ValuesSectionProps> = ({ values }) => {
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                        Our Core Values
+                        Nos Valeurs Fondamentales
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -473,8 +474,8 @@ const ValuesSection: React.FC<ValuesSectionProps> = ({ values }) => {
                             mx: 'auto',
                         }}
                     >
-                        The fundamental principles that guide our educational
-                        philosophy and shape our community
+                        Les principes fondamentaux qui guident notre philosophie
+                        éducative et façonnent notre communauté.
                     </Typography>
                 </Box>
 
@@ -583,7 +584,7 @@ const LeadershipSection: React.FC<LeadershipSectionProps> = ({ team }) => {
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                        Leadership Team
+                        Équipe de direction
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -594,8 +595,8 @@ const LeadershipSection: React.FC<LeadershipSectionProps> = ({ team }) => {
                             mx: 'auto',
                         }}
                     >
-                        Meet the dedicated professionals leading our educational
-                        mission
+                        Rencontrez les professionnels dévoués qui pilotent notre
+                        mission éducative.
                     </Typography>
                 </Box>
 
@@ -740,7 +741,7 @@ const AchievementsSection: React.FC<AchievementsSectionProps> = ({
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                        Our Achievements
+                        Nos Accomplissements
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -751,8 +752,8 @@ const AchievementsSection: React.FC<AchievementsSectionProps> = ({
                             mx: 'auto',
                         }}
                     >
-                        Measurable excellence across all aspects of our
-                        educational mission
+                        Une excellence mesurable dans tous les aspects de notre
+                        mission éducative.
                     </Typography>
                 </Box>
 
@@ -886,7 +887,7 @@ const HistorySection: React.FC<HistorySectionProps> = ({ milestones }) => {
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                        Our Journey
+                        Notre Parcours
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -897,8 +898,8 @@ const HistorySection: React.FC<HistorySectionProps> = ({ milestones }) => {
                             mx: 'auto',
                         }}
                     >
-                        Key milestones in our commitment to educational
-                        excellence
+                        Les étapes clés de notre engagement envers l’excellence
+                        éducative.
                     </Typography>
                 </Box>
 

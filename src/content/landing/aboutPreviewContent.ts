@@ -1,38 +1,38 @@
 // About Preview Content - Condensed version for landing page preview
 export const aboutPreviewContent = {
     // Section Header
-    overline: 'About Excellence Academy',
-    title: 'Shaping Excellence',
+    overline: 'A propos de Nous',
+    title: 'Structurez votre Excellence',
     subtitle:
-        'Empowering students through innovative education and dedicated mentorship.',
+        'Donner aux élèves les moyens de réussir grâce à une éducation innovante et un mentorat dévoué.',
 
     // Mission Statement (Brief)
     mission:
-        'Excellence Academy is dedicated to providing a comprehensive, challenging, and supportive educational experience. We foster critical thinking, creativity, and character development while maintaining the highest academic standards.',
+        'L’Académie d’Excellence est dédiée à la fourniture d’une expérience éducative globale, exigeante et soutenante. Nous favorisons la pensée critique, la créativité et le développement de la caractère tout en maintenant les normes académiques les plus élevées.',
 
     // Core Values (Top 3)
     coreValues: [
         {
             id: 'academic-excellence',
-            title: 'Academic Excellence',
+            title: 'Academique',
             description:
-                'Rigorous curriculum and innovative teaching methods that challenge students to reach their full potential.',
+                'Un enseignement rigoureux et innovant qui encourage chaque élève à donner le meilleur de lui-même.',
             icon: 'School',
             color: '#6366f1',
         },
         {
             id: 'character-development',
-            title: 'Character Development',
+            title: 'Développement du Caractère',
             description:
-                'Building integrity, leadership, and ethical decision-making skills that extend beyond the classroom.',
+                'Développer l’intégrité, le leadership et la capacité à prendre des décisions éthiques, des compétences qui vont bien au-delà de la classe.',
             icon: 'EmojiPeople',
             color: '#8b5cf6',
         },
         {
             id: 'community',
-            title: 'Community & Support',
+            title: 'Collaboration et soutien communautaires',
             description:
-                'Fostering a collaborative environment where students, families, and educators work together.',
+                'Favoriser un environnement collaboratif où élèves, familles et enseignants travaillent ensemble.',
             icon: 'Groups',
             color: '#10b981',
         },
@@ -40,15 +40,15 @@ export const aboutPreviewContent = {
 
     // Quick Stats
     stats: [
-        { number: '1985', label: 'Established' },
-        { number: '1,200+', label: 'Students' },
-        { number: '85+', label: 'Educators' },
-        { number: '95%', label: 'College Acceptance' },
+        { number: '2005', label: 'Etablie' },
+        { number: '200+', label: 'Elèves' },
+        { number: '20+', label: 'Enseignants' },
+        { number: '95%', label: 'Taux de Succès' },
     ],
 
     // CTA Configuration
     cta: {
-        text: 'Learn More About Us',
+        text: 'En savoir plus sur nous',
         route: '/about',
     },
 };

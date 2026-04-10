@@ -52,9 +52,9 @@ export const AboutPreview: React.FC<AboutPreviewProps> = ({
             >
                 {/* Section Header */}
                 <SectionHeader
-                    title="About Excellence Academy"
-                    subtitle="Empowering students through innovative education"
-                    overline="WHO WE ARE"
+                    title="A propos de Nous"
+                    subtitle="Donner aux élèves les moyens de réussir grâce à une éducation innovante"
+                    overline="QUI SOMMES-NOUS?"
                     align="center"
                 />
 

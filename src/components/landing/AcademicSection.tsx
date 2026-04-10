@@ -259,13 +259,12 @@ export const AcademicSection: React.FC<AcademicSectionProps> = ({
                                             px: { xs: 3, md: 6, lg: 8 },
                                             position: 'relative',
                                             zIndex: 2,
-                                            display: 'grid',
-                                            gridTemplateColumns: {
-                                                xs: '1fr',
-                                                lg: '1.2fr 1fr',
-                                            },
-                                            gap: { xs: 6, lg: 16 },
+                                            display: 'flex',
+                                            flexDirection: { xs: 'column', lg: 'row' },
+                                            justifyContent: 'center',
                                             alignItems: 'center',
+                                            gap: { xs: 6, lg: 16 },
+                                            maxWidth: '1200px',
                                         }}
                                     >
                                         {/* Left Content */}
@@ -394,7 +393,7 @@ export const AcademicSection: React.FC<AcademicSectionProps> = ({
                                                 },
                                                 flexDirection: 'column',
                                                 gap: 4,
-                                                alignItems: 'flex-end',
+                                                alignItems: 'center',
                                             }}
                                         >
                                             {program.stats.map((stat, idx) => (

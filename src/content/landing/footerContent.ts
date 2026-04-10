@@ -3,31 +3,31 @@ export const footerContent = {
     // Brand Section
     brand: {
         name: {
-            primary: 'Excellence',
-            secondary: 'Academy', // Gets gradient styling
+            primary: 'GBS',
+            secondary: 'Les Kamites', // Gets gradient styling
         },
         tagline:
-            "Shaping tomorrow's leaders through academic excellence and character development.",
+            'Former les leaders de demain grâce à l’excellence académique et au développement du caractère.',
     },
 
     // Contact Information
     contactInfo: [
         {
             icon: 'Phone',
-            label: 'Phone',
-            value: '(555) 123-4567',
+            label: 'Téléphone',
+            value: '(237) 6 77 42 12 52',
             href: 'tel:+15551234567',
         },
         {
             icon: 'Email',
-            label: 'Email',
+            label: 'E-mail',
             value: 'info@excellenceacademy.edu',
             href: 'mailto:info@excellenceacademy.edu',
         },
         {
             icon: 'LocationOn',
-            label: 'Address',
-            value: '123 Education Boulevard, Learning City, LC 12345',
+            label: 'Addresse',
+            value: 'Yaoundé Cameroun, SOA lieux dit EBOGO',
             href: '#', // No action for address
         },
     ],
@@ -35,27 +35,27 @@ export const footerContent = {
     // Footer Navigation Links
     links: {
         about: [
-            { label: 'Our Story', href: '#about' },
-            { label: 'Mission & Values', href: '#about' },
+            { label: 'A propos', href: '#about' },
+            { label: 'Mission & Valuers', href: '#about' },
             { label: 'Leadership', href: '#faculty' },
-            { label: 'Careers', href: '#contact' },
+            { label: 'Carrières', href: '#contact' },
         ],
         academics: [
-            { label: 'Programs', href: '#academic' },
+            { label: 'Programmes', href: '#academic' },
             { label: 'Curriculum', href: '#academic' },
             { label: 'Excellence', href: '#academic' },
-            { label: 'Resources', href: '#academic' },
+            { label: 'Ressources', href: '#academic' },
         ],
         studentLife: [
-            { label: 'Activities', href: '#student-life' },
-            { label: 'Athletics', href: '#student-life' },
-            { label: 'Arts & Culture', href: '#student-life' },
+            { label: 'Activités', href: '#student-life' },
+            { label: 'Sports', href: '#student-life' },
+            { label: 'Art & Culture', href: '#student-life' },
             { label: 'Clubs', href: '#student-life' },
         ],
         resources: [
-            { label: 'Parent Portal', href: '/auth' },
-            { label: 'Gallery', href: '#gallery' },
-            { label: 'Facilities', href: '#facilities' },
+            { label: 'Portail Parent', href: '/auth' },
+            { label: 'Gallerie', href: '#gallery' },
+            { label: 'Facilité', href: '#facilities' },
             { label: 'Contact', href: '#contact' },
         ],
     },
@@ -72,7 +72,7 @@ export const footerContent = {
     // Copyright
     copyright: {
         year: new Date().getFullYear(),
-        text: 'Excellence Academy. All rights reserved.',
+        text: 'Chez Nous. Tous droits réservés.',
     },
 
     // Visual Configuration

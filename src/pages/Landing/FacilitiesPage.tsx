@@ -32,134 +32,137 @@ interface FacilityCategory {
     stats: { label: string; value: string }[];
 }
 
-// Facility categories data
+// Données des catégories d’installations
 const facilityCategories: FacilityCategory[] = [
-    {
+  {
         id: 'academic',
-        title: 'Academic Facilities',
+        title: 'Installations pédagogiques',
         description:
-            'State-of-the-art classrooms, laboratories, and learning spaces designed to foster academic excellence and innovation.',
+            'Salles de classe modernes et espaces d’apprentissage conçus pour stimuler la curiosité, la créativité et la réussite scolaire.',
         icon: <LabIcon />,
         color: '#6366f1',
         image: '/pexels-cottonbro-6208926.jpg',
         features: [
-            'Modern Science Labs',
-            'Smart Classrooms',
-            'Research Centers',
-            'Maker Spaces',
+            'Salles de classe adaptées aux élèves',
+            'Laboratoires scientifiques interactifs',
+            'Espaces de lecture et de recherche',
+            'Ateliers créatifs et technologiques',
         ],
         stats: [
-            { label: 'Classrooms', value: '45+' },
-            { label: 'Lab Stations', value: '120+' },
+            { label: 'Salles de classe', value: '45+' },
+            { label: 'Postes de travail', value: '120+' },
         ],
     },
     {
         id: 'athletic',
-        title: 'Athletic Complex',
+        title: 'Complexe sportif',
         description:
-            'Comprehensive sports facilities supporting physical education, competitive athletics, and recreational activities.',
+            'Installations sportives complètes pour l’éducation physique, les sports collectifs, et les activités récréatives.',
         icon: <SportsIcon />,
         color: '#ef4444',
         image: '/pexels-boomheadshot-31785121.jpg',
         features: [
-            'Full-Size Gymnasium',
-            'Fitness Center',
-            'Playing Fields',
-            'Training Rooms',
+            'Gymnase et terrains de sport',
+            'Centre de fitness',
+            'Terrains extérieurs et aires de jeux',
+            'Salles d’entraînement et activités encadrées',
         ],
         stats: [
-            { label: 'Sports Programs', value: '18+' },
-            { label: 'Equipment Sets', value: '150+' },
+            { label: 'Programmes sportifs', value: '+10' },
+            { label: 'Équipements disponibles', value: '+15' },
         ],
     },
     {
         id: 'technology',
-        title: 'Technology Center',
+        title: 'Centre technologique',
         description:
-            'Cutting-edge computer labs and innovation spaces equipped with the latest technology for digital learning.',
+            'Espaces informatiques et laboratoires numériques équipés pour favoriser l’apprentissage interactif et les projets créatifs.',
         icon: <TechIcon />,
         color: '#8b5cf6',
         image: '/pexels-dothanhyb-5530484.jpg',
         features: [
-            '3D Printing Lab',
-            'VR/AR Equipment',
-            'Coding Bootcamp Room',
-            'Digital Media Studio',
+            'Atelier d’impression 3D',
+            'Équipements VR/AR pour découvrir la technologie',
+            'Salle de programmation et de robotique',
+            'Studio multimédia et audiovisuel',
         ],
         stats: [
-            { label: 'Workstations', value: '100+' },
-            { label: 'Software Licenses', value: '200+' },
+            { label: 'Postes informatiques', value: '+25' },
+            { label: 'Logiciels disponibles', value: '+5' },
         ],
     },
     {
         id: 'support',
-        title: 'Support Services',
+        title: 'Services de soutien',
         description:
-            'Essential facilities supporting student well-being, safety, and daily campus life for optimal learning environment.',
+            'Installations et services essentiels pour le bien-être des élèves, la sécurité et la vie quotidienne à l’école.',
         icon: <SecurityIcon />,
         color: '#10b981',
         image: '/pexels-rdne-8500421.jpg',
         features: [
-            'Cafeteria & Dining',
-            'Health Services',
-            'Counseling Center',
-            '24/7 Security',
+            'Cantine avec repas équilibrés',
+            'Service de garderie et accueil périscolaire',
+            'Transport scolaire (bus)',
+            'Activités périscolaires variées',
         ],
         stats: [
-            { label: 'Support Staff', value: '25+' },
-            { label: 'Daily Meals', value: '1200+' },
+            { label: 'Personnel de soutien', value: '+5' },
+            { label: 'Repas servis quotidiennement', value: '+2' },
         ],
     },
 ];
 
-// Detailed facilities data
+// Données détaillées des installations
 const detailedFacilities = [
     {
         id: 'library',
-        title: 'Modern Learning Library',
+        title: 'Bibliothèque moderne',
         description:
-            'A comprehensive learning hub featuring over 25,000 books, digital resources, collaborative spaces, and quiet study areas designed to support every learning style.',
+            'Un centre de lecture complet avec des livres, ressources numériques et espaces calmes ou collaboratifs pour tous les niveaux scolaires.',
         image: '/pexels-yaroslav-shuraev-6281132.jpg',
         features: [
-            'Digital Resource Center with 50+ databases',
-            'Private study pods and group collaboration rooms',
-            'Multimedia production studio',
-            'Research support and tutoring services',
+            'Centre de ressources numériques avec +15 bases de données',
+            'Espaces de travail individuels et en groupe',
+            'Studio multimédia pour projets créatifs',
+            'Soutien à la recherche et tutorat',
         ],
-        stats: { capacity: '200+ Study Spaces', hours: 'Open 14 Hours Daily' },
+        stats: {
+            capacity: '+10 places de lecture',
+            hours: 'Ouverte 14h/jour',
+        },
     },
     {
         id: 'cafeteria',
-        title: 'Campus Dining Hall',
+        title: 'Cantine scolaire',
         description:
-            'Fresh, nutritious meals prepared daily with locally-sourced ingredients. Our dining program accommodates all dietary needs and preferences.',
+            'Repas frais et équilibrés préparés chaque jour avec des ingrédients locaux. Menus adaptés aux besoins alimentaires de tous les élèves.',
         image: '/pexels-kampus-8629106.jpg',
         features: [
-            'Farm-to-table fresh ingredients daily',
-            'Allergy-friendly and special dietary options',
-            'International cuisine rotation',
-            'Sustainable packaging and waste reduction',
+            'Ingrédients frais provenant de producteurs locaux',
+            'Options adaptées aux allergies et régimes spéciaux',
+            'Menus variés avec cuisine internationale',
+            'Emballages durables et réduction des déchets',
         ],
         stats: {
-            capacity: '400+ Dining Seats',
-            meals: '3 Full Meals + Snacks Daily',
+            capacity: '+50 places assises',
+            meals: '3 repas complets + collations par jour',
         },
     },
     {
         id: 'innovation-lab',
-        title: 'Innovation Laboratory',
+        title: 'Laboratoire d’innovation',
         description:
-            'A maker space where creativity meets technology. Students explore engineering, design thinking, and prototype development with industry-standard tools.',
+            'Un espace créatif où les élèves explorent la technologie, le design et le prototypage à travers des projets pratiques.',
         image: '/pexels-dothanhyb-5530484.jpg',
         features: [
-            '3D printers and laser cutting equipment',
-            'Electronics prototyping stations',
-            'Woodworking and fabrication tools',
-            'Collaborative project workspace',
+            'Imprimantes 3D et découpe laser',
+            'Postes d’électronique et de robotique',
+            'Ateliers de menuiserie et fabrication',
+            'Espaces collaboratifs pour projets de groupe',
         ],
         stats: {
-            capacity: '30+ Project Stations',
-            equipment: '50+ Professional Tools',
+            capacity: '+30 postes de projet',
+            equipment: '+10 outils professionnels',
         },
     },
 ];
@@ -252,7 +255,7 @@ export const FacilitiesPage: React.FC = () => {
                                         textTransform: 'uppercase',
                                     }}
                                 >
-                                    World-Class Infrastructure
+                                    Équipements scolaires de haut niveau
                                 </Typography>
 
                                 <Typography
@@ -271,7 +274,7 @@ export const FacilitiesPage: React.FC = () => {
                                         color: '#1a1a1a',
                                     }}
                                 >
-                                    Facilities &{' '}
+                                    Facilités &{' '}
                                     <Box
                                         component="span"
                                         sx={{
@@ -282,7 +285,7 @@ export const FacilitiesPage: React.FC = () => {
                                             WebkitTextFillColor: 'transparent',
                                         }}
                                     >
-                                        Resources
+                                        Ressources
                                     </Box>
                                 </Typography>
 
@@ -300,9 +303,9 @@ export const FacilitiesPage: React.FC = () => {
                                         maxWidth: '500px',
                                     }}
                                 >
-                                    Explore our state-of-the-art campus designed
-                                    to inspire learning, foster innovation, and
-                                    support student success in every endeavor.
+                                    Explorez notre campus moderne qui stimule la
+                                    curiosité, favorise l’innovation et
+                                    accompagne chaque élève vers la réussite.
                                 </Typography>
 
                                 <Box
@@ -339,7 +342,7 @@ export const FacilitiesPage: React.FC = () => {
                                             },
                                         }}
                                     >
-                                        Take Virtual Tour
+                                        Visitez le campus virtuellement
                                     </Button>
                                     <Button
                                         variant="outlined"
@@ -362,7 +365,7 @@ export const FacilitiesPage: React.FC = () => {
                                             },
                                         }}
                                     >
-                                        Schedule Visit
+                                        Prendre rendez-vous
                                     </Button>
                                 </Box>
                             </Box>
@@ -427,7 +430,7 @@ export const FacilitiesPage: React.FC = () => {
                                             lineHeight: 1,
                                         }}
                                     >
-                                        15+
+                                        +10
                                     </Typography>
                                     <Typography
                                         sx={{
@@ -436,7 +439,7 @@ export const FacilitiesPage: React.FC = () => {
                                             color: 'rgba(0, 0, 0, 0.8)',
                                         }}
                                     >
-                                        Specialized Facilities
+                                     Équipements spécialisés
                                     </Typography>
                                 </Box>
 
@@ -462,7 +465,7 @@ export const FacilitiesPage: React.FC = () => {
                                             lineHeight: 1,
                                         }}
                                     >
-                                        50k+
+                                        +5K
                                     </Typography>
                                     <Typography
                                         sx={{
@@ -471,7 +474,7 @@ export const FacilitiesPage: React.FC = () => {
                                             color: 'rgba(0, 0, 0, 0.8)',
                                         }}
                                     >
-                                        Square Feet Campus
+                                       Superficie du campus
                                     </Typography>
                                 </Box>
                             </Box>
@@ -515,7 +518,7 @@ export const FacilitiesPage: React.FC = () => {
                                 textTransform: 'uppercase',
                             }}
                         >
-                            Explore Our Facilities
+                           Découvrez nos Facilités
                         </Typography>
 
                         <Typography
@@ -532,7 +535,7 @@ export const FacilitiesPage: React.FC = () => {
                                 color: '#1a1a1a',
                             }}
                         >
-                            Campus{' '}
+                            {' '}
                             <Box
                                 component="span"
                                 sx={{
@@ -556,9 +559,10 @@ export const FacilitiesPage: React.FC = () => {
                                 lineHeight: 1.6,
                             }}
                         >
-                            Discover our comprehensive range of facilities
-                            designed to provide the best learning environment
-                            for every student's academic journey.
+                            Découvrez notre large gamme d’installations conçues
+                            pour offrir le meilleur environnement
+                            d’apprentissage à chaque élève tout au long de son
+                            parcours scolaire.
                         </Typography>
                     </Box>
 
@@ -767,7 +771,7 @@ export const FacilitiesPage: React.FC = () => {
                                 color: '#1a1a1a',
                             }}
                         >
-                            Featured{' '}
+                            Mise en avant {' '}
                             <Box
                                 component="span"
                                 sx={{
@@ -778,7 +782,7 @@ export const FacilitiesPage: React.FC = () => {
                                     WebkitTextFillColor: 'transparent',
                                 }}
                             >
-                                Facilities
+                                de nos Facilités
                             </Box>
                         </Typography>
                     </Box>
@@ -907,7 +911,7 @@ export const FacilitiesPage: React.FC = () => {
                                                         mb: 0.5,
                                                     }}
                                                 >
-                                                    Capacity
+                                                    Capacité
                                                 </Typography>
                                                 <Typography
                                                     sx={{
@@ -931,7 +935,7 @@ export const FacilitiesPage: React.FC = () => {
                                                         mb: 0.5,
                                                     }}
                                                 >
-                                                    Availability
+                                                    Disponibilité
                                                 </Typography>
                                                 <Typography
                                                     sx={{

@@ -85,169 +85,169 @@ export const FacultyPage: React.FC = () => {
     const facultyStatistics: FacultyStatistic[] = [
         {
             id: '1',
-            label: 'Total Faculty',
+            label: 'Personnel Enseignant',
             value: '24',
-            description: 'dedicated educators',
+            description: 'enseignants qualifiés et engagés',
             icon: <Groups />,
             color: '#6366f1',
         },
         {
             id: '2',
-            label: 'Departments',
+            label: 'Départements',
             value: '8',
-            description: 'academic divisions',
+            description: 'disciplines académiques',
             icon: <School />,
             color: '#10b981',
         },
         {
             id: '3',
-            label: 'Advanced Degrees',
+            label: 'Diplômes Avancés',
             value: '85%',
-            description: `hold Master's or PhD`,
+            description: 'détiennent un Master ou un Doctorat',
             icon: <WorkspacePremium />,
             color: '#8b5cf6',
             progress: 85,
         },
         {
             id: '4',
-            label: 'Average Experience',
-            value: '12',
-            description: 'years in education',
+            label: 'Expérience Moyenne',
+            value: '6',
+            description: 'années d’expérience dans l’enseignement',
             icon: <TrendingUp />,
             color: '#f59e0b',
-        },
+        }
     ];
 
     // Faculty members data
     const allFaculty: FacultyMember[] = [
         {
             id: '1',
-            name: 'Dr. Amanda Chen',
-            title: 'Lead Mathematics Teacher',
-            department: 'Mathematics',
-            bio: 'Dr. Chen specializes in advanced mathematics and has developed innovative teaching methods.',
+            name: 'M. Alain Ndzié',
+            title: 'Enseignant de Mathématiques',
+            department: 'Mathématiques',
+            bio: 'Enseignant passionné, spécialisé dans la pédagogie active pour faciliter la compréhension des mathématiques.',
             qualifications: [
-                'Ph.D. in Mathematics',
-                'M.Ed. in Curriculum Design',
+                'Master en Mathématiques',
+                'Licence en Sciences de l’Éducation',
             ],
-            yearsOfExperience: 15,
-            email: 'achen@school.edu',
+            yearsOfExperience: 6,
+            email: 'maths@gbsleskamites.cm',
             image: '/pexels-katerina-holmes-5905554.jpg',
-            specialties: ['Calculus', 'Statistics', 'AP Mathematics'],
+            specialties: ['Algèbre', 'Géométrie', 'Statistiques'],
             achievements: [
-                'Teacher of the Year 2023',
-                'Mathematics Innovation Award',
-            ],
+                'Encadrement des meilleurs élèves',
+                'Participation aux Olympiades scolaires',
+            ]
         },
         {
             id: '2',
-            name: 'Prof. Marcus Johnson',
-            title: 'Head of Science Department',
-            department: 'Science',
-            bio: 'Professor Johnson brings real-world laboratory experience to the classroom and leads our award-winning science fair program.',
-            qualifications: ['M.S. in Biology', 'B.S. in Chemistry'],
-            yearsOfExperience: 12,
-            email: 'mjohnson@school.edu',
+            name: 'Mme Clarisse Ndzi',
+            title: 'Responsable des Sciences',
+            department: 'Sciences',
+            bio: 'Spécialiste des sciences naturelles, elle rend les cours pratiques et interactifs pour stimuler la curiosité des élèves.',
+            qualifications: ['Master en Biologie', 'Licence en Chimie'],
+            yearsOfExperience: 5,
+            email: 'sciences@gbsleskamites.cm',
             image: '/patrick-amoy-6DfEbkqsTiA-unsplash.jpg',
-            specialties: ['Biology', 'Chemistry', 'Environmental Science'],
+            specialties: ['Biologie', 'Chimie', 'SVT'],
             achievements: [
-                'Science Fair Championship Coach',
-                'Research Excellence Award',
-            ],
+                'Organisation de foires scientifiques',
+                'Encadrement de projets scientifiques',
+            ]
         },
         {
             id: '3',
-            name: 'Elena Rodriguez',
-            title: 'World Languages Coordinator',
-            department: 'Languages',
-            bio: 'Fluent in five languages, Elena has transformed our language program into one of the most comprehensive in the region.',
+            name: 'Mme Grâce Ndzié',
+            title: 'Coordinatrice des Langues',
+            department: 'Langues',
+            bio: 'Enseignante dynamique favorisant l’apprentissage des langues à travers des méthodes interactives.',
             qualifications: [
-                'M.A. in Linguistics',
-                'B.A. in Spanish Literature',
+                'Master en Linguistique',
+                'Licence en Lettres modernes',
             ],
-            yearsOfExperience: 10,
-            email: 'erodriguez@school.edu',
+            yearsOfExperience: 6,
+            email: 'langues@gbsleskamites.cm',
             image: '/pexels-katerina-holmes-5905899.jpg',
-            specialties: ['Spanish', 'French', 'ESL'],
+            specialties: ['Français', 'Anglais'],
             achievements: [
-                'Language Program Excellence',
-                'Cultural Exchange Leader',
-            ],
+                'Amélioration du niveau linguistique des élèves',
+                'Organisation de clubs de langues',
+            ]
         },
         {
             id: '4',
-            name: 'David Park',
-            title: 'Visual Arts Director',
+            name: 'M. Serge Ndzi',
+            title: 'Responsable des Arts',
             department: 'Arts',
-            bio: 'An accomplished artist whose work has been featured in regional galleries. Mentors students in various mediums.',
-            qualifications: ['M.F.A. in Fine Arts', 'B.F.A. in Painting'],
-            yearsOfExperience: 8,
-            email: 'dpark@school.edu',
-            specialties: ['Painting', 'Digital Art', 'Sculpture'],
+            bio: 'Artiste et enseignant, il développe la créativité et l’expression artistique des élèves.',
+            qualifications: ['Licence en Beaux-Arts'],
+            yearsOfExperience: 4,
+            email: 'arts@gbsleskamites.cm',
+            specialties: ['Dessin', 'Peinture', 'Arts plastiques'],
             achievements: [
-                'Regional Artist Award',
-                'Student Exhibition Curator',
-            ],
+                'Organisation d’expositions scolaires',
+                'Encadrement artistique des élèves',
+            ]
         },
         {
             id: '5',
-            name: 'Sarah Mitchell',
-            title: 'English Department Chair',
-            department: 'English',
-            bio: 'Sarah has published several educational articles and leads professional development workshops on literacy instruction.',
-            qualifications: ['M.A. in English Literature', 'B.A. in Education'],
-            yearsOfExperience: 14,
-            email: 'smitchell@school.edu',
-            specialties: ['Literature', 'Creative Writing', 'AP English'],
+            name: 'Mme Mireille Ndzi',
+            title: 'Responsable de Français',
+            department: 'Lettres',
+            bio: 'Spécialiste en littérature, elle développe les compétences en lecture et en rédaction.',
+            qualifications: ['Master en Lettres modernes'],
+            yearsOfExperience: 6,
+            email: 'francais@gbsleskamites.cm',
+            specialties: ['Littérature', 'Expression écrite'],
             achievements: [
-                'Published Educational Researcher',
-                'Literacy Excellence Award',
-            ],
+                'Encadrement aux concours littéraires',
+                'Promotion de la lecture',
+            ]
         },
         {
             id: '6',
-            name: 'Dr. James Thompson',
-            title: 'Physics & Engineering',
-            department: 'Science',
-            bio: 'Dr. Thompson previously worked at NASA and now inspires the next generation of scientists and engineers.',
-            qualifications: [
-                'Ph.D. in Physics',
-                'M.S. in Aerospace Engineering',
-            ],
-            yearsOfExperience: 18,
-            email: 'jthompson@school.edu',
-            specialties: ['Physics', 'Engineering', 'Robotics'],
-            achievements: ['NASA Research Veteran', 'STEM Excellence Award'],
+            name: 'M. Patrick Ndzi',
+            title: 'Enseignant de Physique',
+            department: 'Sciences',
+            bio: 'Passionné par les sciences physiques, il simplifie les concepts complexes pour les élèves.',
+            qualifications: ['Master en Physique', 'Licence en Sciences'],
+            yearsOfExperience: 5,
+            email: 'physique@gbsleskamites.cm',
+            specialties: ['Physique', 'Technologie'],
+            achievements: [
+                'Encadrement de projets scientifiques',
+                'Initiation à la robotique',
+            ]
         },
         {
             id: '7',
-            name: 'Ms. Jennifer Walsh',
-            title: 'Physical Education Director',
-            department: 'Physical Education',
-            bio: 'Former Olympic athlete turned educator, inspiring students to achieve their athletic and personal best.',
-            qualifications: ['M.S. in Sports Science', 'B.S. in Kinesiology'],
-            yearsOfExperience: 11,
-            email: 'jwalsh@school.edu',
-            specialties: ['Athletics', 'Sports Medicine', 'Fitness'],
-            achievements: ['Olympic Competitor', 'Athletic Excellence Coach'],
+            name: 'Mme Nadia Ndzi',
+            title: 'Éducation Physique et Sportive',
+            department: 'EPS',
+            bio: 'Encadre les élèves pour développer discipline, santé et esprit d’équipe.',
+            qualifications: ['Licence en Sciences du Sport'],
+            yearsOfExperience: 5,
+            email: 'eps@gbsleskamites.cm',
+            specialties: ['Sport', 'Fitness', 'Athlétisme'],
+            achievements: [
+                'Organisation de compétitions scolaires',
+                'Encadrement des équipes sportives',
+            ]
         },
         {
             id: '8',
-            name: 'Dr. Robert Kim',
-            title: 'Music Department Head',
+            name: 'M. Junior Ndzi',
+            title: 'Responsable Musique',
             department: 'Arts',
-            bio: 'Professional musician and composer who has performed with major orchestras worldwide.',
-            qualifications: [
-                'D.M.A. in Music Composition',
-                'M.M. in Performance',
-            ],
-            yearsOfExperience: 16,
-            email: 'rkim@school.edu',
-            specialties: ['Orchestra', 'Composition', 'Music Theory'],
+            bio: 'Musicien passionné, il initie les élèves à la pratique musicale et à la culture artistique.',
+            qualifications: ['Diplôme en Musique', 'Certificat en pédagogie'],
+            yearsOfExperience: 4,
+            email: 'musique@gbsleskamites.cm',
+            specialties: ['Chant', 'Instrument', 'Théorie musicale'],
             achievements: [
-                'Symphony Orchestra Performer',
-                'Composition Award Winner',
-            ],
+                'Organisation de spectacles scolaires',
+                'Encadrement de chorales',
+            ]
         },
     ];
 
@@ -255,27 +255,27 @@ export const FacultyPage: React.FC = () => {
     const departmentStats: DepartmentStats[] = [
         {
             id: '1',
-            name: 'Mathematics',
+            name: 'Mathématiques',
             facultyCount: 3,
             icon: <Calculate />,
             color: '#6366f1',
-            description: 'Advanced mathematics and computational thinking',
+            description: 'Développement des compétences en mathématiques et du raisonnement logique',
         },
         {
             id: '2',
-            name: 'Science',
+            name: 'Sciences',
             facultyCount: 4,
             icon: <Science />,
             color: '#10b981',
-            description: 'Laboratory sciences and research methodologies',
+            description: 'Sciences expérimentales avec des approches pratiques et méthodiques',
         },
         {
             id: '3',
-            name: 'Languages',
+            name: 'Langues',
             facultyCount: 3,
             icon: <Language />,
             color: '#8b5cf6',
-            description: 'World languages and communication skills',
+            description: 'Apprentissage des langues et développement des compétences en communication',
         },
         {
             id: '4',
@@ -283,24 +283,24 @@ export const FacultyPage: React.FC = () => {
             facultyCount: 3,
             icon: <Palette />,
             color: '#f59e0b',
-            description: 'Creative expression and artistic development',
+            description: 'Expression créative et développement artistique',
         },
         {
             id: '5',
-            name: 'English',
+            name: 'Lettres Anglaises',
             facultyCount: 2,
             icon: <MenuBook />,
             color: '#06b6d4',
-            description: 'Literature, writing, and critical analysis',
+            description: 'Littérature, expression écrite et analyse de textes',
         },
         {
             id: '6',
-            name: 'Physical Education',
+            name: 'Éducation Physique et Sportive',
             facultyCount: 2,
             icon: <Person />,
             color: '#ef4444',
-            description: 'Athletics, wellness, and physical development',
-        },
+            description: 'Sport, bien-être et développement physique des élèves',
+        }
     ];
 
     // Filtered faculty based on search and department
@@ -320,13 +320,13 @@ export const FacultyPage: React.FC = () => {
     }, [searchTerm, selectedDepartment]);
 
     const departments = [
-        'All',
-        'Mathematics',
-        'Science',
-        'Languages',
+        'Tous',
+        'Mathématiques',
+        'Sciences',
+        'Langues',
         'Arts',
-        'English',
-        'Physical Education',
+        'Lettres Anglaises',
+        'Éducation Physique et Sportive',
     ];
 
     // const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
@@ -337,8 +337,8 @@ export const FacultyPage: React.FC = () => {
         <Box sx={{ backgroundColor: '#fefefe', minHeight: '100vh' }}>
             {/* Page Header with Hero Banner */}
             <PageHeader
-                title="Meet Our Educators"
-                subtitle="Dedicated professionals committed to inspiring and empowering every student to reach their full potential"
+                title="Notre équipe pédagogique"
+                subtitle="Des enseignants passionnés, engagés à inspirer et à accompagner chaque élève vers l’excellence"
                 backgroundImage="/pexels-kampus-8629106.jpg"
                 backgroundImageSrcSet={{
                     small: '/pexels-kampus-8629106.jpg',
@@ -417,7 +417,7 @@ const FacultyStatsSection: React.FC<FacultyStatsSectionProps> = ({
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                        Faculty Excellence
+                        Excellence pédagogique
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -428,8 +428,8 @@ const FacultyStatsSection: React.FC<FacultyStatsSectionProps> = ({
                             mx: 'auto',
                         }}
                     >
-                        Our exceptional educators bring expertise, passion, and
-                        dedication to every classroom
+                        Des éducateurs passionnés, experts et dévoués dans
+                        chaque classe
                     </Typography>
                 </Box>
 
@@ -676,7 +676,7 @@ const FacultyDirectorySection: React.FC<FacultyDirectorySectionProps> = ({
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                        Faculty Directory
+                        Équipe pédagogique
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -688,8 +688,8 @@ const FacultyDirectorySection: React.FC<FacultyDirectorySectionProps> = ({
                             mb: 2,
                         }}
                     >
-                        {faculty.length} faculty member
-                        {faculty.length !== 1 ? 's' : ''} found
+                        {faculty.length} Corps enseignant
+                        {faculty.length !== 1 ? 's' : ''} trouvez
                     </Typography>
                 </Box>
 
@@ -782,7 +782,7 @@ const FacultyDirectorySection: React.FC<FacultyDirectorySectionProps> = ({
                                                     display: 'block',
                                                 }}
                                             >
-                                                Specialties:
+                                                Domaines d’expertise:
                                             </Typography>
                                             <Box
                                                 sx={{
@@ -832,7 +832,7 @@ const FacultyDirectorySection: React.FC<FacultyDirectorySectionProps> = ({
                                                 fontWeight: 500,
                                             }}
                                         >
-                                            {member.yearsOfExperience}+ years
+                                            {member.yearsOfExperience}+ années
                                             exp.
                                         </Typography>
                                         <Box
@@ -905,7 +905,7 @@ const DepartmentOverviewSection: React.FC<DepartmentOverviewSectionProps> = ({
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                        Academic Departments
+                        Départements académiques
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -916,8 +916,8 @@ const DepartmentOverviewSection: React.FC<DepartmentOverviewSectionProps> = ({
                             mx: 'auto',
                         }}
                     >
-                        Diverse expertise across specialized academic
-                        disciplines
+                        Une expertise diversifiée couvrant des disciplines
+                        académiques spécialisées
                     </Typography>
                 </Box>
 
@@ -980,7 +980,7 @@ const DepartmentOverviewSection: React.FC<DepartmentOverviewSectionProps> = ({
                                         display: 'block',
                                     }}
                                 >
-                                    {dept.facultyCount} Faculty Member
+                                    {dept.facultyCount} Corps enseignant
                                     {dept.facultyCount !== 1 ? 's' : ''}
                                 </Typography>
                                 <Typography
@@ -1044,7 +1044,7 @@ const JoinTeamSection: React.FC = () => {
                             mb: 1,
                         }}
                     >
-                        Join Our Excellence Team
+                        Rejoignez notre équipe d’excellence
                     </Typography>
                     <Typography
                         variant="body1"
@@ -1057,10 +1057,10 @@ const JoinTeamSection: React.FC = () => {
                             opacity: 0.9,
                         }}
                     >
-                        We're seeking passionate educators who share our
-                        commitment to academic excellence and student success.
-                        Discover competitive benefits, professional development
-                        opportunities, and a collaborative community.
+                        Rejoignez une équipe d’éducateurs passionnés, engagés
+                        pour l’excellence académique et le succès de chaque
+                        élève. Profitez d’avantages compétitifs, de formations
+                        continues et d’un environnement collaboratif.
                     </Typography>
                     <Button
                         variant="contained"
@@ -1079,7 +1079,7 @@ const JoinTeamSection: React.FC = () => {
                             },
                         }}
                     >
-                        View Career Opportunities
+                        Voir les opportunités de carrière
                     </Button>
                 </Box>
             </Container>

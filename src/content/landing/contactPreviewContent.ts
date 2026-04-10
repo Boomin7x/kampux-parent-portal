@@ -1,44 +1,44 @@
 // Contact Preview Content - Condensed version for landing page preview
 export const contactPreviewContent = {
     // Section Header
-    overline: 'Contact Excellence Academy',
-    title: 'Connect With Us',
+    overline: 'Contactez Nous',
+    title: 'Restez Connectés avec Nous',
     subtitle:
-        "Ready to begin your educational journey? We're here to guide you every step of the way.",
+        'Prêt à commencer votre parcours éducatif ? Nous sommes là pour vous accompagner à chaque étape.',
 
     // Quick Contact Info (Top 4)
     quickContact: [
         {
             id: 'phone',
-            title: 'Call Us',
-            value: '(555) 123-4567',
-            description: 'Available during office hours',
+            title: 'Appelez-nous',
+            value: '(237) 6 XX XX XX XX',
+            description: 'Disponible pendant les heures de bureau',
             icon: 'Phone',
             color: '#6366f1',
             action: 'tel:+15551234567',
         },
         {
             id: 'email',
-            title: 'Email Us',
+            title: 'Envoyez-nous un Email',
             value: 'info@excellenceacademy.edu',
-            description: 'General inquiries & support',
+            description: 'Inquiries générales & support',
             icon: 'Email',
             color: '#8b5cf6',
             action: 'mailto:info@excellenceacademy.edu',
         },
         {
             id: 'location',
-            title: 'Visit Us',
-            value: '123 Education Boulevard',
+            title: 'Passez nous voir',
+            value: 'Yaoundé, Cameroun',
             description: 'Learning City, LC 12345',
             icon: 'LocationOn',
             color: '#10b981',
         },
         {
             id: 'hours',
-            title: 'Office Hours',
-            value: 'Monday - Friday',
-            description: '8:00 AM - 4:00 PM',
+            title: 'Horaires de Bureau',
+            value: 'Lundi - Vendredi',
+            description: '8h00  - 16h00 ',
             icon: 'Schedule',
             color: '#f59e0b',
         },
@@ -48,29 +48,29 @@ export const contactPreviewContent = {
     primaryActions: [
         {
             id: 'portal',
-            title: 'Access Your Dashboard',
+            title: 'Accédez à votre tableau de bord',
             description:
-                "Monitor your child's academic progress, view assignments, and stay connected.",
+                'Suivez les progrès scolaires de votre enfant, consultez les devoirs, suivez l’assiduité et restez en contact avec les enseignants.',
             icon: 'School',
             color: '#6366f1',
-            buttonText: 'Parent Portal',
+            buttonText: 'Portail Parent',
             action: 'navigate-to-auth',
         },
         {
             id: 'tour',
-            title: 'Schedule Your Visit',
+            title: 'Planifiez votre Visite',
             description:
-                'Experience our world-class facilities and meet our dedicated team.',
+                "Découvrez nos installations de classe mondiale et rencontrez notre équipe dédiée d 'enseignants.",
             icon: 'TourOutlined',
             color: '#10b981',
-            buttonText: 'Book Tour',
+            buttonText: 'Reservez dès maintenant',
             action: 'schedule-tour',
         },
     ],
 
     // CTA Configuration
     cta: {
-        text: 'Get in Touch',
+        text: 'Contactez-nous',
         route: '/contact',
     },
 };

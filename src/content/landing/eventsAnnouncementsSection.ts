@@ -1,27 +1,27 @@
 // Events & Announcements Section Content
 export const eventsAnnouncementsSectionContent = {
     // Section Header
-    overline: 'Events & Announcements',
+    overline: 'Événements et annonces',
 
     // Main Headlines
     title: {
-        primary: 'Stay',
-        secondary: 'Informed', // This gets gradient styling
+        primary: 'Restez ',
+        secondary: 'Informé', // This gets gradient styling
     },
 
     // Subtitle
     subtitle:
-        'Important announcements, exam schedules, and school updates delivered with clarity and timeliness.',
+        'Des annonces importantes, des calendriers d’examens et des informations scolaires communiqués avec clarté et en temps opportun..',
 
     // Events & Announcements Data
     events: [
         {
             id: 'finals-exams',
             type: 'exam',
-            title: 'End-of-Term Examinations',
+            title: 'Examens de fin de trimestre',
             description:
-                'Final exams for all grades begin Monday, May 19 and end Friday, May 30. Students must bring their ID cards and required materials.',
-            date: 'May 19 – May 30',
+                'Les examens de fin d’année pour toutes les classes débuteront le lundi 19 mai et se termineront le vendredi 30 mai. Les élèves doivent se munir de leurs cartes d’identité scolaire ainsi que du matériel requis.',
+            date: '19 Mai – 30 Mai',
             image: '/pexels-yaroslav-shuraev-6281132.jpg',
             color: '#6366f1',
             urgent: false,
@@ -29,10 +29,10 @@ export const eventsAnnouncementsSectionContent = {
         {
             id: 'pta-meeting',
             type: 'announcement',
-            title: 'Parent-Teacher Association Meeting',
+            title: 'Réunion de l’Association des Parents d’Élèves',
             description:
-                'Our next PTA meeting is scheduled for Thursday, June 5, at 6:00 pm. Attendance is strongly encouraged for all parents and guardians.',
-            date: 'June 5, 6:00pm',
+                'Notre prochaine réunion de l’APA est programmée pour le jeudi 5 juin à 18h00. La présence est fortement recommandée pour tous les parents et tuteurs.',
+            date: '5 Juin, 18h00',
             image: '/pexels-kampus-8629106.jpg',
             color: '#10b981',
             urgent: false,
@@ -40,10 +40,10 @@ export const eventsAnnouncementsSectionContent = {
         {
             id: 'exam-venue-update',
             type: 'announcement',
-            title: 'Exam Venue Change',
+            title: 'Changement de Lieu d’Examen',
             description:
-                'Due to ongoing facility renovations, Grade 10 and 11 exams will now take place in Room B201. Please adjust arrival plans accordingly.',
-            date: 'Effective Immediately',
+                'En raison des travaux de rénovation en cours, les examens de la 10e et 11e année se dérouleront désormais dans la salle B201. Veuillez ajuster vos plans d’arrivée en conséquence.',
+            date: 'En vigueur immédiatement',
             image: '/pexels-rdne-8500421.jpg',
             color: '#ef4444',
             urgent: true,
@@ -51,10 +51,10 @@ export const eventsAnnouncementsSectionContent = {
         {
             id: 'midterm-results',
             type: 'announcement',
-            title: 'Midterm Results Published',
+            title: 'Résultats des Examens Intermédiaires',
             description:
-                'Midterm exam results are now available on the student and parent portal. For any concerns, contact the academic office.',
-            date: 'May 10',
+                'Les résultats des examens intermédiaires sont maintenant disponibles sur le portail étudiant et parent. Pour tout renseignement, contactez le bureau académique.',
+            date: '10 Mai',
             image: '/pexels-cottonbro-6208926.jpg',
             color: '#6366f1',
             urgent: false,
@@ -62,10 +62,10 @@ export const eventsAnnouncementsSectionContent = {
         {
             id: 'graduation-ceremony',
             type: 'event',
-            title: 'Graduation Ceremony',
+            title: 'Cérémonie de Graduation',
             description:
-                'Celebrate our senior class! Ceremony will take place at the Main Hall, Saturday, June 15, at 4:00 pm. All are welcome.',
-            date: 'June 15, 4:00pm',
+                'Célébrons notre classe de finissants ! La cérémonie aura lieu dans la salle principale, le samedi 15 juin à 16h00. Tout le monde est le bienvenu.',
+            date: '15 Juin, 16h00',
             image: '/pexels-kampus-8629106.jpg',
             color: '#f59e0b',
             urgent: false,
