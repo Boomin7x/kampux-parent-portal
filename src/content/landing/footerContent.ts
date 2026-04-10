@@ -3,8 +3,8 @@ export const footerContent = {
     // Brand Section
     brand: {
         name: {
-            primary: 'Etablissement',
-            secondary: "D' Excellence", // Gets gradient styling
+            primary: 'GBS',
+            secondary: 'Les Kamites', // Gets gradient styling
         },
         tagline:
             'Former les leaders de demain grâce à l’excellence académique et au développement du caractère.',
@@ -15,7 +15,7 @@ export const footerContent = {
         {
             icon: 'Phone',
             label: 'Téléphone',
-            value: '(237) 6 XX XX XX XX',
+            value: '(237) 6 77 42 12 52',
             href: 'tel:+15551234567',
         },
         {
@@ -27,7 +27,7 @@ export const footerContent = {
         {
             icon: 'LocationOn',
             label: 'Addresse',
-            value: 'Yaoundé Cameroun, Learning City, LC 12345',
+            value: 'Yaoundé Cameroun, SOA lieux dit EBOGO',
             href: '#', // No action for address
         },
     ],

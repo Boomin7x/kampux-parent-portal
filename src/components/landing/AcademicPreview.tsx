@@ -197,7 +197,7 @@ export const AcademicPreview: React.FC<AcademicPreviewProps> = ({
                             mb: 0.5,
                         }}
                     >
-                        1200+
+                        +200
                     </Typography>
                     <Typography
                         variant="caption"
@@ -209,7 +209,7 @@ export const AcademicPreview: React.FC<AcademicPreviewProps> = ({
                             letterSpacing: '0.05em',
                         }}
                     >
-                        Students
+                        Elèves
                     </Typography>
                 </Box>
 
@@ -244,7 +244,7 @@ export const AcademicPreview: React.FC<AcademicPreviewProps> = ({
                             letterSpacing: '0.05em',
                         }}
                     >
-                        Programs
+                        Programmes
                     </Typography>
                 </Box>
 
@@ -279,7 +279,7 @@ export const AcademicPreview: React.FC<AcademicPreviewProps> = ({
                             letterSpacing: '0.05em',
                         }}
                     >
-                        Success Rate
+                        Taux de Réussite
                     </Typography>
                 </Box>
             </Box>

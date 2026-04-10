@@ -140,87 +140,84 @@ export const AdmissionPage: React.FC = () => {
     const admissionSteps: AdmissionStep[] = [
         {
             id: '1',
-            title: 'Inquiry & Information',
-            description: 'Learn about our programs and admission requirements',
+            title: 'Information & Orientation',
+            description: 'Découvrez notre école, ses programmes et conditions d’admission',
             icon: <Info />,
             details: [
-                'Browse our academic programs and curriculum',
-                'Attend virtual or in-person information sessions',
-                'Connect with our admissions counselors',
-                'Schedule a campus tour',
+                'Consulter les programmes de la maternelle, primaire et collège',
+                'Participer aux journées portes ouvertes',
+                'Contacter le service des admissions pour conseils',
+                'Visiter l’école et ses installations (bibliothèque, cantine, garderie, terrains de sport)',
             ],
             required: false,
-            timeline: 'Anytime',
+            timeline: 'Juillet 2026',
         },
         {
             id: '2',
-            title: 'Application Submission',
-            description: 'Complete and submit your admission application',
+            title: 'Dépôt du dossier de candidature',
+            description: 'Constituez et déposez votre dossier pour l’année 2026-2027',
             icon: <Assignment />,
             details: [
-                'Fill out the online application form',
-                'Pay non-refundable application fee',
-                'Submit required documents',
-                'Provide emergency contact information',
+                'Remplir la fiche d’inscription en ligne ou sur place',
+                'Joindre les bulletins scolaires récents (si primaire ou collège)',
+                'Fournir l’acte de naissance et 2 photos d’identité',
+                'Indiquer les besoins spécifiques (garderie, transport scolaire, cantine)',
             ],
             required: true,
-            timeline: 'By January 15',
+            timeline: 'Juillet - Août 2026',
         },
         {
             id: '3',
-            title: 'Document Review',
-            description: 'Our team reviews your complete application',
+            title: 'Étude du dossier',
+            description: 'Analyse du dossier par l’administration',
             icon: <Description />,
             details: [
-                'Academic transcripts evaluation',
-                'Previous school records verification',
-                'Character reference checks',
-                'Medical history review',
+                'Vérification des résultats scolaires et notes précédentes',
+                'Analyse du comportement et de la discipline',
+                'Validation de toutes les pièces fournies',
             ],
             required: true,
-            timeline: '2-3 weeks',
+            timeline: '1 à 2 semaines après dépôt',
         },
         {
             id: '4',
-            title: 'Assessment & Interview',
-            description: 'Academic assessment and family interview',
+            title: 'Test d’entrée & Entretien',
+            description: 'Évaluation académique adaptée à l’âge et entretien avec les parents',
             icon: <School />,
             details: [
-                'Age-appropriate academic assessment',
-                'Family interview with admissions team',
-                'Student interaction session',
-                'Special needs evaluation (if applicable)',
+                'Test de niveau (Français, Mathématiques pour primaire et collège)',
+                'Entretien avec les parents pour comprendre les besoins de l’enfant',
+                'Observation et interaction avec l’élève',
             ],
             required: true,
-            timeline: 'Within 1 week of review',
+            timeline: 'Juillet - Août 2026',
         },
         {
             id: '5',
-            title: 'Admission Decision',
-            description: 'Receive your admission notification',
+            title: 'Résultats d’admission',
+            description: 'Annonce des résultats et instructions pour finaliser l’inscription',
             icon: <Verified />,
             details: [
-                'Official admission decision letter',
-                'Enrollment package and next steps',
-                'Financial aid notification (if applicable)',
-                'Orientation session scheduling',
+                'Notification par affichage, appel ou email',
+                'Explication des étapes suivantes pour la rentrée',
+                'Information sur les services complémentaires (cantine, garderie, transport)',
             ],
             required: false,
-            timeline: 'Within 5 business days',
+            timeline: 'Fin Août 2026',
         },
         {
             id: '6',
-            title: 'Enrollment & Preparation',
-            description: 'Complete enrollment and prepare for the new year',
+            title: 'Inscription définitive & Préparation',
+            description: 'Finalisez l’inscription et préparez l’enfant pour la rentrée',
             icon: <CheckCircle />,
             details: [
-                'Submit enrollment deposit',
-                'Complete health and immunization forms',
-                'Purchase uniforms and supplies',
-                'Attend new student orientation',
+                'Paiement des frais de scolarité et services supplémentaires (bus, cantine, garderie)',
+                'Achat des uniformes et fournitures scolaires',
+                'Dépôt du dossier médical et vaccins',
+                'Participation à la réunion d’accueil et orientation des nouveaux élèves',
             ],
             required: true,
-            timeline: 'By March 1',
+            timeline: 'Août 2026 (avant la rentrée de septembre)',
         },
     ];
 
@@ -228,60 +225,60 @@ export const AdmissionPage: React.FC = () => {
     const admissionRequirements: AdmissionRequirement[] = [
         {
             id: '1',
-            category: 'Academic Records',
-            title: 'Previous School Transcripts',
+            category: 'Dossiers Scolaires',
+            title: 'Relevés de notes précédents',
             description:
-                'Official transcripts from current and previous schools',
+                'Relevés officiels de l’école actuelle et des années précédentes',
             documents: [
-                'Current year report cards',
-                'Previous 2 years transcripts',
-                'Standardized test scores (if available)',
-                'Teacher recommendations',
+                'Bulletins de l’année en cours',
+                'Relevés des 2 années précédentes',
+                'Résultats aux tests standardisés (si disponibles)',
+                'Recommandations des enseignants',
             ],
-            deadline: 'January 15, 2026',
+            deadline: 'Juillet 2026',
             priority: 'high',
         },
         {
             id: '2',
-            category: 'Personal Information',
-            title: 'Student & Family Details',
-            description: 'Complete personal and family information',
+            category: 'Informations Personnelles',
+            title: 'Détails de l’élève et de la famille',
+            description: 'Fournir les informations personnelles et familiales complètes',
             documents: [
-                'Birth certificate (certified copy)',
-                'Passport or ID documents',
-                'Proof of residency',
-                'Family contact information',
+                'Acte de naissance (copie certifiée)',
+                'Passeport ou carte d’identité',
+                'Justificatif de domicile',
+                'Coordonnées de la famille',
             ],
-            deadline: 'January 15, 2026',
+            deadline: 'Juillet 2026',
             priority: 'high',
         },
         {
             id: '3',
-            category: 'Health & Medical',
-            title: 'Medical Documentation',
-            description: 'Current health records and immunization history',
+            category: 'Santé & Médical',
+            title: 'Documents médicaux',
+            description: 'Dossier de santé actuel et antécédents vaccinaux',
             documents: [
-                'Current immunization records',
-                'Medical examination report',
-                'Special needs documentation (if applicable)',
-                'Emergency medical information',
+                'Carnet de vaccination à jour',
+                'Rapport d’examen médical',
+                'Documents relatifs aux besoins spécifiques (si applicable)',
+                'Informations médicales d’urgence',
             ],
-            deadline: 'February 1, 2026',
+            deadline: 'Août 2026',
             priority: 'medium',
         },
         {
             id: '4',
-            category: 'Financial',
-            title: 'Financial Information',
+            category: 'Financier',
+            title: 'Informations financières',
             description:
-                'Financial documentation for tuition and aid consideration',
+                'Documents financiers pour l’inscription et la prise en compte des aides éventuelles',
             documents: [
-                'Financial aid application (if applying)',
-                'Income verification documents',
-                'Bank statements (for international students)',
-                'Scholarship application materials',
+                'Formulaire de demande d’aide financière (si applicable)',
+                'Justificatifs de revenus',
+                'Relevés bancaires (pour les étudiants internationaux)',
+                'Documents pour demandes de bourses',
             ],
-            deadline: 'January 31, 2026',
+            deadline: 'Août 2026',
             priority: 'medium',
         },
     ];
@@ -290,78 +287,70 @@ export const AdmissionPage: React.FC = () => {
     const feeStructures: FeeStructure[] = [
         {
             id: '1',
-            grade: 'Pre-K & Kindergarten',
-            tuitionFee: 12500,
+            grade: 'Maternelle (Petite à Grande Section)',
+            tuitionFee: 125000,
             additionalFees: [
-                { name: 'Registration Fee', amount: 500, required: true },
-                { name: 'Technology Fee', amount: 300, required: true },
-                { name: 'Activity Fee', amount: 250, required: true },
-                { name: 'Lunch Program', amount: 1200, required: false },
-                { name: 'After School Care', amount: 2000, required: false },
+                { name: 'Frais d’inscription', amount: 25000, required: true },
+                { name: 'Frais technologique', amount: 3000, required: true },
+                { name: 'Frais d’activités', amount: 2500, required: true },
+                { name: 'Cantine', amount: 15000, required: false },
+                {
+                    name: 'Garderie périscolaire',
+                    amount: 20000,
+                    required: false,
+                },
             ],
-            totalEstimate: 14750,
+            totalEstimate: 175000,
             paymentPlans: [
-                'Annual Payment',
-                '2 Semester Plan',
-                '10 Month Plan',
+                'Paiement annuel',
+                'Plan semestriel (3 semestres)',
+                'Plan mensuel (9 mois)',
             ],
         },
         {
             id: '2',
-            grade: 'Elementary (Grades 1-5)',
-            tuitionFee: 14500,
+            grade: 'Primaire (CP à CM2)',
+            tuitionFee: 145000,
             additionalFees: [
-                { name: 'Registration Fee', amount: 500, required: true },
-                { name: 'Technology Fee', amount: 400, required: true },
-                { name: 'Activity Fee', amount: 350, required: true },
-                { name: 'Lunch Program', amount: 1200, required: false },
-                { name: 'After School Care', amount: 2000, required: false },
-                { name: 'Field Trip Fund', amount: 150, required: false },
+                { name: 'Frais d’inscription', amount: 25000, required: true },
+                { name: 'Frais technologique', amount: 4000, required: true },
+                { name: 'Frais d’activités', amount: 3500, required: true },
+                { name: 'Cantine', amount: 15000, required: false },
+                {
+                    name: 'Garderie périscolaire',
+                    amount: 20000,
+                    required: false,
+                },
+                {
+                    name: 'Fonds sorties pédagogiques',
+                    amount: 5000,
+                    required: false,
+                },
             ],
-            totalEstimate: 16900,
+            totalEstimate: 217500,
             paymentPlans: [
-                'Annual Payment',
-                '2 Semester Plan',
-                '10 Month Plan',
+                'Paiement annuel',
+                'Plan semestriel (3 semestres)',
+                'Plan mensuel (9 mois)',
             ],
         },
         {
             id: '3',
-            grade: 'Middle School (Grades 6-8)',
-            tuitionFee: 16500,
+            grade: 'Collège (6ème à 3ème)',
+            tuitionFee: 165000,
             additionalFees: [
-                { name: 'Registration Fee', amount: 500, required: true },
-                { name: 'Technology Fee', amount: 500, required: true },
-                { name: 'Activity Fee', amount: 400, required: true },
-                { name: 'Lab Fee', amount: 300, required: true },
-                { name: 'Lunch Program', amount: 1200, required: false },
-                { name: 'Sports Program', amount: 400, required: false },
+                { name: 'Frais d’inscription', amount: 50000, required: true },
+                { name: 'Frais technologique', amount: 5000, required: true },
+                { name: 'Frais d’activités', amount: 4000, required: true },
+                { name: 'Frais de laboratoire', amount: 3000, required: true },
+                { name: 'Cantine', amount: 15000, required: false },
+                { name: 'Programme sportif', amount: 4000, required: false },
             ],
-            totalEstimate: 19800,
+            totalEstimate: 246000,
             paymentPlans: [
-                'Annual Payment',
-                '2 Semester Plan',
-                '10 Month Plan',
-            ],
-        },
-        {
-            id: '4',
-            grade: 'High School (Grades 9-12)',
-            tuitionFee: 18500,
-            additionalFees: [
-                { name: 'Registration Fee', amount: 500, required: true },
-                { name: 'Technology Fee', amount: 600, required: true },
-                { name: 'Activity Fee', amount: 500, required: true },
-                { name: 'Lab Fee', amount: 400, required: true },
-                { name: 'Graduation Fee', amount: 200, required: true },
-                { name: 'Lunch Program', amount: 1200, required: false },
-                { name: 'AP Exam Fees', amount: 600, required: false },
-            ],
-            totalEstimate: 22500,
-            paymentPlans: [
-                'Annual Payment',
-                '2 Semester Plan',
-                '10 Month Plan',
+                'Paiement annuel',
+                'Plan semestriel (3 semestres)',
+                'Plan mensuel (9 mois)',
             ],
         },
     ];
@@ -370,124 +359,126 @@ export const AdmissionPage: React.FC = () => {
     const importantDates: ImportantDate[] = [
         {
             id: '1',
-            title: 'Application Opens',
-            date: 'October 1, 2025',
+            title: 'Ouverture des candidatures',
+            date: '1er juillet 2026',
             description:
-                'Online application portal becomes available for new families',
+                'Le portail de candidature en ligne devient disponible pour les nouvelles familles',
             type: 'event',
         },
         {
             id: '2',
-            title: 'Information Sessions Begin',
-            date: 'October 15, 2025',
-            description: 'Virtual and in-person information sessions start',
+            title: "Début des sessions d'information",
+            date: '10 juillet 2026',
+            description: "Sessions d'information virtuelles et en présentiel pour les parents et élèves",
             type: 'event',
         },
         {
             id: '3',
-            title: 'Application Deadline',
-            date: 'January 15, 2026',
-            description: 'Final deadline for admission application submission',
+            title: 'Date limite de dépôt des candidatures',
+            date: '25 juillet 2026',
+            description:
+                'Dernier délai pour soumettre le dossier de candidature complet',
             type: 'deadline',
         },
         {
             id: '4',
-            title: 'Document Deadline',
-            date: 'February 1, 2026',
-            description: 'All supporting documents must be received',
+            title: 'Date limite des documents',
+            date: '30 juillet 2026',
+            description: 'Tous les documents justificatifs doivent être reçus',
             type: 'deadline',
         },
         {
             id: '5',
-            title: 'Assessment Period',
-            date: 'February 1-28, 2026',
-            description: 'Student assessments and family interviews conducted',
+            title: "Période d'évaluation",
+            date: '1er - 10 août 2026',
+            description:
+                'Évaluations des élèves et entretiens avec les parents',
             type: 'event',
         },
         {
             id: '6',
-            title: 'Admission Notifications',
-            date: 'March 15, 2026',
-            description: 'Admission decisions sent to all applicant families',
+            title: 'Notification des admissions',
+            date: '12 août 2026',
+            description: "Les décisions d'admission sont communiquées aux familles des candidats",
             type: 'notification',
         },
         {
             id: '7',
-            title: 'Enrollment Deadline',
-            date: 'April 1, 2026',
-            description: 'Deadline to confirm enrollment with deposit',
+            title: "Date limite d'inscription",
+            date: '20 août 2026',
+            description: "Dernier délai pour confirmer l'inscription et verser l'acompte",
             type: 'deadline',
         },
         {
             id: '8',
-            title: 'New Student Orientation',
-            date: 'August 15, 2026',
-            description: 'Welcome orientation for new students and families',
+            title: 'Orientation des nouveaux élèves',
+            date: '25 août 2026',
+            description: "Séance d'accueil et orientation pour les élèves et leurs familles",
             type: 'event',
         },
     ];
 
     // FAQ data
     const faqItems: FAQItem[] = [
-        {
+       {
             id: '1',
-            question: 'What is the application deadline?',
-            answer: 'The application deadline is January 15, 2026. We encourage early submission as we review applications on a rolling basis and some programs may fill before the deadline.',
+            question: 'Quelle est la date limite de dépôt des candidatures ?',
+            answer: 'La date limite de dépôt des candidatures est le 25 juillet 2026. Nous encourageons les soumissions anticipées car certaines places peuvent être attribuées au fur et à mesure de la réception des dossiers.',
             category: 'general',
         },
         {
             id: '2',
-            question: 'Is there an application fee?',
-            answer: 'Yes, there is a non-refundable application fee of $100. This fee helps cover the cost of processing your application and conducting assessments.',
+            question: 'Y a-t-il des frais de dossier ?',
+            answer: "Oui, des frais de dossier non remboursables de 50 000 FCFA s'appliquent. Ces frais couvrent le traitement de votre candidature et l'organisation des évaluations.",
             category: 'financial',
         },
         {
             id: '3',
-            question: 'What curriculum do you follow?',
-            answer: 'We follow an enhanced national curriculum with international standards, incorporating STEM education, arts integration, and character development programs.',
+            question: 'Quel programme scolaire suivez-vous ?',
+            answer: 'Nous suivons le programme national renforcé avec des standards internationaux, incluant les sciences, les arts, l’éducation physique et le développement du caractère.',
             category: 'academic',
         },
         {
             id: '4',
-            question: 'Do you offer financial aid or scholarships?',
-            answer: 'Yes, we offer need-based financial aid and merit scholarships. Financial aid applications must be submitted by January 31, 2026. Merit scholarships are awarded based on academic performance and special talents.',
+            question: 'Proposez-vous des bourses ou aides financières ?',
+            answer: 'Oui, nous offrons des bourses au mérite et des aides financières selon les besoins. Les demandes d’aide financière doivent être soumises avant le 31 juillet 2026. Les bourses au mérite sont attribuées selon les performances académiques et les talents spéciaux.',
             category: 'financial',
         },
         {
             id: '5',
-            question: 'What is the student-to-teacher ratio?',
-            answer: 'We maintain small class sizes with a student-to-teacher ratio of 15:1 in elementary grades and 18:1 in middle and high school grades to ensure personalized attention.',
+            question: 'Quel est le ratio élèves/professeur ?',
+            answer: 'Nous maintenons des classes à effectif réduit : environ 15 élèves par enseignant en primaire et 18 élèves par enseignant au collège, pour assurer un suivi personnalisé.',
             category: 'academic',
         },
         {
             id: '6',
-            question: 'Do you provide transportation?',
-            answer: 'Yes, we offer bus transportation to various neighborhoods. Transportation fees range from $800-1200 per year depending on the route distance.',
+            question: 'Proposez-vous un service de transport scolaire ?',
+            answer: 'Oui, nous offrons un service de bus couvrant plusieurs quartiers. Les frais annuels varient de 500 000 à 800 000 FCFA selon la distance.',
             category: 'logistics',
         },
         {
             id: '7',
-            question: 'What extracurricular activities are available?',
-            answer: 'We offer a wide range of activities including sports teams, music and drama programs, academic clubs, community service opportunities, and leadership development programs.',
+            question: 'Quelles activités périscolaires sont disponibles ?',
+            answer: 'Nous proposons de nombreuses activités : équipes sportives, musique, théâtre, clubs académiques, projets de service communautaire et programmes de leadership.',
             category: 'general',
         },
         {
             id: '8',
-            question: 'Can we schedule a campus visit?',
-            answer: 'Absolutely! We encourage campus visits. You can schedule individual tours or attend our group information sessions. Virtual tours are also available for families unable to visit in person.',
+            question: 'Pouvons-nous visiter l’école avant l’inscription ?',
+            answer: 'Bien sûr ! Nous encourageons les visites de l’école. Vous pouvez planifier des visites individuelles ou participer à nos sessions d’information en groupe. Des visites virtuelles sont également disponibles pour les familles qui ne peuvent pas se déplacer.',
             category: 'general',
         },
         {
             id: '9',
             question:
-                'What support is available for students with learning differences?',
-            answer: 'We have a dedicated learning support team that works with students who have diagnosed learning differences. We provide individualized education plans and specialized support services.',
+                'Quel soutien est offert aux élèves avec besoins éducatifs particuliers ?',
+            answer: 'Nous disposons d’une équipe spécialisée pour accompagner les élèves ayant des besoins éducatifs particuliers. Des plans personnalisés et un suivi spécialisé sont proposés selon les besoins.',
             category: 'academic',
         },
         {
             id: '10',
-            question: 'What is the dress code policy?',
-            answer: 'We have a uniform policy that promotes equality and school spirit. Uniform details and approved vendors are provided upon enrollment. The estimated cost is $300-500 per student.',
+            question: 'Quelle est la politique vestimentaire ?',
+            answer: 'Nous avons une politique d’uniforme qui favorise l’égalité et l’esprit d’école. Les détails des uniformes et les fournisseurs agréés sont communiqués lors de l’inscription. Le coût estimé est de 50 000 à 80 000 FCFA par élève.',
             category: 'logistics',
         },
     ];
@@ -507,8 +498,8 @@ export const AdmissionPage: React.FC = () => {
         >
             {/* Page Header with Hero Banner */}
             <PageHeader
-                title="Admission Information"
-                subtitle="Join our community of learners and discover the path to academic excellence"
+                title="Informations sur les Admissions"
+                subtitle="Rejoignez notre communauté d'apprenants et découvrez le chemin vers l'excellence académique"
                 backgroundImage="/pexels-katerina-holmes-5905554.jpg"
                 backgroundImageSrcSet={{
                     small: '/pexels-katerina-holmes-5905554.jpg',
@@ -563,30 +554,30 @@ const AdmissionOverviewSection: React.FC = () => {
     const highlights = [
         {
             icon: <EmojiEvents />,
-            title: 'Academic Excellence',
+            title: 'GBS Les Kamites',
             description:
-                'Top 5% nationally ranked school with 98% university acceptance rate',
+                'École parmi les meilleures du pays avec un taux de réussite élevé et 98 % d’admission en université',
             color: '#6366f1',
         },
         {
             icon: <Group />,
-            title: 'Small Classes',
+            title: 'Classes à Effectifs Réduits',
             description:
-                '15:1 student-to-teacher ratio ensuring personalized attention',
+                'Ratio élèves/enseignant de 8:1 pour une attention personnalisée',
             color: '#8b5cf6',
         },
         {
             icon: <MenuBook />,
-            title: 'Holistic Education',
+            title: 'Éducation Globale',
             description:
-                'Comprehensive curriculum with STEM, arts, and character development',
+                'Programme complet incluant STEM, arts, et développement du caractère',
             color: '#06b6d4',
         },
         {
             icon: <Timeline />,
-            title: 'Proven Track Record',
+            title: 'Historique Réussi',
             description:
-                '15+ years of educational excellence and student success',
+                'Plus de 5 ans d’excellence éducative et de réussite des élèves',
             color: '#10b981',
         },
     ];
@@ -616,7 +607,7 @@ const AdmissionOverviewSection: React.FC = () => {
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                        Why Choose Excellence Academy?
+                        Pourquoi Choisis GBS Les Kamites?
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -628,12 +619,13 @@ const AdmissionOverviewSection: React.FC = () => {
                             mb: 3,
                         }}
                     >
-                        We are committed to providing exceptional education that
-                        nurtures intellectual curiosity, character development,
-                        and prepares students for success in an ever-changing
-                        world. Our admission process is designed to identify
-                        students who will thrive in our collaborative learning
-                        environment.
+                        Nous nous engageons à offrir une éducation
+                        exceptionnelle qui stimule la curiosité intellectuelle,
+                        favorise le développement du caractère et prépare les
+                        élèves à réussir dans un monde en constante évolution.
+                        Notre processus d’admission est conçu pour identifier
+                        les élèves qui s’épanouiront dans notre environnement
+                        d’apprentissage collaboratif.
                     </Typography>
                 </Box>
 
@@ -738,7 +730,7 @@ const ApplicationProcessSection: React.FC<ApplicationProcessSectionProps> = ({
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                        Application Process
+                        Processus d’Admission
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -749,8 +741,8 @@ const ApplicationProcessSection: React.FC<ApplicationProcessSectionProps> = ({
                             mx: 'auto',
                         }}
                     >
-                        Follow these six simple steps to complete your admission
-                        application
+                        Découvrez les étapes pour inscrire votre enfant et
+                        rejoindre notre communauté scolaire.
                     </Typography>
                 </Box>
 
@@ -830,7 +822,7 @@ const ApplicationProcessSection: React.FC<ApplicationProcessSectionProps> = ({
                                                 color: 'text.primary',
                                             }}
                                         >
-                                            Step {parseInt(step.id)}:{' '}
+                                            Étape {parseInt(step.id)}:{' '}
                                             {step.title}
                                         </Typography>
                                         {step.required && (
@@ -927,11 +919,11 @@ const RequirementsSection: React.FC<RequirementsSectionProps> = ({
 
     const getPriorityColor = (priority: string) => {
         switch (priority) {
-            case 'high':
+            case 'élevé':
                 return 'error';
-            case 'medium':
+            case 'moyenne':
                 return 'warning';
-            case 'low':
+            case 'moins':
                 return 'success';
             default:
                 return 'default';
@@ -963,7 +955,7 @@ const RequirementsSection: React.FC<RequirementsSectionProps> = ({
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                        Admission Requirements
+                       Exigences d’admission
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -974,8 +966,9 @@ const RequirementsSection: React.FC<RequirementsSectionProps> = ({
                             mx: 'auto',
                         }}
                     >
-                        Complete document checklist to ensure a smooth admission
-                        process
+                        Liste complète des documents pour garantir un processus
+                        d’admission fluide Complete document checklist to ensure
+                        a smooth admission process
                     </Typography>
                 </Box>
 
@@ -1063,7 +1056,7 @@ const RequirementsSection: React.FC<RequirementsSectionProps> = ({
                                             display: 'block',
                                         }}
                                     >
-                                        Deadline: {requirement.deadline}
+                                        Date limite: {requirement.deadline}
                                     </Typography>
                                     <List dense sx={{ p: 0 }}>
                                         {requirement.documents.map(
@@ -1124,9 +1117,9 @@ const ImportantDatesSection: React.FC<ImportantDatesSectionProps> = ({
 
     const getTypeColor = (type: string) => {
         switch (type) {
-            case 'deadline':
+            case 'date limite':
                 return 'error.main';
-            case 'event':
+            case 'événement':
                 return 'primary.main';
             case 'notification':
                 return 'success.main';
@@ -1173,7 +1166,7 @@ const ImportantDatesSection: React.FC<ImportantDatesSectionProps> = ({
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                        Important Dates & Deadlines
+                        Dates et délais importants
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -1184,8 +1177,8 @@ const ImportantDatesSection: React.FC<ImportantDatesSectionProps> = ({
                             mx: 'auto',
                         }}
                     >
-                        Mark your calendar with these key dates in the admission
-                        process
+                        Notez ces dates importantes du processus d’admission
+                        dans votre calendrier
                     </Typography>
                 </Box>
 
@@ -1379,7 +1372,7 @@ const TuitionFeesSection: React.FC<TuitionFeesSectionProps> = ({
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                        Tuition & Fees
+                        Frais de scolarité et frais divers
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -1390,8 +1383,9 @@ const TuitionFeesSection: React.FC<TuitionFeesSectionProps> = ({
                             mx: 'auto',
                         }}
                     >
-                        Transparent pricing with flexible payment options to
-                        support your family's educational investment
+                        Tarification transparente avec des options de paiement
+                        flexibles pour soutenir l’investissement éducatif de
+                        votre famille
                     </Typography>
                 </Box>
 
@@ -1462,7 +1456,7 @@ const TuitionFeesSection: React.FC<TuitionFeesSectionProps> = ({
                                                     fontWeight: 600,
                                                 }}
                                             >
-                                                Base Tuition
+                                                Frais de scolarité 
                                             </Typography>
                                             <Typography
                                                 variant="subtitle2"
@@ -1490,7 +1484,7 @@ const TuitionFeesSection: React.FC<TuitionFeesSectionProps> = ({
                                                 display: 'block',
                                             }}
                                         >
-                                            ADDITIONAL FEES
+                                            Frais supplémentaires
                                         </Typography>
                                         {structure.additionalFees.map(
                                             (fee, feeIndex) => (
@@ -1552,7 +1546,8 @@ const TuitionFeesSection: React.FC<TuitionFeesSectionProps> = ({
                                                 color: 'primary.main',
                                             }}
                                         >
-                                            Estimated Total (with required fees)
+                                            Total estimé (avec les frais
+                                            obligatoires)
                                         </Typography>
                                         <Typography
                                             variant="subtitle2"
@@ -1579,7 +1574,7 @@ const TuitionFeesSection: React.FC<TuitionFeesSectionProps> = ({
                                                 display: 'block',
                                             }}
                                         >
-                                            PAYMENT PLAN OPTIONS
+                                            Options de plan de paiement
                                         </Typography>
                                         {structure.paymentPlans.map(
                                             (plan, planIndex) => (
@@ -1623,7 +1618,7 @@ const TuitionFeesSection: React.FC<TuitionFeesSectionProps> = ({
                             color: 'primary.main',
                         }}
                     >
-                        Financial Aid Available
+                        Aide financière disponible
                     </Typography>
                     <Typography
                         variant="body2"
@@ -1633,11 +1628,13 @@ const TuitionFeesSection: React.FC<TuitionFeesSectionProps> = ({
                             lineHeight: 1.4,
                         }}
                     >
-                        We believe that financial circumstances should not be a
-                        barrier to excellent education. Need-based financial aid
-                        and merit scholarships are available for qualifying
-                        families. Contact our admissions office for more
-                        information about financial assistance options.
+                        Nous croyons que les contraintes financières ne
+                        devraient pas constituer un obstacle à une éducation
+                        d’excellence. Des aides financières basées sur les
+                        besoins et des bourses au mérite sont disponibles pour
+                        les familles éligibles. Contactez notre service des
+                        admissions pour plus d’informations sur les options
+                        d’aide financière
                     </Typography>
                 </Paper>
             </Container>
@@ -1665,11 +1662,11 @@ const FAQSection: React.FC<FAQSectionProps> = ({
     });
 
     const categories = [
-        { value: 'all', label: 'All Questions' },
-        { value: 'general', label: 'General' },
-        { value: 'academic', label: 'Academic' },
-        { value: 'financial', label: 'Financial' },
-        { value: 'logistics', label: 'Logistics' },
+        { value: 'all', label: 'Toutes les questions' },
+        { value: 'general', label: 'Général' },
+        { value: 'academic', label: 'Académique' },
+        { value: 'financial', label: 'Financier' },
+        { value: 'logistics', label: 'Logistique' },
     ];
 
     return (
@@ -1697,7 +1694,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                        Frequently Asked Questions
+                        Questions fréquentes
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -1709,8 +1706,8 @@ const FAQSection: React.FC<FAQSectionProps> = ({
                             mb: 2,
                         }}
                     >
-                        Find answers to common questions about our admission
-                        process
+                        Trouvez les réponses aux questions courantes concernant
+                        notre processus d’admission
                     </Typography>
 
                     {/* Category Filter */}
@@ -1817,22 +1814,19 @@ const ContactApplicationSection: React.FC = () => {
     const contactInfo = [
         {
             icon: <Phone />,
-            title: 'Phone',
-            details: ['+1 (555) 123-4567', 'Mon-Fri: 8:00 AM - 4:00 PM'],
+            title: 'Téléphone',
+            details: ['(+237) 6 77 42 12 52', 'Lun-Ven : 8h00 - 16h00'],
         },
         {
             icon: <Email />,
             title: 'Email',
-            details: [
-                'admissions@excellenceacademy.edu',
-                'Response within 24 hours',
-            ],
+            details: ['leskamites@gmail.com', 'Réponse sous 24 heures'],
         },
         {
             icon: <LocationOn />,
-            title: 'Visit Us',
-            details: ['123 Excellence Avenue', 'Academic City, AC 12345'],
-        },
+            title: 'Nous rendre visite',
+            details: ['Yaoundé - Cameroun', 'SOA, EBOGO'],
+        }
     ];
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -1868,7 +1862,7 @@ const ContactApplicationSection: React.FC = () => {
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                        Ready to Apply?
+                        Prêt à postuler ?
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -1879,8 +1873,8 @@ const ContactApplicationSection: React.FC = () => {
                             mx: 'auto',
                         }}
                     >
-                        Start your journey with Excellence Academy today or get
-                        in touch with our admission team
+                        Commencez votre parcours à l’Excellence Academy dès
+                        aujourd’hui ou contactez notre équipe des admissions
                     </Typography>
                 </Box>
 
@@ -1906,7 +1900,7 @@ const ContactApplicationSection: React.FC = () => {
                                     color: 'text.primary',
                                 }}
                             >
-                                Contact Information
+                                Coordonnées
                             </Typography>
                             {contactInfo.map((info, index) => (
                                 <Box
@@ -1976,7 +1970,7 @@ const ContactApplicationSection: React.FC = () => {
                                     color: 'text.primary',
                                 }}
                             >
-                                Get In Touch
+                                Contactez-nous
                             </Typography>
                             <Box
                                 component="form"
@@ -2063,7 +2057,7 @@ const ContactApplicationSection: React.FC = () => {
                                         borderRadius: 1,
                                     }}
                                 >
-                                    Send Message
+                                    Envoyer Nous un message
                                 </Button>
                             </Box>
                         </Box>
@@ -2110,7 +2104,7 @@ const ContactApplicationSection: React.FC = () => {
                                         color: 'primary.main',
                                     }}
                                 >
-                                    Start Your Application
+                                    Commencez votre admission
                                 </Typography>
                                 <Typography
                                     variant="body2"
@@ -2120,8 +2114,8 @@ const ContactApplicationSection: React.FC = () => {
                                         mb: 2,
                                     }}
                                 >
-                                    Begin your admission journey with our online
-                                    application portal.
+                                    Commencez votre parcours d’admission via
+                                    notre portail de candidature en ligne.
                                 </Typography>
                                 <Button
                                     variant="contained"
@@ -2133,7 +2127,7 @@ const ContactApplicationSection: React.FC = () => {
                                         mb: 1,
                                     }}
                                 >
-                                    Apply Now
+                                    Postulez maintenant
                                 </Button>
                                 <Button
                                     variant="outlined"
@@ -2144,7 +2138,7 @@ const ContactApplicationSection: React.FC = () => {
                                         borderRadius: 1,
                                     }}
                                 >
-                                    Schedule Tour
+                                    Planifier une visite
                                 </Button>
                             </Paper>
                         </Box>

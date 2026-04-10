@@ -101,17 +101,17 @@ interface PhotoStats {
 
 // Category configuration
 const categories = [
-    { id: 'all', label: 'All Photos', icon: PhotoIcon },
-    { id: 'academic', label: 'Academic Life', icon: AcademicIcon },
-    { id: 'athletics', label: 'Athletics', icon: SportsIcon },
-    { id: 'events', label: 'School Events', icon: EventIcon },
-    { id: 'campus', label: 'Campus Life', icon: StudentIcon },
+    { id: 'all', label: 'Toutes les photos', icon: PhotoIcon },
+    { id: 'academic', label: 'Vie scolaire', icon: AcademicIcon },
+    { id: 'athletics', label: 'Sports', icon: SportsIcon },
+    { id: 'events', label: 'Événements scolaires', icon: EventIcon },
+    { id: 'campus', label: 'Vie sur le campus', icon: StudentIcon },
     {
         id: 'student-activities',
-        label: 'Student Activities',
+        label: 'Activités des élèves',
         icon: StudentIcon,
     },
-    { id: 'alumni', label: 'Alumni & Community', icon: AlumniIcon },
+    { id: 'alumni', label: 'Anciens élèves & communauté', icon: AlumniIcon },
 ] as const;
 
 // Mock data - In real app, this would come from API
@@ -119,95 +119,95 @@ const mockPhotos: Photo[] = [
     {
         id: '1',
         src: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=600&fit=crop',
-        alt: 'Students in classroom',
-        title: 'Interactive Learning Session',
+        alt: 'Élèves en classe',
+        title: 'Séance d’apprentissage interactive',
         description:
-            'Students engaged in collaborative learning during science class',
-        date: '2024-03-15',
+            'Des élèves participent à un apprentissage collaboratif pendant un cours de sciences',
+        date: '2025-03-15',
         category: 'academic',
-        tags: ['classroom', 'science', 'collaboration'],
+        tags: ['classe', 'sciences', 'collaboration'],
         featured: true,
     },
     {
         id: '2',
         src: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop',
-        alt: 'Basketball game',
-        title: 'Championship Basketball Game',
+        alt: 'Match de basketball',
+        title: 'Finale de basketball',
         description:
-            'Annual basketball championship finals between rival schools',
-        date: '2024-02-28',
+            'Finale annuelle du championnat de basketball entre écoles',
+        date: '2025-02-07',
         category: 'athletics',
-        tags: ['basketball', 'championship', 'sports'],
+        tags: ['basketball', 'championnat', 'sport'],
     },
     {
         id: '3',
         src: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&h=600&fit=crop',
-        alt: 'School graduation',
-        title: 'Graduation Ceremony 2024',
-        description: 'Celebrating our graduating class achievements',
-        date: '2024-05-20',
+        alt: 'Remise de diplômes',
+        title: 'Cérémonie de fin d’année 2025',
+        description: 'Célébration des réussites de nos élèves',
+        date: '2025-06-10',
         category: 'events',
-        tags: ['graduation', 'ceremony', 'achievement'],
+        tags: ['remise', 'cérémonie', 'réussite'],
     },
     {
         id: '4',
         src: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&h=600&fit=crop',
-        alt: 'Library study',
-        title: 'Modern Library Facilities',
+        alt: 'Bibliothèque scolaire',
+        title: 'Bibliothèque moderne',
         description:
-            'Students utilizing our state-of-the-art library resources',
-        date: '2024-01-10',
+            'Des élèves utilisent les ressources de la bibliothèque pour étudier',
+        date: '2025-01-10',
         category: 'campus',
-        tags: ['library', 'study', 'facilities'],
+        tags: ['bibliothèque', 'étude', 'installations'],
     },
     {
         id: '5',
         src: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&h=600&fit=crop',
-        alt: 'Drama performance',
-        title: 'Annual Drama Production',
-        description: 'Students performing in the spring theatrical production',
-        date: '2024-04-12',
+        alt: 'Spectacle de théâtre',
+        title: 'Spectacle de théâtre annuel',
+        description: 'Des élèves participent à une production théâtrale',
+        date: '2024-12-18',
         category: 'student-activities',
-        tags: ['drama', 'theater', 'performance'],
+        tags: ['théâtre', 'spectacle', 'activité'],
     },
     {
         id: '6',
         src: 'https://images.unsplash.com/photo-1606761568499-6d2451b23c66?w=800&h=600&fit=crop',
-        alt: 'Alumni reunion',
-        title: 'Alumni Homecoming 2024',
-        description: 'Alumni gathering for the annual homecoming celebration',
-        date: '2024-10-15',
+        alt: 'Rencontre des anciens élèves',
+        title: 'Retrouvailles des anciens élèves 2025',
+        description: 'Rencontre des anciens élèves lors de l’événement annuel',
+        date: '2025-10-15',
         category: 'alumni',
-        tags: ['alumni', 'reunion', 'homecoming'],
+        tags: ['anciens', 'rencontre', 'événement'],
     },
     {
         id: '7',
         src: 'https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=800&h=600&fit=crop',
-        alt: 'Science laboratory',
-        title: 'Advanced Chemistry Lab',
+        alt: 'Laboratoire de sciences',
+        title: 'Laboratoire de chimie',
         description:
-            'Students conducting experiments in our modern chemistry laboratory',
-        date: '2024-02-05',
+            'Des élèves réalisent des expériences dans un laboratoire moderne',
+        date: '2025-02-05',
         category: 'academic',
-        tags: ['chemistry', 'laboratory', 'experiment'],
+        tags: ['chimie', 'laboratoire', 'expérience'],
     },
     {
         id: '8',
         src: 'https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=800&h=600&fit=crop',
-        alt: 'Soccer match',
-        title: 'Inter-School Soccer Tournament',
-        description: 'Intense soccer match during the regional tournament',
-        date: '2024-03-22',
+        alt: 'Match de football',
+        title: 'Tournoi de football interscolaire',
+        description: 'Match intense lors d’un tournoi régional',
+        date: '2025-02-09',
         category: 'athletics',
-        tags: ['soccer', 'tournament', 'competition'],
+        tags: ['football', 'tournoi', 'compétition'],
     },
 ];
 
 const photoStats: PhotoStats = {
-    totalPhotos: 847,
-    categories: 6,
-    events: 24,
-    years: 5,
+    totalPhotos: +20,
+    categories: +6,
+    events: +10,
+    years: +5,
 };
 
 export const GalleryPage: React.FC = () => {
@@ -403,7 +403,7 @@ export const GalleryPage: React.FC = () => {
                                     lineHeight: 1.2,
                                 }}
                             >
-                                Photo Gallery
+                                Galerie de photos
                             </Typography>
                             <Typography
                                 variant="h5"
@@ -414,9 +414,9 @@ export const GalleryPage: React.FC = () => {
                                     lineHeight: 1.6,
                                 }}
                             >
-                                Capturing moments, preserving memories, and
-                                celebrating our vibrant school community through
-                                stunning photography.
+                                Capturer des moments, préserver des souvenirs et
+                                célébrer notre communauté scolaire dynamique à
+                                travers de magnifiques photographies.
                             </Typography>
 
                             {/* Statistics */}
@@ -442,7 +442,7 @@ export const GalleryPage: React.FC = () => {
                                                 fontSize: '0.8125rem',
                                             }}
                                         >
-                                            Total Photos
+                                            Photos 
                                         </Typography>
                                     </Box>
                                 </Grid>
@@ -467,7 +467,7 @@ export const GalleryPage: React.FC = () => {
                                                 fontSize: '0.8125rem',
                                             }}
                                         >
-                                            Categories
+                                            Catégories
                                         </Typography>
                                     </Box>
                                 </Grid>
@@ -492,7 +492,7 @@ export const GalleryPage: React.FC = () => {
                                                 fontSize: '0.8125rem',
                                             }}
                                         >
-                                            Events Covered
+                                            Événements couverts
                                         </Typography>
                                     </Box>
                                 </Grid>
@@ -517,7 +517,7 @@ export const GalleryPage: React.FC = () => {
                                                 fontSize: '0.8125rem',
                                             }}
                                         >
-                                            Years of History
+                                            Années d’histoire
                                         </Typography>
                                     </Box>
                                 </Grid>
@@ -681,7 +681,7 @@ export const GalleryPage: React.FC = () => {
                             fontSize: '0.8125rem',
                         }}
                     >
-                        Showing {filteredPhotos.length} photo
+                        Montrez {filteredPhotos.length} photo
                         {filteredPhotos.length !== 1 ? 's' : ''}
                         {selectedCategory !== 'all' && (
                             <>
@@ -727,7 +727,7 @@ export const GalleryPage: React.FC = () => {
                                 variant="h6"
                                 sx={{ mb: 1, color: 'text.secondary' }}
                             >
-                                No photos found
+                               Aucune photo trouvée
                             </Typography>
                             <Typography
                                 variant="body2"
@@ -736,7 +736,7 @@ export const GalleryPage: React.FC = () => {
                                     fontSize: '0.8125rem',
                                 }}
                             >
-                                Try adjusting your search or filter criteria
+                                Essayez d’ajuster votre recherche
                             </Typography>
                         </Box>
                     ) : (
@@ -821,7 +821,7 @@ export const GalleryPage: React.FC = () => {
                                                         fontSize: '0.875rem',
                                                     }}
                                                 >
-                                                    View Photo
+                                                    Voir les photos
                                                 </Typography>
                                             </Box>
 

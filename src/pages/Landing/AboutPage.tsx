@@ -216,39 +216,39 @@ export const AboutPage: React.FC = () => {
     const historyMilestones: HistoryMilestone[] = [
         {
             id: '1',
-            year: '2010',
+            year: '2019',
             title: 'Fondation',
             description:
-                'Excellence Academy a été fondée dans le but d’offrir une éducation de classe mondiale dans un environnement bienveillant.',
+                'GBS Les Kamites a été fondée dans le but d’offrir une éducation de classe mondiale dans un environnement bienveillant.',
             image: '/trnava-university-_9xRHrMOjeg-unsplash.jpg',
-            achievement: 'Première promotion de 150 élèves',
+            achievement: 'Première promotion de 100 élèves',
         },
         {
             id: '2',
-            year: '2015',
+            year: '2022',
             title: 'Expansion et développement',
             description:
-                'Extension majeure du campus comprenant des laboratoires scientifiques ultramodernes et des installations sportives modernes.',
+                'Extension majeure du campus avec l’ajout du cursus secondaire, comprenant des laboratoires scientifiques ultramodernes et des installations sportives modernes.',
             image: '/pexels-cics-uma-ipn-238541486-12238968.jpg',
-            achievement: "La population d'élèves a augmenté de +500",
+            achievement: "La population d'élèves a augmenté de +200",
         },
         {
             id: '3',
-            year: '2020',
+            year: '2024',
             title: 'Innovation Digitale',
             description:
                 'A initié une plateforme d’apprentissage numérique complète, garantissant une éducation fluide lors de défis mondiaux.',
             image: '/pexels-max-fischer-5212317.jpg',
-            achievement: 'Préparation numérique à 100 % atteinte',
+            achievement: 'Préparation numérique atteinte',
         },
         {
             id: '4',
-            year: '2024',
+            year: '2026',
             title: 'Reconnaissance de l’excellence',
             description:
                 'Attribué le statut de « École d’Excellence » et reconnu comme un établissement éducatif de premier plan dans la région.',
             image: '/pexels-rdne-7092339.jpg',
-            achievement: 'École classée parmi les 5 % meilleures au niveau national',
+            achievement: 'École classée parmi les  meilleures au niveau national',
         },
     ];
 

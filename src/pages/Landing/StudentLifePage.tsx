@@ -105,33 +105,33 @@ export const StudentLifePage: React.FC = () => {
     const studentLifeStats: StudentLifeStatistic[] = [
         {
             id: '1',
-            label: 'Clubs & Organizations',
+            label: 'Clubs et Associations',
             value: '50+',
-            description: 'diverse interest groups',
+            description: 'groupes d’intérêts variés',
             icon: <Groups />,
             color: '#6366f1',
         },
         {
             id: '2',
-            label: 'Varsity Sports',
+            label: 'Équipes Sportives',
             value: '12',
-            description: 'competitive athletic teams',
+            description: 'équipes compétitives',
             icon: <SportsBasketball />,
             color: '#10b981',
         },
         {
             id: '3',
-            label: 'Arts Programs',
+            label: 'Programmes Artistiques',
             value: '8',
-            description: 'creative expression opportunities',
+            description: 'opportunités d’expression créative',
             icon: <Brush />,
             color: '#f59e0b',
         },
         {
             id: '4',
-            label: 'Service Hours/Year',
+            label: 'Heures de Service/An',
             value: '5000+',
-            description: 'community impact hours',
+            description: 'impact sur la communauté',
             icon: <VolunteerActivism />,
             color: '#ef4444',
         },
@@ -141,12 +141,12 @@ export const StudentLifePage: React.FC = () => {
     const activityCategories: ActivityCategory[] = [
         {
             id: '1',
-            name: 'Sports & Athletics',
+            name: 'Sports & Athlétisme',
             icon: <SportsBasketball />,
             color: '#10b981',
             count: 15,
             description:
-                'Competitive sports teams and recreational athletics programs',
+                'Équipes sportives compétitives et programmes récréatifs',
         },
         {
             id: '2',
@@ -155,25 +155,25 @@ export const StudentLifePage: React.FC = () => {
             color: '#f59e0b',
             count: 12,
             description:
-                'Creative expression through visual arts, music, and theater',
+                'Expression créative à travers les arts visuels, la musique et le théâtre',
         },
         {
             id: '3',
-            name: 'Academic Clubs',
+            name: 'Clubs Académiques',
             icon: <MenuBook />,
             color: '#6366f1',
             count: 18,
             description:
-                'Subject-focused groups and competitive academic teams',
+                'Groupes centrés sur les matières et équipes académiques compétitives',
         },
         {
             id: '4',
-            name: 'Community Service',
+            name: 'Service Communautaire',
             icon: <VolunteerActivism />,
             color: '#ef4444',
             count: 8,
             description:
-                'Volunteer opportunities and social impact initiatives',
+                'Opportunités de bénévolat et initiatives à impact social',
         },
     ];
 
@@ -182,173 +182,143 @@ export const StudentLifePage: React.FC = () => {
         // Sports & Athletics
         {
             id: '1',
-            name: 'Varsity Basketball',
-            category: 'Sports & Athletics',
+            name: 'Basketball',
+            category: 'Sports & Athlétisme',
             description:
-                'Competitive varsity and JV teams with professional coaching and multiple league championships.',
+                'Équipes compétitives avec encadrement professionnel et plusieurs championnats de ligue.',
             image: '/pexels-max-fischer-5212317.jpg',
-            meetingSchedule: 'Mon-Fri, 3:30-5:30 PM',
+            meetingSchedule: 'Lun-Ven, 15h30-17h30',
             memberCount: 28,
             highlights: [
-                'League Champions 2023',
-                'State Tournament Qualifiers',
-                'Division Leaders',
+                'Champions de Ligue 2023',
+                'Qualifications Tournoi d’État',
+                'Leaders de Division',
             ],
-            achievements: ['Regional Champions', 'Sportsmanship Award'],
+            achievements: ['Champions Régionaux', 'Prix Fair-Play'],
         },
         {
             id: '2',
-            name: 'Soccer Club',
-            category: 'Sports & Athletics',
+            name: 'Club de Football',
+            category: 'Sports & Athlétisme',
             description:
-                'Both competitive and recreational soccer programs welcoming all skill levels.',
+                'Programmes de football compétitif et récréatif ouverts à tous les niveaux.',
             image: '/pexels-cottonbro-6208926.jpg',
-            meetingSchedule: 'Mon, Wed, Fri 3:30-5:00 PM',
+            meetingSchedule: 'Lun, Mer, Ven 15h30-17h00',
             memberCount: 32,
             highlights: [
-                'All-skill levels welcome',
-                'Inter-school tournaments',
-                'Fitness focused',
+                'Tous niveaux acceptés',
+                'Tournois inter-écoles',
+                'Orientation fitness',
             ],
         },
         {
             id: '3',
-            name: 'Track & Field',
-            category: 'Sports & Athletics',
+            name: 'Athlétisme',
+            category: 'Sports & Athlétisme',
             description:
-                'Distance running, sprints, and field events with individual and team competitions.',
-            meetingSchedule: 'Daily 3:30-5:30 PM',
+                'Courses de fond, sprints et épreuves de terrain avec compétitions individuelles et par équipe.',
+            meetingSchedule: 'Tous les jours 15h30-17h30',
             memberCount: 25,
             highlights: [
-                'Individual excellence',
-                'Team spirit',
-                'State qualifiers',
+                'Excellence individuelle',
+                'Esprit d’équipe',
+                'Qualifiés aux État',
             ],
         },
+
         // Arts & Culture
         {
             id: '4',
-            name: 'Drama Club',
+            name: 'Club de Théâtre',
             category: 'Arts & Culture',
             description:
-                'Annual theatrical productions, improv workshops, and performance opportunities throughout the year.',
+                'Productions théâtrales annuelles, ateliers d’improvisation et opportunités de performance toute l’année.',
             image: '/pexels-cottonbro-6208928.jpg',
-            meetingSchedule: 'Tue & Thu, 3:00-5:00 PM',
+            meetingSchedule: 'Mar & Jeu, 15h00-17h00',
             memberCount: 35,
-            highlights: ['Spring Musical', 'Fall Drama', 'Improv Nights'],
+            highlights: [
+                'Comédie musicale de printemps',
+                'Pièce de théâtre d’automne',
+                'Soirées d’impro',
+            ],
             achievements: [
-                'Regional Theater Excellence',
-                'Best Student Production 2023',
+                'Excellence Régionale en Théâtre',
+                'Meilleure Production Étudiante 2023',
             ],
         },
         {
             id: '5',
-            name: 'Art Studio',
+            name: 'Atelier d’Art',
             category: 'Arts & Culture',
             description:
-                'Explore various art mediums including painting, sculpture, and digital art.',
+                'Exploration de divers médias artistiques, peinture, sculpture et art numérique.',
             image: '/pexels-cottonbro-7395304.jpg',
-            meetingSchedule: 'Open Studio: Daily 3:00-6:00 PM',
+            meetingSchedule: 'Studio ouvert : tous les jours 15h00-18h00',
             memberCount: 30,
             highlights: [
-                'Multiple mediums',
-                'Student exhibitions',
-                'Portfolio development',
+                'Multiples supports',
+                'Expositions étudiantes',
+                'Développement de portfolio',
             ],
         },
         {
             id: '6',
-            name: 'Orchestra & Band',
+            name: 'Orchestre & Ensemble Musical',
             category: 'Arts & Culture',
             description:
-                'Concert performances, competitions, and music education for all experience levels.',
-            meetingSchedule: 'Daily 7:30-8:30 AM & 3:00-4:30 PM',
+                'Concerts, compétitions et enseignement musical pour tous les niveaux.',
+            meetingSchedule: 'Tous les jours 7h30-8h30 & 15h00-16h30',
             memberCount: 42,
             highlights: [
-                'Concert performances',
-                'Music competitions',
-                'Solo opportunities',
+                'Concerts',
+                'Compétitions musicales',
+                'Opportunités solos',
             ],
         },
-        // Academic Clubs
+
+        // Clubs Académiques
         {
             id: '7',
-            name: 'Debate Team',
-            category: 'Academic Clubs',
+            name: 'Équipe de Débat',
+            category: 'Clubs Académiques',
             description:
-                'Compete in regional and national tournaments while developing critical thinking and public speaking skills.',
-            meetingSchedule: 'Wed & Fri, 3:30-5:00 PM',
+                'Compétitions régionales et nationales, développement de la pensée critique et de l’expression orale.',
+            meetingSchedule: 'Mer & Ven, 15h30-17h00',
             memberCount: 22,
             highlights: [
-                'Tournament competitions',
-                'Public speaking',
-                'Critical thinking',
+                'Compétitions',
+                'Expression publique',
+                'Pensée critique',
             ],
-            achievements: ['State Debate Champions', 'National Qualifiers'],
+            achievements: ['Champions de Débat État', 'Qualifiés Nationaux'],
         },
         {
             id: '8',
-            name: 'Robotics Team',
-            category: 'Academic Clubs',
+            name: 'Club Environnemental',
+            category: 'Service Communautaire',
             description:
-                'Design, build, and program robots for FIRST Robotics competitions.',
-            meetingSchedule: 'Daily, 3:30-6:00 PM',
-            memberCount: 18,
-            highlights: ['FIRST Robotics', 'Engineering design', 'Programming'],
-            achievements: ['State Champions 2023', 'Innovation Award'],
+                'Initiatives de durabilité, campagnes de sensibilisation environnementale et projets de conservation.',
+            meetingSchedule: 'Mardi, 15h30-16h30',
+            memberCount: 27,
+            highlights: [
+                'Projets durables',
+                'Sensibilisation environnementale',
+                'Efforts de conservation',
+            ],
         },
         {
             id: '9',
-            name: 'Science Olympiad',
-            category: 'Academic Clubs',
+            name: 'Tutorat entre Pairs',
+            category: 'Service Communautaire',
             description:
-                'Competitive science team participating in regional and state tournaments.',
-            meetingSchedule: 'Tue & Thu, 3:30-5:00 PM',
-            memberCount: 24,
-            highlights: [
-                'Science competitions',
-                'Team collaboration',
-                'STEM excellence',
-            ],
-        },
-        // Community Service
-        {
-            id: '10',
-            name: 'Community Service Club',
-            category: 'Community Service',
-            description:
-                'Organize volunteer projects and service initiatives benefiting local and global communities.',
-            meetingSchedule: 'Thursdays, 3:00-4:30 PM',
-            memberCount: 45,
-            highlights: [
-                'Local partnerships',
-                'Global awareness',
-                'Leadership development',
-            ],
-        },
-        {
-            id: '11',
-            name: 'Environmental Club',
-            category: 'Community Service',
-            description:
-                'Campus sustainability initiatives, environmental awareness campaigns, and outdoor conservation projects.',
-            meetingSchedule: 'Tuesdays, 3:30-4:30 PM',
-            memberCount: 27,
-            highlights: [
-                'Sustainability projects',
-                'Environmental awareness',
-                'Conservation efforts',
-            ],
-        },
-        {
-            id: '12',
-            name: 'Peer Tutoring',
-            category: 'Community Service',
-            description:
-                'Students helping students achieve academic success through peer-to-peer learning.',
-            meetingSchedule: 'Flexible scheduling',
+                'Les élèves aident leurs camarades à réussir académiquement à travers l’apprentissage entre pairs.',
+            meetingSchedule: 'Horaires flexibles',
             memberCount: 38,
-            highlights: ['Academic support', 'Leadership skills', 'Mentorship'],
+            highlights: [
+                'Soutien académique',
+                'Compétences en leadership',
+                'Mentorat',
+            ],
         },
     ];
 
@@ -357,24 +327,24 @@ export const StudentLifePage: React.FC = () => {
         {
             id: '1',
             name: 'Sarah Chen',
-            grade: '11th Grade',
-            quote: 'Being part of the Drama Club has helped me build confidence and discover my passion for storytelling. The supportive community here is amazing!',
-            activity: 'Drama Club President',
+            grade: '11e année',
+            quote: "Faire partie du club de théâtre m'a aidée à gagner en confiance et à découvrir ma passion pour raconter des histoires. La communauté ici est vraiment incroyable !",
+            activity: 'Présidente du club de théâtre',
             image: '/pexels-mary-taylor-5896578.jpg',
         },
         {
             id: '2',
             name: 'Marcus Johnson',
-            grade: '12th Grade',
-            quote: "The Robotics Team taught me problem-solving skills that go far beyond engineering. We're not just building robots - we're building our futures.",
-            activity: 'Robotics Team Captain',
+            grade: '12e année',
+            quote: "L'équipe de robotique m'a enseigné des compétences en résolution de problèmes qui vont bien au-delà de l'ingénierie. Nous ne construisons pas seulement des robots, nous construisons notre avenir.",
+            activity: "Capitaine de l'équipe de robotique",
         },
         {
             id: '3',
             name: 'Emily Rodriguez',
-            grade: '10th Grade',
-            quote: "Through community service, I've learned that small actions can make a big difference. Our environmental projects have real impact.",
-            activity: 'Environmental Club VP',
+            grade: '10e année',
+            quote: "Grâce au service communautaire, j'ai appris que de petites actions peuvent avoir un grand impact. Nos projets environnementaux ont un véritable effet.",
+            activity: 'Vice-présidente du club environnemental',
         },
     ];
 
@@ -382,63 +352,54 @@ export const StudentLifePage: React.FC = () => {
     const upcomingEvents: CampusEvent[] = [
         {
             id: '1',
-            title: 'Spring Musical Performance',
-            date: '2024-03-15',
-            time: '7:00 PM',
-            location: 'Main Auditorium',
+            title: 'Spectacle musical',
+            date: '2025-12-15',
+            time: '13h00',
+            location: 'Auditorium principal',
             category: 'Arts',
             description:
-                'Annual spring musical featuring our talented drama club students',
+                'Spectacle musical annuel mettant en vedette nos talentueux élèves du club de théâtre',
         },
         {
             id: '2',
-            title: 'Science Fair',
-            date: '2024-03-20',
-            time: '9:00 AM - 3:00 PM',
-            location: 'Gymnasium',
-            category: 'Academic',
+            title: 'Foire scientifique',
+            date: '2026-02-10',
+            time: '9h00 - 15h00',
+            location: 'Gymnase',
+            category: 'Académique',
             description:
-                'Student research projects and scientific innovations on display',
+                'Projets de recherche des élèves et innovations scientifiques exposés',
         },
         {
             id: '3',
-            title: 'Basketball Championship Game',
-            date: '2024-03-28',
-            time: '6:00 PM',
-            location: 'Home Court',
+            title: 'Match de championnat de basketball',
+            date: '2026-02-07',
+            time: '8h00',
+            location: 'Terrains locaux',
             category: 'Sports',
             description:
-                'Varsity basketball team competing for the regional championship',
+                'L’équipe de basketball varsity en compétition pour le championnat régional',
         },
         {
             id: '4',
-            title: 'Art Exhibition Opening',
-            date: '2024-04-02',
-            time: '5:30 PM',
-            location: 'Art Gallery',
+            title: 'Vernissage de l’exposition artistique',
+            date: '2026-02-08',
+            time: '11h30',
+            location: 'Galerie d’art',
             category: 'Arts',
-            description: 'Showcase of student artwork from all grade levels',
+            description:
+                'Présentation des œuvres d’art des élèves de tous les niveaux',
         },
         {
             id: '5',
-            title: 'Spring Concert',
-            date: '2024-04-10',
-            time: '7:00 PM',
-            location: 'Main Auditorium',
-            category: 'Arts',
-            description:
-                'Orchestra and band performances celebrating musical excellence',
-        },
-        {
-            id: '6',
-            title: 'Community Service Day',
-            date: '2024-04-15',
-            time: '9:00 AM - 3:00 PM',
-            location: 'Various Locations',
+            title: 'Journée de service communautaire',
+            date: '2026-05-15',
+            time: '9h00 - 12h00',
+            location: 'Divers lieux',
             category: 'Service',
             description:
-                'School-wide volunteer projects in the local community',
-        },
+                'Projets de bénévolat à l’échelle de l’école dans la communauté locale',
+        }
     ];
 
     // Filter activities by selected category
@@ -461,8 +422,8 @@ export const StudentLifePage: React.FC = () => {
         <Box sx={{ backgroundColor: '#fefefe', minHeight: '100vh' }}>
             {/* Page Header with Hero Banner */}
             <PageHeader
-                title="Experience Campus Life"
-                subtitle="A vibrant community where students discover passions, build friendships, and create lasting memories through diverse activities and meaningful experiences"
+                title="Vivez la vie sur le campus"
+                subtitle="Une communauté dynamique où les étudiants découvrent leurs passions, nouent des amitiés et créent des souvenirs durables grâce à des activités variées et des expériences enrichissantes"
                 backgroundImage="/pexels-mary-taylor-5896578.jpg"
                 backgroundImageSrcSet={{
                     small: '/pexels-mary-taylor-5896578.jpg',
@@ -542,7 +503,7 @@ const StudentLifeStatsSection: React.FC<StudentLifeStatsSectionProps> = ({
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                        Student Life at a Glance
+                       Vie d'élèves en un coup d’œi
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -553,8 +514,8 @@ const StudentLifeStatsSection: React.FC<StudentLifeStatsSectionProps> = ({
                             mx: 'auto',
                         }}
                     >
-                        Discover the vibrant opportunities that make our school
-                        community special
+                        Explorez les nombreuses opportunités qui font la
+                        richesse de notre vie scolaire
                     </Typography>
                 </Box>
 
@@ -676,7 +637,7 @@ const ActivityCategoriesSection: React.FC<ActivityCategoriesSectionProps> = ({
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                        Activities & Programs
+                        Activités & Programmes
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -687,8 +648,8 @@ const ActivityCategoriesSection: React.FC<ActivityCategoriesSectionProps> = ({
                             mx: 'auto',
                         }}
                     >
-                        Explore our diverse range of extracurricular activities
-                        and find your passion
+                        Parcourez nos activités variées et trouvez ce qui vous
+                        passionne
                     </Typography>
                 </Box>
 
@@ -852,7 +813,7 @@ const ActivityCategoriesSection: React.FC<ActivityCategoriesSectionProps> = ({
                                                         display: 'block',
                                                     }}
                                                 >
-                                                    Highlights:
+                                                    Faits marquants:
                                                 </Typography>
                                                 <Box
                                                     sx={{
@@ -900,7 +861,7 @@ const ActivityCategoriesSection: React.FC<ActivityCategoriesSectionProps> = ({
                                                 px: 2,
                                             }}
                                         >
-                                            Learn More
+                                            En Savoir Plus
                                         </Button>
                                     </Box>
                                 </CardContent>
@@ -953,7 +914,7 @@ const StudentTestimonialsSection: React.FC<StudentTestimonialsSectionProps> = ({
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                        Student Voices
+                        Témoignages d’élèves
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -964,8 +925,8 @@ const StudentTestimonialsSection: React.FC<StudentTestimonialsSectionProps> = ({
                             mx: 'auto',
                         }}
                     >
-                        Hear from our students about their experiences and
-                        growth
+                        Découvrez les expériences et le parcours de nos
+                        élèves
                     </Typography>
                 </Box>
 
@@ -1112,7 +1073,7 @@ const EventsCalendarSection: React.FC<EventsCalendarSectionProps> = ({
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                        Upcoming Events
+                        À ne pas manquer
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -1123,8 +1084,8 @@ const EventsCalendarSection: React.FC<EventsCalendarSectionProps> = ({
                             mx: 'auto',
                         }}
                     >
-                        Don't miss out on these exciting upcoming events and
-                        activities
+                        Ne ratez pas nos prochains événements et activités
+                        captivants
                     </Typography>
                 </Box>
 
@@ -1289,29 +1250,26 @@ const DailyScheduleSection: React.FC = () => {
 
     const scheduleItems = [
         {
-            time: '7:45 - 8:00 AM',
-            activity: 'Morning Assembly',
-            description: 'Daily announcements and school community gathering',
+            time: '7h45 - 8h00',
+            activity: 'Rassemblement du matin',
+            description:
+                'Annonces quotidiennes et rencontre de la communauté scolaire',
         },
         {
-            time: '8:00 - 11:30 AM',
-            activity: 'Morning Classes',
-            description: 'Core academic subjects and specialized courses',
+            time: '8h00 - 11h30',
+            activity: 'Cours du matin',
+            description: 'Cours académiques principaux et cours spécialisés',
         },
         {
-            time: '11:30 AM - 12:15 PM',
-            activity: 'Lunch Break',
-            description: 'Cafeteria dining and social time with peers',
+            time: '11h30 - 12h15',
+            activity: 'Pause déjeuner',
+            description:
+                'Repas à la cafétéria et moment de convivialité avec les camarades',
         },
         {
-            time: '12:15 - 3:00 PM',
-            activity: 'Afternoon Classes',
-            description: 'Continued learning and hands-on activities',
-        },
-        {
-            time: '3:00 - 6:00 PM',
-            activity: 'Extracurricular Activities',
-            description: 'Clubs, sports, arts, and enrichment programs',
+            time: '12h15 - 15h00',
+            activity: 'Cours de l’après-midi',
+            description: 'Poursuite des apprentissages et activités pratiques',
         },
     ];
 
@@ -1351,7 +1309,7 @@ const DailyScheduleSection: React.FC = () => {
                                     WebkitTextFillColor: 'transparent',
                                 }}
                             >
-                                Daily Schedule
+                                Emploi du temps quotidien
                             </Typography>
                             <Typography
                                 variant="subtitle1"
@@ -1361,8 +1319,8 @@ const DailyScheduleSection: React.FC = () => {
                                     mb: 3,
                                 }}
                             >
-                                A structured day that balances academics with
-                                personal growth
+                                Une journée structurée qui équilibre études et
+                                développement personnel
                             </Typography>
                             <Paper
                                 sx={{
@@ -1479,7 +1437,7 @@ const DailyScheduleSection: React.FC = () => {
                                     color: 'text.primary',
                                 }}
                             >
-                                Join the Fun!
+                               Vivez l’expérience !
                             </Typography>
                             <Paper
                                 sx={{
@@ -1499,9 +1457,9 @@ const DailyScheduleSection: React.FC = () => {
                                         opacity: 0.9,
                                     }}
                                 >
-                                    Ready to explore your interests and make new
-                                    friends? Browse our activities and find your
-                                    perfect fit!
+                                    Explorez vos intérêts et créez de nouvelles
+                                    amitiés ! Parcourez nos activités et trouvez
+                                    votre activité idéale.
                                 </Typography>
                                 <Button
                                     variant="contained"
@@ -1516,7 +1474,7 @@ const DailyScheduleSection: React.FC = () => {
                                         },
                                     }}
                                 >
-                                    Explore Activities
+                                    Parcourir les activités
                                 </Button>
                             </Paper>
                         </Box>

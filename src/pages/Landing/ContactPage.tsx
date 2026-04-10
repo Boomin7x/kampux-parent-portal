@@ -128,104 +128,105 @@ export const ContactPage: React.FC = () => {
     const departments: Department[] = [
         {
             id: 'admissions',
-            name: 'Admissions & Enrollment',
+            name: 'Admissions & Inscriptions',
             description:
-                'Application process, enrollment questions, and new student support.',
+                "Processus de candidature, questions d'inscription et accompagnement des nouveaux élèves.",
             icon: <AdmissionsIcon />,
             contact: {
-                email: 'admissions@school.edu',
-                phone: '(555) 123-4567',
-                hours: 'Mon-Fri 8:00 AM - 5:00 PM',
+                email: 'gbsleskamites@gmail.com',
+                phone: '(237) 6 77 42 12 52',
+                hours: 'Lun-Ven 08:00 - 17:00',
             },
             color: '#6366f1',
         },
         {
             id: 'academics',
-            name: 'Academic Affairs',
+            name: 'Affaires Académiques',
             description:
-                'Curriculum questions, academic support, and graduation requirements.',
+                'Questions liées au programme, soutien académique et conditions de diplomation.',
             icon: <AcademicsIcon />,
             contact: {
-                email: 'academics@school.edu',
-                phone: '(555) 123-4568',
-                hours: 'Mon-Fri 7:30 AM - 4:30 PM',
+                email: 'gbsleskamites@gmail.com',
+                phone: '(237) 6 77 42 12 52',
+                hours: 'Lun-Ven 07:30 - 16:30',
             },
             color: '#8b5cf6',
         },
         {
             id: 'student-services',
-            name: 'Student Services',
+            name: 'Services aux Élèves',
             description:
-                'Counseling, student support, and extracurricular activities.',
+                'Orientation, accompagnement des étudiants et activités parascolaires.',
             icon: <SocialIcon />,
             contact: {
-                email: 'services@school.edu',
-                phone: '(555) 123-4569',
-                hours: 'Mon-Fri 8:00 AM - 6:00 PM',
+                email: 'gbsleskamites@gmail.com',
+                phone: '(237) 6 77 42 12 52',
+                hours: 'Lun-Ven 08:00 - 18:00',
             },
             color: '#10b981',
         },
         {
             id: 'athletics',
-            name: 'Athletics Department',
+            name: 'Département des Sports',
             description:
-                'Sports programs, athletic scholarships, and team information.',
+                'Programmes sportifs, bourses sportives et informations sur les équipes.',
             icon: <AthleticsIcon />,
             contact: {
-                email: 'athletics@school.edu',
-                phone: '(555) 123-4570',
-                hours: 'Mon-Sat 7:00 AM - 8:00 PM',
+                email: 'gbsleskamites@gmail.com',
+                phone: '(237) 6 77 42 12 52',
+                hours: 'Lun-Sam 07:00 - 20:00',
             },
             color: '#f59e0b',
         },
         {
             id: 'facilities',
-            name: 'Facilities & Maintenance',
+            name: 'Infrastructures & Maintenance',
             description:
-                'Campus facilities, maintenance requests, and building information.',
+                'Installations du campus, demandes de maintenance et informations sur les bâtiments.',
             icon: <BusinessIcon />,
             contact: {
-                email: 'facilities@school.edu',
-                phone: '(555) 123-4571',
-                hours: 'Mon-Fri 7:00 AM - 3:30 PM',
+                email: 'gbsleskamites@gmail.com',
+                phone: '(237) 6 77 42 12 52',
+                hours: 'Lun-Ven 07:00 - 15:30',
             },
             color: '#ef4444',
         },
         {
             id: 'technology',
-            name: 'Technology Support',
-            description: 'IT support, portal access, and technical assistance.',
+            name: 'Support Informatique',
+            description:
+                'Assistance IT, accès au portail et support technique.',
             icon: <TechIcon />,
             contact: {
-                email: 'tech@school.edu',
-                phone: '(555) 123-4572',
-                hours: 'Mon-Fri 8:00 AM - 5:00 PM',
+                email: 'gbsleskamites@gmail.com',
+                phone: '(237) 6 77 42 12 52',
+                hours: 'Lun-Ven 08:00 - 17:00',
             },
             color: '#8b5cf6',
         },
         {
             id: 'health',
-            name: 'Health & Wellness',
+            name: 'Santé & Bien-être',
             description:
-                'Nurse services, health records, and wellness programs.',
+                'Services infirmiers, dossiers médicaux et programmes de bien-être.',
             icon: <HealthIcon />,
             contact: {
-                email: 'health@school.edu',
-                phone: '(555) 123-4573',
-                hours: 'Mon-Fri 8:00 AM - 4:00 PM',
+                email: 'gbsleskamites@gmail.com',
+                phone: '(237) 6 77 42 12 52',
+                hours: 'Lun-Ven 08:00 - 16:00',
             },
             color: '#06b6d4',
         },
         {
             id: 'transportation',
-            name: 'Transportation',
+            name: 'Transport',
             description:
-                'Bus routes, transportation requests, and safety information.',
+                'Itinéraires des bus, demandes de transport et informations de sécurité.',
             icon: <TransportIcon />,
             contact: {
-                email: 'transport@school.edu',
-                phone: '(555) 123-4574',
-                hours: 'Mon-Fri 6:00 AM - 5:00 PM',
+                email: 'gbsleskamites@gmail.com',
+                phone: '(237) 6 77 42 12 52',
+                hours: 'Lun-Ven 06:00 - 17:00',
             },
             color: '#84cc16',
         },
@@ -236,35 +237,35 @@ export const ContactPage: React.FC = () => {
         {
             type: 'Phone',
             icon: <PhoneIcon />,
-            primary: '(555) 123-4567',
-            secondary: 'Main Office Line',
-            action: 'tel:+15551234567',
+            primary: '+237 6 77 42 12 52',
+            secondary: 'Ligne principale',
+            action: 'tel:+237677421252',
         },
         {
             type: 'Email',
             icon: <EmailIcon />,
-            primary: 'info@school.edu',
-            secondary: 'General Inquiries',
-            action: 'mailto:info@school.edu',
+            primary: 'gbsleskamites@gmail.com',
+            secondary: 'Renseignements généraux',
+            action: 'mailto:gbsleskamites@gmail.com',
         },
         {
             type: 'Address',
             icon: <LocationIcon />,
-            primary: '123 Education Way',
-            secondary: 'Your City, State 12345',
+            primary: 'SOA, lieu-dit EBOGO',
+            secondary: 'Yaoundé, Cameroun',
         },
         {
             type: 'Hours',
             icon: <HoursIcon />,
-            primary: 'Monday - Friday',
-            secondary: '7:30 AM - 5:00 PM',
+            primary: 'Lundi - Vendredi',
+            secondary: '07:30 - 17:00',
         },
         {
             type: 'Emergency',
             icon: <EmergencyIcon />,
-            primary: '(555) 911-HELP',
-            secondary: 'After Hours Emergency',
-            action: 'tel:+15559114357',
+            primary: '+237 6 77 42 12 52',
+            secondary: "Urgence (en dehors des heures d'ouverture)",
+            action: 'tel:+237677421252',
         },
     ];
 
@@ -273,23 +274,23 @@ export const ContactPage: React.FC = () => {
         const errors: FormErrors = {};
 
         if (!formData.name.trim()) {
-            errors.name = 'Name is required';
+            errors.name = 'Le nom est requis';
         }
 
         if (!formData.email.trim()) {
-            errors.email = 'Email is required';
+            errors.email = "L'adresse email est requise";
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-            errors.email = 'Please enter a valid email address';
+            errors.email = 'Veuillez entrer une adresse email valide';
         }
 
         if (!formData.subject) {
-            errors.subject = 'Please select a subject';
+            errors.subject = 'Veuillez sélectionner un sujet';
         }
 
         if (!formData.message.trim()) {
-            errors.message = 'Message is required';
+            errors.message = 'Le message est requis';
         } else if (formData.message.length < 10) {
-            errors.message = 'Message must be at least 10 characters';
+            errors.message = 'Le message doit contenir au moins 10 caractères';
         }
 
         setFormErrors(errors);
@@ -401,7 +402,7 @@ export const ContactPage: React.FC = () => {
                                 display: 'block',
                             }}
                         >
-                            Get In Touch
+                            Prendre contact
                         </Typography>
 
                         <Typography
@@ -417,7 +418,7 @@ export const ContactPage: React.FC = () => {
                                 lineHeight: 1.1,
                             }}
                         >
-                            Contact Our School
+                            Contactez Nous
                         </Typography>
 
                         <Typography
@@ -430,10 +431,11 @@ export const ContactPage: React.FC = () => {
                                 lineHeight: 1.6,
                             }}
                         >
-                            We're here to help parents, students, and community
-                            members connect with our school community. Reach out
-                            with questions, concerns, or to learn more about our
-                            programs.
+                            Nous sommes là pour aider les parents, les élèves et
+                            les membres de la communauté à entrer en contact
+                            avec notre établissement. N’hésitez pas à nous
+                            contacter pour toute question, préoccupation ou pour
+                            en savoir plus sur nos programmes.
                         </Typography>
                     </Box>
                 </Container>
@@ -450,8 +452,8 @@ export const ContactPage: React.FC = () => {
             >
                 <Container maxWidth="lg">
                     <SectionHeader
-                        title="Send Us a Message"
-                        subtitle="Fill out the form below and we'll get back to you as soon as possible."
+                        title="Envoyez-nous un message"
+                        subtitle="Complétez le formulaire ci-dessous et nous vous répondrons dès que possible."
                         align="center"
                         gradient
                     />
@@ -482,7 +484,7 @@ export const ContactPage: React.FC = () => {
                                     <Grid size={{ xs: 12, md: 6 }}>
                                         <TextField
                                             fullWidth
-                                            label="Full Name"
+                                            label="Nom"
                                             value={formData.name}
                                             onChange={handleInputChange('name')}
                                             error={!!formErrors.name}
@@ -495,7 +497,7 @@ export const ContactPage: React.FC = () => {
                                         <TextField
                                             fullWidth
                                             type="email"
-                                            label="Email Address"
+                                            label="Addresse mail"
                                             value={formData.email}
                                             onChange={handleInputChange(
                                                 'email'
@@ -511,7 +513,7 @@ export const ContactPage: React.FC = () => {
                                     <Grid size={{ xs: 12, md: 6 }}>
                                         <TextField
                                             fullWidth
-                                            label="Phone Number (Optional)"
+                                            label="Téléphone (Optionnel)"
                                             value={formData.phone}
                                             onChange={handleInputChange(
                                                 'phone'
@@ -526,7 +528,7 @@ export const ContactPage: React.FC = () => {
                                             required
                                         >
                                             <InputLabel>
-                                                Subject / Department
+                                                Objet / Service
                                             </InputLabel>
                                             <Select
                                                 value={formData.subject}
@@ -536,32 +538,27 @@ export const ContactPage: React.FC = () => {
                                                 label="Subject / Department"
                                                 size="medium"
                                             >
-                                                <MenuItem value="general">
-                                                    General Inquiry
-                                                </MenuItem>
-                                                <MenuItem value="admissions">
-                                                    Admissions & Enrollment
-                                                </MenuItem>
                                                 <MenuItem value="academics">
-                                                    Academic Affairs
+                                                    Affaires académiques
                                                 </MenuItem>
                                                 <MenuItem value="student-services">
-                                                    Student Services
+                                                    Services aux étudiants
                                                 </MenuItem>
                                                 <MenuItem value="athletics">
-                                                    Athletics
+                                                    Sports
                                                 </MenuItem>
                                                 <MenuItem value="facilities">
-                                                    Facilities & Maintenance
+                                                    Infrastructures &
+                                                    Maintenance
                                                 </MenuItem>
                                                 <MenuItem value="technology">
-                                                    Technology Support
+                                                    Support informatique
                                                 </MenuItem>
                                                 <MenuItem value="health">
-                                                    Health & Wellness
+                                                    Santé & Bien-être
                                                 </MenuItem>
                                                 <MenuItem value="transportation">
-                                                    Transportation
+                                                    Transport
                                                 </MenuItem>
                                             </Select>
                                             {formErrors.subject && (
@@ -576,7 +573,7 @@ export const ContactPage: React.FC = () => {
                                     <Grid size={{ xs: 12, md: 6 }}>
                                         <TextField
                                             fullWidth
-                                            label="Student Name (If Applicable)"
+                                            label="Nom de l'élève (Si Applicable)"
                                             value={formData.studentName}
                                             onChange={handleInputChange(
                                                 'studentName'
@@ -600,7 +597,8 @@ export const ContactPage: React.FC = () => {
                                     <Grid size={{ xs: 12, md: 6 }}>
                                         <FormControl fullWidth>
                                             <InputLabel>
-                                                Preferred Contact Method
+                                                Comment souhaitez-vous être
+                                                contacté ?
                                             </InputLabel>
                                             <Select
                                                 value={
@@ -609,17 +607,17 @@ export const ContactPage: React.FC = () => {
                                                 onChange={handleSelectChange(
                                                     'preferredContact'
                                                 )}
-                                                label="Preferred Contact Method"
+                                                label="Preffered Contact Method"
                                                 size="medium"
                                             >
                                                 <MenuItem value="email">
                                                     Email
                                                 </MenuItem>
                                                 <MenuItem value="phone">
-                                                    Phone
+                                                    Téléphone
                                                 </MenuItem>
                                                 <MenuItem value="both">
-                                                    Either
+                                                    Les deux
                                                 </MenuItem>
                                             </Select>
                                         </FormControl>
@@ -627,7 +625,7 @@ export const ContactPage: React.FC = () => {
                                     <Grid size={{ xs: 12, md: 6 }}>
                                         <FormControl fullWidth>
                                             <InputLabel>
-                                                Urgency Level
+                                                Niveau D'Urgence
                                             </InputLabel>
                                             <Select
                                                 value={formData.urgency}
@@ -638,18 +636,19 @@ export const ContactPage: React.FC = () => {
                                                 size="medium"
                                             >
                                                 <MenuItem value="low">
-                                                    Low - General inquiry
+                                                    Faible - Demande générale
                                                 </MenuItem>
                                                 <MenuItem value="normal">
-                                                    Normal - Response within
-                                                    24-48 hours
+                                                    Normal - Réponse sous 24 à
+                                                    48 heures
                                                 </MenuItem>
                                                 <MenuItem value="high">
-                                                    High - Response needed soon
+                                                    Élevé - Réponse rapide
+                                                    souhaitée
                                                 </MenuItem>
                                                 <MenuItem value="urgent">
-                                                    Urgent - Immediate attention
-                                                    needed
+                                                    Urgent - Attention immédiate
+                                                    requise
                                                 </MenuItem>
                                             </Select>
                                         </FormControl>
@@ -661,7 +660,7 @@ export const ContactPage: React.FC = () => {
                                             fullWidth
                                             multiline
                                             rows={4}
-                                            label="Your Message"
+                                            label="Votre Message"
                                             value={formData.message}
                                             onChange={handleInputChange(
                                                 'message'
@@ -669,7 +668,7 @@ export const ContactPage: React.FC = () => {
                                             error={!!formErrors.message}
                                             helperText={
                                                 formErrors.message ||
-                                                'Please provide details about your inquiry'
+                                                'Merci de fournir les détails de votre demande'
                                             }
                                             required
                                         />
@@ -704,8 +703,8 @@ export const ContactPage: React.FC = () => {
                                             }}
                                         >
                                             {isSubmitting
-                                                ? 'Sending Message...'
-                                                : 'Send Message'}
+                                                ? ' Envoi de Message...'
+                                                : 'Envoyez le Message'}
                                         </Button>
                                     </Grid>
                                 </Grid>
@@ -736,7 +735,7 @@ export const ContactPage: React.FC = () => {
                                         },
                                     }}
                                 >
-                                    Contact Information
+                                    Coordonnées
                                 </Typography>
 
                                 <Box
@@ -828,8 +827,8 @@ export const ContactPage: React.FC = () => {
             >
                 <Container maxWidth="lg">
                     <SectionHeader
-                        title="Department Directory"
-                        subtitle="Connect directly with specific departments for faster assistance with your questions."
+                        title="Annuaire des départements"
+                        subtitle="Entrez directement en contact avec les services concernés pour obtenir une réponse plus rapide à vos questions."
                         align="center"
                         gradient
                     />
@@ -987,8 +986,8 @@ export const ContactPage: React.FC = () => {
                                 }}
                             >
                                 <SectionHeader
-                                    title="Visit Our Campus"
-                                    subtitle="We welcome visitors and encourage you to experience our vibrant school community."
+                                    title="Visitez notre campus"
+                                    subtitle="Nous serons ravis de vous accueillir et de vous faire découvrir notre communauté scolaire dynamique."
                                     gradient
                                 />
 
@@ -1011,7 +1010,7 @@ export const ContactPage: React.FC = () => {
                                             fontSize: '0.875rem',
                                         }}
                                     >
-                                        School Address
+                                        Adresse scolaire
                                     </Typography>
 
                                     <Typography
@@ -1021,11 +1020,11 @@ export const ContactPage: React.FC = () => {
                                             mb: 3,
                                         }}
                                     >
-                                        123 Education Way
+                                        GBS Les Kamites
                                         <br />
-                                        Your City, State 12345
+                                        SOA , lieu-dit EBOGO
                                         <br />
-                                        United States
+                                        Yaoundé , Cameroun
                                     </Typography>
 
                                     <Typography
@@ -1036,7 +1035,7 @@ export const ContactPage: React.FC = () => {
                                             fontSize: '0.875rem',
                                         }}
                                     >
-                                        Directions
+                                        Itinéraire
                                     </Typography>
 
                                     <Typography
@@ -1047,11 +1046,12 @@ export const ContactPage: React.FC = () => {
                                             mb: 3,
                                         }}
                                     >
-                                        Located in the heart of downtown, easily
-                                        accessible by public transportation.
-                                        Visitor parking is available in the main
-                                        lot adjacent to the administration
-                                        building.
+                                        Notre établissement est situé à SOA,
+                                        EBOGO (Yaoundé), dans un environnement
+                                        facilement accessible en transport en
+                                        commun. Un parking visiteurs est
+                                        disponible sur le site principal, près
+                                        du bâtiment administratif.
                                     </Typography>
 
                                     <Button
@@ -1071,7 +1071,7 @@ export const ContactPage: React.FC = () => {
                                             },
                                         }}
                                     >
-                                        View on Google Maps
+                                        Voir sur Google Maps
                                     </Button>
                                 </Card>
                             </Box>
@@ -1091,8 +1091,8 @@ export const ContactPage: React.FC = () => {
                                 }}
                             >
                                 <SectionHeader
-                                    title="Emergency Contacts"
-                                    subtitle="For urgent matters outside of normal business hours."
+                                    title="Contacts d’urgence"
+                                    subtitle="Pour toute situation urgente en dehors des heures de service."
                                     gradient
                                 />
 
@@ -1116,7 +1116,7 @@ export const ContactPage: React.FC = () => {
                                             color: 'error.main',
                                         }}
                                     >
-                                        Emergency Line
+                                        Line D'Urgence
                                     </Typography>
 
                                     <Typography
@@ -1134,7 +1134,7 @@ export const ContactPage: React.FC = () => {
                                             },
                                         }}
                                     >
-                                        (555) 911-HELP
+                                        (237) 119-HELP
                                     </Typography>
 
                                     <Typography
@@ -1144,7 +1144,8 @@ export const ContactPage: React.FC = () => {
                                             mb: 3,
                                         }}
                                     >
-                                        Available 24/7 for true emergencies
+                                        Disponible 24h/24 et 7j/7 en cas
+                                        d’urgence réelle
                                     </Typography>
 
                                     <Typography
@@ -1155,7 +1156,7 @@ export const ContactPage: React.FC = () => {
                                             fontSize: '0.875rem',
                                         }}
                                     >
-                                        After Hours Support
+                                        Assistance hors horaires de service
                                     </Typography>
 
                                     <Typography
@@ -1166,10 +1167,11 @@ export const ContactPage: React.FC = () => {
                                             mb: 3,
                                         }}
                                     >
-                                        For non-emergency matters outside
-                                        business hours, please use the contact
-                                        form above or email us. We'll respond
-                                        within 24 hours on weekdays.
+                                        Pour les demandes non urgentes en dehors
+                                        des heures de service, veuillez utiliser
+                                        le formulaire de contact ci-dessus ou
+                                        nous envoyer un email. Nous vous
+                                        répondrons sous 24 heures en semaine.
                                     </Typography>
 
                                     <Alert
@@ -1181,9 +1183,9 @@ export const ContactPage: React.FC = () => {
                                             },
                                         }}
                                     >
-                                        For medical emergencies, always call 911
-                                        first, then contact the school emergency
-                                        line.
+                                        Pour toute urgence médicale, appelez
+                                        d’abord le 119, puis contactez la ligne
+                                        d’urgence de l’établissement.
                                     </Alert>
                                 </Card>
                             </Box>
@@ -1205,7 +1207,8 @@ export const ContactPage: React.FC = () => {
                     variant="filled"
                     sx={{ width: '100%' }}
                 >
-                    Message sent successfully! We'll get back to you soon.
+                    Merci ! Votre message a bien été envoyé. Nous revenons vers
+                    vous très bientôt.
                 </Alert>
             </Snackbar>
         </Box>

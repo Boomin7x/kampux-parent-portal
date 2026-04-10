@@ -11,11 +11,11 @@ export const navigationContent = {
     navItems: [
         { label: 'A propos', href: '/about' },
         { label: 'Programmes', href: '/academics' },
-        { label: 'Faculté', href: '/faculty' },
+        { label: 'Formation', href: '/faculty' },
         { label: 'Vie Scolaire', href: '/student-life' },
         { label: 'Facilité', href: '/facilities' },
         { label: 'Gallerie', href: '/gallery' },
-        { label: 'Formation', href: '/training' },
+        // { label: 'Formation', href: '/training' },
         { label: 'Admission', href: '/admission' },
         { label: 'Contact', href: '/contact' },
     ],

@@ -5,7 +5,7 @@ export const academicSectionContent = {
 
     // Main Headlines
     title: {
-        primary: 'L \' Excellence',
+        primary: "L ' Excellence",
         secondary: 'A', // This gets gradient styling
         tertiary: 'Tous les Niveaux',
     },
@@ -38,72 +38,82 @@ export const academicSectionContent = {
         },
         {
             id: 'high',
-            title: 'College',
-            level: '6ème-Terminale',
+            title: 'Collège',
+            level: '6ème-3ème',
             description:
                 "Préparation complète pour l'education supérieure avec des cours AP, une orientation universitaire et des opportunités d'application du monde réel.",
             icon: 'School',
             color: '#ec4899',
             backgroundImage: '/joydeep-sensarma-utyOEK4GwDM-unsplash.jpg',
             features: [
-                'AP Courses',
-                'College Prep',
-                'Career Guidance',
-                'Internships',
+                'Cours AP',
+                'Préparation universitaire',
+                'Orientations Professionnelles',
+                'Stages',
             ],
             stats: [
-                { label: 'College Accept', value: '100%' },
-                { label: 'Scholarships', value: '$2.4M' },
+                { label: 'Préparation universitaire', value: '100%' },
+                { label: 'Bourses d’études', value: '250 000 FCFA' },
             ],
         },
         {
             id: 'stem',
-            title: 'STEM Innovation',
-            level: 'All Grades',
+            title: 'Innovation STEM',
+            level: 'Tous niveaux',
             description:
-                'Cutting-edge Science, Technology, Engineering, and Mathematics programs with state-of-the-art labs and research opportunities.',
+                'Programmes de pointe en sciences, technologie, ingénierie et mathématiques, avec des laboratoires ultramodernes et des opportunités de recherche.
             icon: 'Science',
             color: '#10b981',
             backgroundImage: '/azzedine-rouichi-KDM09YR4_bY-unsplash.jpg',
-            features: ['Research Labs', 'Robotics', 'Coding', 'Innovation'],
+            features: [
+                'Laboratoires de Recherche',
+                'Robotique',
+                'Programmation',
+                'Innovation'
+            ],
             stats: [
-                { label: 'Competitions', value: '12+' },
-                { label: 'Awards', value: '45+' },
+                { label: 'Competitions', value: '+10' },
+                { label: 'Prix', value: '+5' },
             ],
         },
         {
             id: 'arts',
-            title: 'Creative Expression',
-            level: 'All Grades',
+            title: 'Expression Créative',
+            level: 'Tous niveaux',
             description:
-                'Comprehensive arts education fostering creativity through visual arts, music, theater, and digital media in dedicated studio spaces.',
+                'Programme complet en arts favorisant la créativité à travers les arts visuels, la musique, le théâtre et les médias numériques dans des espaces dédiés.',
             icon: 'Palette',
             color: '#f59e0b',
             backgroundImage: '/pexels-mary-taylor-5896578.jpg',
-            features: ['Visual Arts', 'Music', 'Theater', 'Digital Media'],
+            features: [
+                'Arts Visuels',
+                'Musique',
+                'Théâtre',
+                'Médias Numériques'
+            ],
             stats: [
-                { label: 'Exhibitions', value: '6+' },
-                { label: 'Performances', value: '20+' },
+                { label: 'Expositions', value: '+2' },
+                { label: 'Représentations', value: '+6' },
             ],
         },
         {
             id: 'athletics',
-            title: 'Athletic Excellence',
-            level: 'All Grades',
+            title: 'Excellence Athlétique',
+            level: 'Tous niveaux',
             description:
-                'Comprehensive athletics promoting fitness, teamwork, and competitive excellence with championship-level coaching and facilities.',
+                'Programme complet d’athlétisme favorisant la forme physique, le travail d’équipe et l’excellence compétitive, avec un encadrement et des installations de niveau championnat.
             icon: 'Sports',
             color: '#ef4444',
             backgroundImage: '/pexels-rdne-8500421.jpg',
             features: [
-                'Team Sports',
+                'Sports d’équipe',
                 'Fitness',
-                'Championships',
-                'Scholarships',
+                'Championnats',
+                'Gymnastyque',
             ],
             stats: [
-                { label: 'Sports', value: '18+' },
-                { label: 'Championships', value: '32+' },
+                { label: 'Sports', value: '+10' },
+                { label: 'Championnats', value: '+10' },
             ],
         },
     ],

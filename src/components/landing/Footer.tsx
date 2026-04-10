@@ -293,7 +293,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 display: 'block',
                             }}
                         >
-                            Student Life
+                            Vie Scolaire
                         </Typography>
                         <Box
                             sx={{
@@ -341,7 +341,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 display: 'block',
                             }}
                         >
-                            Resources
+                            Ressources
                         </Typography>
                         <Box
                             sx={{

@@ -93,135 +93,127 @@ export const AcademicsPage: React.FC = () => {
     // Academic programs data
     const academicPrograms: AcademicProgram[] = [
         {
-            id: '1',
-            name: 'Elementary Education',
-            level: 'K-6',
-            description:
-                'Building strong foundations in literacy, numeracy, and critical thinking through engaging, hands-on learning experiences.',
+                id: '1',
+            name: 'Maternelle & Primaire',
+            level: 'Maternelle-CM2',
+            description: 'Poser des bases solides en lecture, écriture, numération et pensée critique grâce à des expériences d’apprentissage pratiques et engageantes.',
             subjects: [
-                'Mathematics',
-                'English Language Arts',
-                'Science',
-                'Social Studies',
+                'Mathématiques',
+                'Arts du langage',
+                'Sciences',
+                'Études sociales',
                 'Arts',
             ],
             highlights: [
-                'Play-based learning',
-                'STEAM integration',
-                'Character development',
-                'Multilingual support',
+                'Apprentissage par le jeu',
+                'Intégration STEAM',
+                'Développement du caractère',
+                'Soutien multilingue',
             ],
-            image: '/pexels-cottonbro-7395304.jpg',
+            image: '/pexels-cottonbro-7395304.jpg'
         },
         {
             id: '2',
-            name: 'High School Excellence',
-            level: 'F1-Uppersixth',
-            description:
-                'Preparing students for university success and lifelong learning through rigorous academics and diverse opportunities.',
+            name: 'Excellence au Lycée',
+            level: 'F1-Sixième Supérieure',
+            description: 'Préparer les élèves à réussir à l’université et tout au long de la vie grâce à un enseignement rigoureux et à des opportunités diversifiées.',
             subjects: [
-                'AP Courses',
-                'Advanced Sciences',
-                'Calculus',
-                'World Languages',
-                'Fine Arts',
-                'Computer Science',
+                'Cours AP',
+                'Sciences Avancées',
+                'Calcul',
+                'Langues étrangères',
+                'Beaux-Arts',
+                'Informatique'
             ],
             highlights: [
-                'College credit courses',
-                'Research projects',
-                'Internship programs',
-                'University partnerships',
+                'Cours créditables pour l’université',
+                'Projets de recherche',
+                'Programmes de stages',
+                'Partenariats universitaires',
             ],
-            image: '/pexels-max-fischer-5212317.jpg',
-        },
+            image: '/pexels-max-fischer-5212317.jpg'
+        }
     ];
 
-    // Core subjects data
+ // Core subjects data
     const coreSubjects: Subject[] = [
         {
             id: '1',
-            name: 'STEM Education',
-            description:
-                'Comprehensive Science, Technology, Engineering, and Mathematics curriculum with hands-on laboratories and real-world applications.',
+            name: 'Éducation STEM',
+            description: 'Programme complet en Sciences, Technologie, Ingénierie et Mathématiques avec laboratoires pratiques et applications concrètes.',
             icon: <Science />,
             color: '#10b981',
             features: [
-                'State-of-the-art labs',
-                'Coding & robotics',
-                'Scientific method',
-                'Innovation projects',
-            ],
+                'Laboratoires à la pointe',
+                'Programmation et robotique',
+                'Méthode scientifique',
+                'Projets d’innovation',
+            ]
         },
         {
             id: '2',
-            name: 'Language Arts',
-            description:
-                'Developing strong communication skills through literature, writing, speaking, and critical analysis across multiple genres.',
+            name: 'Arts du Langage',
+            description: 'Développement de compétences en communication à travers la littérature, l’écriture, l’oral et l’analyse critique dans plusieurs genres.',
             icon: <MenuBook />,
             color: '#6366f1',
             features: [
-                'Creative writing',
-                'Public speaking',
-                'Literary analysis',
-                'Media literacy',
-            ],
+                'Écriture créative',
+                'Prise de parole en public',
+                'Analyse littéraire',
+                'Éducation aux médias',
+            ]
         },
         {
             id: '3',
-            name: 'Mathematics',
-            description:
-                'Building mathematical fluency from basic concepts to advanced calculus with emphasis on problem-solving and logical reasoning.',
+            name: 'Mathématiques',
+            description: 'Développer la maîtrise des mathématiques, des concepts de base au calcul avancé, avec un accent sur la résolution de problèmes et le raisonnement logique.',
             icon: <Calculate />,
             color: '#8b5cf6',
             features: [
-                'Problem-based learning',
-                'Mathematical modeling',
-                'Technology integration',
-                'Competition teams',
-            ],
+                'Apprentissage par problèmes',
+                'Modélisation mathématique',
+                'Intégration des technologies',
+                'Équipes de compétition',
+            ]
         },
         {
             id: '4',
-            name: 'World Languages',
-            description:
-                'Immersive language learning programs fostering global citizenship and cultural understanding through authentic experiences.',
+            name: 'Langues Étrangères',
+            description: 'Programmes immersifs favorisant la citoyenneté mondiale et la compréhension culturelle à travers des expériences authentiques.',
             icon: <Language />,
             color: '#06b6d4',
             features: [
-                'Native speaker teachers',
-                'Cultural exchanges',
-                'Immersion programs',
-                'Global partnerships',
-            ],
+                'Enseignants natifs',
+                'Échanges culturels',
+                'Programmes d’immersion',
+                'Partenariats internationaux',
+            ]
         },
         {
             id: '5',
-            name: 'Creative Arts',
-            description:
-                'Comprehensive arts education including visual arts, music, drama, and digital media to foster creativity and self-expression.',
+            name: 'Arts Créatifs',
+            description: 'Programme complet en arts incluant arts visuels, musique, théâtre et médias numériques pour stimuler la créativité et l’expression personnelle.',
             icon: <Palette />,
             color: '#f59e0b',
             features: [
-                'Professional studios',
-                'Performance opportunities',
-                'Digital art tools',
-                'Artist residencies',
-            ],
+                'Studios professionnels',
+                'Opportunités de performance',
+                'Outils d’art numérique',
+                'Résidences d’artistes',
+            ]
         },
         {
             id: '6',
-            name: 'Physical Education',
-            description:
-                'Promoting physical fitness, teamwork, and healthy lifestyle habits through diverse sports and wellness programs.',
+            name: 'Éducation Physique',
+            description: 'Promotion de la forme physique, du travail en équipe et d’un mode de vie sain à travers des sports et programmes de bien-être diversifiés.',
             icon: <FitnessCenter />,
             color: '#ef4444',
             features: [
-                'Diverse sports programs',
-                'Fitness training',
-                'Wellness education',
-                'Competitive teams',
-            ],
+                'Programmes sportifs variés',
+                'Entraînement physique',
+                'Éducation au bien-être',
+                'Équipes de compétition',
+            ]
         },
     ];
 
@@ -229,35 +221,35 @@ export const AcademicsPage: React.FC = () => {
     const performanceMetrics: PerformanceMetric[] = [
         {
             id: '1',
-            label: 'Student-Teacher Ratio',
-            value: '12:1',
-            description: 'ensuring personalized attention and support',
+            label: 'Ratio Élèves-Enseignant',
+            value: '8:1',
+            description: 'assurant une attention et un accompagnement personnalisés',
             icon: <Groups />,
             color: '#10b981',
         },
         {
             id: '2',
-            label: 'College Acceptance Rate',
+            label: 'Taux d’Admission à l’Université',
             value: '98%',
-            description: 'of graduates accepted to top universities',
+            description: 'des diplômés acceptés dans les meilleures universités',
             icon: <School />,
             color: '#6366f1',
             progress: 98,
         },
         {
             id: '3',
-            label: 'AP Score Excellence',
+            label: 'Excellence aux Examens AP',
             value: '4.2',
-            description: 'average AP exam score (5-point scale)',
+            description: 'score moyen aux examens AP (échelle de 5 points)',
             icon: <TrendingUp />,
             color: '#8b5cf6',
             progress: 84,
         },
         {
             id: '4',
-            label: 'Academic Awards',
-            value: '125+',
-            description: 'student achievements this year',
+            label: 'Prix Académiques',
+            value: '+5',
+            description: 'réalisations des élèves cette année',
             icon: <EmojiEvents />,
             color: '#f59e0b',
         },
@@ -267,41 +259,41 @@ export const AcademicsPage: React.FC = () => {
     const gradeLevels: GradeLevel[] = [
         {
             id: '1',
-            level: 'Elementary',
-            title: 'Foundation Years (K-6)',
+            level: 'Maternelle & Primaire',
+            title: 'Années Fondamentales (6)',
             description:
-                'Nurturing young minds through discovery-based learning that builds essential skills while maintaining the joy of learning.',
+                'Éveiller les jeunes esprits grâce à un apprentissage basé sur la découverte, développant des compétences essentielles tout en préservant le plaisir d’apprendre.',
             keySubjects: [
-                'Reading & Writing',
-                'Number Sense',
-                'Science Exploration',
-                'Social Skills',
+                'Lecture et Écriture',
+                'Numération',
+                'Exploration Scientifique',
+                'Compétences Sociales',
             ],
             specialPrograms: [
-                'STEAM Lab',
-                'Art Studio',
-                'Music Program',
-                'Library Adventures',
+                'Laboratoire STEAM',
+                'Studio d’Art',
+                'Programme de Musique',
+                'Aventures à la Bibliothèque',
             ],
             image: '/pexels-cottonbro-6208928.jpg',
         },
         {
-            id: '3',
-            level: 'High School',
-            title: 'Excellence Years (9-12)',
+            id: '2',
+            level: 'Collège',
+            title: 'Années d’Excellence (4)',
             description:
-                'Preparing students for university success through rigorous academics, leadership opportunities, and real-world experiences.',
+                'Préparation des élèves pour le succès universitaire à travers un enseignement rigoureux, des opportunités de leadership et des expériences du monde réel.',
             keySubjects: [
-                'AP Courses',
-                'Advanced Sciences',
-                'Calculus & Statistics',
-                'Research Methods',
+                'Cours AP',
+                'Sciences Avancées',
+                'Calcul et Statistiques',
+                'Méthodes de Recherche',
             ],
             specialPrograms: [
-                'Honor Society',
-                'Internships',
-                'College Partnerships',
-                'Leadership Academy',
+                "Tableau d'honneur",
+                'Stages',
+                'Partenariats Universitaires',
+                'Académie de Leadership',
             ],
             image: '/trnava-university-_9xRHrMOjeg-unsplash.jpg',
         },
@@ -320,8 +312,8 @@ export const AcademicsPage: React.FC = () => {
         >
             {/* Page Header with Hero Banner */}
             <PageHeader
-                title="Academic Excellence"
-                subtitle="Comprehensive education programs designed to inspire learning and foster academic achievement"
+                title="GBS Les Karmites"
+                subtitle="Programmes éducatifs complets conçus pour inspirer l’apprentissage et favoriser la réussite académique"
                 backgroundImage="/pexels-matazumultimedia-32951018.jpg"
                 backgroundImageSrcSet={{
                     small: '/pexels-matazumultimedia-32951018.jpg',
@@ -401,14 +393,14 @@ const EducationalPhilosophySection: React.FC = () => {
                                     fontSize: '1.5rem',
                                     fontWeight: 600,
                                     mb: 1,
-                                    background: 
+                                    background:
                                         'linear-gradient(135deg, #6366f1, #8b5cf6)',
                                     backgroundClip: 'text',
                                     WebkitBackgroundClip: 'text',
                                     WebkitTextFillColor: 'transparent',
                                 }}
                             >
-                                Our Educational Philosophy
+                                Notre Philosophie Éducative
                             </Typography>
                             <Typography
                                 variant="body1"
@@ -419,11 +411,13 @@ const EducationalPhilosophySection: React.FC = () => {
                                     mb: 2,
                                 }}
                             >
-                                We believe every student is unique and capable
-                                of excellence. Our approach combines rigorous
-                                academics with personalized support, fostering
-                                critical thinking, creativity, and character
-                                development in a nurturing environment.
+                                Nous croyons que chaque élève est unique et
+                                capable d’exceller. Notre approche allie un
+                                enseignement académique rigoureux à un
+                                accompagnement personnalisé, favorisant la
+                                pensée critique, la créativité et le
+                                développement du caractère dans un environnement
+                                bienveillant.
                             </Typography>
                             <List sx={{ mb: 3 }}>
                                 {[
@@ -521,7 +515,7 @@ const ProgramsSection: React.FC<ProgramsSectionProps> = ({ programs }) => {
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                        Academic Programs
+                        Programmes Académiques
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -532,8 +526,8 @@ const ProgramsSection: React.FC<ProgramsSectionProps> = ({ programs }) => {
                             mx: 'auto',
                         }}
                     >
-                        Comprehensive educational pathways designed for every
-                        stage of learning
+                        Parcours éducatifs complets conçus pour chaque étape de
+                        l’apprentissage
                     </Typography>
                 </Box>
 
@@ -541,14 +535,15 @@ const ProgramsSection: React.FC<ProgramsSectionProps> = ({ programs }) => {
                     container
                     spacing={2}
                     justifyContent="center"
-                    sx={{ maxWidth: 1000 }}>
-                        {programs.map((program, index) => (
+                    sx={{ maxWidth: 1000 }}
+                >
+                    {programs.map((program, index) => (
                         <Grid
                             size={{ xs: 20, md: 6 }}
                             key={program.id}
                             sx={{ display: 'inline-flex' }}
                         >
-                            <Card 
+                            <Card
                                 sx={{
                                     width: 'auto',
                                     height: 'auto',
@@ -634,7 +629,7 @@ const ProgramsSection: React.FC<ProgramsSectionProps> = ({ programs }) => {
                                                 display: 'block',
                                             }}
                                         >
-                                            Key Subjects:
+                                            Matières Clés:
                                         </Typography>
                                         <Box
                                             sx={{
@@ -679,27 +674,48 @@ const ProgramsSection: React.FC<ProgramsSectionProps> = ({ programs }) => {
                                         >
                                             Program Highlights:
                                         </Typography>
-                                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, alignItems: 'center' }}>
-                                            {program.highlights.slice(0, 2).map((highlight, hIndex) => (
-                                                <Box
-                                                    key={hIndex}
-                                                    sx={{
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        gap: 1,
-                                                        px: 1.5,
-                                                        py: 0.5,
-                                                        backgroundColor: 'success.50',
-                                                        borderRadius: 1,
-                                                        width: 'fit-content',
-                                                    }}
-                                                >
-                                                    <CheckCircle sx={{ fontSize: 14, color: 'success.main' }} />
-                                                    <Typography variant="caption" sx={{ fontWeight: 500 }}>
-                                                        {highlight}
-                                                    </Typography>
-                                                </Box>
-                                            ))}
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                gap: 0.5,
+                                                alignItems: 'center',
+                                            }}
+                                        >
+                                            {program.highlights
+                                                .slice(0, 2)
+                                                .map((highlight, hIndex) => (
+                                                    <Box
+                                                        key={hIndex}
+                                                        sx={{
+                                                            display: 'flex',
+                                                            alignItems:
+                                                                'center',
+                                                            gap: 1,
+                                                            px: 1.5,
+                                                            py: 0.5,
+                                                            backgroundColor:
+                                                                'success.50',
+                                                            borderRadius: 1,
+                                                            width: 'fit-content',
+                                                        }}
+                                                    >
+                                                        <CheckCircle
+                                                            sx={{
+                                                                fontSize: 14,
+                                                                color: 'success.main',
+                                                            }}
+                                                        />
+                                                        <Typography
+                                                            variant="caption"
+                                                            sx={{
+                                                                fontWeight: 500,
+                                                            }}
+                                                        >
+                                                            {highlight}
+                                                        </Typography>
+                                                    </Box>
+                                                ))}
                                         </Box>
                                     </Box>
                                 </CardContent>
@@ -749,7 +765,7 @@ const CurriculumSection: React.FC<CurriculumSectionProps> = ({ subjects }) => {
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                        Comprehensive Curriculum
+                        Programme d’études complet
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -759,8 +775,8 @@ const CurriculumSection: React.FC<CurriculumSectionProps> = ({ subjects }) => {
                             mx: 'auto',
                         }}
                     >
-                        Interdisciplinary subjects designed to develop
-                        well-rounded, critical thinkers
+                        Des matières interdisciplinaires conçues pour former des
+                        esprits critiques et polyvalents
                     </Typography>
                 </Box>
 
@@ -830,29 +846,50 @@ const CurriculumSection: React.FC<CurriculumSectionProps> = ({ subjects }) => {
                                                 display: 'block',
                                             }}
                                         >
-                                            Key Features:
+                                            Fonctions Clés:
                                         </Typography>
-                                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0.5 }}>
-                                            {subject.features.map((feature, fIndex) => (
-                                                <Box
-                                                    key={fIndex}
-                                                    sx={{
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        gap: 1,
-                                                        px: 1.5,
-                                                        py: 0.5,
-                                                        backgroundColor: 'grey.100',
-                                                        borderRadius: 1,
-                                                        width: 'fit-content',
-                                                    }}
-                                                >
-                                                    <CheckCircle sx={{ fontSize: 14, color: subject.color }} />
-                                                    <Typography variant="caption" sx={{ fontWeight: 500 }}>
-                                                        {feature}
-                                                    </Typography>
-                                                </Box>
-                                            ))}
+                                        <Box
+                                            sx={{
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                alignItems: 'center',
+                                                gap: 0.5,
+                                            }}
+                                        >
+                                            {subject.features.map(
+                                                (feature, fIndex) => (
+                                                    <Box
+                                                        key={fIndex}
+                                                        sx={{
+                                                            display: 'flex',
+                                                            alignItems:
+                                                                'center',
+                                                            gap: 1,
+                                                            px: 1.5,
+                                                            py: 0.5,
+                                                            backgroundColor:
+                                                                'grey.100',
+                                                            borderRadius: 1,
+                                                            width: 'fit-content',
+                                                        }}
+                                                    >
+                                                        <CheckCircle
+                                                            sx={{
+                                                                fontSize: 14,
+                                                                color: subject.color,
+                                                            }}
+                                                        />
+                                                        <Typography
+                                                            variant="caption"
+                                                            sx={{
+                                                                fontWeight: 500,
+                                                            }}
+                                                        >
+                                                            {feature}
+                                                        </Typography>
+                                                    </Box>
+                                                )
+                                            )}
                                         </Box>
                                     </Box>
                                 </CardContent>
@@ -902,7 +939,7 @@ const PerformanceSection: React.FC<PerformanceSectionProps> = ({ metrics }) => {
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                        Academic Performance
+                        Performance Académique
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -912,8 +949,8 @@ const PerformanceSection: React.FC<PerformanceSectionProps> = ({ metrics }) => {
                             mx: 'auto',
                         }}
                     >
-                        Measurable outcomes demonstrating our commitment to
-                        educational excellence
+                        Résultats mesurables démontrant notre engagement envers
+                        l’excellence éducative
                     </Typography>
                 </Box>
 
@@ -1047,7 +1084,7 @@ const GradeLevelsSection: React.FC<GradeLevelsSectionProps> = ({
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                        Grade Level Showcases
+                        Vitrines par niveau
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -1057,8 +1094,8 @@ const GradeLevelsSection: React.FC<GradeLevelsSectionProps> = ({
                             mx: 'auto',
                         }}
                     >
-                        Discover what makes each stage of learning special at
-                        our academy
+                        Découvrez ce qui rend chaque étape de l’apprentissage
+                        unique dans notre académie
                     </Typography>
                 </Box>
 
@@ -1137,7 +1174,7 @@ const GradeLevelsSection: React.FC<GradeLevelsSectionProps> = ({
                                                 color: 'text.primary',
                                             }}
                                         >
-                                            Key Subjects:
+                                            Matières Clés
                                         </Typography>
                                         <Box
                                             sx={{
@@ -1171,7 +1208,7 @@ const GradeLevelsSection: React.FC<GradeLevelsSectionProps> = ({
                                                 color: 'text.primary',
                                             }}
                                         >
-                                            Special Programs:
+                                            Programmes spéciaux
                                         </Typography>
                                         <List sx={{ py: 0 }}>
                                             {selectedLevel.specialPrograms.map(
