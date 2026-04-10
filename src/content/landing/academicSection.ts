@@ -61,7 +61,7 @@ export const academicSectionContent = {
             title: 'Innovation STEM',
             level: 'Tous niveaux',
             description:
-                'Programmes de pointe en sciences, technologie, ingénierie et mathématiques, avec des laboratoires ultramodernes et des opportunités de recherche.
+                'Programmes de pointe en sciences, technologie, ingénierie et mathématiques, avec des laboratoires ultramodernes et des opportunités de recherche.',
             icon: 'Science',
             color: '#10b981',
             backgroundImage: '/azzedine-rouichi-KDM09YR4_bY-unsplash.jpg',
@@ -69,7 +69,7 @@ export const academicSectionContent = {
                 'Laboratoires de Recherche',
                 'Robotique',
                 'Programmation',
-                'Innovation'
+                'Innovation',
             ],
             stats: [
                 { label: 'Competitions', value: '+10' },
@@ -89,7 +89,7 @@ export const academicSectionContent = {
                 'Arts Visuels',
                 'Musique',
                 'Théâtre',
-                'Médias Numériques'
+                'Médias Numériques',
             ],
             stats: [
                 { label: 'Expositions', value: '+2' },
@@ -101,7 +101,7 @@ export const academicSectionContent = {
             title: 'Excellence Athlétique',
             level: 'Tous niveaux',
             description:
-                'Programme complet d’athlétisme favorisant la forme physique, le travail d’équipe et l’excellence compétitive, avec un encadrement et des installations de niveau championnat.
+                'Programme complet d’athlétisme favorisant la forme physique, le travail d’équipe et l’excellence compétitive, avec un encadrement et des installations de niveau championnat.',
             icon: 'Sports',
             color: '#ef4444',
             backgroundImage: '/pexels-rdne-8500421.jpg',

@@ -161,8 +161,7 @@ export const aboutContent: AboutContent = {
         {
             year: '2021',
             title: 'Cycle Secondaire (Collège)',
-            description:
-                'Le collège a été officiellement lancé pour l'année scolaire 2021-2022, répondant à la demande des parents pour assurer la continuité des élèves du primaire. Les premières promotions du collège ont maintenu un taux de réussite de 100%, renforçant la réputation d’excellence de l’école.',
+            description: `Le collège a été officiellement lancé pour l'année scolaire 2021-2022, répondant à la demande des parents pour assurer la continuité des élèves du primaire. Les premières promotions du collège ont maintenu un taux de réussite de 100%, renforçant la réputation d’excellence de l’école.`,
         },
         {
             year: '2024',
@@ -191,7 +190,8 @@ export const aboutContent: AboutContent = {
             id: 'student-teacher',
             label: 'Ratio élèves-enseignants',
             value: '8:1',
-            description: 'Assurer une attention personnalisée pour chaque élève.',
+            description:
+                'Assurer une attention personnalisée pour chaque élève.',
             icon: 'Groups',
         },
         {

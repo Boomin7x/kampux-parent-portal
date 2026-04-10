@@ -260,11 +260,14 @@ export const AcademicSection: React.FC<AcademicSectionProps> = ({
                                             position: 'relative',
                                             zIndex: 2,
                                             display: 'flex',
-                                            flexDirection: { xs: 'column', lg: 'row' },
+                                            flexDirection: {
+                                                xs: 'column',
+                                                lg: 'row',
+                                            },
                                             justifyContent: 'center',
                                             alignItems: 'center',
                                             gap: { xs: 6, lg: 16 },
-                                            maxWidth: '1200px',
+                                            // maxWidth: '1200px',
                                         }}
                                     >
                                         {/* Left Content */}
