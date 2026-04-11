@@ -12,7 +12,8 @@
         "format:check": "prettier --check .",
         "typecheck": "tsc --noEmit",
         "test": "echo \"No tests configured\"",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "prepare":"husky install"
     },
     "dependencies": {
         "@emotion/react": "^11.14.0",
