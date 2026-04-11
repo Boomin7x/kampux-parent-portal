@@ -116,7 +116,7 @@ export const ContactPreview: React.FC = () => {
                                         fontSize: '0.875rem',
                                     }}
                                 >
-                                    Welcome to Excellence Academy
+                                   Bienvenue au GSB Les Kamites, où l'excellence éducative rencontre une communauté chaleureuse. Notre campus accueillant est conçu pour inspirer et soutenir chaque élève dans son parcours d'apprentissage. Découvrez un environnement où les opportunités abondent et où chaque jour est une nouvelle aventure vers la réussite académique et personnelle.
                                 </Typography>
                             </Box>
                         </Box>

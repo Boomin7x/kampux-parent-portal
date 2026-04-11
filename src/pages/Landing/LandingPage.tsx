@@ -1,7 +1,7 @@
 import React from 'react';
 import { EventsPreview } from '../../components/landing/EventsPreview';
 import { HeroSection } from '../../components/landing/HeroSection';
-import PartnersPreview from '../../components/landing/PartnersPreview';
+// import PartnersPreview from '../../components/landing/PartnersPreview';
 import { AboutPreview } from '../../components/landing/preview/AboutPreview';
 import { ContactPreview } from '../../components/landing/preview/ContactPreview';
 
@@ -24,7 +24,7 @@ const LandingPage: React.FC = () => {
             {/* Preview Sections - Minimal design pattern */}
             <AboutPreview />
             <EventsPreview />
-            <PartnersPreview />
+            {/* <PartnersPreview /> */}
             {/* <AcademicPreview /> */}
             {/* <FacultyPreview />
             <StudentLifePreview />

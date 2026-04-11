@@ -18,7 +18,7 @@ export const contactSectionContent = {
         {
             id: 'phone',
             title: 'Appelez-nous',
-            value: '(237) 6 XX XX XX XX',
+            value: '(237) 6 77 42 12 52',
             description: 'Disponible pendant les heures de bureau',
             icon: 'Phone', // Material-UI icon name
             color: '#6366f1',
@@ -27,7 +27,7 @@ export const contactSectionContent = {
         {
             id: 'email',
             title: 'Envoyez-nous un Email',
-            value: 'info@excellenceacademy.edu',
+            value: 'gsbleskamites@gmail.com,
             description: 'Inquiries générales & support',
             icon: 'Email',
             color: '#8b5cf6',
@@ -37,7 +37,7 @@ export const contactSectionContent = {
             id: 'location',
             title: 'Passez nous voir',
             value: 'Yaoundé, Cameroun',
-            description: 'Learning City, LC 12345',
+            description: 'SOA, lieu-dit  EBOGO',
             icon: 'LocationOn',
             color: '#10b981',
         },
