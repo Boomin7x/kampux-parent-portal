@@ -11,7 +11,7 @@ export const contactPreviewContent = {
         {
             id: 'phone',
             title: 'Appelez-nous',
-            value: '(237) 6 XX XX XX XX',
+            value: '(237) 6 77 42 12 52',
             description: 'Disponible pendant les heures de bureau',
             icon: 'Phone',
             color: '#f59e0b',
@@ -20,7 +20,7 @@ export const contactPreviewContent = {
         {
             id: 'email',
             title: 'Envoyez-nous un Email',
-            value: 'info@excellenceacademy.edu',
+            value: 'gsbleskamites@gmail.com',
             description: 'Inquiries générales & support',
             icon: 'Email',
             color: '#16a34a',
@@ -30,7 +30,7 @@ export const contactPreviewContent = {
             id: 'location',
             title: 'Passez nous voir',
             value: 'Yaoundé, Cameroun',
-            description: 'Learning City, LC 12345',
+            description: 'SOA, lieu-dit EBOGO',
             icon: 'LocationOn',
             color: '#10b981',
         },

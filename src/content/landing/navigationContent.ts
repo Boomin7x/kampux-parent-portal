@@ -2,7 +2,7 @@
 export const navigationContent = {
     // Brand/Logo
     brand: {
-        name: 'GSB Les Kaniles',
+        name: 'GSB Les Kamites',
         shortName: 'GLK',
         logoText: 'GLK', // Text displayed in logo box
     },
@@ -10,11 +10,11 @@ export const navigationContent = {
     // Navigation Items
     navItems: [
         { label: 'A propos', href: '/about' },
-        { label: 'Programmes', href: '/academics' },
+        { label: 'Programme', href: '/academics' },
         { label: 'Formation', href: '/faculty' },
         { label: 'Vie Scolaire', href: '/student-life' },
         { label: 'Facilité', href: '/facilities' },
-        { label: 'Gallerie', href: '/gallery' },
+        { label: 'Galerie', href: '/gallery' },
         // { label: 'Formation', href: '/training' },
         { label: 'Admission', href: '/admission' },
         { label: 'Contact', href: '/contact' },
@@ -22,9 +22,9 @@ export const navigationContent = {
 
     // Authentication
     auth: {
-        portalButtonText: 'Portal',
-        portalButtonTextMobile: 'Access Portal',
-        signInText: 'Sign In',
+        portalButtonText: 'Portail',
+        portalButtonTextMobile: "Portail d'accès",
+        signInText: 'Se connecter',
     },
 
     // Mobile Navigation

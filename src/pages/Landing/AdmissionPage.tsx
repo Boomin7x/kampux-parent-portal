@@ -508,7 +508,7 @@ export const AdmissionPage: React.FC = () => {
         >
             {/* Page Header with Hero Banner */}
             <PageHeader
-                title="Informations sur les Admissions"
+                title="Les Admissions"
                 subtitle="Rejoignez notre communauté d'apprenants et découvrez le chemin vers l'excellence académique"
                 backgroundImage="/pexels-katerina-holmes-5905554.jpg"
                 backgroundImageSrcSet={{
@@ -617,7 +617,7 @@ const AdmissionOverviewSection: React.FC = () => {
                             WebkitTextFillColor: 'transparent',
                         }}
                     >
-                        Pourquoi Choisis GBS Les Kamites?
+                        Pourquoi Choisis GSB Les Kamites?
                     </Typography>
                     <Typography
                         variant="subtitle1"
@@ -1475,8 +1475,8 @@ const TuitionFeesSection: React.FC<TuitionFeesSectionProps> = ({
                                                     fontWeight: 600,
                                                 }}
                                             >
-                                                $
-                                                {structure.tuitionFee.toLocaleString()}
+                                                {structure.tuitionFee.toLocaleString()}{' '}
+                                                FCFA
                                             </Typography>
                                         </Box>
                                         <Divider />
@@ -1531,8 +1531,8 @@ const TuitionFeesSection: React.FC<TuitionFeesSectionProps> = ({
                                                                 : 'text.secondary',
                                                         }}
                                                     >
-                                                        $
-                                                        {fee.amount.toLocaleString()}
+                                                        {fee.amount.toLocaleString()}{' '}
+                                                        FCFA
                                                     </Typography>
                                                 </Box>
                                             )
@@ -1567,8 +1567,8 @@ const TuitionFeesSection: React.FC<TuitionFeesSectionProps> = ({
                                                 color: 'primary.main',
                                             }}
                                         >
-                                            $
-                                            {structure.totalEstimate.toLocaleString()}
+                                            {structure.totalEstimate.toLocaleString()}{' '}
+                                            FCFA
                                         </Typography>
                                     </Box>
 
@@ -1830,12 +1830,18 @@ const ContactApplicationSection: React.FC = () => {
         {
             icon: <Email />,
             title: 'Email',
-            details: ['leskamites@gmail.com', 'Réponse sous 24 heures'],
+            details: ['gsbleskamites@gmail.com', 'Réponse sous 24 heures'],
         },
         {
             icon: <LocationOn />,
             title: 'Nous rendre visite',
             details: ['Yaoundé - Cameroun', 'SOA, EBOGO'],
+        },
+
+        {
+            icon: <LocationOn />,
+            title: 'Nous rendre visite',
+            details: ['Yaoundé - Cameroun', 'SOA, lieu-dit EBOGO'],
         },
     ];
 
@@ -1993,7 +1999,7 @@ const ContactApplicationSection: React.FC = () => {
                                 <TextField
                                     fullWidth
                                     name="name"
-                                    label="Full Name"
+                                    label="Nom & Prénom"
                                     value={formData.name}
                                     onChange={handleInputChange}
                                     size="small"
@@ -2009,7 +2015,7 @@ const ContactApplicationSection: React.FC = () => {
                                 <TextField
                                     fullWidth
                                     name="email"
-                                    label="Email Address"
+                                    label="Adresse Email"
                                     type="email"
                                     value={formData.email}
                                     onChange={handleInputChange}
@@ -2026,7 +2032,7 @@ const ContactApplicationSection: React.FC = () => {
                                 <TextField
                                     fullWidth
                                     name="phone"
-                                    label="Phone Number"
+                                    label="Téléphone"
                                     value={formData.phone}
                                     onChange={handleInputChange}
                                     size="small"

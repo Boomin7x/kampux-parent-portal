@@ -266,18 +266,18 @@ export const Navigation: React.FC<NavigationProps> = ({
                     ) : (
                         <Button
                             fullWidth
+                            variant="contained"
+                            color="primary"
                             onClick={handlePortalClick}
                             sx={{
                                 py: 2,
-                                backgroundColor: '#15803d',
-                                color: 'white',
                                 fontWeight: 500,
                                 fontSize: '0.875rem',
                                 textTransform: 'none',
                                 borderRadius: 1,
-                                transition: 'background-color 0.2s ease',
+                                boxShadow: 'none',
                                 '&:hover': {
-                                    backgroundColor: '#166534',
+                                    boxShadow: 'none',
                                 },
                             }}
                         >
@@ -318,7 +318,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                 <Box
                     sx={{
                         width: '100%',
-                        maxWidth: '1200px',
+                        maxWidth: '1400px',
                         mx: 'auto',
                         px: { xs: 3, sm: 4, md: 6 },
                         display: 'flex',
@@ -385,24 +385,6 @@ export const Navigation: React.FC<NavigationProps> = ({
                                 }}
                             >
                                 {navigationContent.brand.name}
-                            </Typography>
-                            <Typography
-                                variant="caption"
-                                sx={{
-                                    display: {
-                                        xs: 'none',
-                                        lg: 'block',
-                                    },
-                                    color:
-                                        transparent && !scrolled
-                                            ? 'rgba(255, 255, 255, 0.7)'
-                                            : 'rgba(23, 23, 23, 0.6)',
-                                    fontSize: '0.75rem',
-                                    fontWeight: 400,
-                                    transition: 'color 0.3s ease',
-                                }}
-                            >
-                                École de Référence
                             </Typography>
                         </Box>
                     </Box>
@@ -483,6 +465,8 @@ export const Navigation: React.FC<NavigationProps> = ({
                                     />
                                 ) : (
                                     <Button
+                                        variant="contained"
+                                        color="primary"
                                         onClick={handlePortalClick}
                                         sx={{
                                             px: 3,
@@ -491,12 +475,9 @@ export const Navigation: React.FC<NavigationProps> = ({
                                             fontSize: '0.875rem',
                                             borderRadius: 1,
                                             textTransform: 'none',
-                                            backgroundColor: '#15803d',
-                                            color: 'white',
-                                            transition:
-                                                'background-color 0.2s ease',
+                                            boxShadow: 'none',
                                             '&:hover': {
-                                                backgroundColor: '#166534',
+                                                boxShadow: 'none',
                                             },
                                         }}
                                     >

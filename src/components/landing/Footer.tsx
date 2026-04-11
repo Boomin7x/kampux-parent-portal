@@ -221,7 +221,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 display: 'block',
                             }}
                         >
-                            About
+                            A propos
                         </Typography>
                         <Box
                             sx={{
@@ -265,7 +265,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                 display: 'block',
                             }}
                         >
-                            Academics
+                            Académique
                         </Typography>
                         <Box
                             sx={{

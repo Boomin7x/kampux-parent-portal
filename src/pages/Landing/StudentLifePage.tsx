@@ -422,7 +422,7 @@ export const StudentLifePage: React.FC = () => {
         <Box sx={{ backgroundColor: '#fefefe', minHeight: '100vh' }}>
             {/* Page Header with Hero Banner */}
             <PageHeader
-                title="Vivez la vie sur le campus"
+                title="La Vie sur le Campus"
                 subtitle="Une communauté dynamique où les étudiants découvrent leurs passions, nouent des amitiés et créent des souvenirs durables grâce à des activités variées et des expériences enrichissantes"
                 backgroundImage="/pexels-mary-taylor-5896578.jpg"
                 backgroundImageSrcSet={{

@@ -1,12 +1,18 @@
-import { Box, Container, Typography, Link as MuiLink } from '@mui/material';
+import * as MuiIcons from '@mui/icons-material';
+import {
+    Box,
+    Button,
+    Container,
+    Link,
+    Link as MuiLink,
+    Typography,
+} from '@mui/material';
 import Grid from '@mui/material/Grid';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import * as MuiIcons from '@mui/icons-material';
 import { contactPreviewContent } from '../../../content/landing/contactPreviewContent';
-import { CTAButton } from '../CTAButton';
-import { SectionHeader } from '../SectionHeader';
 import { useIntersectionObserver } from '../../../hooks/ui/useIntersectionObserver';
+import { SectionHeader } from '../SectionHeader';
 
 /**
  * ContactPreview Component
@@ -116,7 +122,15 @@ export const ContactPreview: React.FC = () => {
                                         fontSize: '0.875rem',
                                     }}
                                 >
-                                    Welcome to Excellence Academy
+                                    Bienvenue au GSB Les Kamites, où
+                                    l'excellence éducative rencontre une
+                                    communauté chaleureuse. Notre campus
+                                    accueillant est conçu pour inspirer et
+                                    soutenir chaque élève dans son parcours
+                                    d'apprentissage. Découvrez un environnement
+                                    où les opportunités abondent et où chaque
+                                    jour est une nouvelle aventure vers la
+                                    réussite académique et personnelle.
                                 </Typography>
                             </Box>
                         </Box>
@@ -365,15 +379,16 @@ export const ContactPreview: React.FC = () => {
                                         </Typography>
 
                                         {/* Action Button */}
-                                        <CTAButton
-                                            variant="secondary"
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
                                             size="medium"
                                             onClick={() =>
                                                 handleAction(action.action)
                                             }
                                         >
                                             {action.buttonText}
-                                        </CTAButton>
+                                        </Button>
                                     </Box>
                                 </Grid>
                             );
@@ -387,13 +402,15 @@ export const ContactPreview: React.FC = () => {
                             justifyContent: 'center',
                         }}
                     >
-                        <CTAButton
-                            to={cta.route}
-                            variant="primary"
-                            size="medium"
+                        <Button
+                            LinkComponent={Link}
+                            href={cta.route}
+                            variant="contained"
+                            size="small"
+                            color="secondary"
                         >
                             {cta.text}
-                        </CTAButton>
+                        </Button>
                     </Box>
                 </Box>
             </Container>
