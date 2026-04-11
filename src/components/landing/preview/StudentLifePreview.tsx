@@ -241,7 +241,7 @@ export const StudentLifePreview: React.FC = () => {
                     p: 2,
                     borderRadius: 1,
                     background:
-                        'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
+                        'linear-gradient(135deg, #f59e0b 0%, #ec4899 100%)',
                     opacity: isIntersecting ? 1 : 0,
                     transform: isIntersecting
                         ? 'translateY(0)'

@@ -159,7 +159,7 @@ export const ForgotPasswordStep: React.FC<ForgotPasswordStepProps> = ({
                             fontWeight: 600,
                             textTransform: 'none',
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             '&:hover': {
                                 background:
                                     'linear-gradient(135deg, #5b5bd6, #7c3aed)',
@@ -324,7 +324,7 @@ export const ForgotPasswordStep: React.FC<ForgotPasswordStepProps> = ({
                         fontSize: '1rem',
                         fontWeight: 600,
                         textTransform: 'none',
-                        background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                        background: 'linear-gradient(135deg, #f59e0b, #16a34a)',
                         '&:hover': {
                             background:
                                 'linear-gradient(135deg, #5b5bd6, #7c3aed)',

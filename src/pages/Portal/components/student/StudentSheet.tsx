@@ -1293,7 +1293,7 @@ export const StudentSheet: React.FC<StudentSheetProps> = ({
                                 mt: 1,
                                 display: 'block',
                                 textAlign: 'center',
-                                color: '#6366f1',
+                                color: '#f59e0b',
                                 fontSize: '0.6875rem',
                             }}
                         >

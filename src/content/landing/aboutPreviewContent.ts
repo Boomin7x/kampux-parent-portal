@@ -18,7 +18,7 @@ export const aboutPreviewContent = {
             description:
                 'Un enseignement rigoureux et innovant qui encourage chaque élève à donner le meilleur de lui-même.',
             icon: 'School',
-            color: '#6366f1',
+            color: '#f59e0b',
         },
         {
             id: 'character-development',
@@ -26,7 +26,7 @@ export const aboutPreviewContent = {
             description:
                 'Développer l’intégrité, le leadership et la capacité à prendre des décisions éthiques, des compétences qui vont bien au-delà de la classe.',
             icon: 'EmojiPeople',
-            color: '#8b5cf6',
+            color: '#16a34a',
         },
         {
             id: 'community',

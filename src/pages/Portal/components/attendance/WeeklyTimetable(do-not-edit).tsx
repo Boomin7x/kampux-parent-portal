@@ -154,7 +154,7 @@
 //                 room: 'Gymnasium',
 //                 startTime: '12:10',
 //                 endTime: '12:55',
-//                 color: '#8b5cf6',
+//                 color: '#16a34a',
 //                 type: 'activity',
 //                 attendance: 'present',
 //             },
@@ -342,7 +342,7 @@
 //     const lowerTitle = title.toLowerCase();
 
 //     if (type === 'break' || type === 'lunch') return '#6b7280';
-//     if (type === 'activity') return '#8b5cf6';
+//     if (type === 'activity') return '#16a34a';
 
 //     // Academic subjects color mapping
 //     if (lowerTitle.includes('math')) return '#3b82f6';
@@ -357,8 +357,8 @@
 //         return '#84cc16';
 //     if (lowerTitle.includes('économie') || lowerTitle.includes('economy'))
 //         return '#f97316';
-//     if (lowerTitle.includes('physique')) return '#8b5cf6';
-//     return '#6366f1'; // Default purple
+//     if (lowerTitle.includes('physique')) return '#16a34a';
+//     return '#f59e0b'; // Default purple
 // };
 
 // // Generate dynamic time slots from API events
@@ -1071,7 +1071,7 @@
 //             >
 //                 {[
 //                     { label: 'Academic', color: '#3b82f6', type: 'academic' },
-//                     { label: 'Activity', color: '#8b5cf6', type: 'activity' },
+//                     { label: 'Activity', color: '#16a34a', type: 'activity' },
 //                     { label: 'Break/Lunch', color: '#6b7280', type: 'break' },
 //                 ].map(item => (
 //                     <Box

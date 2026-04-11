@@ -146,7 +146,7 @@ export const AboutPreview: React.FC<AboutPreviewProps> = ({
                                                     height: 24,
                                                     borderRadius: '50%',
                                                     background:
-                                                        'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                                        'linear-gradient(135deg, #f59e0b, #16a34a)',
                                                     display: 'flex',
                                                     alignItems: 'center',
                                                     justifyContent: 'center',

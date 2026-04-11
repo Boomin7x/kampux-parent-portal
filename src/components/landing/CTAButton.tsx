@@ -53,7 +53,7 @@ export const CTAButton: React.FC<CTAButtonProps> = ({
         switch (variant) {
             case 'primary':
                 return {
-                    background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                    background: 'linear-gradient(135deg, #f59e0b, #16a34a)',
                     color: '#ffffff',
                     border: 'none',
                     '&:hover': {

@@ -270,7 +270,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
             case 'absent':
                 return '#ef4444'; // Red
             case 'early_dismissal':
-                return '#8b5cf6'; // Purple
+                return '#16a34a'; // Purple
             case 'not_yet':
                 return '#d1d5db'; // Gray
             default:
@@ -1036,7 +1036,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({
                                     },
                                     {
                                         label: t('calendar.status.earlyOut'),
-                                        color: '#8b5cf6',
+                                        color: '#16a34a',
                                         icon: <EarlyDismissalIcon />,
                                     },
                                 ].map(item => (

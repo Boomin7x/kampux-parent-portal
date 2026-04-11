@@ -40,7 +40,7 @@ const facilityCategories: FacilityCategory[] = [
         description:
             'Salles de classe modernes et espaces d’apprentissage conçus pour stimuler la curiosité, la créativité et la réussite scolaire.',
         icon: <LabIcon />,
-        color: '#6366f1',
+        color: '#f59e0b',
         image: '/pexels-cottonbro-6208926.jpg',
         features: [
             'Salles de classe adaptées aux élèves',
@@ -78,7 +78,7 @@ const facilityCategories: FacilityCategory[] = [
         description:
             'Espaces informatiques et laboratoires numériques équipés pour favoriser l’apprentissage interactif et les projets créatifs.',
         icon: <TechIcon />,
-        color: '#8b5cf6',
+        color: '#16a34a',
         image: '/pexels-dothanhyb-5530484.jpg',
         features: [
             'Atelier d’impression 3D',
@@ -243,7 +243,7 @@ export const FacilitiesPage: React.FC = () => {
                                 <Typography
                                     variant="overline"
                                     sx={{
-                                        color: '#6366f1',
+                                        color: '#f59e0b',
                                         fontSize: {
                                             xs: '0.8rem',
                                             md: '0.9rem',
@@ -279,7 +279,7 @@ export const FacilitiesPage: React.FC = () => {
                                         component="span"
                                         sx={{
                                             background:
-                                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                                             backgroundClip: 'text',
                                             WebkitBackgroundClip: 'text',
                                             WebkitTextFillColor: 'transparent',
@@ -324,7 +324,7 @@ export const FacilitiesPage: React.FC = () => {
                                         endIcon={<TourIcon />}
                                         sx={{
                                             background:
-                                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                                             borderRadius: 1,
                                             py: 1.5,
                                             px: 4,
@@ -349,8 +349,8 @@ export const FacilitiesPage: React.FC = () => {
                                         size="large"
                                         endIcon={<CalendarToday />}
                                         sx={{
-                                            borderColor: '#6366f1',
-                                            color: '#6366f1',
+                                            borderColor: '#f59e0b',
+                                            color: '#f59e0b',
                                             borderRadius: 1,
                                             py: 1.5,
                                             px: 4,
@@ -425,7 +425,7 @@ export const FacilitiesPage: React.FC = () => {
                                         sx={{
                                             fontSize: '2rem',
                                             fontWeight: 700,
-                                            color: '#6366f1',
+                                            color: '#f59e0b',
                                             mb: 1,
                                             lineHeight: 1,
                                         }}
@@ -460,7 +460,7 @@ export const FacilitiesPage: React.FC = () => {
                                         sx={{
                                             fontSize: '2rem',
                                             fontWeight: 700,
-                                            color: '#8b5cf6',
+                                            color: '#16a34a',
                                             mb: 1,
                                             lineHeight: 1,
                                         }}
@@ -509,7 +509,7 @@ export const FacilitiesPage: React.FC = () => {
                         <Typography
                             variant="overline"
                             sx={{
-                                color: '#8b5cf6',
+                                color: '#16a34a',
                                 fontSize: { xs: '0.8rem', md: '0.9rem' },
                                 fontWeight: 600,
                                 letterSpacing: '0.2em',
@@ -540,7 +540,7 @@ export const FacilitiesPage: React.FC = () => {
                                 component="span"
                                 sx={{
                                     background:
-                                        'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                        'linear-gradient(135deg, #f59e0b, #16a34a)',
                                     backgroundClip: 'text',
                                     WebkitBackgroundClip: 'text',
                                     WebkitTextFillColor: 'transparent',
@@ -776,7 +776,7 @@ export const FacilitiesPage: React.FC = () => {
                                 component="span"
                                 sx={{
                                     background:
-                                        'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                        'linear-gradient(135deg, #f59e0b, #16a34a)',
                                     backgroundClip: 'text',
                                     WebkitBackgroundClip: 'text',
                                     WebkitTextFillColor: 'transparent',
@@ -904,7 +904,7 @@ export const FacilitiesPage: React.FC = () => {
                                                     sx={{
                                                         fontSize: '0.75rem',
                                                         fontWeight: 600,
-                                                        color: '#6366f1',
+                                                        color: '#f59e0b',
                                                         textTransform:
                                                             'uppercase',
                                                         letterSpacing: '0.05em',
@@ -928,7 +928,7 @@ export const FacilitiesPage: React.FC = () => {
                                                     sx={{
                                                         fontSize: '0.75rem',
                                                         fontWeight: 600,
-                                                        color: '#8b5cf6',
+                                                        color: '#16a34a',
                                                         textTransform:
                                                             'uppercase',
                                                         letterSpacing: '0.05em',
@@ -990,7 +990,7 @@ export const FacilitiesPage: React.FC = () => {
                                 <Typography
                                     variant="overline"
                                     sx={{
-                                        color: '#6366f1',
+                                        color: '#f59e0b',
                                         fontSize: {
                                             xs: '0.8rem',
                                             md: '0.9rem',
@@ -1024,7 +1024,7 @@ export const FacilitiesPage: React.FC = () => {
                                         component="span"
                                         sx={{
                                             background:
-                                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                                             backgroundClip: 'text',
                                             WebkitBackgroundClip: 'text',
                                             WebkitTextFillColor: 'transparent',
@@ -1055,7 +1055,7 @@ export const FacilitiesPage: React.FC = () => {
                                     endIcon={<ArrowForward />}
                                     sx={{
                                         background:
-                                            'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                            'linear-gradient(135deg, #f59e0b, #16a34a)',
                                         borderRadius: 1,
                                         py: 1.5,
                                         px: 4,
@@ -1145,7 +1145,7 @@ export const FacilitiesPage: React.FC = () => {
                                             <TourIcon
                                                 sx={{
                                                     fontSize: '2rem',
-                                                    color: '#6366f1',
+                                                    color: '#f59e0b',
                                                 }}
                                             />
                                         </Box>
@@ -1182,7 +1182,7 @@ export const FacilitiesPage: React.FC = () => {
                         <Typography
                             variant="overline"
                             sx={{
-                                color: '#8b5cf6',
+                                color: '#16a34a',
                                 fontSize: { xs: '0.8rem', md: '0.9rem' },
                                 fontWeight: 600,
                                 letterSpacing: '0.2em',
@@ -1213,7 +1213,7 @@ export const FacilitiesPage: React.FC = () => {
                                 component="span"
                                 sx={{
                                     background:
-                                        'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                        'linear-gradient(135deg, #f59e0b, #16a34a)',
                                     backgroundClip: 'text',
                                     WebkitBackgroundClip: 'text',
                                     WebkitTextFillColor: 'transparent',
@@ -1287,7 +1287,7 @@ export const FacilitiesPage: React.FC = () => {
                                                 height: 60,
                                                 borderRadius: '50%',
                                                 background:
-                                                    'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                                    'linear-gradient(135deg, #f59e0b, #16a34a)',
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 justifyContent: 'center',
@@ -1332,7 +1332,7 @@ export const FacilitiesPage: React.FC = () => {
                             endIcon={<BookingIcon />}
                             sx={{
                                 background:
-                                    'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                    'linear-gradient(135deg, #f59e0b, #16a34a)',
                                 borderRadius: 1,
                                 py: 1.5,
                                 px: 4,

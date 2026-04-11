@@ -53,7 +53,7 @@ export const DepartmentSection: React.FC<DepartmentSectionProps> = ({
                         width: 48,
                         height: 48,
                         borderRadius: 1,
-                        background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                        background: 'linear-gradient(135deg, #f59e0b, #16a34a)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',

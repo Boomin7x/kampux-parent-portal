@@ -66,7 +66,7 @@ export const studentLifeSectionContent = {
             description:
                 'Student government, debate teams, and community service programs that cultivate the next generation of ethical leaders.',
             icon: 'Groups',
-            color: '#6366f1',
+            color: '#f59e0b',
             participants: '200+ Students',
             achievements: [
                 'Student Government',
@@ -113,7 +113,7 @@ export const studentLifeSectionContent = {
     // Visual Configuration
     styling: {
         backgroundColor: '#fefefe',
-        titleGradient: 'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
+        titleGradient: 'linear-gradient(135deg, #f59e0b 0%, #ec4899 100%)',
         statsColor: '#ec4899',
         aspectRatio: '16/10', // For activity images
     },

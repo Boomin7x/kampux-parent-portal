@@ -114,7 +114,7 @@ export const EventsPreview: React.FC<EventsPreviewProps> = ({
                                             borderRadius: 1,
                                             background: event.urgent
                                                 ? 'linear-gradient(135deg, #ef4444, #dc2626)'
-                                                : 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                                : 'linear-gradient(135deg, #f59e0b, #16a34a)',
                                             display: 'flex',
                                             alignItems: 'center',
                                             justifyContent: 'center',

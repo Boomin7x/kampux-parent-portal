@@ -159,7 +159,7 @@ export const AcademicsPage: React.FC = () => {
             description:
                 'Développement de compétences en communication à travers la littérature, l’écriture, l’oral et l’analyse critique dans plusieurs genres.',
             icon: <MenuBook />,
-            color: '#6366f1',
+            color: '#f59e0b',
             features: [
                 'Écriture créative',
                 'Prise de parole en public',
@@ -173,7 +173,7 @@ export const AcademicsPage: React.FC = () => {
             description:
                 'Développer la maîtrise des mathématiques, des concepts de base au calcul avancé, avec un accent sur la résolution de problèmes et le raisonnement logique.',
             icon: <Calculate />,
-            color: '#8b5cf6',
+            color: '#16a34a',
             features: [
                 'Apprentissage par problèmes',
                 'Modélisation mathématique',
@@ -243,7 +243,7 @@ export const AcademicsPage: React.FC = () => {
             description:
                 'des diplômés acceptés dans les meilleures universités',
             icon: <School />,
-            color: '#6366f1',
+            color: '#f59e0b',
             progress: 98,
         },
         {
@@ -252,7 +252,7 @@ export const AcademicsPage: React.FC = () => {
             value: '4.2',
             description: 'score moyen aux examens AP (échelle de 5 points)',
             icon: <TrendingUp />,
-            color: '#8b5cf6',
+            color: '#16a34a',
             progress: 84,
         },
         {
@@ -404,7 +404,7 @@ const EducationalPhilosophySection: React.FC = () => {
                                     fontWeight: 600,
                                     mb: 1,
                                     background:
-                                        'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                        'linear-gradient(135deg, #f59e0b, #16a34a)',
                                     backgroundClip: 'text',
                                     WebkitBackgroundClip: 'text',
                                     WebkitTextFillColor: 'transparent',
@@ -519,7 +519,7 @@ const ProgramsSection: React.FC<ProgramsSectionProps> = ({ programs }) => {
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -769,7 +769,7 @@ const CurriculumSection: React.FC<CurriculumSectionProps> = ({ subjects }) => {
                             fontWeight: 600,
                             mb: 2,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -943,7 +943,7 @@ const PerformanceSection: React.FC<PerformanceSectionProps> = ({ metrics }) => {
                             fontWeight: 600,
                             mb: 2,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -1088,7 +1088,7 @@ const GradeLevelsSection: React.FC<GradeLevelsSectionProps> = ({
                             fontWeight: 600,
                             mb: 2,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',

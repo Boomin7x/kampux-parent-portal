@@ -130,7 +130,7 @@ interface ImportantDate {
  * - Uses MUI Grid v2 syntax throughout
  * - Implements proper spacing scale (xs: 4px, sm: 8px, md: 12px, lg: 16px, xl: 24px, xxl: 32px)
  * - Typography follows established scale (h1: 32px, h2: 24px, h3: 20px, etc.)
- * - Color scheme uses primary (#6366f1), primary light (#8b5cf6), primary dark (#4338ca)
+ * - Color scheme uses primary (#f59e0b), secondary (#16a34a), secondary dark (#15803d)
  */
 export const AdmissionPage: React.FC = () => {
     // State for FAQ filter
@@ -567,14 +567,14 @@ const AdmissionOverviewSection: React.FC = () => {
             title: 'GBS Les Kamites',
             description:
                 'École parmi les meilleures du pays avec un taux de réussite élevé et 98 % d’admission en université',
-            color: '#6366f1',
+            color: '#f59e0b',
         },
         {
             icon: <Group />,
             title: 'Classes à Effectifs Réduits',
             description:
                 'Ratio élèves/enseignant de 8:1 pour une attention personnalisée',
-            color: '#8b5cf6',
+            color: '#16a34a',
         },
         {
             icon: <MenuBook />,
@@ -611,7 +611,7 @@ const AdmissionOverviewSection: React.FC = () => {
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -734,7 +734,7 @@ const ApplicationProcessSection: React.FC<ApplicationProcessSectionProps> = ({
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -959,7 +959,7 @@ const RequirementsSection: React.FC<RequirementsSectionProps> = ({
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -1170,7 +1170,7 @@ const ImportantDatesSection: React.FC<ImportantDatesSectionProps> = ({
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -1376,7 +1376,7 @@ const TuitionFeesSection: React.FC<TuitionFeesSectionProps> = ({
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -1698,7 +1698,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -1866,7 +1866,7 @@ const ContactApplicationSection: React.FC = () => {
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',

@@ -363,7 +363,7 @@ export const GalleryPage: React.FC = () => {
                     position: 'relative',
                     pt: { xs: 12, md: 14 },
                     pb: { xs: 8, md: 12 },
-                    background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                    background: 'linear-gradient(135deg, #f59e0b, #16a34a)',
                     color: 'white',
                     overflow: 'hidden',
                     opacity: heroIntersecting ? 1 : 0,

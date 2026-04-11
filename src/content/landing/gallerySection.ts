@@ -19,7 +19,7 @@ export const gallerySectionContent = {
             id: 'all',
             label: 'All Moments',
             icon: 'Collections', // Material-UI icon name
-            color: '#6366f1',
+            color: '#f59e0b',
         },
         {
             id: 'sports',
@@ -49,7 +49,7 @@ export const gallerySectionContent = {
             id: 'campus',
             label: 'Campus Life',
             icon: 'LocationCity',
-            color: '#8b5cf6',
+            color: '#16a34a',
         },
     ],
 
@@ -174,8 +174,8 @@ export const gallerySectionContent = {
     styling: {
         backgroundColor: '#f8fafc',
         titleGradient:
-            'linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #10b981 100%)',
-        statsGradient: 'linear-gradient(135deg, #6366f1, #10b981)',
+            'linear-gradient(135deg, #f59e0b 0%, #ec4899 50%, #10b981 100%)',
+        statsGradient: 'linear-gradient(135deg, #f59e0b, #10b981)',
         lightboxBackground: 'rgba(0, 0, 0, 0.9)',
     },
 

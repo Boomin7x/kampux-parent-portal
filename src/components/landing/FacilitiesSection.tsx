@@ -56,7 +56,7 @@ const featuredFacilities: Facility[] = [
         description:
             'Comprehensive learning hub with extensive digital resources, collaborative spaces, and quiet study areas.',
         icon: <LibraryIcon />,
-        color: '#8b5cf6',
+        color: '#16a34a',
         capacity: '150+ study spaces',
         image: '/pexels-yaroslav-shuraev-6281132.jpg',
         features: [
@@ -76,7 +76,7 @@ const featuredFacilities: Facility[] = [
         description:
             'Cutting-edge computer labs and innovation spaces supporting coding, design, and emerging technologies.',
         icon: <TechIcon />,
-        color: '#6366f1',
+        color: '#f59e0b',
         capacity: '40 workstations',
         image: '/pexels-dothanhyb-5530484.jpg',
         features: [
@@ -235,7 +235,7 @@ export const FacilitiesSection: React.FC<FacilitiesSectionProps> = ({
                             component="span"
                             sx={{
                                 background:
-                                    'linear-gradient(135deg, #6366f1 0%, #10b981 100%)',
+                                    'linear-gradient(135deg, #f59e0b 0%, #10b981 100%)',
                                 backgroundClip: 'text',
                                 WebkitBackgroundClip: 'text',
                                 WebkitTextFillColor: 'transparent',

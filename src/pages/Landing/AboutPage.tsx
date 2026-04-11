@@ -102,7 +102,7 @@ export const AboutPage: React.FC = () => {
             description:
                 'S’efforcer d’atteindre les plus hauts standards en éducation et de stimuler la curiosité intellectuelle de chaque élève.',
             icon: <School />,
-            color: '#6366f1',
+            color: '#f59e0b',
         },
         {
             id: '2',
@@ -110,7 +110,7 @@ export const AboutPage: React.FC = () => {
             description:
                 'Bâtir de solides fondations morales et former des citoyens du monde responsables et compatissants.',
             icon: <Psychology />,
-            color: '#8b5cf6',
+            color: '#16a34a',
         },
         {
             id: '3',
@@ -200,7 +200,7 @@ export const AboutPage: React.FC = () => {
             value: '92%',
             description: 'participent aux activités extrascolaires',
             icon: <Groups />,
-            color: '#8b5cf6',
+            color: '#16a34a',
             progress: 92,
         },
         {
@@ -336,7 +336,7 @@ const MissionVisionSection: React.FC = () => {
                                     fontSize: '1.5rem',
                                     fontWeight: 600,
                                     mb: 1,
-                                    color: '#6366f1',
+                                    color: '#f59e0b',
                                 }}
                             >
                                 Notre Mission
@@ -388,7 +388,7 @@ const MissionVisionSection: React.FC = () => {
                                     fontSize: '1.5rem',
                                     fontWeight: 600,
                                     mb: 1,
-                                    color: '#8b5cf6',
+                                    color: '#16a34a',
                                 }}
                             >
                                 Notre Vision
@@ -460,7 +460,7 @@ const ValuesSection: React.FC<ValuesSectionProps> = ({ values }) => {
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -581,7 +581,7 @@ const LeadershipSection: React.FC<LeadershipSectionProps> = ({ team }) => {
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -738,7 +738,7 @@ const AchievementsSection: React.FC<AchievementsSectionProps> = ({
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -884,7 +884,7 @@ const HistorySection: React.FC<HistorySectionProps> = ({ milestones }) => {
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',

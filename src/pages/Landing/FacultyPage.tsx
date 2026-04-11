@@ -89,7 +89,7 @@ export const FacultyPage: React.FC = () => {
             value: '24',
             description: 'enseignants qualifiés et engagés',
             icon: <Groups />,
-            color: '#6366f1',
+            color: '#f59e0b',
         },
         {
             id: '2',
@@ -105,7 +105,7 @@ export const FacultyPage: React.FC = () => {
             value: '85%',
             description: 'détiennent un Master ou un Doctorat',
             icon: <WorkspacePremium />,
-            color: '#8b5cf6',
+            color: '#16a34a',
             progress: 85,
         },
         {
@@ -258,7 +258,7 @@ export const FacultyPage: React.FC = () => {
             name: 'Mathématiques',
             facultyCount: 3,
             icon: <Calculate />,
-            color: '#6366f1',
+            color: '#f59e0b',
             description:
                 'Développement des compétences en mathématiques et du raisonnement logique',
         },
@@ -276,7 +276,7 @@ export const FacultyPage: React.FC = () => {
             name: 'Langues',
             facultyCount: 3,
             icon: <Language />,
-            color: '#8b5cf6',
+            color: '#16a34a',
             description:
                 'Apprentissage des langues et développement des compétences en communication',
         },
@@ -415,7 +415,7 @@ const FacultyStatsSection: React.FC<FacultyStatsSectionProps> = ({
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -674,7 +674,7 @@ const FacultyDirectorySection: React.FC<FacultyDirectorySectionProps> = ({
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -903,7 +903,7 @@ const DepartmentOverviewSection: React.FC<DepartmentOverviewSectionProps> = ({
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -1029,7 +1029,7 @@ const JoinTeamSection: React.FC = () => {
                 <Box
                     sx={{
                         p: { xs: 3, md: 4 },
-                        background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                        background: 'linear-gradient(135deg, #f59e0b, #16a34a)',
                         borderRadius: 1,
                         textAlign: 'center',
                         opacity: isIntersecting ? 1 : 0,

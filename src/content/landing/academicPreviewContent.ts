@@ -15,7 +15,7 @@ export const academicPreviewContent = {
             description:
                 'Building strong foundations through hands-on learning, creativity, and character development.',
             icon: 'School',
-            color: '#6366f1',
+            color: '#f59e0b',
             stats: [
                 { label: 'Class Size', value: '12:1' },
                 { label: 'Programs', value: '8+' },

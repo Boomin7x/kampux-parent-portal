@@ -3,9 +3,9 @@
 
 :root {
     /* Excellence Academy Brand Colors */
-    --excellence-primary: #6366f1;
-    --excellence-primary-light: #8b5cf6;
-    --excellence-primary-dark: #4338ca;
+    --excellence-primary: #f59e0b;
+    --excellence-primary-light: #fbbf24;
+    --excellence-primary-dark: #d97706;
 
     /* Toast System Variables */
     --excellence-toast-width: 320px;

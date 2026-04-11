@@ -62,11 +62,11 @@ const getSubjectColor = (title: string): string => {
         return '#84cc16';
     if (lowerTitle.includes('économie') || lowerTitle.includes('economy'))
         return '#f97316';
-    if (lowerTitle.includes('physique')) return '#8b5cf6';
+    if (lowerTitle.includes('physique')) return '#16a34a';
     if (lowerTitle.includes('travail') || lowerTitle.includes('manuel'))
         return '#ec4899';
 
-    return '#6366f1'; // Default purple
+    return '#f59e0b'; // Default purple
 };
 
 const getLanguage = (val: string): string => {

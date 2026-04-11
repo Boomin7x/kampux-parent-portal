@@ -23,7 +23,7 @@ export const academicSectionContent = {
             description:
                 'Bâtir de solides bases grâce à un apprentissage pratique, à la créativité et au développement du caractère dans notre environnement primaire bienveillant.',
             icon: 'School', // Material-UI icon name
-            color: '#6366f1',
+            color: '#f59e0b',
             backgroundImage: '/pexels-rdne-8500421.jpg',
             features: [
                 'Classes réduites',

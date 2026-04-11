@@ -78,7 +78,7 @@ const featuredActivities: Activity[] = [
         description:
             'Student government, debate teams, and community service programs that cultivate the next generation of ethical leaders.',
         icon: <ClubsIcon />,
-        color: '#6366f1',
+        color: '#f59e0b',
         participants: '200+ Students',
         achievements: [
             'Student Government',
@@ -173,7 +173,7 @@ export const StudentLifeSection: React.FC<StudentLifeSectionProps> = ({
                             component="span"
                             sx={{
                                 background:
-                                    'linear-gradient(135deg, #6366f1 0%, #ec4899 100%)',
+                                    'linear-gradient(135deg, #f59e0b 0%, #ec4899 100%)',
                                 backgroundClip: 'text',
                                 WebkitBackgroundClip: 'text',
                                 WebkitTextFillColor: 'transparent',

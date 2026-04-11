@@ -79,8 +79,8 @@ export const footerContent = {
     styling: {
         backgroundColor: '#1a1a1a',
         brandGradient:
-            'linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #10b981 100%)',
-        primaryColor: '#6366f1',
+            'linear-gradient(135deg, #f59e0b 0%, #ec4899 50%, #10b981 100%)',
+        primaryColor: '#f59e0b',
     },
 };
 

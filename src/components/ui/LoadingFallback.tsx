@@ -13,7 +13,7 @@ export const LoadingFallback: React.FC = () => (
     >
         <CircularProgress
             sx={{
-                color: '#6366f1',
+                color: '#f59e0b',
             }}
         />
     </Box>

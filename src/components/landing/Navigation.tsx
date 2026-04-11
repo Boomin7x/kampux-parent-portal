@@ -1,4 +1,5 @@
-import { Close as CloseIcon, Menu as MenuIcon } from '@mui/icons-material';
+/* eslint-disable react-hooks/set-state-in-effect */
+import React, { useCallback, useEffect, useState } from 'react';
 import {
     Box,
     Button,
@@ -7,18 +8,21 @@ import {
     List,
     ListItem,
     ListItemButton,
-    ListItemText,
     Typography,
     useMediaQuery,
     useTheme,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { Close as CloseIcon, Menu as MenuIcon } from '@mui/icons-material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { navigationContent } from '../../content/landing/navigationContent';
 import { useIsAuthenticated } from '../../pages/Auth/_hooks/useAuth';
 import { ROUTES } from '../../routes/routes';
 import { LanguageSelector } from '../common/LanguageSelector';
 import AuthenticatedUserDisplay from './AuthenticatedUserDisplay';
+import { useIntersectionObserver } from '../../hooks/ui/useIntersectionObserver';
+
+// Import logo from public directory
+const logo = '/logo.jpg';
 
 // Navigation item interface
 interface NavItem {
@@ -27,14 +31,60 @@ interface NavItem {
     isExternal?: boolean;
 }
 
-// Navigation props
+// Navigation props interface
 interface NavigationProps {
     transparent?: boolean;
     className?: string;
 }
 
+// Mobile list item props interface
+interface MobileListItemProps {
+    item: NavItem;
+    isActive: boolean;
+    onClick: () => void;
+    index: number;
+}
+
 // Using navigation content from external source
 const navItems: NavItem[] = navigationContent.navItems;
+
+// Mobile List Item Component
+const MobileListItem: React.FC<MobileListItemProps> = ({
+    item,
+    isActive,
+    onClick,
+}) => {
+    return (
+        <ListItem disablePadding sx={{ mb: 0.5 }}>
+            <ListItemButton
+                onClick={onClick}
+                sx={{
+                    px: 3,
+                    py: 1.5,
+                    borderRadius: 1,
+                    backgroundColor: 'transparent',
+                    transition: 'background-color 0.2s ease',
+                    '&:hover': {
+                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                    },
+                }}
+            >
+                <Typography
+                    sx={{
+                        fontSize: '0.9375rem',
+                        fontWeight: isActive ? 500 : 400,
+                        color: isActive
+                            ? '#15803d'
+                            : 'rgba(255, 255, 255, 0.9)',
+                        transition: 'color 0.2s ease',
+                    }}
+                >
+                    {item.label}
+                </Typography>
+            </ListItemButton>
+        </ListItem>
+    );
+};
 
 // Main Navigation component
 export const Navigation: React.FC<NavigationProps> = ({
@@ -46,41 +96,61 @@ export const Navigation: React.FC<NavigationProps> = ({
     const navigate = useNavigate();
     const location = useLocation();
     const isAuthenticated = useIsAuthenticated();
+    const { isIntersecting: isScrolled, targetRef } = useIntersectionObserver({
+        threshold: 0.1,
+        rootMargin: '-100px',
+    });
 
     const [mobileOpen, setMobileOpen] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
+    const scrolled = !isScrolled;
 
-    // Handle scroll effect for navigation background
-    useEffect(() => {
-        const handleScroll = () => {
-            const offset = window.scrollY;
-            setScrolled(offset > navigationContent.styling.scrollThreshold);
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+    // Memoized handlers for better performance
+    const handleDrawerToggle = useCallback(() => {
+        setMobileOpen(prev => !prev);
     }, []);
 
-    // Handle mobile drawer toggle
-    const handleDrawerToggle = () => {
-        setMobileOpen(!mobileOpen);
-    };
-
-    // Handle navigation to portal
-    const handlePortalClick = () => {
+    const handlePortalClick = useCallback(() => {
         navigate(ROUTES.AUTH);
-    };
-
-    // Handle navigation to routes
-    const handleNavClick = (href: string) => {
-        navigate(href);
         setMobileOpen(false);
-    };
+    }, [navigate]);
+
+    const handleNavClick = useCallback(
+        (href: string) => {
+            navigate(href);
+            setMobileOpen(false);
+        },
+        [navigate]
+    );
+
+    const handleHomeClick = useCallback(() => {
+        navigate(ROUTES.HOME);
+    }, [navigate]);
 
     // Check if route is active
-    const isActiveRoute = (href: string): boolean => {
-        return location.pathname === href;
-    };
+    const isActiveRoute = useCallback(
+        (href: string): boolean => {
+            return location.pathname === href;
+        },
+        [location.pathname]
+    );
+
+    // Close mobile menu when route changes
+    useEffect(() => {
+        setMobileOpen(false);
+    }, [location.pathname]);
+
+    // Prevent scroll when mobile menu is open
+    useEffect(() => {
+        const originalStyle = window.getComputedStyle(document.body).overflow;
+
+        if (mobileOpen) {
+            document.body.style.overflow = 'hidden';
+        }
+
+        return () => {
+            document.body.style.overflow = originalStyle;
+        };
+    }, [mobileOpen]);
 
     // Mobile drawer content
     const drawer = (
@@ -88,50 +158,49 @@ export const Navigation: React.FC<NavigationProps> = ({
             sx={{
                 width: navigationContent.mobileNav.drawerWidth,
                 height: '100%',
-                background: 'rgba(26, 26, 26, 0.98)',
+                backgroundColor: 'rgba(17, 17, 17, 0.95)',
                 backdropFilter: 'blur(20px)',
                 display: 'flex',
                 flexDirection: 'column',
+                position: 'relative',
             }}
         >
             {/* Header */}
             <Box
                 sx={{
-                    p: 4,
+                    p: 3,
                     borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
+                    minHeight: 72,
                 }}
             >
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                     <Box
+                        component="img"
+                        src={logo}
+                        alt="Les Kaniles Logo"
                         sx={{
                             width: 32,
                             height: 32,
                             borderRadius: 1,
-                            background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            color: 'white',
-                            fontWeight: 700,
-                            fontSize: '1rem',
                         }}
-                    >
-                        {navigationContent.brand.logoText}
+                    />
+                    <Box>
+                        <Typography
+                            variant="h6"
+                            id="mobile-navigation-title"
+                            sx={{
+                                fontWeight: 600,
+                                color: 'white',
+                                fontSize: '1rem',
+                                lineHeight: 1.2,
+                            }}
+                        >
+                            {navigationContent.brand.name}
+                        </Typography>
                     </Box>
-                    <Typography
-                        variant="h6"
-                        sx={{
-                            fontWeight: 700,
-                            color: 'white',
-                            fontSize: '1rem',
-                        }}
-                    >
-                        {navigationContent.brand.name}
-                    </Typography>
                 </Box>
                 <IconButton
                     onClick={handleDrawerToggle}
@@ -144,98 +213,71 @@ export const Navigation: React.FC<NavigationProps> = ({
                         },
                     }}
                 >
-                    <CloseIcon />
+                    <CloseIcon fontSize="small" />
                 </IconButton>
             </Box>
 
             {/* Navigation Items */}
-            <Box sx={{ flex: 1, p: 4 }}>
-                <Typography
-                    sx={{
-                        fontSize: '0.75rem',
-                        fontWeight: 600,
-                        color: '#6366f1',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.1em',
-                        mb: 4,
-                    }}
+            <Box sx={{ flex: 1, p: 3, overflow: 'auto' }}>
+                <List
+                    sx={{ p: 0, mt: 2 }}
+                    role="menu"
+                    aria-label="Navigation links"
                 >
-                    {navigationContent.mobileNav.menuLabel}
-                </Typography>
-                <List sx={{ p: 0 }}>
-                    {navItems.map((item, _index) => {
+                    {navItems.map((item, i) => {
                         const isActive = isActiveRoute(item.href);
                         return (
-                            <ListItem
+                            <MobileListItem
+                                index={i}
                                 key={item.label}
-                                disablePadding
-                                sx={{ mb: 1 }}
-                            >
-                                <ListItemButton
-                                    onClick={() => handleNavClick(item.href)}
-                                    sx={{
-                                        px: 0,
-                                        py: 2,
-                                        borderRadius: 1,
-                                        backgroundColor: isActive
-                                            ? 'rgba(99, 102, 241, 0.15)'
-                                            : 'transparent',
-                                        transition: 'all 0.2s ease',
-                                        '&:hover': {
-                                            backgroundColor:
-                                                'rgba(255, 255, 255, 0.05)',
-                                            transform: 'translateX(8px)',
-                                        },
-                                    }}
-                                >
-                                    <ListItemText
-                                        primary={item.label}
-                                        primaryTypographyProps={{
-                                            fontSize: '1rem',
-                                            fontWeight: isActive ? 600 : 500,
-                                            color: isActive
-                                                ? '#6366f1'
-                                                : 'rgba(255, 255, 255, 0.9)',
-                                        }}
-                                    />
-                                </ListItemButton>
-                            </ListItem>
+                                item={item}
+                                isActive={isActive}
+                                onClick={() => handleNavClick(item.href)}
+                            />
                         );
                     })}
                 </List>
 
                 {/* Language Selector */}
-                <Box sx={{ mt: 4, px: 2 }}>
-                    <LanguageSelector />
+                <Box sx={{ mt: 4 }}>
+                    <Typography
+                        sx={{
+                            fontSize: '0.8125rem',
+                            fontWeight: 500,
+                            color: 'rgba(255, 255, 255, 0.6)',
+                            mb: 2,
+                            px: 3,
+                        }}
+                    >
+                        Language
+                    </Typography>
+                    <Box sx={{ px: 3 }}>
+                        <LanguageSelector />
+                    </Box>
                 </Box>
 
                 {/* Authentication Display */}
-                <Box sx={{ mt: 6 }}>
+                <Box sx={{ mt: 6, px: 3 }}>
                     {isAuthenticated ? (
-                        <Box sx={{ px: 2 }}>
-                            <AuthenticatedUserDisplay
-                                transparent={false}
-                                scrolled={true}
-                            />
-                        </Box>
+                        <AuthenticatedUserDisplay
+                            transparent={false}
+                            scrolled={true}
+                        />
                     ) : (
                         <Button
                             fullWidth
                             onClick={handlePortalClick}
                             sx={{
                                 py: 2,
-                                background: 'rgba(99, 102, 241, 0.1)',
-                                backdropFilter: 'blur(10px)',
-                                border: '1px solid rgba(99, 102, 241, 0.3)',
-                                borderRadius: 1,
-                                color: '#6366f1',
-                                fontWeight: 600,
+                                backgroundColor: '#15803d',
+                                color: 'white',
+                                fontWeight: 500,
                                 fontSize: '0.875rem',
                                 textTransform: 'none',
+                                borderRadius: 1,
+                                transition: 'background-color 0.2s ease',
                                 '&:hover': {
-                                    background: 'rgba(99, 102, 241, 0.2)',
-                                    borderColor: '#6366f1',
-                                    transform: 'translateY(-2px)',
+                                    backgroundColor: '#166534',
                                 },
                             }}
                         >
@@ -253,6 +295,7 @@ export const Navigation: React.FC<NavigationProps> = ({
             <Box
                 component="nav"
                 className={className}
+                ref={targetRef}
                 sx={{
                     position: 'fixed',
                     top: 0,
@@ -261,73 +304,107 @@ export const Navigation: React.FC<NavigationProps> = ({
                     zIndex: 1200,
                     backgroundColor:
                         transparent && !scrolled
-                            ? 'rgba(26, 26, 26, 0.02)'
-                            : 'rgba(255, 255, 255, 0.98)',
-                    backdropFilter: scrolled ? 'blur(20px)' : 'blur(5px)',
+                            ? 'rgba(255, 255, 255, 0.02)'
+                            : 'rgba(255, 255, 255, 0.95)',
+                    backdropFilter: 'blur(16px)',
                     borderBottom: scrolled
-                        ? '1px solid rgba(99, 102, 241, 0.08)'
-                        : 'none',
-                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                        ? '1px solid rgba(0, 0, 0, 0.08)'
+                        : transparent
+                          ? 'none'
+                          : '1px solid rgba(0, 0, 0, 0.04)',
+                    transition: 'all 0.3s ease',
                 }}
             >
                 <Box
                     sx={{
-                        width: '95%',
-                        maxWidth: '1600px',
+                        width: '100%',
+                        maxWidth: '1200px',
                         mx: 'auto',
-                        px: { xs: 3, md: 6, lg: 8 },
+                        px: { xs: 3, sm: 4, md: 6 },
                         display: 'flex',
                         alignItems: 'center',
-                        minHeight: { xs: 70, md: 80 },
+                        minHeight: 64,
+                        gap: 2,
                     }}
                 >
                     {/* Logo/Brand */}
                     <Box
+                        component="button"
+                        role="button"
+                        aria-label="Go to homepage"
+                        tabIndex={0}
+                        onKeyDown={e => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                handleHomeClick();
+                            }
+                        }}
                         sx={{
                             display: 'flex',
                             alignItems: 'center',
                             flexGrow: 1,
                             cursor: 'pointer',
-                            transition: 'all 0.2s ease',
+                            transition: 'opacity 0.2s ease',
+                            background: 'none',
+                            border: 'none',
+                            padding: 0,
                             '&:hover': {
-                                transform: 'scale(1.02)',
+                                opacity: 0.8,
+                            },
+                            '&:focus-visible': {
+                                outline: '2px solid #15803d',
+                                outlineOffset: '2px',
+                                borderRadius: 1,
                             },
                         }}
-                        onClick={() => navigate(ROUTES.HOME)}
+                        onClick={handleHomeClick}
                     >
                         <Box
+                            component="img"
+                            src={logo}
+                            alt="Les Kaniles Logo"
                             sx={{
-                                width: { xs: 36, md: 42 },
-                                height: { xs: 36, md: 42 },
+                                width: 36,
+                                height: 36,
                                 borderRadius: 1,
-                                background:
-                                    'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                color: 'white',
-                                fontWeight: 700,
-                                fontSize: { xs: '1rem', md: '1.125rem' },
-                                mr: { xs: 2, md: 3 },
-                                boxShadow: '0 2px 8px rgba(99, 102, 241, 0.2)',
+                                mr: 2.5,
                             }}
-                        >
-                            {navigationContent.brand.logoText}
+                        />
+                        <Box>
+                            <Typography
+                                variant="h6"
+                                sx={{
+                                    fontWeight: 600,
+                                    fontSize: '1.125rem',
+                                    color:
+                                        transparent && !scrolled
+                                            ? 'white'
+                                            : '#171717',
+                                    transition: 'color 0.3s ease',
+                                    lineHeight: 1.2,
+                                }}
+                            >
+                                {navigationContent.brand.name}
+                            </Typography>
+                            <Typography
+                                variant="caption"
+                                sx={{
+                                    display: {
+                                        xs: 'none',
+                                        lg: 'block',
+                                    },
+                                    color:
+                                        transparent && !scrolled
+                                            ? 'rgba(255, 255, 255, 0.7)'
+                                            : 'rgba(23, 23, 23, 0.6)',
+                                    fontSize: '0.75rem',
+                                    fontWeight: 400,
+                                    transition: 'color 0.3s ease',
+                                }}
+                            >
+                                École de Référence
+                            </Typography>
                         </Box>
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                fontWeight: 700,
-                                fontSize: { xs: '1.125rem', md: '1.25rem' },
-                                color:
-                                    transparent && !scrolled
-                                        ? 'white'
-                                        : '#1a1a1a',
-                                transition: 'color 0.3s ease',
-                            }}
-                        >
-                            {navigationContent.brand.name}
-                        </Typography>
                     </Box>
 
                     {/* Desktop Navigation */}
@@ -347,35 +424,35 @@ export const Navigation: React.FC<NavigationProps> = ({
                                         onClick={() =>
                                             handleNavClick(item.href)
                                         }
+                                        aria-current={
+                                            isActive ? 'page' : undefined
+                                        }
+                                        role="menuitem"
                                         sx={{
                                             color: isActive
-                                                ? '#6366f1'
+                                                ? '#15803d'
                                                 : transparent && !scrolled
                                                   ? 'rgba(255, 255, 255, 0.9)'
-                                                  : 'rgba(26, 26, 26, 0.8)',
-                                            fontWeight: isActive ? 600 : 500,
+                                                  : 'rgba(23, 23, 23, 0.7)',
+                                            fontWeight: isActive ? 500 : 400,
                                             fontSize: '0.875rem',
-                                            px: 2.5,
+                                            px: 2,
                                             py: 1.5,
                                             borderRadius: 1,
                                             textTransform: 'none',
                                             minWidth: 'auto',
                                             position: 'relative',
-                                            backgroundColor: isActive
-                                                ? 'rgba(99, 102, 241, 0.08)'
-                                                : 'transparent',
-                                            transition:
-                                                'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                            transition: 'color 0.2s ease',
                                             '&:hover': {
                                                 color:
                                                     transparent && !scrolled
                                                         ? 'white'
-                                                        : '#6366f1',
-                                                backgroundColor:
-                                                    transparent && !scrolled
-                                                        ? 'rgba(255, 255, 255, 0.1)'
-                                                        : 'rgba(99, 102, 241, 0.05)',
-                                                transform: 'translateY(-1px)',
+                                                        : '#15803d',
+                                                backgroundColor: 'transparent',
+                                            },
+                                            '&:focus-visible': {
+                                                outline: '2px solid #15803d',
+                                                outlineOffset: '2px',
                                             },
                                         }}
                                     >
@@ -385,12 +462,20 @@ export const Navigation: React.FC<NavigationProps> = ({
                             })}
 
                             {/* Language Selector */}
-                            <Box sx={{ ml: 3 }}>
+                            <Box
+                                sx={{
+                                    ml: 3,
+                                    display: {
+                                        xs: 'none',
+                                        sm: 'block',
+                                    },
+                                }}
+                            >
                                 <LanguageSelector />
                             </Box>
 
                             {/* Authentication Display */}
-                            <Box sx={{ ml: 1 }}>
+                            <Box sx={{ ml: 2 }}>
                                 {isAuthenticated ? (
                                     <AuthenticatedUserDisplay
                                         transparent={transparent}
@@ -400,43 +485,18 @@ export const Navigation: React.FC<NavigationProps> = ({
                                     <Button
                                         onClick={handlePortalClick}
                                         sx={{
-                                            px: 4,
+                                            px: 3,
                                             py: 1.5,
-                                            fontWeight: 600,
+                                            fontWeight: 500,
                                             fontSize: '0.875rem',
                                             borderRadius: 1,
                                             textTransform: 'none',
-                                            background:
-                                                transparent && !scrolled
-                                                    ? 'rgba(255, 255, 255, 0.1)'
-                                                    : 'rgba(99, 102, 241, 0.1)',
-                                            backdropFilter: 'blur(10px)',
-                                            border:
-                                                transparent && !scrolled
-                                                    ? '1px solid rgba(255, 255, 255, 0.2)'
-                                                    : '1px solid rgba(99, 102, 241, 0.2)',
-                                            color:
-                                                transparent && !scrolled
-                                                    ? 'white'
-                                                    : '#6366f1',
+                                            backgroundColor: '#15803d',
+                                            color: 'white',
                                             transition:
-                                                'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                                'background-color 0.2s ease',
                                             '&:hover': {
-                                                background:
-                                                    transparent && !scrolled
-                                                        ? 'rgba(255, 255, 255, 0.2)'
-                                                        : '#6366f1',
-                                                color:
-                                                    transparent && !scrolled
-                                                        ? 'white'
-                                                        : 'white',
-                                                borderColor:
-                                                    transparent && !scrolled
-                                                        ? 'rgba(255, 255, 255, 0.4)'
-                                                        : '#6366f1',
-                                                transform: 'translateY(-2px)',
-                                                boxShadow:
-                                                    '0 4px 12px rgba(99, 102, 241, 0.3)',
+                                                backgroundColor: '#166534',
                                             },
                                         }}
                                     >
@@ -454,35 +514,33 @@ export const Navigation: React.FC<NavigationProps> = ({
                     {isMobile && (
                         <IconButton
                             color="inherit"
-                            aria-label="open drawer"
+                            aria-label={
+                                mobileOpen
+                                    ? 'Close navigation menu'
+                                    : 'Open navigation menu'
+                            }
+                            aria-expanded={mobileOpen}
+                            aria-controls="mobile-navigation-drawer"
                             edge="end"
                             onClick={handleDrawerToggle}
+                            size="medium"
                             sx={{
                                 color:
                                     transparent && !scrolled
                                         ? 'rgba(255, 255, 255, 0.9)'
-                                        : '#6366f1',
-                                backgroundColor:
-                                    transparent && !scrolled
-                                        ? 'rgba(255, 255, 255, 0.1)'
-                                        : 'rgba(99, 102, 241, 0.1)',
-                                backdropFilter: 'blur(10px)',
-                                border:
-                                    transparent && !scrolled
-                                        ? '1px solid rgba(255, 255, 255, 0.2)'
-                                        : '1px solid rgba(99, 102, 241, 0.2)',
+                                        : '#171717',
+                                p: 1.5,
                                 borderRadius: 1,
-                                transition: 'all 0.2s ease',
+                                transition: 'color 0.2s ease',
                                 '&:hover': {
                                     backgroundColor:
                                         transparent && !scrolled
-                                            ? 'rgba(255, 255, 255, 0.2)'
-                                            : 'rgba(99, 102, 241, 0.2)',
-                                    transform: 'scale(1.05)',
+                                            ? 'rgba(255, 255, 255, 0.1)'
+                                            : 'rgba(0, 0, 0, 0.04)',
                                 },
                             }}
                         >
-                            <MenuIcon />
+                            <MenuIcon fontSize="medium" />
                         </IconButton>
                     )}
                 </Box>
@@ -496,14 +554,23 @@ export const Navigation: React.FC<NavigationProps> = ({
                 onClose={handleDrawerToggle}
                 ModalProps={{
                     keepMounted: true,
+                    disableScrollLock: true,
+                    'aria-labelledby': 'mobile-navigation-title',
                 }}
                 sx={{
                     display: { xs: 'block', md: 'none' },
                     '& .MuiDrawer-paper': {
                         boxSizing: 'border-box',
-                        width: navigationContent.mobileNav.drawerWidth,
+                        width: {
+                            xs: '85vw',
+                            sm: navigationContent.mobileNav.drawerWidth,
+                        },
+                        maxWidth: 360,
                         backgroundColor: 'transparent',
-                        boxShadow: 'none',
+                        border: 'none',
+                        id: 'mobile-navigation-drawer',
+                        role: 'navigation',
+                        'aria-label': 'Mobile navigation menu',
                     },
                     '& .MuiBackdrop-root': {
                         backgroundColor: 'rgba(0, 0, 0, 0.5)',

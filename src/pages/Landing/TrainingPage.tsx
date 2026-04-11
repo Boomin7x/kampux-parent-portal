@@ -151,7 +151,7 @@ export const TrainingPage: React.FC = () => {
             description:
                 'Essential computer skills and digital tools for modern education and workplace.',
             icon: <Computer />,
-            color: '#6366f1',
+            color: '#f59e0b',
             courseCount: 12,
             popularCourses: [
                 'Basic Computer Skills',
@@ -193,7 +193,7 @@ export const TrainingPage: React.FC = () => {
             description:
                 'Management, entrepreneurship, and leadership development programs.',
             icon: <Business />,
-            color: '#8b5cf6',
+            color: '#16a34a',
             courseCount: 10,
             popularCourses: [
                 'Project Management',
@@ -416,7 +416,7 @@ export const TrainingPage: React.FC = () => {
                 'Online Learning Specialist',
             ],
             icon: <Computer />,
-            color: '#6366f1',
+            color: '#f59e0b',
         },
         {
             id: '2',
@@ -469,7 +469,7 @@ export const TrainingPage: React.FC = () => {
             value: '87%',
             description: 'of graduates report career advancement within 1 year',
             icon: <TrendingUp />,
-            color: '#6366f1',
+            color: '#f59e0b',
             progress: 87,
         },
         {
@@ -486,7 +486,7 @@ export const TrainingPage: React.FC = () => {
             value: '85+',
             description: 'comprehensive courses and certification programs',
             icon: <MenuBook />,
-            color: '#8b5cf6',
+            color: '#16a34a',
         },
     ];
 
@@ -580,7 +580,7 @@ const TrainingOverviewSection: React.FC = () => {
                                     fontSize: '1.5rem',
                                     fontWeight: 600,
                                     mb: 1,
-                                    color: '#6366f1',
+                                    color: '#f59e0b',
                                 }}
                             >
                                 Empowering Educational Excellence
@@ -740,7 +740,7 @@ const CategoriesSection: React.FC<CategoriesSectionProps> = ({
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -919,7 +919,7 @@ const FeaturedCoursesSection: React.FC<FeaturedCoursesSectionProps> = ({
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -1274,7 +1274,7 @@ const InstructorsSection: React.FC<InstructorsSectionProps> = ({
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -1494,7 +1494,7 @@ const CertificationsSection: React.FC<CertificationsSectionProps> = ({
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -1764,7 +1764,7 @@ const StatsSection: React.FC<StatsSectionProps> = ({ stats }) => {
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -1932,7 +1932,7 @@ const CalendarSection: React.FC = () => {
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -2168,7 +2168,7 @@ const RegistrationSection: React.FC = () => {
                                     fontSize: '1.5rem',
                                     fontWeight: 600,
                                     mb: 1,
-                                    color: '#6366f1',
+                                    color: '#f59e0b',
                                 }}
                             >
                                 Ready to Get Started?

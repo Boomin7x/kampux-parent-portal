@@ -21,7 +21,7 @@ export const contactSectionContent = {
             value: '(237) 6 XX XX XX XX',
             description: 'Disponible pendant les heures de bureau',
             icon: 'Phone', // Material-UI icon name
-            color: '#6366f1',
+            color: '#f59e0b',
             action: 'tel:+15551234567',
         },
         {
@@ -30,7 +30,7 @@ export const contactSectionContent = {
             value: 'info@excellenceacademy.edu',
             description: 'Inquiries générales & support',
             icon: 'Email',
-            color: '#8b5cf6',
+            color: '#16a34a',
             action: 'mailto:info@excellenceacademy.edu',
         },
         {
@@ -62,7 +62,7 @@ export const contactSectionContent = {
                 description:
                     'Suivez les progrès scolaires de votre enfant, consultez les devoirs, suivez l’assiduité et restez en contact avec les enseignants.',
                 icon: 'School',
-                color: '#6366f1',
+                color: '#f59e0b',
                 buttonText: 'Connectez-vous maintenant',
                 action: 'navigate-to-auth',
             },

@@ -41,7 +41,7 @@ export const facilitiesSectionContent = {
             description:
                 'Comprehensive learning hub with extensive digital resources, collaborative spaces, and quiet study areas.',
             icon: 'LocalLibrary',
-            color: '#8b5cf6',
+            color: '#16a34a',
             capacity: '150+ study spaces',
             image: '/pexels-yaroslav-shuraev-6281132.jpg',
             features: [
@@ -61,7 +61,7 @@ export const facilitiesSectionContent = {
             description:
                 'Cutting-edge computer labs and innovation spaces supporting coding, design, and emerging technologies.',
             icon: 'Computer',
-            color: '#6366f1',
+            color: '#f59e0b',
             capacity: '40 workstations',
             image: '/pexels-dothanhyb-5530484.jpg',
             features: [
@@ -175,7 +175,7 @@ export const facilitiesSectionContent = {
     // Visual Configuration
     styling: {
         backgroundColor: '#f8fafc',
-        titleGradient: 'linear-gradient(135deg, #6366f1 0%, #10b981 100%)',
+        titleGradient: 'linear-gradient(135deg, #f59e0b 0%, #10b981 100%)',
         statsColor: '#10b981',
         aspectRatio: '4/3', // For facility images
     },

@@ -42,7 +42,7 @@ const categories = [
         id: 'all',
         label: 'All Moments',
         icon: <GalleryIcon />,
-        color: '#6366f1',
+        color: '#f59e0b',
     },
     {
         id: 'sports',
@@ -72,7 +72,7 @@ const categories = [
         id: 'campus',
         label: 'Campus Life',
         icon: <CampusIcon />,
-        color: '#8b5cf6',
+        color: '#16a34a',
     },
 ];
 
@@ -318,7 +318,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({
                             component="span"
                             sx={{
                                 background:
-                                    'linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #10b981 100%)',
+                                    'linear-gradient(135deg, #f59e0b 0%, #ec4899 50%, #10b981 100%)',
                                 backgroundClip: 'text',
                                 WebkitBackgroundClip: 'text',
                                 WebkitTextFillColor: 'transparent',
@@ -732,7 +732,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({
                                             borderRadius: '50%',
                                             background:
                                                 categoryConfig?.color ||
-                                                '#6366f1',
+                                                '#f59e0b',
                                             display: 'flex',
                                             alignItems: 'center',
                                             justifyContent: 'center',
@@ -762,7 +762,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({
                                             fontWeight: 600,
                                             color:
                                                 categoryConfig?.color ||
-                                                '#6366f1',
+                                                '#f59e0b',
                                             mb: 0.5,
                                         }}
                                     >
@@ -857,11 +857,11 @@ export const GallerySection: React.FC<GallerySectionProps> = ({
                                                     height: 20,
                                                     backgroundColor: alpha(
                                                         categoryConfig?.color ||
-                                                            '#6366f1',
+                                                            '#f59e0b',
                                                         0.2
                                                     ),
                                                     color: 'white',
-                                                    border: `1px solid ${alpha(categoryConfig?.color || '#6366f1', 0.3)}`,
+                                                    border: `1px solid ${alpha(categoryConfig?.color || '#f59e0b', 0.3)}`,
                                                 }}
                                             />
                                         ))}
@@ -920,7 +920,7 @@ export const GallerySection: React.FC<GallerySectionProps> = ({
                                         fontSize: { xs: '2rem', md: '2.5rem' },
                                         fontWeight: 700,
                                         background:
-                                            'linear-gradient(135deg, #6366f1, #10b981)',
+                                            'linear-gradient(135deg, #f59e0b, #10b981)',
                                         backgroundClip: 'text',
                                         WebkitBackgroundClip: 'text',
                                         WebkitTextFillColor: 'transparent',

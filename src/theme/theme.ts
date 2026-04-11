@@ -5,19 +5,43 @@ import '@fontsource/outfit/600.css';
 import '@fontsource/outfit/700.css';
 import { createTheme } from '@mui/material/styles';
 
-// Design tokens
+// Design tokens based on Les Kaniles logo
 const colors = {
-    purple: {
+    primary: {
+        50: '#fefce8',
+        100: '#fef3c7',
+        200: '#fde68a',
+        300: '#fcd34d',
+        400: '#fbbf24',
+        500: '#f59e0b', // main yellow/gold
+        600: '#d97706',
+        700: '#b45309',
+        800: '#92400e',
+        900: '#78350f',
+    },
+    secondary: {
+        50: '#f0fdf4',
+        100: '#dcfce7',
+        200: '#bbf7d0',
+        300: '#86efac',
+        400: '#4ade80',
+        500: '#22c55e', // main green
+        600: '#16a34a',
+        700: '#15803d', // dark green from logo
+        800: '#166534',
+        900: '#14532d',
+    },
+    accent: {
         50: '#f8fafc',
         100: '#f1f5f9',
         200: '#e2e8f0',
         300: '#cbd5e1',
         400: '#94a3b8',
-        500: '#6366f1', // main
-        600: '#4f46e5',
-        700: '#4338ca', // dark
-        800: '#3730a3',
-        900: '#312e81',
+        500: '#64748b', // muted blue-gray
+        600: '#475569',
+        700: '#334155',
+        800: '#1e293b',
+        900: '#0f172a',
     },
     neutral: {
         50: '#fafafa',
@@ -80,16 +104,16 @@ const theme = createTheme({
     },
     palette: {
         primary: {
-            main: colors.purple[500],
-            light: '#8b5cf6',
-            dark: colors.purple[700],
+            main: colors.secondary[700], // Dark green from logo
+            light: colors.secondary[500],
+            dark: colors.secondary[800],
             contrastText: '#ffffff',
         },
         secondary: {
-            main: colors.neutral[800],
-            light: colors.neutral[600],
-            dark: colors.neutral[900],
-            contrastText: '#ffffff',
+            main: colors.primary[500], // Main yellow/gold
+            light: colors.primary[400],
+            dark: colors.primary[700],
+            contrastText: '#000000', // Black text on yellow
         },
         background: {
             default: '#fefefe',
@@ -103,14 +127,14 @@ const theme = createTheme({
         divider: colors.neutral[200],
         grey: colors.neutral,
         success: {
-            main: '#10b981',
-            light: '#34d399',
-            dark: '#059669',
+            main: colors.secondary[600], // Green from logo palette
+            light: colors.secondary[400],
+            dark: colors.secondary[700],
         },
         warning: {
-            main: '#f59e0b',
-            light: '#fbbf24',
-            dark: '#d97706',
+            main: colors.primary[600], // Orange-yellow from primary palette
+            light: colors.primary[400],
+            dark: colors.primary[700],
         },
         error: {
             main: '#ef4444',
@@ -269,15 +293,15 @@ const theme = createTheme({
                         '&.Mui-focused': {
                             '& .MuiOutlinedInput-notchedOutline': {
                                 borderWidth: 2,
-                                borderColor: colors.purple[500],
-                                boxShadow: `0 0 0 3px ${colors.purple[500]}20`,
+                                borderColor: colors.secondary[700],
+                                boxShadow: `0 0 0 3px ${colors.secondary[700]}20`,
                             },
                         },
                     },
                     '& .MuiInputLabel-root': {
                         fontSize: '0.875rem',
                         '&.Mui-focused': {
-                            color: colors.purple[500],
+                            color: colors.secondary[700],
                         },
                     },
                 },
@@ -350,7 +374,7 @@ const theme = createTheme({
                     minHeight: 44,
                 },
                 indicator: {
-                    backgroundColor: colors.purple[500],
+                    backgroundColor: colors.secondary[700],
                     height: 2,
                 },
             },
@@ -364,7 +388,7 @@ const theme = createTheme({
                     textTransform: 'none',
                     color: colors.neutral[600],
                     '&.Mui-selected': {
-                        color: colors.purple[500],
+                        color: colors.secondary[700],
                     },
                 },
             },
@@ -392,10 +416,10 @@ const theme = createTheme({
                     borderRadius: 4,
                     marginBottom: spacing.xs,
                     '&.Mui-selected': {
-                        backgroundColor: colors.purple[50],
-                        color: colors.purple[700],
+                        backgroundColor: colors.secondary[50],
+                        color: colors.secondary[700],
                         '&:hover': {
-                            backgroundColor: colors.purple[100],
+                            backgroundColor: colors.secondary[100],
                         },
                     },
                 },

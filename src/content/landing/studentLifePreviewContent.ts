@@ -41,7 +41,7 @@ export const studentLifePreviewContent = {
             description:
                 'Student government, debate teams, and community service programs that cultivate the next generation of leaders.',
             icon: 'Groups',
-            color: '#6366f1',
+            color: '#f59e0b',
             participants: '200+ Students',
         },
     ],

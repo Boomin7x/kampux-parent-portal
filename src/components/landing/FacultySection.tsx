@@ -133,7 +133,7 @@ export const FacultySection: React.FC<FacultySectionProps> = ({
                             component="span"
                             sx={{
                                 background:
-                                    'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+                                    'linear-gradient(135deg, #f59e0b 0%, #16a34a 100%)',
                                 backgroundClip: 'text',
                                 WebkitBackgroundClip: 'text',
                                 WebkitTextFillColor: 'transparent',
@@ -226,7 +226,7 @@ export const FacultySection: React.FC<FacultySectionProps> = ({
                                     sx={{
                                         fontSize: '0.75rem',
                                         fontWeight: 600,
-                                        color: '#6366f1',
+                                        color: '#f59e0b',
                                         textTransform: 'uppercase',
                                         letterSpacing: '0.1em',
                                         mb: 2,
@@ -269,7 +269,7 @@ export const FacultySection: React.FC<FacultySectionProps> = ({
                                     sx={{
                                         fontSize: '0.875rem',
                                         fontWeight: 600,
-                                        color: '#8b5cf6',
+                                        color: '#16a34a',
                                         mb: 3,
                                         fontStyle: 'italic',
                                     }}
@@ -373,7 +373,7 @@ export const FacultySection: React.FC<FacultySectionProps> = ({
                                             md: '3.5rem',
                                         },
                                         fontWeight: 700,
-                                        color: '#6366f1',
+                                        color: '#f59e0b',
                                         mb: 2,
                                         lineHeight: 1,
                                     }}
@@ -428,7 +428,7 @@ export const FacultySection: React.FC<FacultySectionProps> = ({
                             sx={{
                                 width: 60,
                                 height: 1,
-                                backgroundColor: '#6366f1',
+                                backgroundColor: '#f59e0b',
                                 mx: 'auto',
                                 mb: 6,
                                 opacity: 0.6,
@@ -452,7 +452,7 @@ export const FacultySection: React.FC<FacultySectionProps> = ({
                             sx={{
                                 fontSize: '0.875rem',
                                 fontWeight: 600,
-                                color: '#6366f1',
+                                color: '#f59e0b',
                                 textTransform: 'uppercase',
                                 letterSpacing: '0.1em',
                             }}

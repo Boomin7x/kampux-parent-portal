@@ -81,7 +81,7 @@ export const TimelineItem: React.FC<TimelineItemProps> = ({
             case 'development':
                 return '#f44336';
             default:
-                return '#6366f1';
+                return '#f59e0b';
         }
     };
 

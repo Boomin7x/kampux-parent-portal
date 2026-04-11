@@ -12,7 +12,7 @@ const events = [
             'Les examens de fin d’année pour toutes les classes débuteront le lundi 19 mai et se termineront le vendredi 30 mai. Les élèves doivent se munir de leurs cartes d’identité scolaire ainsi que du matériel requis.',
         date: '19 Mai – 30 Mai',
         image: '/pexels-yaroslav-shuraev-6281132.jpg',
-        color: '#6366f1',
+        color: '#f59e0b',
         urgent: false,
     },
     {
@@ -45,7 +45,7 @@ const events = [
             'Les résultats des examens intermédiaires sont maintenant disponibles sur le portail étudiant et parent. Pour tout renseignement, contactez le bureau académique.',
         date: '10 Mai',
         image: '/pexels-cottonbro-6208926.jpg',
-        color: '#6366f1',
+        color: '#f59e0b',
         urgent: false,
     },
     {
@@ -141,7 +141,7 @@ export const EventsAnnouncementsSection: React.FC = () => {
                             component="span"
                             sx={{
                                 background:
-                                    'linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #10b981 100%)',
+                                    'linear-gradient(135deg, #f59e0b 0%, #ec4899 50%, #10b981 100%)',
                                 backgroundClip: 'text',
                                 WebkitBackgroundClip: 'text',
                                 WebkitTextFillColor: 'transparent',

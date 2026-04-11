@@ -206,13 +206,13 @@ const subjectMap: {
     class1: {
         name: 'Advanced Mathematics',
         teacher: 'Ms. Rodriguez',
-        color: '#6366f1',
+        color: '#f59e0b',
     },
     class2: { name: 'AP Biology', teacher: 'Mr. Thompson', color: '#10b981' },
     class3: {
         name: 'English Literature',
         teacher: 'Ms. Davis',
-        color: '#8b5cf6',
+        color: '#16a34a',
     },
     class4: { name: 'World History', teacher: 'Mr. Wilson', color: '#f59e0b' },
 };

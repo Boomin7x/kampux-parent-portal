@@ -158,7 +158,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                             component="span"
                             sx={{
                                 background:
-                                    'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+                                    'linear-gradient(135deg, #f59e0b 0%, #16a34a 100%)',
                                 backgroundClip: 'text',
                                 WebkitBackgroundClip: 'text',
                                 WebkitTextFillColor: 'transparent',
@@ -398,7 +398,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                                     transform: 'translateY(-8px)',
                                     '& .portal-icon': {
                                         transform: 'scale(1.1)',
-                                        backgroundColor: '#6366f1',
+                                        backgroundColor: '#f59e0b',
                                     },
                                 },
                             }}
@@ -430,7 +430,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                                 sx={{
                                     fontSize: '0.75rem',
                                     fontWeight: 600,
-                                    color: '#6366f1',
+                                    color: '#f59e0b',
                                     textTransform: 'uppercase',
                                     letterSpacing: '0.1em',
                                     mb: 2,
@@ -476,7 +476,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
                                 variant="contained"
                                 size="large"
                                 sx={{
-                                    backgroundColor: '#6366f1',
+                                    backgroundColor: '#f59e0b',
                                     color: 'white',
                                     fontWeight: 600,
                                     px: 4,

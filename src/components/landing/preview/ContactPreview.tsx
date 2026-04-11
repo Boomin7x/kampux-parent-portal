@@ -294,7 +294,7 @@ export const ContactPreview: React.FC = () => {
                         p: 3,
                         borderRadius: 1,
                         background:
-                            'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+                            'linear-gradient(135deg, #f59e0b 0%, #16a34a 100%)',
                         opacity: isIntersecting ? 1 : 0,
                         transform: isIntersecting
                             ? 'translateY(0)'

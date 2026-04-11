@@ -2,9 +2,9 @@
 export const navigationContent = {
     // Brand/Logo
     brand: {
-        name: 'Excellence Academy',
-        shortName: 'EA',
-        logoText: 'EA', // Text displayed in logo box
+        name: 'GSB Les Kaniles',
+        shortName: 'GLK',
+        logoText: 'GLK', // Text displayed in logo box
     },
 
     // Navigation Items
@@ -36,8 +36,8 @@ export const navigationContent = {
     // Visual Configuration
     styling: {
         scrollThreshold: 100, // Pixels scrolled before nav changes appearance
-        brandGradient: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-        primaryColor: '#6366f1',
+        brandGradient: 'linear-gradient(135deg, #f59e0b, #16a34a)',
+        primaryColor: '#f59e0b',
         transparentMode: true, // Supports transparent mode on hero
     },
 };

@@ -92,7 +92,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
                             component="span"
                             sx={{
                                 background:
-                                    'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+                                    'linear-gradient(135deg, #f59e0b 0%, #16a34a 100%)',
                                 backgroundClip: 'text',
                                 WebkitBackgroundClip: 'text',
                                 WebkitTextFillColor: 'transparent',
@@ -224,7 +224,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
                                 sx={{
                                     width: 60,
                                     height: 1,
-                                    backgroundColor: '#6366f1',
+                                    backgroundColor: '#f59e0b',
                                     mx: 'auto',
                                     mb: 2,
                                     opacity: 0.6,
@@ -331,7 +331,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
                                                 width: 4,
                                                 height: 4,
                                                 borderRadius: '50%',
-                                                backgroundColor: '#6366f1',
+                                                backgroundColor: '#f59e0b',
                                                 flexShrink: 0,
                                             }}
                                         />

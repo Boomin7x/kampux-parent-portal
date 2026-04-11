@@ -87,7 +87,7 @@ export const AcademicPreview: React.FC<AcademicPreviewProps> = ({
                                     height: 40,
                                     borderRadius: 1,
                                     background:
-                                        'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                        'linear-gradient(135deg, #f59e0b, #16a34a)',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',

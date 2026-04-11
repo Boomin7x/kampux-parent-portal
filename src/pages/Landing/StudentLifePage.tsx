@@ -109,7 +109,7 @@ export const StudentLifePage: React.FC = () => {
             value: '50+',
             description: 'groupes d’intérêts variés',
             icon: <Groups />,
-            color: '#6366f1',
+            color: '#f59e0b',
         },
         {
             id: '2',
@@ -161,7 +161,7 @@ export const StudentLifePage: React.FC = () => {
             id: '3',
             name: 'Clubs Académiques',
             icon: <MenuBook />,
-            color: '#6366f1',
+            color: '#f59e0b',
             count: 18,
             description:
                 'Groupes centrés sur les matières et équipes académiques compétitives',
@@ -497,7 +497,7 @@ const StudentLifeStatsSection: React.FC<StudentLifeStatsSectionProps> = ({
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -631,7 +631,7 @@ const ActivityCategoriesSection: React.FC<ActivityCategoriesSectionProps> = ({
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -908,7 +908,7 @@ const StudentTestimonialsSection: React.FC<StudentTestimonialsSectionProps> = ({
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -1066,7 +1066,7 @@ const EventsCalendarSection: React.FC<EventsCalendarSectionProps> = ({
                             fontWeight: 600,
                             mb: 1,
                             background:
-                                'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                'linear-gradient(135deg, #f59e0b, #16a34a)',
                             backgroundClip: 'text',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -1302,7 +1302,7 @@ const DailyScheduleSection: React.FC = () => {
                                     fontWeight: 600,
                                     mb: 1,
                                     background:
-                                        'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                        'linear-gradient(135deg, #f59e0b, #16a34a)',
                                     backgroundClip: 'text',
                                     WebkitBackgroundClip: 'text',
                                     WebkitTextFillColor: 'transparent',
@@ -1442,7 +1442,7 @@ const DailyScheduleSection: React.FC = () => {
                                 sx={{
                                     p: 2,
                                     background:
-                                        'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                        'linear-gradient(135deg, #f59e0b, #16a34a)',
                                     color: 'white',
                                     borderRadius: 2,
                                     textAlign: 'center',

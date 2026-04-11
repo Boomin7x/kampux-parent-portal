@@ -242,7 +242,7 @@ export const AboutPreview: React.FC = () => {
                                     sx={{
                                         fontWeight: 700,
                                         background:
-                                            'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                            'linear-gradient(135deg, #f59e0b, #16a34a)',
                                         backgroundClip: 'text',
                                         WebkitBackgroundClip: 'text',
                                         WebkitTextFillColor: 'transparent',

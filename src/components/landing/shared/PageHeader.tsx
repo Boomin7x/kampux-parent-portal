@@ -255,7 +255,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
                             mb: subtitle ? 2 : 0,
                             background:
                                 textColor === 'dark' && !backgroundImage
-                                    ? 'linear-gradient(135deg, #6366f1, #8b5cf6)'
+                                    ? 'linear-gradient(135deg, #f59e0b, #16a34a)'
                                     : undefined,
                             backgroundClip:
                                 textColor === 'dark' && !backgroundImage

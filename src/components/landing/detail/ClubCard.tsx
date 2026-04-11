@@ -19,10 +19,10 @@ export const ClubCard: React.FC<ClubCardProps> = ({ activity, index = 0 }) => {
         const colors = {
             Sports: '#10b981',
             Arts: '#f59e0b',
-            Academic: '#6366f1',
+            Academic: '#f59e0b',
             Service: '#ef4444',
         };
-        return colors[category as keyof typeof colors] || '#6366f1';
+        return colors[category as keyof typeof colors] || '#f59e0b';
     };
 
     return (

@@ -13,6 +13,8 @@ import Grid from '@mui/material/Grid';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { footerContent } from '../../content/landing/footerContent';
+// Import logo from public directory
+const logo = '/logo.jpg';
 
 // Footer props
 interface FooterProps {
@@ -92,31 +94,49 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                 >
                     {/* Brand Column */}
                     <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-                        {/* School Name */}
-                        <Typography
-                            variant="h4"
+                        {/* Logo and School Name */}
+                        <Box
                             sx={{
-                                fontSize: '1.125rem',
-                                fontWeight: 600,
+                                display: 'flex',
+                                alignItems: 'center',
                                 mb: 1.5,
-                                color: '#ffffff',
-                                lineHeight: 1.2,
+                                gap: 2,
                             }}
                         >
-                            {footerContent.brand.name.primary}{' '}
                             <Box
-                                component="span"
+                                component="img"
+                                src={logo}
+                                alt="Les Kaniles Logo"
                                 sx={{
-                                    background:
-                                        'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                                    backgroundClip: 'text',
-                                    WebkitBackgroundClip: 'text',
-                                    WebkitTextFillColor: 'transparent',
+                                    width: 40,
+                                    height: 40,
+                                    borderRadius: 1,
+                                }}
+                            />
+                            <Typography
+                                variant="h4"
+                                sx={{
+                                    fontSize: '1.125rem',
+                                    fontWeight: 600,
+                                    color: '#ffffff',
+                                    lineHeight: 1.2,
                                 }}
                             >
-                                {footerContent.brand.name.secondary}
-                            </Box>
-                        </Typography>
+                                {footerContent.brand.name.primary}{' '}
+                                <Box
+                                    component="span"
+                                    sx={{
+                                        background:
+                                            'linear-gradient(135deg, #f59e0b, #16a34a)',
+                                        backgroundClip: 'text',
+                                        WebkitBackgroundClip: 'text',
+                                        WebkitTextFillColor: 'transparent',
+                                    }}
+                                >
+                                    {footerContent.brand.name.secondary}
+                                </Box>
+                            </Typography>
+                        </Box>
 
                         {/* Tagline */}
                         <Typography
@@ -159,7 +179,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                         '&:hover': {
                                             color:
                                                 contact.href !== '#'
-                                                    ? '#6366f1'
+                                                    ? '#f59e0b'
                                                     : 'inherit',
                                         },
                                     }}
@@ -221,7 +241,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                         cursor: 'pointer',
                                         transition: 'color 0.2s ease',
                                         '&:hover': {
-                                            color: '#6366f1',
+                                            color: '#f59e0b',
                                         },
                                     }}
                                 >
@@ -268,7 +288,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                             cursor: 'pointer',
                                             transition: 'color 0.2s ease',
                                             '&:hover': {
-                                                color: '#6366f1',
+                                                color: '#f59e0b',
                                             },
                                         }}
                                     >
@@ -316,7 +336,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                             cursor: 'pointer',
                                             transition: 'color 0.2s ease',
                                             '&:hover': {
-                                                color: '#6366f1',
+                                                color: '#f59e0b',
                                             },
                                         }}
                                     >
@@ -364,7 +384,7 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                             cursor: 'pointer',
                                             transition: 'color 0.2s ease',
                                             '&:hover': {
-                                                color: '#6366f1',
+                                                color: '#f59e0b',
                                             },
                                         }}
                                     >
@@ -437,8 +457,8 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
                                     '&:hover': {
                                         backgroundColor:
                                             'rgba(99, 102, 241, 0.2)',
-                                        borderColor: '#6366f1',
-                                        color: '#6366f1',
+                                        borderColor: '#f59e0b',
+                                        color: '#f59e0b',
                                         transform: 'translateY(-2px)',
                                     },
                                 }}

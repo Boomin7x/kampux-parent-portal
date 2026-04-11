@@ -326,7 +326,7 @@ export const PasswordStep: React.FC<PasswordStepProps> = ({
                         fontWeight: 600,
                         textTransform: 'none',
                         height: 56,
-                        background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                        background: 'linear-gradient(135deg, #f59e0b, #16a34a)',
                         '&:hover': {
                             background:
                                 'linear-gradient(135deg, #5b5bd6, #7c3aed)',

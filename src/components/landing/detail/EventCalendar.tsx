@@ -90,7 +90,7 @@ export const EventCalendar: React.FC<EventCalendarProps> = ({
                                     height: 48,
                                     borderRadius: 1,
                                     background:
-                                        'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                        'linear-gradient(135deg, #f59e0b, #16a34a)',
                                     display: 'flex',
                                     flexDirection: 'column',
                                     alignItems: 'center',

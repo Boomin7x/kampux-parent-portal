@@ -92,7 +92,7 @@ const AuthenticatedUserDisplay: React.FC<AuthenticatedUserDisplayProps> = ({
                     sx={{
                         width: 28,
                         height: 28,
-                        backgroundColor: '#6366f1',
+                        backgroundColor: '#f59e0b',
                         color: 'white',
                         fontSize: '0.75rem',
                     }}
@@ -186,7 +186,7 @@ const AuthenticatedUserDisplay: React.FC<AuthenticatedUserDisplayProps> = ({
                             sx={{
                                 width: 32,
                                 height: 32,
-                                backgroundColor: '#6366f1',
+                                backgroundColor: '#f59e0b',
                                 color: 'white',
                             }}
                         >

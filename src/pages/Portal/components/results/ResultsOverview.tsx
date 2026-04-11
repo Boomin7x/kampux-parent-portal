@@ -494,7 +494,7 @@ const getGradeColor = (percentage: number): string => {
     if (percentage >= 90) return '#10b981'; // Green
     if (percentage >= 80) return '#3b82f6'; // Blue
     if (percentage >= 70) return '#f59e0b'; // Orange
-    if (percentage >= 60) return '#8b5cf6'; // Purple
+    if (percentage >= 60) return '#16a34a'; // Purple
     return '#ef4444'; // Red
 };
 

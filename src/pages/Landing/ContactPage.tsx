@@ -137,7 +137,7 @@ export const ContactPage: React.FC = () => {
                 phone: '(237) 6 77 42 12 52',
                 hours: 'Lun-Ven 08:00 - 17:00',
             },
-            color: '#6366f1',
+            color: '#f59e0b',
         },
         {
             id: 'academics',
@@ -150,7 +150,7 @@ export const ContactPage: React.FC = () => {
                 phone: '(237) 6 77 42 12 52',
                 hours: 'Lun-Ven 07:30 - 16:30',
             },
-            color: '#8b5cf6',
+            color: '#16a34a',
         },
         {
             id: 'student-services',
@@ -202,7 +202,7 @@ export const ContactPage: React.FC = () => {
                 phone: '(237) 6 77 42 12 52',
                 hours: 'Lun-Ven 08:00 - 17:00',
             },
-            color: '#8b5cf6',
+            color: '#16a34a',
         },
         {
             id: 'health',
@@ -371,7 +371,7 @@ export const ContactPage: React.FC = () => {
                 sx={{
                     py: { xs: 8, md: 12 },
                     background:
-                        'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+                        'linear-gradient(135deg, #f59e0b 0%, #16a34a 100%)',
                     color: 'white',
                     position: 'relative',
                     overflow: 'hidden',
@@ -684,7 +684,7 @@ export const ContactPage: React.FC = () => {
                                             startIcon={<SubmitIcon />}
                                             sx={{
                                                 background:
-                                                    'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                                    'linear-gradient(135deg, #f59e0b, #16a34a)',
                                                 color: 'white',
                                                 fontWeight: 600,
                                                 px: 4,
