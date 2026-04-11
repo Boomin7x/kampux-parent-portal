@@ -13,7 +13,7 @@
         "typecheck": "tsc --noEmit",
         "test": "echo \"No tests configured\"",
         "preview": "vite preview",
-        "prepare":"husky"
+        "prepare":"npx husky install || true"
     },
     "dependencies": {
         "@emotion/react": "^11.14.0",
